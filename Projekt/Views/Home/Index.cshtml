@@ -2,9 +2,9 @@
 <body>
 
     <div class="container-fluid" style="background-color:purple">
-        
+
         <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container" >
+            <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul style="float: right" class="nav navbar-nav">
-                   
+
                         <li><a href="">For Players</a></li>
                         <li><a href="">For Clubs</a></li>
                         <li><a href="">About us</a></li>
@@ -51,6 +51,26 @@
 
         </section>
 
-        
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+        <h2>asdasd</h2>
+
     </div>
+    <script>
+        window.addEventListener("scroll", function () {
+            if ($(document).scrollTop() > 50) {
+                $(".navbar-fixed-top").css("background-color", "#f8f8f8");
+                $(".navbar-fixed-top").css("transition", "background-color 300ms linear");
+            }
+            else {
+                $(".navbar-fixed-top").css("background-color", "transparent");
+                $(".navbar-fixed-top").css("transition", "background-color 300ms linear");
+            }
+        });
+    </script>
 </body>
