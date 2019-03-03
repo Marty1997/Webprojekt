@@ -37,15 +37,17 @@
                 <div style="text-align: center" class="col-md-3"></div>
             </div>
 
-            <div class="row" style="margin-top: 50px">
-                <div class="col-md-4">
-                    <img style="height:200px; width:200px; float: right" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
+
+
+            <div id="imageDiv" class="row" style="margin-top: 50px">
+                <div class="col-md-4" >
+                    <img class="responsiveImage" style="height:200px; width:200px; float: right" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
                 </div>
                 <div style="text-align: center" class="col-md-4">
-                    <img style="height:200px; width:200px;" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
+                    <img class="responsiveImage" style="height:200px; width:200px;" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
                 </div>
                 <div class="col-md-4">
-                    <img style="height:200px; width:200px; float: left" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
+                    <img class="responsiveImage" style="height:200px; width:200px; float: left" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
                 </div>
             </div>
 
@@ -167,7 +169,7 @@
         <section>
             <h1 style="text-align:center;">About us</h1>
             <div class="text-center">
-                <img src="~/Images/AboutUs.PNG" />
+                <img class="responsiveImage"src="~/Images/AboutUs.PNG" />
             </div>
 
         </section>
@@ -183,18 +185,7 @@
         <p>asdasd</p>
         <p>asdasd</p>
 
-
-
-
-
     </div>
-
-
-
-
-
-
-
 
     <script>
         window.addEventListener("scroll", function () {
@@ -207,6 +198,16 @@
                 $(".navbar-fixed-top").css("transition", "background-color 300ms linear");
             }
         });
+
+
+        $(document).on('click', 'a[href^="#"]', function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 500);
+        });
+
 
 
             var acc = document.getElementsByClassName("accordion");
@@ -227,6 +228,21 @@
                     }
                 });
             } 
-        
+
+
+        $(window).resize(function () {
+
+            if ($(this).width() < 980) {
+
+                $("#imageDiv").hide();
+
+            } else {
+
+                $("#imageDiv").show();
+
+            }
+
+        });
     </script>
+
 </body>
