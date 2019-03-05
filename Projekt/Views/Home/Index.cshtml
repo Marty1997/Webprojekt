@@ -1,7 +1,8 @@
 ﻿
 <body>
-
-    <div class="container-fluid" style="background-color:yellow">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <div class="container-fluid" style="">
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -24,30 +25,73 @@
             </div>
         </nav>
 
-        <section class="container-fluid" style="height: 700px; background-color: red;">
-            <div class="row" style="margin-top: 300px">
+        <section id="asdasd" class="container-fluid" style="height: 700px;">
+            <div id="buttonDiv" class="row" style="margin-top: 300px">
                 <div style="text-align: center" class="col-md-3"></div>
                 <div style="text-align: center" class="col-md-3">
-                    <a class="btn btn-primary btn-lg btn-block" href="" role="button" style="padding: 20px 30px; background-color: coral; border-color: coral; margin: 10px">Create an account</a>
+                    <a class="btn btn-primary btn-lg btn-block" href="" role="button" style="background-color: coral; border-color: coral; margin-top: 10px;">Create an account</a>
                 </div>
                 <div style="text-align: center" class="col-md-3">
-                    <a class="btn btn-primary btn-lg btn-block" href="" style="padding: 20px 30px; background-color: coral; border-color: coral; margin: 10px;">Login</a>
+                    <a id="loginButton" class="btn btn-primary btn-lg btn-block" href="#" data-toggle="modal" data-target="#myModal" style="background-color: coral; border-color: coral; margin-top: 10px;">Login</a>
 
                 </div>
                 <div style="text-align: center" class="col-md-3"></div>
             </div>
 
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <div id="chooseLogin" style="margin-top: 199px;">
+                        <h2 style="text-align: center;">Choose Login</h2>
+                        <div class="row">
+                            <div class="col-md-6" style="text-align: center;">
+                                <a id="playerLogin" href="#"><img src="~/Images/player-icon.png" width="200px;" height="auto;" /></a>
+                                <h3>Player</h3>
+                            </div>
+                            <div class="col-md-6" style="text-align: center;">
+                                <a id="clubLogin" href="#"><img src="~/Images/club-icon.png" width="200px;" height="auto;" /></a>
+                                <h3>Club</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="playerLoginBox" class="box" hidden>
+                        <h1>Player Login</h1>
+                        <form name="PlayerLogin" method="post" action="">
+                            <label id="icon" for="name"><i class="icon-envelope "></i></label>
+                            <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+@(" @")[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$" type="email" id="name" placeholder="E-mail" required oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
+                            <label id="icon" for="name"><i class="icon-shield"></i></label>
+                            <input autocomplete="off" name="password" type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name" placeholder="Password" required oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')" oninput="setCustomValidity('')" />
+                            <input type="submit" value="Login" class="loginbutton" />
+                            <h2>Login with facebook</h2>
+                            <a href="">Forgot password?</a>
+                        </form>
+                    </div>
+                    <div id="clubLoginBox" class="box" hidden>
+                        <h1>Club Login</h1>
+                        <form name="ClubLogin" method="post" action="">
+                            <label id="icon" for="name"><i class="icon-envelope "></i></label>
+                            <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+@(" @")[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$" type="email" id="name" placeholder="E-mail" required oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
+                            <label id="icon" for="name"><i class="icon-shield"></i></label>
+                            <input autocomplete="off" name="password" type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name" placeholder="Password" required oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')" oninput="setCustomValidity('')" />
+                            <input type="submit" value="Login" class="loginbutton" />
+                            <a href="">Forgot password?</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
 
 
             <div id="imageDiv" class="row" style="margin-top: 50px">
-                <div class="col-md-4" >
-                    <img class="responsiveImage" style="height:200px; width:200px; float: right" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
+                <div class="col-md-4">
+                    <img class="responsiveImage visible-lg" style="height:200px; width:200px; float: right" src="~/Images/football-icon.png" border="0">
                 </div>
-                <div style="text-align: center" class="col-md-4">
-                    <img class="responsiveImage" style="height:200px; width:200px;" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
+                <div style="text-align: center" class="col-md-4 visible-lg">
+                    <img class="responsiveImage" style="height:200px; width:200px;" src="~/Images/volleyball-icon.png" border="0">
                 </div>
                 <div class="col-md-4">
-                    <img class="responsiveImage" style="height:200px; width:200px; float: left" src="https://www.sportsbrands.dk/wsb-media/images/article/select-handbold-ultimate-replica-ehf-euro-2018-11592-1-pop.jpg" border="0">
+                    <img class="responsiveImage visible-lg" style="height:200px; width:200px; float: left" src="~/Images/basketball-icon.png" border="0">
                 </div>
             </div>
 
@@ -169,7 +213,7 @@
         <section>
             <h1 style="text-align:center;">About us</h1>
             <div class="text-center">
-                <img class="responsiveImage"src="~/Images/AboutUs.PNG" />
+                <img class="responsiveImage" src="~/Images/AboutUs.PNG" />
             </div>
 
         </section>
@@ -186,7 +230,6 @@
         <p>asdasd</p>
 
     </div>
-
     <script>
         window.addEventListener("scroll", function () {
             if ($(document).scrollTop() > 50) {
@@ -210,24 +253,24 @@
 
 
 
-            var acc = document.getElementsByClassName("accordion");
-            var i;
+        var acc = document.getElementsByClassName("accordion");
+        var i;
 
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function () {
-                    /* Toggle between adding and removing the "active" class,
-                    to highlight the button that controls the panel */
-                    this.classList.toggle("active");
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                /* Toggle between adding and removing the "active" class,
+                to highlight the button that controls the panel */
+                this.classList.toggle("active");
 
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                        panel.style.display = "none";
-                    } else {
-                        panel.style.display = "block";
-                    }
-                });
-            } 
+                /* Toggle between hiding and showing the active panel */
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
 
 
         $(window).resize(function () {
@@ -242,6 +285,34 @@
 
             }
 
+        });
+
+
+        $('.navbar-collapse a').click(function () {
+            $(".navbar-collapse").collapse('hide');
+        });
+
+        $('#loginButton').click(function () {
+            $('#imageDiv').hide();
+            $('#buttonDiv').hide();
+        });
+
+        $('#myModal').on('hidden.bs.modal', function () {
+            $('#imageDiv').show();
+            $('#buttonDiv').show();
+            $('#playerLoginBox').hide();
+            $('#clubLoginBox').hide();
+            $('#chooseLogin').show();
+        });
+
+        $('#playerLogin').click(function () {
+            $('#chooseLogin').hide();
+            $('#playerLoginBox').show();
+        });
+
+        $('#clubLogin').click(function () {
+            $('#chooseLogin').hide();
+            $('#clubLoginBox').show();
         });
     </script>
 

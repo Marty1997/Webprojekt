@@ -199,6 +199,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\AboutUs.PNG" />
+    <Content Include="Images\basketball-icon.png" />
+    <Content Include="Images\club-icon.png" />
+    <Content Include="Images\football-icon.png" />
+    <Content Include="Images\handball.jpg" />
+    <Content Include="Images\player-icon.png" />
+    <Content Include="Images\volleyball-icon.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
