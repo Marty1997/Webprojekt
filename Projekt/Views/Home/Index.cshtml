@@ -1,9 +1,8 @@
-﻿
-<body>
+﻿<body>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
     <div class="container-fluid" style="">
-
+        <!-- NAV BAR -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -24,7 +23,7 @@
                 </div>
             </div>
         </nav>
-
+        <!-- FRONT PAGE -->
         <section id="asdasd" class="container-fluid" style="height: 700px;">
             <div id="buttonDiv" class="row" style="margin-top: 300px">
                 <div style="text-align: center" class="col-md-3"></div>
@@ -38,6 +37,7 @@
                 <div style="text-align: center" class="col-md-3"></div>
             </div>
 
+            <!-- LOGIN MODAL -->
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
                     <div id="chooseLogin" style="margin-top: 199px;">
@@ -53,6 +53,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- PLAYER LOGIN -->
                     <div id="playerLoginBox" class="box" hidden>
                         <h1>Player Login</h1>
                         <form name="PlayerLogin" method="post" action="">
@@ -65,6 +66,7 @@
                             <a href="">Forgot password?</a>
                         </form>
                     </div>
+                    <!-- CLUB LOGIN -->
                     <div id="clubLoginBox" class="box" hidden>
                         <h1>Club Login</h1>
                         <form name="ClubLogin" method="post" action="">
@@ -78,11 +80,8 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
+            
+            <!-- SPORT ICONS -->
             <div id="imageDiv" class="row" style="margin-top: 50px">
                 <div class="col-md-4">
                     <img class="responsiveImage visible-lg" style="height:200px; width:200px; float: right" src="~/Images/football-icon.png" border="0">
@@ -94,11 +93,10 @@
                     <img class="responsiveImage visible-lg" style="height:200px; width:200px; float: left" src="~/Images/basketball-icon.png" border="0">
                 </div>
             </div>
-
         </section>
-        <div id="forPlayers" style="height:50px;">
 
-        </div>
+        <!-- FOR PLAYERS -->
+        <div id="forPlayers" style="height:50px;"></div>
         <section class="container">
             <h1 style="text-align:center;">For Players</h1>
             <div class="row">
@@ -151,9 +149,9 @@
                 </div>
             </div>
         </section>
-        <div id="forClubs" style="height:50px;">
 
-        </div>
+        <!-- FOR CLUBS -->
+        <div id="forClubs" style="height:50px;"></div>
         <section class="container">
             <h1 style="text-align:center;">For Clubs</h1>
             <div class="row">
@@ -205,17 +203,15 @@
                     </div>
                 </div>
             </div>
-
         </section>
-        <div id="aboutUs" style="height:50px;">
 
-        </div>
+        <!-- ABOUT US -->
+        <div id="aboutUs" style="height:50px;"></div>
         <section>
             <h1 style="text-align:center;">About us</h1>
             <div class="text-center">
                 <img class="responsiveImage" src="~/Images/AboutUs.PNG" />
             </div>
-
         </section>
 
         <p>asdasd</p>
@@ -230,6 +226,7 @@
         <p>asdasd</p>
 
     </div>
+
     <script>
         window.addEventListener("scroll", function () {
             if ($(document).scrollTop() > 50) {
@@ -242,7 +239,6 @@
             }
         });
 
-
         $(document).on('click', 'a[href^="#"]', function (event) {
             event.preventDefault();
 
@@ -250,8 +246,6 @@
                 scrollTop: $($.attr(this, 'href')).offset().top
             }, 500);
         });
-
-
 
         var acc = document.getElementsByClassName("accordion");
         var i;
@@ -272,21 +266,13 @@
             });
         }
 
-
         $(window).resize(function () {
-
             if ($(this).width() < 980) {
-
                 $("#imageDiv").hide();
-
             } else {
-
                 $("#imageDiv").show();
-
             }
-
         });
-
 
         $('.navbar-collapse a').click(function () {
             $(".navbar-collapse").collapse('hide');
