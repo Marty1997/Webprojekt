@@ -1,7 +1,9 @@
 ﻿<body>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-    <div class="container-fluid" style="">
+    
+
+    <div class="container-fluid">
         <!-- NAV BAR -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -11,7 +13,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="">SportConnectors</a>
+                    <a class="navbar-brand" href="#frontPageImage">SportConnectors</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul style="float: right" class="nav navbar-nav">
@@ -24,35 +26,44 @@
             </div>
         </nav>
         <!-- FRONT PAGE -->
-        <section id="asdasd" class="container-fluid" style="height: 700px;">
-            <div id="buttonDiv" class="row" style="margin-top: 300px">
-                <div style="text-align: center" class="col-md-3"></div>
-                <div style="text-align: center" class="col-md-3">
-                    <a class="btn btn-primary btn-lg btn-block" href="" role="button" style="background-color: coral; border-color: coral; margin-top: 10px;">Create an account</a>
-                </div>
-                <div style="text-align: center" class="col-md-3">
-                    <a id="loginButton" class="btn btn-primary btn-lg btn-block" href="#" data-toggle="modal" data-target="#myModal" style="background-color: coral; border-color: coral; margin-top: 10px;">Login</a>
+        <section id="frontPageImage" class="container-fluid">
 
-                </div>
-                <div style="text-align: center" class="col-md-3"></div>
+            <div id="frontPageText">
+                <h1>Sportconnectors</h1>
+                <h2>Todolist: <br /> Forside billede, <br /> About us section design, <br /> professionelle farvetemaer på hele siden, <br /> footer links</h2>
+
             </div>
 
+            <div id="buttonDiv" class="row" style="margin-top: 100px">
+                <div style="text-align: center" class="col-sm-3"></div>
+                <div style="text-align: center" class="col-sm-3">
+                    <a id="registerButton" class="frontPageButton " href="" data-toggle="modal" data-target="#registerModal" role="button">Register</a>
+                </div>
+                <div style="text-align: center" class="col-sm-3">
+                    <a id="loginButton" class="frontPageButton " href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+
+                </div>
+                <div style="text-align: center" class="col-sm-3"></div>
+            </div>
+
+
             <!-- LOGIN MODAL -->
-            <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal fade" id="loginModal" role="dialog">
                 <div class="modal-dialog">
-                    <div id="chooseLogin" style="margin-top: 199px;">
+                    <div id="chooseLogin">
                         <h2 style="text-align: center;">Choose Login</h2>
                         <div class="row">
                             <div class="col-md-6" style="text-align: center;">
-                                <a id="playerLogin" href="#"><img src="~/Images/player-icon.png" width="200px;" height="auto;" /></a>
+                                <a id="playerLogin" href="#"><img src="~/Images/player-icon.png"/></a>
                                 <h3>Player</h3>
                             </div>
                             <div class="col-md-6" style="text-align: center;">
-                                <a id="clubLogin" href="#"><img src="~/Images/club-icon.png" width="200px;" height="auto;" /></a>
+                                <a id="clubLogin" href="#"><img src="~/Images/club-icon.png"/></a>
                                 <h3>Club</h3>
                             </div>
                         </div>
                     </div>
+
                     <!-- PLAYER LOGIN -->
                     <div id="playerLoginBox" class="box" hidden>
                         <h1>Player Login</h1>
@@ -80,30 +91,38 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- SPORT ICONS -->
-            <div id="imageDiv" class="row" style="margin-top: 50px">
-                <div class="col-md-4">
-                    <img class="responsiveImage visible-lg" style="height:200px; width:200px; float: right" src="~/Images/football-icon.png" border="0">
-                </div>
-                <div style="text-align: center" class="col-md-4 visible-lg">
-                    <img class="responsiveImage" style="height:200px; width:200px;" src="~/Images/volleyball-icon.png" border="0">
-                </div>
-                <div class="col-md-4">
-                    <img class="responsiveImage visible-lg" style="height:200px; width:200px; float: left" src="~/Images/basketball-icon.png" border="0">
+
+            <!-- REGISTER MODAL -->
+            <div class="modal fade" id="registerModal" role="dialog">
+                <div class="modal-dialog">
+                    <div id="chooseRegister">
+                        <h2 style="text-align: center;">Choose Registration</h2>
+                        <div class="row">
+                            <div class="col-md-6" style="text-align: center;">
+                                <a id="playerRegister" href="#"><img src="~/Images/player-icon.png"/></a>
+                                <h3>Player</h3>
+                            </div>
+                            <div class="col-md-6" style="text-align: center;">
+                                <a id="clubRegister" href="#"><img src="~/Images/club-icon.png"/></a>
+                                <h3>Club</h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </section>
 
         <!-- FOR PLAYERS -->
-        <div id="forPlayers" style="height:50px;"></div>
+        <div id="forPlayers"></div>
         <section class="container">
             <h1 style="text-align:center;">For Players</h1>
             <div class="row">
                 <div class="col-md-6">
-                    <div style="word-wrap: break-word">
+                    <div class="informationText">
                         <h2>Information</h2>
-                        <p style="padding-right:60px;">
+                        <p>
                             lkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkmkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkmkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkm
                             lkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkm
                             lkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkm
@@ -151,14 +170,14 @@
         </section>
 
         <!-- FOR CLUBS -->
-        <div id="forClubs" style="height:50px;"></div>
+        <div id="forClubs"></div>
         <section class="container">
             <h1 style="text-align:center;">For Clubs</h1>
             <div class="row">
                 <div class="col-md-6">
-                    <div style="word-wrap: break-word">
+                    <div class="informationText">
                         <h2>Information</h2>
-                        <p style="padding-right:60px;">
+                        <p>
                             lkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkmkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkmkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkm
                             lkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkm
                             lkmadlkmasdlmasdmklaslkdmlaksdmlkasdaskmdlkasmdlkm
@@ -206,100 +225,14 @@
         </section>
 
         <!-- ABOUT US -->
-        <div id="aboutUs" style="height:50px;"></div>
+        <div id="aboutUs"></div>
         <section>
             <h1 style="text-align:center;">About us</h1>
             <div class="text-center">
                 <img class="responsiveImage" src="~/Images/AboutUs.PNG" />
             </div>
         </section>
-
-        <p>asdasd</p>
-        <p>asdasd</p>
-        <p>asdasd</p>
-        <p>asdasd</p>
-        <p>asdasd</p><p>asdasd</p><p>asdasd</p>
-
-        <p>asdasd</p>
-        <p>asdasd</p>
-        <p>asdasd</p>
-        <p>asdasd</p>
-
     </div>
 
-    <script>
-        window.addEventListener("scroll", function () {
-            if ($(document).scrollTop() > 50) {
-                $(".navbar-fixed-top").css("background-color", "#f8f8f8");
-                $(".navbar-fixed-top").css("transition", "background-color 300ms linear");
-            }
-            else {
-                $(".navbar-fixed-top").css("background-color", "transparent");
-                $(".navbar-fixed-top").css("transition", "background-color 300ms linear");
-            }
-        });
-
-        $(document).on('click', 'a[href^="#"]', function (event) {
-            event.preventDefault();
-
-            $('html, body').animate({
-                scrollTop: $($.attr(this, 'href')).offset().top
-            }, 500);
-        });
-
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function () {
-                /* Toggle between adding and removing the "active" class,
-                to highlight the button that controls the panel */
-                this.classList.toggle("active");
-
-                /* Toggle between hiding and showing the active panel */
-                var panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                } else {
-                    panel.style.display = "block";
-                }
-            });
-        }
-
-        $(window).resize(function () {
-            if ($(this).width() < 980) {
-                $("#imageDiv").hide();
-            } else {
-                $("#imageDiv").show();
-            }
-        });
-
-        $('.navbar-collapse a').click(function () {
-            $(".navbar-collapse").collapse('hide');
-        });
-
-        $('#loginButton').click(function () {
-            $('#imageDiv').hide();
-            $('#buttonDiv').hide();
-        });
-
-        $('#myModal').on('hidden.bs.modal', function () {
-            $('#imageDiv').show();
-            $('#buttonDiv').show();
-            $('#playerLoginBox').hide();
-            $('#clubLoginBox').hide();
-            $('#chooseLogin').show();
-        });
-
-        $('#playerLogin').click(function () {
-            $('#chooseLogin').hide();
-            $('#playerLoginBox').show();
-        });
-
-        $('#clubLogin').click(function () {
-            $('#chooseLogin').hide();
-            $('#clubLoginBox').show();
-        });
-    </script>
-
+    <script src="~/Scripts/frontPage.js"></script>
 </body>
