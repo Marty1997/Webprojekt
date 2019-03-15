@@ -11,5 +11,9 @@ namespace Projekt.Controllers {
 
             return View();
         }
+
+        public ActionResult PlayerDashboard() {
+            return View();
+        }
     }
 }
