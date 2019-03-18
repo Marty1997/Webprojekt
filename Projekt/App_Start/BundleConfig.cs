@@ -18,7 +18,9 @@ namespace Projekt {
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/frontPage.css"));
+                      "~/Content/frontPage.css",
+                      "~/Content/Site.css",
+                      "~/Content/searchPage.css"));
         }
     }
 }

@@ -15,5 +15,17 @@ namespace Projekt.Controllers {
         public ActionResult PlayerDashboard() {
             return View();
         }
+
+        public ActionResult ClubDashboard() {
+            return View();
+        }
+
+        public ActionResult SearchForPlayers() {
+            return View();
+        }
+
+        public ActionResult SearchForClubs() {
+            return View();
+        }
     }
 }

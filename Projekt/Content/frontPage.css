@@ -1,4 +1,17 @@
-﻿#frontPageImage {
+﻿.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.navbar-inverse {
+    border-color: transparent;
+}
+
+.modal-open {
+    overflow: scroll;
+}
+
+#frontPageImage {
     background-image: url('../Images/handball.jpg');
     background-size: cover;
     height: 700px;
