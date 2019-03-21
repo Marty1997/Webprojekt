@@ -12,19 +12,28 @@ namespace Projekt.Controllers {
             return View();
         }
 
-        public ActionResult PlayerDashboard() {
+        //Homepage
+        public ActionResult abcdef12394raksHome() {
             return View();
         }
 
-        public ActionResult ClubDashboard() {
+        //PlayerDashboard
+        public ActionResult ajsnd2888s8jjPlayerDashboard() {
             return View();
         }
 
-        public ActionResult SearchForPlayers() {
+        //ClubDashboard
+        public ActionResult k2klmmlk2mlkClubDashboard() {
             return View();
         }
 
-        public ActionResult SearchForClubs() {
+        //SearchforPLayers
+        public ActionResult klm2klmlakmsl2SearchForPlayers() {
+            return View();
+        }
+
+        //SearchforClubs
+        public ActionResult lkaslkm2lkmSearchForClubs() {
             return View();
         }
     }

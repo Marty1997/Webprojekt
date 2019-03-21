@@ -203,12 +203,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\AboutUs.PNG" />
-    <Content Include="Images\basketball-icon.png" />
     <Content Include="Images\club-icon.png" />
-    <Content Include="Images\football-icon.png" />
     <Content Include="Images\handball.jpg" />
+    <Content Include="Images\Håndboldbane.jpg" />
+    <Content Include="Images\omklædning.jpg" />
     <Content Include="Images\player-icon.png" />
-    <Content Include="Images\volleyball-icon.png" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -231,9 +230,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Styrke.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\frontPage.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -255,10 +256,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\PlayerDashboard.cshtml" />
-    <Content Include="Views\Home\SearchForPlayers.cshtml" />
-    <Content Include="Views\Home\SearchForClubs.cshtml" />
-    <Content Include="Views\Home\ClubDashboard.cshtml" />
+    <Content Include="Views\Home\ajsnd2888s8jjPlayerDashboard.cshtml" />
+    <Content Include="Views\Home\klm2klmlakmsl2SearchForPlayers.cshtml" />
+    <Content Include="Views\Home\lkaslkm2lkmSearchForClubs.cshtml" />
+    <Content Include="Views\Home\k2klmmlk2mlkClubDashboard.cshtml" />
+    <Content Include="Views\Home\abcdef12394raksHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

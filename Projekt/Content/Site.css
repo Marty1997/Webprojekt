@@ -1,9 +1,35 @@
-﻿table {
+﻿.tableFixed {
     width: 90%;
     margin: 0 auto;
     table-layout: fixed;
 }
 
-table tr td {
-    padding-top: 15.231px;
+    .tableFixed tr td {
+        padding-top: 15.231px;
+    }
+
+#trainingTable  table tr th {
+    word-wrap: break-word;
+}
+
+#trainingTable table tr td {
+    word-wrap: break-word;
+}
+
+.table > tbody > tr > td {
+    border-top: 0px;
+}
+
+.table > thead > tr > th {
+    border-bottom: 0px;
+}
+
+.carousel {
+    width: 70%;
+}
+
+.item img {
+    object-fit: cover;
+    height: 250px !important;
+    width: 100% !important;
 }
