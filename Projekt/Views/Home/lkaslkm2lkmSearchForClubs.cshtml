@@ -3,6 +3,26 @@
     ViewBag.Title = "SearchForClubs";
 }
 
+<nav class="navbar navbar-inverse ">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#frontPageImage">SportConnectors</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul style="float: right" class="nav navbar-nav">
+
+                <li><a href="#forPlayers">For Players</a></li>
+                <li><a href="#forClubs">For Clubs</a></li>
+                <li><a href="#aboutUs">About us</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <section>
     @*@foreach (var item in collection) {
 
@@ -14,10 +34,43 @@
                 <h3 style="word-wrap: break-word;">TTH Holstebro</h3>
             </div>
             <div class="col-md-3">
-
+                <table class="tableFixed">
+                    <tr>
+                        <td>Country:</td>
+                        <td>Denmark</td>
+                    </tr>
+                    <tr>
+                        <td>League:</td>
+                        <td>888ligaen</td>
+                    </tr>
+                    <tr>
+                        <td>Trainer:</td>
+                        <td>Morten Albert</td>
+                    </tr>
+                    <tr>
+                        <td>Fitness facility:</td>
+                        <td>Yes/No</td>
+                    </tr>
+                </table>
             </div>
             <div class="col-md-3">
+                @*@foreach (var item in collection) {
 
+                    }*@
+                <table class="tableFixed">
+                    <tr>
+                        <th>Open Positions</th>
+                    </tr>
+                    <tr>
+                        <td>Left wing</td>
+                    </tr>
+                    <tr>
+                        <td>Center</td>
+                    </tr>
+                    <tr>
+                        <td>Right wing</td>
+                    </tr>
+                </table>
             </div>
             <div class="col-md-3">
                 <div class="circle">90%</div>
