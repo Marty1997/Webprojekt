@@ -5,27 +5,43 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { FooterComponent } from './multi-page/footer/footer.component';
+import { FrontPageNavbarComponent } from './front-page/front-page-navbar/front-page-navbar.component';
+import { ForPlayersComponent } from './multi-page/for-players/for-players.component';
+import { ForClubsComponent } from './multi-page/for-clubs/for-clubs.component';
+import { AboutUsComponent } from './front-page/about-us/about-us.component';
+import { FrontPageImageComponent } from './front-page/front-page-image/front-page-image.component';
+import { FrontPageComponent } from './front-page/front-page.component';
+import { SearchForPlayersComponent } from './search-for-players/search-for-players.component';
+import { SearchForClubsComponent } from './search-for-clubs/search-for-clubs.component';
+import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
+import { ClubDashboardComponent } from './club-dashboard/club-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    FooterComponent,
+    FrontPageNavbarComponent,
+    ForPlayersComponent,
+    ForClubsComponent,
+    AboutUsComponent,
+    FrontPageImageComponent,
+    FrontPageComponent,
+    SearchForPlayersComponent,
+    SearchForClubsComponent,
+    PlayerDashboardComponent,
+    ClubDashboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: '', component: FrontPageComponent, pathMatch: 'full' },
+      { path: 'club-dashboard', component: ClubDashboardComponent },
+      { path: 'player-dashboard', component: PlayerDashboardComponent },
+      { path: 'search-for-clubs', component: SearchForClubsComponent },
+      { path: 'search-for-players', component: SearchForPlayersComponent },
     ])
   ],
   providers: [],
