@@ -1,0 +1,88 @@
+<!-- FRONT PAGE -->
+<section id="frontPageImage" class="container-fluid">
+
+  <div id="frontPageText">
+    <h1>Sportconnectors</h1>
+    <h2>Todolist: <br /> Forside billede, <br /> About us section design, <br /> professionelle farvetemaer på hele siden, <br /> footer links</h2>
+
+  </div>
+
+  <div id="buttonDiv" class="row" style="margin-top: 100px">
+    <div style="text-align: center" class="col-sm-3"></div>
+    <div style="text-align: center" class="col-sm-3">
+      <a id="registerButton" class="frontPageButton " href="" data-toggle="modal" data-target="#registerModal" role="button">Register</a>
+    </div>
+    <div style="text-align: center" class="col-sm-3">
+      <a id="loginButton" class="frontPageButton " href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+
+    </div>
+    <div style="text-align: center" class="col-sm-3"></div>
+  </div>
+
+
+  <!-- LOGIN MODAL -->
+  <div class="modal fade" id="loginModal" role="dialog">
+    <div class="modal-dialog">
+      <div id="chooseLogin">
+        <h2 style="text-align: center;">Choose Login</h2>
+        <div class="row">
+          <div class="col-md-6" style="text-align: center;">
+            <a id="playerLogin" href="#"><img src="~/Images/player-icon.png" /></a>
+            <h3>Player</h3>
+          </div>
+          <div class="col-md-6" style="text-align: center;">
+            <a id="clubLogin" href="#"><img src="~/Images/club-icon.png" /></a>
+            <h3>Club</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLAYER LOGIN -->
+      <div id="playerLoginBox" class="box" hidden>
+        <h1>Player Login</h1>
+        <form name="PlayerLogin" method="post" action="">
+          <label id="icon" for="name"><i class="icon-envelope "></i></label>
+          <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+@(" @")[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$" type="email" id="name" placeholder="E-mail" required oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
+          <label id="icon" for="name"><i class="icon-shield"></i></label>
+          <input autocomplete="off" name="password" type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name" placeholder="Password" required oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')" oninput="setCustomValidity('')" />
+          <input type="submit" value="Login" class="loginbutton" />
+          <h2>Login with facebook</h2>
+          <a href="">Forgot password?</a>
+        </form>
+      </div>
+      <!-- CLUB LOGIN -->
+      <div id="clubLoginBox" class="box" hidden>
+        <h1>Club Login</h1>
+        <form name="ClubLogin" method="post" action="">
+          <label id="icon" for="name"><i class="icon-envelope "></i></label>
+          <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+@(" @")[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$" type="email" id="name" placeholder="E-mail" required oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
+          <label id="icon" for="name"><i class="icon-shield"></i></label>
+          <input autocomplete="off" name="password" type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name" placeholder="Password" required oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')" oninput="setCustomValidity('')" />
+          <input type="submit" value="Login" class="loginbutton" />
+          <a href="">Forgot password?</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER MODAL -->
+  <div class="modal fade" id="registerModal" role="dialog">
+    <div class="modal-dialog">
+      <div id="chooseRegister">
+        <h2 style="text-align: center;">Choose Registration</h2>
+        <div class="row">
+          <div class="col-md-6" style="text-align: center;">
+            <a id="playerRegister" href="#"><img src="~/Images/player-icon.png" /></a>
+            <h3>Player</h3>
+          </div>
+          <div class="col-md-6" style="text-align: center;">
+            <a id="clubRegister" href="#"><img src="~/Images/club-icon.png" /></a>
+            <h3>Club</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>

@@ -5,6 +5,11 @@
 
 .navbar-inverse {
     border-color: transparent;
+    background-color: transparent;
+}
+
+.navbar {
+    border: 1px solid transparent;
 }
 
 .modal-open {
@@ -47,10 +52,6 @@ textarea {
 .row {
     margin-right: 0px; /* this is the exact culprit */
     margin-left: 0px;
-}
-
-.navbar-inverse {
-    background-color: transparent;
 }
 
 /*FAQ DESIGN*/

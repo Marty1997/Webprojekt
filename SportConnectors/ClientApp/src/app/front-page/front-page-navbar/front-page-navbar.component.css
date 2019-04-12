@@ -1,0 +1,8 @@
+.navbar-inverse {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.navbar {
+  border: 1px solid transparent;
+}

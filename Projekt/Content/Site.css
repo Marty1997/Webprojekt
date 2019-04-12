@@ -4,9 +4,10 @@
     table-layout: fixed;
 }
 
-    .tableFixed tr td {
+    .tableFixed tr td, .tableFixed tr th {
         padding-top: 15.231px;
     }
+
 
 #trainingTable  table tr th {
     word-wrap: break-word;
