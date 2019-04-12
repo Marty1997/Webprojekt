@@ -1,0 +1,60 @@
+/*FOOTER DESIGN*/
+footer {
+  background-color: #252525;
+}
+
+
+/*Design for headlines*/
+.sideFooter, .centerFooter {
+  list-style: none;
+  padding: 30px 0px;
+}
+
+  .sideFooter h3, .centerFooter h3 {
+    color: #FFF;
+    font-weight: 800;
+    border-bottom: 1px solid #c7c7c7;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: block;
+    text-transform: uppercase;
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+
+
+  .sideFooter li {
+    margin: 10px 0px;
+  }
+
+    .sideFooter li a, .sideFooter li p, .centerFooter div p {
+      color: #FFF;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+  /*Design for Icons*/
+  .centerFooter i {
+    background-color: #33383b;
+    color: #ffffff;
+    font-size: 25px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    line-height: 42px;
+    margin: 10px 15px;
+  }
+    /*Design for Email Icon*/
+    .centerFooter i.fa-envelope {
+      font-size: 17px;
+      line-height: 38px;
+    }
+
+  .centerFooter p {
+    display: inline-block;
+  }
+
+    /*Makes Email link inherit color*/
+    .centerFooter p a {
+      color: inherit;
+    }
