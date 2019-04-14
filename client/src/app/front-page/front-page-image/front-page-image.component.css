@@ -4,6 +4,7 @@
   height: 700px;
 }
 
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -144,6 +145,8 @@ input[type=password] {
     box-shadow: none;
   }
 
+
+
 .loginbutton {
   font-size: 14px;
   font-weight: 600;
@@ -216,7 +219,7 @@ input[type=password] {
     top: 1px;
   }
 
-#playerLogin img, #clubLogin img, #playerRegister img, #clubRegister img {
+#playerLogin img, #clubLogin img, #playerRegistration img, #clubRegistration img {
   width: 200px;
   height: auto;
 }

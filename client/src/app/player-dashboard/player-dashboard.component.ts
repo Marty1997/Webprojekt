@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./player-dashboard.component.css']
 })
 export class PlayerDashboardComponent implements OnInit {
-
+  isFirstOpen = true;
   constructor() { }
 
   ngOnInit() {

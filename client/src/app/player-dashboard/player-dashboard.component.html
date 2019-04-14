@@ -104,34 +104,33 @@
     <div class="col-sm-6">
       <h1 style="text-align:center; margin-top:30px;">National Team</h1>
       <div style="margin-top:10px;">
-        <button class="accordion">A team statistics</button>
-        <div class="panel">
-          <p>Appearances: 12</p>
-          <p>Position: Left Wing</p>
-          <p>Statistics: 404 goals, 25 assist</p>
-        </div>
-
-        <button class="accordion">B team statistics</button>
-        <div class="panel">
-          <p>Appearances: N/A</p>
-          <p>Position: N/A</p>
-          <p>Statistics: N/A</p>
-        </div>
-
-        <button class="accordion">U21 team statistics</button>
-        <div class="panel">
-          <p>Appearances: 30</p>
-          <p>Position: Left Wing</p>
-          <p>Statistics: 10 goals, 1 assist</p>
-        </div>
-
-        <button class="accordion">U18 team statistics</button>
-        <div class="panel">
-          <p>Appearances: 300</p>
-          <p>Position: Left Wing</p>
-          <p>Statistics: 0 goals, 25 assist</p>
-        </div>
-      </div>
+          <accordion>
+            <accordion-group  [isOpen]="isFirstOpen">
+              <h5 accordion-heading >A team statistics </h5>
+              <p>Appearances: 12</p>
+              <p>Position: Left Wing</p>
+              <p>Statistics: 404 goals, 25 assist</p>
+            </accordion-group>
+            <accordion-group >
+              <h5 accordion-heading >B team statistics </h5>
+              <p>Appearances: N/A</p>
+              <p>Position: N/A</p>
+              <p>Statistics: N/A</p>
+            </accordion-group>
+            <accordion-group >
+                <h5 accordion-heading >U21 team statistics </h5>
+              <p>Appearances: 30</p>
+              <p>Position: Left Wing</p>
+              <p>Statistics: 10 goals, 1 assist</p>
+            </accordion-group>
+            <accordion-group >
+                <h5 accordion-heading >U18 team statistics </h5>
+              <p>Appearances: 300</p>
+              <p>Position: Left Wing</p>
+              <p>Statistics: 0 goals, 25 assist</p>
+            </accordion-group>
+          </accordion>
+          </div>
     </div>
   </div>
   <div class="row" style="margin-bottom: 50px;">

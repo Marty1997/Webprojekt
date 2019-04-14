@@ -11,11 +11,10 @@
   <div id="buttonDiv" class="row" style="margin-top: 100px">
     <div style="text-align: center" class="col-sm-3"></div>
     <div style="text-align: center" class="col-sm-3">
-      <a id="registerButton" class="frontPageButton " href="" data-toggle="modal" data-target="#registerModal"
-        role="button">Register</a>
+      <a class="frontPageButton "  (click)="openModal(chooseRegistrationModal)">Register</a>
     </div>
     <div style="text-align: center" class="col-sm-3">
-      <a id="loginButton" class="frontPageButton" (click)="openModal(template)">Login</a>
+      <a class="frontPageButton" (click)="openModal(chooseLoginModal)">Login</a>
 
     </div>
     <div style="text-align: center" class="col-sm-3"></div>
@@ -23,63 +22,54 @@
 
 
   <!-- LOGIN MODAL -->
-  <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
-
-  <ng-template #template>
-    <div class="modal-backdrop">
-      
-      <!-- <div class="modal-header">
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div> -->
-
-      <!-- <div class="modal-body"> -->
+  <ng-template #chooseLoginModal>
         <h2 style="text-align: center;">Choose Login</h2>
         <div class="row">
           <div class="col-md-6" style="text-align: center;">
-            <a id="playerLogin" href="#"><img src="assets/Images/player-icon.png" /></a>
+            <a  id="playerLogin"   (click)="openSecondModalNested(playerLoginModal)"><img src="assets/Images/player-icon.png" /></a>
             <h3>Player</h3>
           </div>
           <div class="col-md-6" style="text-align: center;">
-            <a id="clubLogin" href="#"><img src="assets/Images/club-icon.png" /></a>
+            <a id="clubLogin"  (click)="openSecondModalNested(clubLoginModal)"><img src="assets/Images/club-icon.png" /></a>
             <h3>Club</h3>
           </div>
         </div>
-      <!-- </div> -->
-    </div>
-
   </ng-template>
 
 
   <!-- PLAYER LOGIN -->
-  <div id="playerLoginBox" class="box" hidden>
-    <h1>Player Login</h1>
-    <form name="PlayerLogin" method="post" action="">
-      <label id="icon" for="name"><i class="icon-envelope "></i></label>
-      <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+@(" @")[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
-        type="email" id="name" placeholder="E-mail" required
-        oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
-      <label id="icon" for="name"><i class="icon-shield"></i></label>
-      <input autocomplete="off" name="password" type="password"
-        pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name"
-        placeholder="Password" required
-        oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')"
-        oninput="setCustomValidity('')" />
-      <input type="submit" value="Login" class="loginbutton" />
-      <h2>Login with facebook</h2>
-      <a href="">Forgot password?</a>
-    </form>
-  </div>
+  <ng-template #playerLoginModal>
+    <div id="playerLoginBox" class="box" >
+      <h1>Player Login</h1>
+      <form name="PlayerLogin" method="post" action="">
+        <label id="icon" for="name"><i class="glyphicon glyphicon-envelope"></i></label>
+        <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
+          type="email" id="name" placeholder="E-mail" required
+          oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
+        <label id="icon" for="name"><i class="glyphicon glyphicon-lock"></i></label>
+        <input autocomplete="off" name="password" type="password"
+          pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name"
+          placeholder="Password" required
+          oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')"
+          oninput="setCustomValidity('')" />
+        <input type="submit" value="Login" class="loginbutton" />
+        <h2>Login with facebook</h2>
+        <a href="">Forgot password?</a>
+      </form>
+    </div>
+  </ng-template>
+
+
   <!-- CLUB LOGIN -->
-  <div id="clubLoginBox" class="box" hidden>
+  <ng-template #clubLoginModal>
+  <div id="clubLoginBox" class="box" >
     <h1>Club Login</h1>
     <form name="ClubLogin" method="post" action="">
-      <label id="icon" for="name"><i class="icon-envelope "></i></label>
-      <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+@(" @")[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
+      <label id="icon" for="name"><i class="glyphicon glyphicon-envelope"></i></label>
+      <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
         type="email" id="name" placeholder="E-mail" required
         oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
-      <label id="icon" for="name"><i class="icon-shield"></i></label>
+      <label id="icon" for="name"><i class="glyphicon glyphicon-lock"></i></label>
       <input autocomplete="off" name="password" type="password"
         pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name"
         placeholder="Password" required
@@ -89,25 +79,21 @@
       <a href="">Forgot password?</a>
     </form>
   </div>
+  </ng-template>
+
 
   <!-- REGISTER MODAL -->
-  <div class="modal fade" id="registerModal" role="dialog">
-    <div class="modal-dialog">
-      <div id="chooseRegister">
+  <ng-template #chooseRegistrationModal>
         <h2 style="text-align: center;">Choose Registration</h2>
         <div class="row">
           <div class="col-md-6" style="text-align: center;">
-            <a id="playerRegister" href="#"><img src="~/Images/player-icon.png" /></a>
+            <a id="playerRegistration" href="#"><img src="assets/Images/player-icon.png" /></a>
             <h3>Player</h3>
           </div>
           <div class="col-md-6" style="text-align: center;">
-            <a id="clubRegister" href="#"><img src="~/Images/club-icon.png" /></a>
+            <a id="clubRegistration" href="#"><img src="assets/Images/club-icon.png" /></a>
             <h3>Club</h3>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-
+  </ng-template>
 </section>

@@ -19,6 +19,8 @@ import { SearchForClubsComponent } from './search-for-clubs/search-for-clubs.com
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './club-dashboard/club-dashboard.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       { path: 'search-for-clubs', component: SearchForClubsComponent },
       { path: 'search-for-players', component: SearchForPlayersComponent },
     ]),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    CarouselModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
