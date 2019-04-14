@@ -1,0 +1,116 @@
+
+
+@media (max-width: 767px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    .body-content {
+      padding-top: 50px;
+    }
+  }
+
+  .modal-backdrop {
+    background-color: white;
+    opacity: 0.79 !important;
+  }
+
+  .modal-content {
+    border:none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+
+  .modal-dialog {
+    margin-top: 150px;
+    /* border: 10px solid black; */
+  }
+
+  .responsiveImage {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  
+  body {
+    padding-right: 0 !important;
+  }
+
+ 
+  
+  /* Set padding to keep content from hitting the edges */
+  .body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .row {
+    margin-right: 0px; /* this is the exact culprit */
+    margin-left: 0px;
+  }
+  
+  #forPlayers, #forClubs, #aboutUs {
+    height: 50px;
+  }
+  
+  .informationText {
+    word-wrap: break-word;
+  }
+  
+    .informationText p {
+      padding-right: 60px;
+    }
+  
+  /*FAQ DESIGN*/
+  .accordion-toggle[aria-expanded="true"]:before {
+    content: "\2796";
+    float: right;
+}
+
+.accordion-toggle[aria-expanded="false"]:before {
+    content: '\02795';
+    float: right;
+}
+  
+  .tableFixed {
+    width: 90%;
+    margin: 0 auto;
+    table-layout: fixed;
+  }
+  
+    .tableFixed tr td, .tableFixed tr th {
+      padding-top: 15.231px;
+    }
+  
+  
+  #trainingTable table tr th {
+    word-wrap: break-word;
+  }
+  
+  #trainingTable table tr td {
+    word-wrap: break-word;
+  }
+  
+  .table > tbody > tr > td {
+    border-top: 0px;
+  }
+  
+  .table > thead > tr > th {
+    border-bottom: 0px;
+  }
+  
+  .carousel {
+    width: 70%;
+  }
+  
+  .item img {
+    object-fit: cover;
+    height: 250px !important;
+    width: 100% !important;
+  }
+  
