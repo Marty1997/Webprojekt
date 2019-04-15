@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FrontPageComponent } from 'app/front-page/front-page.component';
 
 @Component({
   selector: 'app-front-page-navbar',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FrontPageNavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private frontPage: FrontPageComponent) { }
+
+  SmoothScroll(destination: string) {
+    this.frontPage.SmoothScroll(destination);
+  }
 
   ngOnInit() {
   }

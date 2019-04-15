@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./front-page.component.css']
 })
 export class FrontPageComponent implements OnInit {
+  
+  
+  constructor() {
+  }
 
-  constructor() { }
+  SmoothScroll(destination: string) {
+    const element = document.querySelector(destination);
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   ngOnInit() {
   }
-
 }

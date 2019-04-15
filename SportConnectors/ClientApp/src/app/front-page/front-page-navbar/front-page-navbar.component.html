@@ -7,14 +7,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#frontPageImage">SportConnectors</a>
+      <a class="navbar-brand" (click)="SmoothScroll('#frontPageImage')">SportConnectors</a>
     </div>
     <div class="navbar-collapse collapse">
       <ul style="float: right" class="nav navbar-nav">
 
-        <li><a href="#forPlayers">For Players</a></li>
-        <li><a href="#forClubs">For Clubs</a></li>
-        <li><a href="#aboutUs">About us</a></li>
+        <li><a (click)="SmoothScroll('#forPlayers')">For Players</a></li>
+        <li><a (click)="SmoothScroll('#forClubs')">For Clubs</a></li>
+        <li><a (click)="SmoothScroll('#aboutUs')">About us</a></li>
       </ul>
     </div>
   </div>

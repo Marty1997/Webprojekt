@@ -6,3 +6,8 @@
 .navbar {
   border: 1px solid transparent;
 }
+
+a {
+  cursor: pointer;
+}
+
