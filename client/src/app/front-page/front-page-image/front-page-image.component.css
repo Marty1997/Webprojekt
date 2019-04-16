@@ -4,7 +4,6 @@
   height: 700px;
 }
 
-
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -29,7 +28,7 @@ select {
   margin-left: 18px;
 }
 
-#playerLoginBox h1, #clubLoginBox h1 {
+#playerLoginBox h1, #playerLoginBox h3, #clubLoginBox h1, #clubLoginBox h3 {
   font-size: 32px;
   font-weight: 300;
   color: #4c4c4c;
@@ -43,9 +42,9 @@ html {
 }
 
 .box {
-  margin: 130px auto;
+  margin: 100px auto;
   width: 343px;
-  height: 464px;
+  height: 380px;
   -webkit-border-radius: 8px/7px;
   -moz-border-radius: 8px/7px;
   border-radius: 8px/7px;
@@ -97,6 +96,8 @@ input[type=text], [type=email], [type=tel], input[type=password] {
 input[type=password] {
   margin-bottom: 25px;
 }
+
+
 
 #icon {
   display: inline-block;
@@ -226,4 +227,8 @@ input[type=password] {
 
 #chooseLogin, #chooseRegister {
   margin-top: 200px;
+}
+
+a {
+  cursor: pointer;
 }

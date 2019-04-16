@@ -8,7 +8,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class FrontPageImageComponent implements OnInit {
   modalRef: BsModalRef | null;
-  modalRef2: BsModalRef;
+  modalRef2: BsModalRef | null;
+  modalRefRecoverPassword: BsModalRef;
   isVisible: boolean = true;
 
   constructor(private modalService: BsModalService) { }
@@ -24,13 +25,18 @@ export class FrontPageImageComponent implements OnInit {
     this.modalRef = null;
   }
 
+  openRecoverPasswordModal(template: TemplateRef<any>) {
+    this.modalRefRecoverPassword = this.modalService.show(template);
+    
+  }
+
   @HostListener('backdrop-click', ['$event'])
   testing123() {
     this.isVisible = true;
   }
 
   ngOnInit() {
-    console.log("asdmkl");
+    
   }
     
   }

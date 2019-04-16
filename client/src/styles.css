@@ -16,6 +16,7 @@
     border:none;
     background-color: transparent;
     box-shadow: none;
+  
   }
 
   .modal-open {
@@ -23,9 +24,10 @@
   }
 
   .modal-dialog {
-    margin-top: 150px;
-    /* border: 10px solid black; */
+    margin-top: 100px;
+    
   }
+  
 
   .responsiveImage {
     max-width: 100%;
