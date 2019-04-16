@@ -30,6 +30,7 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("asdmkl");
   }
     
   }
