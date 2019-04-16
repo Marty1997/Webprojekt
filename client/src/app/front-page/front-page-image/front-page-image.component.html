@@ -1,14 +1,14 @@
 <!-- FRONT PAGE -->
 <section id="frontPageImage" class="container-fluid">
 
-  <div id="frontPageText">
+  <div id="frontPageText" [hidden]="!isVisible">
     <h1>Sportconnectors</h1>
     <h2>Todolist: <br /> Forside billede, <br /> About us section design, <br /> professionelle farvetemaer på hele
       siden, <br /> footer links</h2>
 
   </div>
 
-  <div id="buttonDiv" class="row" style="margin-top: 100px">
+  <div id="buttonDiv" class="row" style="margin-top: 100px" [hidden]="!isVisible">
     <div style="text-align: center" class="col-sm-3"></div>
     <div style="text-align: center" class="col-sm-3">
       <a class="frontPageButton "  (click)="openModal(chooseRegistrationModal)">Register</a>

@@ -8,14 +8,13 @@ import { Component, OnInit, HostListener } from '@angular/core';
 export class FrontPageComponent implements OnInit {
 
   navbarBackground: string;
-  transition: string;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  SmoothScroll(destination: string) {
+  parentSmoothScroll(destination: string) {
     const element = document.querySelector(destination);
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -25,7 +24,6 @@ export class FrontPageComponent implements OnInit {
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (number > 50) {
       this.navbarBackground = '#f8f8f8';
-      this.transition = "background-color 300ms linear"
     } else {
       this.navbarBackground = 'transparent';
     }

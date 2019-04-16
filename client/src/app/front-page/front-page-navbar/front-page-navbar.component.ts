@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { FrontPageComponent } from '../front-page.component';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-front-page-navbar',
@@ -10,11 +9,12 @@ export class FrontPageNavbarComponent implements OnInit {
   
   @Input() childExample: string;
   navbarCollapse = true;
+  @Output() childSmoothScroll = new EventEmitter<string>();
 
-  constructor(private frontPage: FrontPageComponent) {  }
+  constructor() {  }
 
-  SmoothScroll(destination: string) {
-    this.frontPage.SmoothScroll(destination);
+  smoothScroll(destination: string) {
+    this.childSmoothScroll.next(destination);
   }
 
   toggleNavbarCollapse() {
