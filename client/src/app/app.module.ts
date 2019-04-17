@@ -5,6 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './multi-page/footer/footer.component';
@@ -21,6 +26,7 @@ import { ClubDashboardComponent } from './club-dashboard/club-dashboard.componen
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +42,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     SearchForClubsComponent,
     PlayerDashboardComponent,
     ClubDashboardComponent,
+    RegisterPlayerComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,7 +58,12 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     ]),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    CdkStepperModule,
+    MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

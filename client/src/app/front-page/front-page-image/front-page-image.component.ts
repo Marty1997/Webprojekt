@@ -11,6 +11,10 @@ export class FrontPageImageComponent implements OnInit {
   modalRef2: BsModalRef;
   isVisible: boolean = true;
 
+  playerRegistrationModal: BsModalRef;
+  optional: String = ' Optional';
+  required: String = ' Required';
+
   constructor(private modalService: BsModalService) { }
   
   openModal(template: TemplateRef<any>) {
@@ -20,6 +24,12 @@ export class FrontPageImageComponent implements OnInit {
 
   openSecondModalNested(template: TemplateRef<any>) {
     this.modalRef2 = this.modalService.show(template);
+    this.modalRef.hide();
+    this.modalRef = null;
+  }
+
+  openPlayerRegistrationModal(template: TemplateRef<any>) {
+    this.playerRegistrationModal = this.modalService.show(template);
     this.modalRef.hide();
     this.modalRef = null;
   }

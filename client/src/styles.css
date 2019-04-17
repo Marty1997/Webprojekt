@@ -1,4 +1,4 @@
-
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 @media (max-width: 767px) {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
@@ -6,6 +6,11 @@
       padding-top: 50px;
     }
   }
+  /* MULTI-STEP REGISTER */
+  .cdk-global-overlay-wrapper, 
+  .cdk-overlay-container {
+     z-index: 9999!important;
+  } 
 
   .modal-backdrop {
     background-color: white;
