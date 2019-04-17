@@ -1,5 +1,6 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <h2 class="lead">Register Player</h2>
+  <!-- PERSONAL INFO -->
   <mat-step [stepControl]="personalInfoFormGroup">
     <form [formGroup]="personalInfoFormGroup">
       <ng-template matStepLabel></ng-template><br>
@@ -8,53 +9,69 @@
       <mat-hint>Login credentials</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Email" type="email" formControlName="emailCtrl">
+        <input matInput placeholder="Email" 
+          type="email" 
+          formControlName="emailCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Password" type="password" formControlName="passwordCtrl">
+        <input matInput placeholder="Password" 
+          type="password" 
+          formControlName="passwordCtrl">
       </mat-form-field>
       <br>
       <mat-hint>Your full name</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="First Name" type="text" formControlName="firstNameCtrl">
+        <input matInput placeholder="First Name" 
+          type="text" 
+          formControlName="firstNameCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Last Name" type="text" formControlName="lastNameCtrl">
+        <input matInput placeholder="Last Name" 
+          type="text" 
+          formControlName="lastNameCtrl">
       </mat-form-field>
       <br>
       <mat-hint>Country info</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Country" type="text" formControlName="countryCtrl">
+        <input matInput placeholder="Country" 
+          type="text" 
+          formControlName="countryCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="City" type="text" formControlName="cityCtrl">
+        <input matInput placeholder="City" 
+          type="text" 
+          formControlName="cityCtrl">
       </mat-form-field>
       <br>
       <mat-hint>Date of birth</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Day (DD)" type="text" formControlName="dayCtrl">
+        <input matInput placeholder="Day (DD)" 
+          type="text" 
+          formControlName="dayCtrl">
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Select Month" formControlName="monthCtrl">
           <mat-option value="January">January</mat-option>
-          <mat-option value="January">February</mat-option>
-          <mat-option value="January">March</mat-option>
-          <mat-option value="January">April</mat-option>
-          <mat-option value="January">May</mat-option>
-          <mat-option value="January">June</mat-option>
-          <mat-option value="January">July</mat-option>
-          <mat-option value="January">August</mat-option>
-          <mat-option value="January">September</mat-option>
-          <mat-option value="January">October</mat-option>
-          <mat-option value="January">November</mat-option>
-          <mat-option value="January">December</mat-option>
+          <mat-option value="February">February</mat-option>
+          <mat-option value="March">March</mat-option>
+          <mat-option value="April">April</mat-option>
+          <mat-option value="May">May</mat-option>
+          <mat-option value="June">June</mat-option>
+          <mat-option value="July">July</mat-option>
+          <mat-option value="August">August</mat-option>
+          <mat-option value="September">September</mat-option>
+          <mat-option value="October">October</mat-option>
+          <mat-option value="November">November</mat-option>
+          <mat-option value="December">December</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Year (YYYY)" type="text" formControlName="yearCtrl">
+        <input matInput placeholder="Year (YYYY)" 
+          type="text" 
+          formControlName="yearCtrl">
       </mat-form-field>
       <br>
       <div class="playerRegistrationButtonGroup">
@@ -62,6 +79,7 @@
       </div>
     </form>
   </mat-step>
+  <!-- ADDITIONAL INFO -->
   <mat-step [stepControl]="additionalInfoFormGroup" [optional]="true">
     <form [formGroup]="additionalInfoFormGroup">
       <ng-template matStepLabel></ng-template><br>
@@ -71,28 +89,38 @@
       <mat-hint>Measurements</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Height in cm">
+        <input matInput placeholder="Height in cm" 
+          type="text"
+          formControlName="heightCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Weight in kg">
+        <input matInput placeholder="Weight in kg" 
+          type="text" 
+          formControlName="weightCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Bodyfat in %">
+        <input matInput placeholder="Bodyfat in %"
+          type="text" 
+          formControlName="bodyfatCtrl">
       </mat-form-field>
       <br>
       <mat-hint>Positions</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Primary position">
+        <input matInput placeholder="Primary position"
+          type="text" 
+          formControlName="primaryPositionCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Secondary position">
+        <input matInput placeholder="Secondary position"
+          type="text" 
+          formControlName="secondaryPositionCtrl">
       </mat-form-field>
       <br>
       <mat-hint>Preferred hand</mat-hint>
       <br>
       <mat-form-field>
-        <mat-select placeholder="Select Hand">
+        <mat-select placeholder="Select Hand" formControlName="preferredHandCtrl">
           <mat-option value="Right">Right Hand</mat-option>
           <mat-option value="Left">Left Hand</mat-option>
         </mat-select>
@@ -104,9 +132,9 @@
       </div>
     </form>
   </mat-step>
+  <!-- STRENGTHS & WEAKNESSES -->
   <mat-step [stepControl]="strengthWeaknessFormGroup" [optional]="true">
-    <form [formGroup]="strengthWeaknessFormGroup" class="strengthsWeaknessForm"
-      style="min-width: 300px; max-width: 800px; width: 100%;">
+    <form [formGroup]="strengthWeaknessFormGroup">
       <ng-template matStepLabel></ng-template>
       <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
         rate.</p>
@@ -114,12 +142,14 @@
       <mat-hint>Strengths & Weaknesses</mat-hint>
       <br>
       <mat-form-field>
-        <textarea matInput placeholder="Fill out your strengths..." class="registerTextArea" matTextareaAutosize
-          matAutosizeMinRows="10" matAutosizeMaxRows="10"></textarea>
+        <textarea matInput placeholder="Fill out your strengths..." 
+          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10" 
+          formControlName="strengthsCtrl"></textarea>
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Fill out your weaknesses..." class="registerTextArea" matTextareaAutosize
-          matAutosizeMinRows="10" matAutosizeMaxRows="10"></textarea>
+        <textarea matInput placeholder="Fill out your weaknesses..." 
+          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10" 
+          formControlName="weaknessesCtrl"></textarea>
       </mat-form-field>
       <br>
       <div class="playerRegistrationButtonGroup">
@@ -128,6 +158,7 @@
       </div>
     </form>
   </mat-step>
+  <!-- SPORT CV -->
   <mat-step [stepControl]="sportCvFormGroup" [optional]="true">
     <form [formGroup]="sportCvFormGroup">
       <ng-template matStepLabel></ng-template><br>
@@ -137,25 +168,32 @@
       <mat-hint>Club info</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Current club">
+        <input matInput placeholder="Current club" 
+          type="text"
+          formControlName="currentClubCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Current position">
+        <input matInput placeholder="Current position" 
+          type="text" 
+          formControlName="currentPositionCtrl">
       </mat-form-field>
       <br>
       <mat-hint>Other info</mat-hint>
       <br>
       <mat-form-field>
-        <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10"></textarea>
+        <textarea matInput placeholder="Accomplishments"
+          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10"
+          formControlName="accomplishmentsCtrl"></textarea>
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10"></textarea>
+        <textarea matInput placeholder="Statistics"
+          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10"
+          formControlName="statisticsCtrl"></textarea>
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Former clubs" matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10"></textarea>
+        <textarea matInput placeholder="Former clubs" 
+          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10" 
+          formControlName="formerClubsCtrl"></textarea>
       </mat-form-field>
       <br>
       <div class="playerRegistrationButtonGroup">
@@ -164,6 +202,7 @@
       </div>
     </form>
   </mat-step>
+  <!-- NATIONAL TEAM -->
   <mat-step [stepControl]="nationalTeamFormGroup" [optional]="true">
     <form [formGroup]="nationalTeamFormGroup">
       <ng-template matStepLabel></ng-template><br>
@@ -173,53 +212,73 @@
       <mat-hint>A Team</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Appearances">
+        <input matInput placeholder="Appearances"
+          type="text" 
+          formControlName="aTeamAppearancesCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Position">
+        <input matInput placeholder="Position" 
+          type="text" 
+          formControlName="aTeamPositionCtrl">
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="5"
-          matAutosizeMaxRows="5"></textarea>
+        <textarea matInput placeholder="Statistics"
+          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+          formControlName="aTeamStatisticsCtrl"></textarea>
       </mat-form-field>
       <br>
       <mat-hint>B Team</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Appearances">
+        <input matInput placeholder="Appearances"
+          type="text" 
+          formControlName="bTeamAppearancesCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Position">
+        <input matInput placeholder="Position"
+          type="text" 
+          formControlName="bTeamPositionCtrl">
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="5"
-          matAutosizeMaxRows="5"></textarea>
+        <textarea matInput placeholder="Statistics"
+          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+          formControlName="bTeamStatisticsCtrl"></textarea>
       </mat-form-field>
       <br>
       <mat-hint>U21 Team</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Appearances">
+        <input matInput placeholder="Appearances"
+          type="text" 
+          formControlName="u21TeamAppearancesCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Position">
+        <input matInput placeholder="Position"
+          type="text" 
+          formControlName="u21TeamPositionCtrl">
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="5"
-          matAutosizeMaxRows="5"></textarea>
+        <textarea matInput placeholder="Statistics" 
+          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+          formControlName="u21TeamStatisticsCtrl"></textarea>
       </mat-form-field>
       <br>
       <mat-hint>U18 Team</mat-hint>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Appearances">
+        <input matInput placeholder="Appearances" 
+          type="text"
+          formControlName="u18TeamAppearancesCtrl">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Position">
+        <input matInput placeholder="Position"
+          type="text" 
+          formControlName="u18TeamPositionCtrl">
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="5"
-          matAutosizeMaxRows="5"></textarea>
+        <textarea matInput placeholder="Statistics" 
+          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+          formControlName="u18TeamStatisticsCtrl"></textarea>
       </mat-form-field>
       <br>
       <div class="playerRegistrationButtonGroup">
@@ -228,19 +287,23 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="nationalTeamFormGroup" [optional]="true">
-    <form [formGroup]="nationalTeamFormGroup">
+  <!-- PLAYER PRESENTATION -->
+  <mat-step [stepControl]="playerPresentationFormGroup" [optional]="true">
+    <form [formGroup]="playerPresentationFormGroup">
       <ng-template matStepLabel></ng-template><br>
       <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.</p>
-      
+
     </form>
   </mat-step>
+  <!-- LAST STEP -->
   <mat-step>
     <ng-template matStepLabel></ng-template><br>
     You are now done.
     <div>
       <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
       <button mat-button (click)="stepper.reset()" class="btn btn-danger">Reset</button>
+      <!-- SUBMIT -->
+      <button mat-button (click)="registerPlayer()" class="btn btn-submit">Submit</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
