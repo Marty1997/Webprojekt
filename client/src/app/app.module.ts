@@ -6,10 +6,10 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule } from '@angular/material';
+import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './multi-page/footer/footer.component';
@@ -60,9 +60,10 @@ import { RegisterPlayerComponent } from './front-page/front-page-image/register-
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
     CdkStepperModule,
-    MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule,
+    MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MaterialFileInputModule,
 
   ],
   providers: [],

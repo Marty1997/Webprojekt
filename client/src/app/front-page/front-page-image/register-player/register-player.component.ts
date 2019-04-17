@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { registerService } from 'src/app/services/registerService';
+import { uploadFilesService } from 'src/app/services/uploadFilesService';
 // import {playerModel} from '..models/player.model';
 
 @Component({
     selector: 'app-register-player',
     templateUrl: './register-player.component.html',
     styleUrls: ['./register-player.component.css'],
-    providers: [registerService]
+    providers: [registerService, uploadFilesService]
 })
 export class RegisterPlayerComponent implements OnInit {
   isLinear = true;
@@ -18,7 +19,14 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamFormGroup: FormGroup;
   playerPresentationFormGroup: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder, private registerService: registerService) {
+  selectedFile: File = null;
+  uploadStatus: boolean = false;
+  uploadText: string = "";
+
+  constructor(private _formBuilder: FormBuilder, 
+                private registerService: registerService, 
+                private uploadFilesService: uploadFilesService) {
+
   }
 
   ngOnInit() {
@@ -67,8 +75,23 @@ export class RegisterPlayerComponent implements OnInit {
       u18TeamStatisticsCtrl: [''],
     });
     this.playerPresentationFormGroup = this._formBuilder.group({
-      
+      removableFile: ['']
     });
+  }
+
+  onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
+  }
+
+  onUpload() {
+    if(this.selectedFile != null) {
+      this.uploadFilesService.uploadFile(this.selectedFile);
+      this.uploadText = "Your file has been uploaded";
+      this.uploadStatus = true;
+    } else {
+      this.uploadText = "Please select a file"
+      this.uploadStatus = false;
+    }
   }
 
   /* 

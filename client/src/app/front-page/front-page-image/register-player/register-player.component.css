@@ -10,3 +10,11 @@ mat-form-field {
 .playerRegistrationButtonGroup {
     text-align: right;
 }
+
+.uploadBtn {
+    margin: 0 3px;
+}
+
+.chooseFileBtn {
+    margin: 0 3px;
+}

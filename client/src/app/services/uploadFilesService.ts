@@ -1,4 +1,3 @@
-//import { nameModel } from "../models/name.model";
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http';
 

@@ -292,13 +292,33 @@
     <form [formGroup]="playerPresentationFormGroup">
       <ng-template matStepLabel></ng-template><br>
       <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.</p>
-
+      <hr>
+      <!-- <input matInput type="file" (change)="onFileSelected($event)">
+      <button mat-button type="button" (click)="onUpload()">Upload</button> -->
+      <mat-hint>Click below to upload video</mat-hint>
+      <br>
+      <mat-form-field>
+          <ngx-mat-file-input #removableInput formControlName="removableFile" (change)="onFileSelected($event)" placeholder="Upload video"></ngx-mat-file-input>
+          <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
+            <mat-icon>clear</mat-icon>
+          </button>
+      </mat-form-field>
+      <br>
+      <mat-label [ngStyle]="{color: uploadStatus ? 'green' : 'red' }">{{ uploadText }}</mat-label>
+      <br>
+      <button class="btn btn-primary" (click)="removableInput.open()">Choose File</button>
+      <button class="btn btn-primary" (click)="onUpload()">Upload</button>
+      <br>
+      <div class="playerRegistrationButtonGroup">
+        <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
+        <button mat-button matStepperNext class="btn btn-primary">Next</button>
+      </div>
     </form>
   </mat-step>
   <!-- LAST STEP -->
   <mat-step>
     <ng-template matStepLabel></ng-template><br>
-    You are now done.
+    <p>You have completed all steps. Click <strong>register</strong> to create your account.</p>>
     <div>
       <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
       <button mat-button (click)="stepper.reset()" class="btn btn-danger">Reset</button>
