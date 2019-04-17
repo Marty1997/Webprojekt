@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, HostListener } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { loginService } from 'src/app/services/loginService';
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: 'app-front-page-image',
@@ -13,6 +14,7 @@ export class FrontPageImageComponent implements OnInit {
   modalRef2: BsModalRef | null;
   modalRefRecoverPassword: BsModalRef;
   isVisible: boolean = true;
+  recoverPasswordResult : string = "";
 
   constructor(private modalService: BsModalService, private loginService: loginService) { }
   
@@ -29,12 +31,15 @@ export class FrontPageImageComponent implements OnInit {
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
     this.modalRefRecoverPassword = this.modalService.show(template);
-    
   }
-  // recoverPasswordClicked(email: string) {
-  //   this.loginService.revocerPassword.subscribe((succes) =>(console.log("succes")), 
-  //   error) => (console.log("error")), () => (console.log("Completed"));
-  // }
+  
+  recoverPasswordClicked(form:  NgForm) {
+    console.log(form);
+    this.loginService.revocerPassword(form.value.email).subscribe(
+      (succes) =>(this.recoverPasswordResult = /*Tildel værdien fra succes beskden som kommer fra server*/""), 
+      (error) => (this.recoverPasswordResult= "asd" + error /* TIldel recoverPasswordREsult værdien fra error beskden fra serveren*/),
+      () => (console.log("Completed")))
+  }
 
   @HostListener('backdrop-click', ['$event'])
   testing123() {

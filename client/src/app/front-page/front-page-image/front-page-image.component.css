@@ -28,13 +28,24 @@ select {
   margin-left: 18px;
 }
 
-#playerLoginBox h1, #playerLoginBox h3, #clubLoginBox h1, #clubLoginBox h3 {
-  font-size: 32px;
+#playerLoginBox h1, #playerLoginBox h3, #clubLoginBox h1, #clubLoginBox h3, #playerLoginBox h5, #clubLoginBox h5 {
   font-weight: 300;
   color: #4c4c4c;
   text-align: center;
   padding-top: 10px;
   margin-bottom: 10px;
+}
+
+#playerLoginBox h1, #clubLoginBox h1 {
+  font-size: 32px;
+}
+
+#playerLoginBox h3, #clubLoginBox h3 {
+  font-size: 25px;
+}
+
+#playerLoginBox h5, #clubLoginBox h5 {
+  font-size: 22px;
 }
 
 html {

@@ -87,13 +87,18 @@
     <div id="playerLoginBox" class="box" >
       <h1>Recover Password</h1>
       <h3>Enter your email</h3>
-      <form name="recoverPassword" method="post" action="">
-        <label id="icon" for="name"><i class="glyphicon glyphicon-envelope"></i></label>
-        <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
-          type="email" id="name" placeholder="E-mail" required
-          oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
-        <input type="submit" value="Reset Password" class="loginbutton" />
+      
+      <form (ngSubmit)="form.valid && recoverPasswordClicked(form)" #form="ngForm" novalidate>
+        <label id="icon"><i class="glyphicon glyphicon-envelope"></i></label>
+        <input pattern="[a-zA-ZæøåÆØÅ0-9.,_%+-]"  required email placeholder="E-mail" ngModel name="email" #email="ngModel"
+        [ngClass]="{ 'is-invalid': form.submitted && email.invalid }"/>
+        <input type="submit" value="Reset Password" class="loginbutton"  />
       </form>
+      <div *ngIf="form.submitted && email.invalid" class="invalid-feedback">
+          <div *ngIf="email.errors.required">Email is required</div>
+          <div *ngIf="email.errors.email">Email must be a valid email address</div>
+      </div>
+      <h5> {{recoverPasswordResult}} </h5>
     </div>
   </ng-template>
 
