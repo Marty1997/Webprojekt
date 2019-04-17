@@ -88,16 +88,11 @@
       <h1>Recover Password</h1>
       <h3>Enter your email</h3>
       
-      <form (ngSubmit)="form.valid && recoverPasswordClicked(form)" #form="ngForm" novalidate>
-        <label id="icon"><i class="glyphicon glyphicon-envelope"></i></label>
-        <input pattern="[a-zA-ZæøåÆØÅ0-9.,_%+-]"  required email placeholder="E-mail" ngModel name="email" #email="ngModel"
-        [ngClass]="{ 'is-invalid': form.submitted && email.invalid }"/>
+      <form (ngSubmit)="form.valid && recoverPasswordClicked(form)" #form="ngForm">
+        <label id="icon" for="name1"><i class="glyphicon glyphicon-envelope"></i></label>
+        <input pattern="[a-zA-ZæøåÆØÅ0-9.,_%+-]" type="email" required placeholder="E-mail" ngModel name="email"/>
         <input type="submit" value="Reset Password" class="loginbutton"  />
       </form>
-      <div *ngIf="form.submitted && email.invalid" class="invalid-feedback">
-          <div *ngIf="email.errors.required">Email is required</div>
-          <div *ngIf="email.errors.email">Email must be a valid email address</div>
-      </div>
       <h5> {{recoverPasswordResult}} </h5>
     </div>
   </ng-template>

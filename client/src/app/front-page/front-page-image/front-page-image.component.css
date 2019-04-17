@@ -32,11 +32,11 @@ select {
   font-weight: 300;
   color: #4c4c4c;
   text-align: center;
-  padding-top: 10px;
   margin-bottom: 10px;
 }
 
-#playerLoginBox h1, #clubLoginBox h1 {
+#playerLoginBox h1, #clubLoginBox h1 { 
+  padding-top: 10px;
   font-size: 32px;
 }
 

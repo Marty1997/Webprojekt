@@ -33,12 +33,12 @@ export class FrontPageImageComponent implements OnInit {
     this.modalRefRecoverPassword = this.modalService.show(template);
   }
   
-  recoverPasswordClicked(form:  NgForm) {
+  recoverPasswordClicked(form : NgForm) {
     console.log(form);
-    this.loginService.revocerPassword(form.value.email).subscribe(
-      (succes) =>(this.recoverPasswordResult = /*Tildel værdien fra succes beskden som kommer fra server*/""), 
-      (error) => (this.recoverPasswordResult= "asd" + error /* TIldel recoverPasswordREsult værdien fra error beskden fra serveren*/),
-      () => (console.log("Completed")))
+    // this.loginService.revocerPassword(form.value.email).subscribe(
+    //   (succes) =>(this.recoverPasswordResult = /*Tildel værdien fra succes beskden som kommer fra server*/""), 
+    //   (error) => (this.recoverPasswordResult= "asd" + error /* TIldel recoverPasswordREsult værdien fra error beskden fra serveren*/),
+    //   () => (console.log("Completed")))
   }
 
   @HostListener('backdrop-click', ['$event'])
