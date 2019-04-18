@@ -10,6 +10,7 @@
 
 a {
   cursor: pointer;
+  font-family: 'Fresno';
 }
 
 /* Right side of navbar */
@@ -24,6 +25,8 @@ a {
   font-weight: bolder;
   color: #c9d4df;
   font-size: 23px;
+  font-family: 'Fresno';
+  font-style: italic;
 }
 
 /* Change border color on bootstrap hamburger on small screen */

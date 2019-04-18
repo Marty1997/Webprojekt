@@ -7,6 +7,8 @@
 #frontPageHeadline {
   font-size: 60px;
   font-weight: bold;
+  font-style: italic;
+  font-family: 'Fresno'
 }
 
 #frontPageSlogan {
@@ -28,7 +30,7 @@ body,
 input,
 textarea,
 select {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'roboto';
   font-size: 16px;
   color: #4c4c4c;
 }
@@ -212,7 +214,7 @@ input[type=password] {
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
-  font-family: Georgia;
+  /* font-family: 'Roboto'; */
   font-size: 18px;
   padding: 17px 46px;
   text-align: center;
