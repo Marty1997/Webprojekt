@@ -39,7 +39,7 @@
 
   <!-- PLAYER LOGIN -->
   <ng-template #playerLoginModal>
-   <div id="playerLoginBox" class="box"  >
+   <div id="playerLoginBox"  class="box"  >
       <h1>Player Login</h1>
       <form >
         <label id="icon" for="name"><i class="glyphicon glyphicon-envelope"></i></label>
@@ -53,8 +53,8 @@
           oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')"
           oninput="setCustomValidity('')" />
         <input type="submit" value="Login" class="loginbutton" />
-        <h2>Login with facebook</h2>
         <a (click)="openRecoverPasswordModal(recoverPasswordModal)">Forgot password?</a>
+        <h2>Login with facebook</h2>
       </form>
     </div>
  
@@ -87,11 +87,17 @@
     <div id="playerLoginBox" class="box" >
       <h1>Recover Password</h1>
       <h3>Enter your email</h3>
-      
-      <form (ngSubmit)="form.valid && recoverPasswordClicked(form)" #form="ngForm">
-        <label id="icon" for="name1"><i class="glyphicon glyphicon-envelope"></i></label>
-        <input pattern="[a-zA-ZæøåÆØÅ0-9.,_%+-]" type="email" required placeholder="E-mail" ngModel name="email"/>
-        <input type="submit" value="Reset Password" class="loginbutton"  />
+      <form name="form" (ngSubmit)="f.form.valid && recoverPasswordClicked(f)" #f="ngForm" novalidate>
+        <label id="icon" for="email"><i class="glyphicon glyphicon-envelope"></i></label>
+        <input type="text" name="email" ngModel name="email" #email="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+        <div style="text-align: center; color:red; height:20px;">
+          <div *ngIf="f.submitted && email.invalid">
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <input type="submit" value="Reset Password" class="loginbutton" />
       </form>
       <h5> {{recoverPasswordResult}} </h5>
     </div>

@@ -14,7 +14,7 @@ export class FrontPageImageComponent implements OnInit {
   modalRef2: BsModalRef | null;
   modalRefRecoverPassword: BsModalRef;
   isVisible: boolean = true;
-  recoverPasswordResult : string = "";
+  recoverPasswordResult : string = "Email has been sent";
 
   constructor(private modalService: BsModalService, private loginService: loginService) { }
   
@@ -34,7 +34,8 @@ export class FrontPageImageComponent implements OnInit {
   }
   
   recoverPasswordClicked(form : NgForm) {
-    console.log(form);
+    console.log(form.value.email);
+    console.log(form.valid);
     // this.loginService.revocerPassword(form.value.email).subscribe(
     //   (succes) =>(this.recoverPasswordResult = /*Tildel værdien fra succes beskden som kommer fra server*/""), 
     //   (error) => (this.recoverPasswordResult= "asd" + error /* TIldel recoverPasswordREsult værdien fra error beskden fra serveren*/),
