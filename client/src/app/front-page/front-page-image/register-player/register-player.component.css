@@ -3,8 +3,8 @@ mat-horizontal-stepper {
 }
 
 mat-form-field {
-    margin: auto;
-    width: 100%;
+    margin: auto 0.5%;
+    width: 49%;
 }
 
 .nextBtn {

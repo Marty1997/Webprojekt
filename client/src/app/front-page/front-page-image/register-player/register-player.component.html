@@ -1,5 +1,5 @@
 <div>
-  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-horizontal-stepper [linear]="true" #stepper>
     <h2 class="lead">Register Player</h2>
     <!-- PERSONAL INFO -->
     <mat-step [stepControl]="personalInfoFormGroup" [optional]="true">
@@ -11,40 +11,47 @@
           <mat-label>Login credentials</mat-label>
           <br>
           <mat-form-field>
-            <input matInput placeholder="Email" type="email" formControlName="emailCtrl">
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Enter your password" 
+              [type]="hide ? 'password' : 'text'"
+              formControlName="password">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Password" type="password" formControlName="passwordCtrl">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Confirm password" type="password" formControlName="confirmPasswordCtrl">
+            <input matInput placeholder="Confirm password" 
+              [type]="hide ? 'password' : 'text'"
+              formControlName="confirmPassword">
           </mat-form-field>
           <br>
           <mat-label>Your full name</mat-label>
           <br>
           <mat-form-field>
-            <input matInput placeholder="First Name" type="text" formControlName="firstNameCtrl">
+            <input matInput placeholder="First Name" type="text" formControlName="firstName">
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Last Name" type="text" formControlName="lastNameCtrl">
+            <input matInput placeholder="Last Name" type="text" formControlName="lastName">
           </mat-form-field>
           <br>
           <mat-label>Country info</mat-label>
           <br>
           <mat-form-field>
-            <input matInput placeholder="Country" type="text" formControlName="countryCtrl">
+            <input matInput placeholder="Country" type="text" formControlName="country">
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="City" type="text" formControlName="cityCtrl">
+            <input matInput placeholder="City" type="text" formControlName="city">
           </mat-form-field>
           <br>
           <mat-label>Date of birth</mat-label>
           <br>
           <mat-form-field>
-            <input matInput placeholder="Day (DD)" type="text" formControlName="dayCtrl">
+            <input matInput placeholder="Day (DD)" type="text" formControlName="day">
           </mat-form-field>
           <mat-form-field>
-            <mat-select placeholder="Select Month" formControlName="monthCtrl">
+            <mat-select placeholder="Select Month" formControlName="month">
               <mat-option value="January">January</mat-option>
               <mat-option value="February">February</mat-option>
               <mat-option value="March">March</mat-option>
@@ -60,7 +67,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Year (YYYY)" type="text" formControlName="yearCtrl">
+            <input matInput placeholder="Year (YYYY)" type="text" formControlName="year">
           </mat-form-field>
           <br>
           <hr>
@@ -81,19 +88,19 @@
         <mat-label>Measurements</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Height in cm" type="text" formControlName="heightCtrl">
+          <input matInput placeholder="Height in cm" type="text" formControlName="height">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Weight in kg" type="text" formControlName="weightCtrl">
+          <input matInput placeholder="Weight in kg" type="text" formControlName="weight">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Bodyfat in %" type="text" formControlName="bodyfatCtrl">
+          <input matInput placeholder="Bodyfat in %" type="text" formControlName="bodyfat">
         </mat-form-field>
         <br>
         <mat-label>Positions</mat-label>
         <br>
         <mat-form-field>
-          <mat-select placeholder="Primary position" formControlName="primaryPositionCtrl">
+          <mat-select placeholder="Primary position" formControlName="primaryPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -104,7 +111,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Secondary position" formControlName="secondaryPositionCtrl">
+          <mat-select placeholder="Secondary position" formControlName="secondaryPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -118,7 +125,7 @@
         <mat-label>Preferred hand</mat-label>
         <br>
         <mat-form-field>
-          <mat-select placeholder="Select Hand" formControlName="preferredHandCtrl">
+          <mat-select placeholder="Select Hand" formControlName="preferredHand">
             <mat-option value="Right">Right Hand</mat-option>
             <mat-option value="Left">Left Hand</mat-option>
           </mat-select>
@@ -146,11 +153,11 @@
         <br>
         <mat-form-field>
           <textarea matInput placeholder="Fill out your strengths..." matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="strengthsCtrl"></textarea>
+            matAutosizeMaxRows="10" formControlName="strengths"></textarea>
         </mat-form-field>
         <mat-form-field>
           <textarea matInput placeholder="Fill out your weaknesses..." matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="weaknessesCtrl"></textarea>
+            matAutosizeMaxRows="10" formControlName="weaknesses"></textarea>
         </mat-form-field>
         <br>
         <div class="playerRegistrationButtonGroup">
@@ -169,10 +176,10 @@
         <mat-label>Club info</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Current club" type="text" formControlName="currentClubCtrl">
+          <input matInput placeholder="Current club" type="text" formControlName="currentClub">
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Current position" formControlName="currentPositionCtrl">
+          <mat-select placeholder="Current position" formControlName="currentPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -187,15 +194,15 @@
         <br>
         <mat-form-field>
           <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="accomplishmentsCtrl"></textarea>
+            matAutosizeMaxRows="10" formControlName="accomplishments"></textarea>
         </mat-form-field>
         <mat-form-field>
           <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="statisticsCtrl"></textarea>
+            matAutosizeMaxRows="10" formControlName="statistics"></textarea>
         </mat-form-field>
         <mat-form-field>
           <textarea matInput placeholder="Former clubs" matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="formerClubsCtrl"></textarea>
+            matAutosizeMaxRows="10" formControlName="formerClubs"></textarea>
         </mat-form-field>
         <br>
         <div class="playerRegistrationButtonGroup">
@@ -214,10 +221,10 @@
         <mat-label>A Team</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Appearances" type="text" formControlName="aTeamAppearancesCtrl">
+          <input matInput placeholder="Appearances" type="text" formControlName="aTeamAppearances">
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Position" formControlName="aTeamPositionCtrl">
+          <mat-select placeholder="Position" formControlName="aTeamPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -230,16 +237,16 @@
         <br>
         <mat-form-field class="doubleSizeField">
           <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="3"
-            formControlName="aTeamStatisticsCtrl"></textarea>
+            formControlName="aTeamStatistics"></textarea>
         </mat-form-field>
         <br>
         <mat-label>B Team</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Appearances" type="text" formControlName="bTeamAppearancesCtrl">
+          <input matInput placeholder="Appearances" type="text" formControlName="bTeamAppearances">
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Position" formControlName="bTeamPositionCtrl">
+          <mat-select placeholder="Position" formControlName="bTeamPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -252,16 +259,16 @@
         <br>
         <mat-form-field class="doubleSizeField">
           <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="3"
-            formControlName="bTeamStatisticsCtrl"></textarea>
+            formControlName="bTeamStatistics"></textarea>
         </mat-form-field>
         <br>
         <mat-label>U21 Team</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Appearances" type="text" formControlName="u21TeamAppearancesCtrl">
+          <input matInput placeholder="Appearances" type="text" formControlName="u21TeamAppearances">
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Position" formControlName="u21TeamPositionCtrl">
+          <mat-select placeholder="Position" formControlName="u21TeamPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -274,16 +281,16 @@
         <br>
         <mat-form-field class="doubleSizeField">
           <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="3"
-            formControlName="u21TeamStatisticsCtrl"></textarea>
+            formControlName="u21TeamStatistics"></textarea>
         </mat-form-field>
         <br>
         <mat-label>U18 Team</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Appearances" type="text" formControlName="u18TeamAppearancesCtrl">
+          <input matInput placeholder="Appearances" type="text" formControlName="u18TeamAppearances">
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Position" formControlName="u18TeamPositionCtrl">
+          <mat-select placeholder="Position" formControlName="u18TeamPosition">
             <mat-option value="Goalkeeper">Goalkeeper</mat-option>
             <mat-option value="Left wing">Left wing</mat-option>
             <mat-option value="Left back">Left back</mat-option>
@@ -296,7 +303,7 @@
         <br>
         <mat-form-field class="doubleSizeField">
           <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-            formControlName="u18TeamStatisticsCtrl"></textarea>
+            formControlName="u18TeamStatistics"></textarea>
         </mat-form-field>
         <br>
         <div class="playerRegistrationButtonGroup">
