@@ -11,6 +11,13 @@
   font-family: 'Fresno'
 }
 
+@media screen and (max-width: 600px) {
+  #frontPageHeadline {
+    font-size: 45px;
+    font-weight: bold;
+  }
+}
+
 #frontPageSlogan {
   margin-top: 50px;
   font-size:25px;
