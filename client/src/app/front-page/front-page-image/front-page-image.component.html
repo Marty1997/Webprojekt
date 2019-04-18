@@ -1,24 +1,25 @@
 <!-- FRONT PAGE -->
 <section id="frontPageImage" class="container-fluid">
+  <div id="divOverFrontImage" class="row" style="margin-top: 160px">
 
-  <div id="frontPageText" [hidden]="!isVisible">
-    <h1>Sportconnectors</h1>
-    <h2>Todolist: <br /> Forside billede, <br /> About us section design, <br /> professionelle farvetemaer på hele
-      siden, <br /> footer links</h2>
-
+      <div style="text-align: center" class="col-lg-6 col-md-7 col-sm-8">
+            <h1 class="colorLightGrey" id="frontPageHeadline">Sportconnectors</h1>
+    <h2 class=colorLightGrey id="frontPageSlogan"> Find på et fedt slogan som kan stå på denne fine
+      linje så kunderne kan læse et mega fedt slogan på denne linje</h2>
+      <div class="row" style="margin-top: 60px;">
+        <div class="col-sm-6 col-md-6">
+          <a class="frontPageButton" (click)="openModal(chooseLoginModal)">Login</a>
+        </div>
+        <div class="col-sm-6 col-md-6">
+           <a class="frontPageButton "  (click)="openModal(chooseRegistrationModal)">Register</a>
+        </div>
+      </div>
+        </div>
+        <div style="text-align: center" class="col-lg-6 col-md-5 col-sm-4">
+        </div>
+    
   </div>
-
-  <div id="buttonDiv" class="row" style="margin-top: 100px" [hidden]="!isVisible">
-    <div style="text-align: center" class="col-sm-3"></div>
-    <div style="text-align: center" class="col-sm-3">
-      <a class="frontPageButton "  (click)="openModal(chooseRegistrationModal)">Register</a>
-    </div>
-    <div style="text-align: center" class="col-sm-3">
-      <a class="frontPageButton" (click)="openModal(chooseLoginModal)">Login</a>
-
-    </div>
-    <div style="text-align: center" class="col-sm-3"></div>
-  </div>
+ 
 
 
   <!-- LOGIN MODAL -->

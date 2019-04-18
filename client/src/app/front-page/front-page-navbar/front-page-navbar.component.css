@@ -10,4 +10,32 @@
 
 a {
   cursor: pointer;
+  font-family: 'Fresno';
 }
+
+/* Right side of navbar */
+.navbar-inverse .navbar-nav>li>a {
+  color: #c9d4df;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+/* Left side of navbar style */ 
+.navbar-brand {
+  font-weight: bolder;
+  color: #c9d4df;
+  font-size: 23px;
+  font-family: 'Fresno';
+  font-style: italic;
+}
+
+/* Change border color on bootstrap hamburger on small screen */
+.navbar-inverse .navbar-toggle {
+   border-color: #c9d4df; 
+}
+
+/* Change color on hover on bootstrap hamburger in small screen */ 
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: #2BD9EA; 
+}
+
