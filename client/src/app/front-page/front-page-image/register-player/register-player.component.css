@@ -1,20 +1,21 @@
 mat-horizontal-stepper {
-    width: 120%;
-    align-content: center;
+    width: 100%;
 }
 
 mat-form-field {
-    margin: 2px 5px;
+    margin: auto;
+    width: 100%;
 }
 
-.playerRegistrationButtonGroup {
-    text-align: right;
+.nextBtn {
+    float: right;
 }
 
-.uploadBtn {
-    margin: 0 3px;
+.prevBtn {
+    float: left;
 }
 
+.uploadBtn,
 .chooseFileBtn {
-    margin: 0 3px;
+    margin-right: 5px;
 }

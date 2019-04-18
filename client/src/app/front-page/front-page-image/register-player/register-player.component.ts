@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
 // import {playerModel} from '..models/player.model';
+// import { MustMatch } from './_helpers/must-match.validator';
 
 @Component({
     selector: 'app-register-player',
@@ -31,15 +32,16 @@ export class RegisterPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
-      emailCtrl: ['', Validators.required],
-      passwordCtrl: ['', Validators.required],
+      emailCtrl: ['', [Validators.required, Validators.email]],
+      passwordCtrl: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPasswordCtrl: ['', Validators.required],
       firstNameCtrl: ['', Validators.required],
       lastNameCtrl: ['', Validators.required],
       countryCtrl: ['', Validators.required],
       cityCtrl: ['', Validators.required],
-      dayCtrl: ['', Validators.required],
+      dayCtrl: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
       monthCtrl: ['', Validators.required],
-      yearCtrl: ['', Validators.required]
+      yearCtrl: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]]
     });
     this.additionalInfoFormGroup = this._formBuilder.group({
       heightCtrl: [''],
@@ -81,6 +83,13 @@ export class RegisterPlayerComponent implements OnInit {
 
   onFileSelected(event) {
     this.selectedFile = <File>event.target.files[0];
+    if(this.selectedFile.size > 0) {
+      this.uploadStatus = true;
+      this.uploadText = 'Your file has been uploaded';
+    } else {
+      this.uploadStatus = false;
+      this.uploadText = '';
+    }
   }
 
   onUpload() {
@@ -98,12 +107,6 @@ export class RegisterPlayerComponent implements OnInit {
     Register player with registerService
   */
   registerPlayer() {
-    // add values to player
-    console.log(this.personalInfoFormGroup.value.cityCtrl);
-    console.log(this.additionalInfoFormGroup.value.heightCtrl);
-    console.log(this.strengthWeaknessFormGroup.value.strengthsCtrl);
-    console.log(this.sportCvFormGroup.value.currentClubCtrl);
-    console.log(this.nationalTeamFormGroup.value.aTeamAppearancesCtrl);
     this.registerService.registerPlayer(this.buildPlayer());
   }
 

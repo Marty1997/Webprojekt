@@ -63,8 +63,7 @@ import { RegisterPlayerComponent } from './front-page/front-page-image/register-
     MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialFileInputModule,
-
+    MaterialFileInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,329 +1,350 @@
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
-  <h2 class="lead">Register Player</h2>
-  <!-- PERSONAL INFO -->
-  <mat-step [stepControl]="personalInfoFormGroup">
-    <form [formGroup]="personalInfoFormGroup">
-      <ng-template matStepLabel></ng-template><br>
-      <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
-      <hr>
-      <mat-hint>Login credentials</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Email" 
-          type="email" 
-          formControlName="emailCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Password" 
-          type="password" 
-          formControlName="passwordCtrl">
-      </mat-form-field>
-      <br>
-      <mat-hint>Your full name</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="First Name" 
-          type="text" 
-          formControlName="firstNameCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Last Name" 
-          type="text" 
-          formControlName="lastNameCtrl">
-      </mat-form-field>
-      <br>
-      <mat-hint>Country info</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Country" 
-          type="text" 
-          formControlName="countryCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="City" 
-          type="text" 
-          formControlName="cityCtrl">
-      </mat-form-field>
-      <br>
-      <mat-hint>Date of birth</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Day (DD)" 
-          type="text" 
-          formControlName="dayCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Select Month" formControlName="monthCtrl">
-          <mat-option value="January">January</mat-option>
-          <mat-option value="February">February</mat-option>
-          <mat-option value="March">March</mat-option>
-          <mat-option value="April">April</mat-option>
-          <mat-option value="May">May</mat-option>
-          <mat-option value="June">June</mat-option>
-          <mat-option value="July">July</mat-option>
-          <mat-option value="August">August</mat-option>
-          <mat-option value="September">September</mat-option>
-          <mat-option value="October">October</mat-option>
-          <mat-option value="November">November</mat-option>
-          <mat-option value="December">December</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Year (YYYY)" 
-          type="text" 
-          formControlName="yearCtrl">
-      </mat-form-field>
-      <br>
-      <div class="playerRegistrationButtonGroup">
-        <button mat-button matStepperNext class="btn btn-primary">Next</button>
+<div>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <h2 class="lead">Register Player</h2>
+    <!-- PERSONAL INFO -->
+    <mat-step [stepControl]="personalInfoFormGroup" [optional]="true">
+      <div class="formWrapper">
+        <form [formGroup]="personalInfoFormGroup">
+          <ng-template matStepLabel></ng-template><br>
+          <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
+          <hr>
+          <mat-label>Login credentials</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Email" type="email" formControlName="emailCtrl">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Password" type="password" formControlName="passwordCtrl">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Confirm password" type="password" formControlName="confirmPasswordCtrl">
+          </mat-form-field>
+          <br>
+          <mat-label>Your full name</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="First Name" type="text" formControlName="firstNameCtrl">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Last Name" type="text" formControlName="lastNameCtrl">
+          </mat-form-field>
+          <br>
+          <mat-label>Country info</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Country" type="text" formControlName="countryCtrl">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="City" type="text" formControlName="cityCtrl">
+          </mat-form-field>
+          <br>
+          <mat-label>Date of birth</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Day (DD)" type="text" formControlName="dayCtrl">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Select Month" formControlName="monthCtrl">
+              <mat-option value="January">January</mat-option>
+              <mat-option value="February">February</mat-option>
+              <mat-option value="March">March</mat-option>
+              <mat-option value="April">April</mat-option>
+              <mat-option value="May">May</mat-option>
+              <mat-option value="June">June</mat-option>
+              <mat-option value="July">July</mat-option>
+              <mat-option value="August">August</mat-option>
+              <mat-option value="September">September</mat-option>
+              <mat-option value="October">October</mat-option>
+              <mat-option value="November">November</mat-option>
+              <mat-option value="December">December</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Year (YYYY)" type="text" formControlName="yearCtrl">
+          </mat-form-field>
+          <br>
+          <hr>
+          <br>
+          <div class="nextBtn">
+            <button mat-flat-button matStepperNext class="btn btn-primary">Next</button>
+          </div>
+        </form>
       </div>
-    </form>
-  </mat-step>
-  <!-- ADDITIONAL INFO -->
-  <mat-step [stepControl]="additionalInfoFormGroup" [optional]="true">
-    <form [formGroup]="additionalInfoFormGroup">
-      <ng-template matStepLabel></ng-template><br>
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
-      <hr>
-      <mat-hint>Measurements</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Height in cm" 
-          type="text"
-          formControlName="heightCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Weight in kg" 
-          type="text" 
-          formControlName="weightCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Bodyfat in %"
-          type="text" 
-          formControlName="bodyfatCtrl">
-      </mat-form-field>
-      <br>
-      <mat-hint>Positions</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Primary position"
-          type="text" 
-          formControlName="primaryPositionCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Secondary position"
-          type="text" 
-          formControlName="secondaryPositionCtrl">
-      </mat-form-field>
-      <br>
-      <mat-hint>Preferred hand</mat-hint>
-      <br>
-      <mat-form-field>
-        <mat-select placeholder="Select Hand" formControlName="preferredHandCtrl">
-          <mat-option value="Right">Right Hand</mat-option>
-          <mat-option value="Left">Left Hand</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br>
-      <div class="playerRegistrationButtonGroup">
-        <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
-        <button mat-button matStepperNext class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <!-- STRENGTHS & WEAKNESSES -->
-  <mat-step [stepControl]="strengthWeaknessFormGroup" [optional]="true">
-    <form [formGroup]="strengthWeaknessFormGroup">
-      <ng-template matStepLabel></ng-template>
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
-      <hr>
-      <mat-hint>Strengths & Weaknesses</mat-hint>
-      <br>
-      <mat-form-field>
-        <textarea matInput placeholder="Fill out your strengths..." 
-          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10" 
-          formControlName="strengthsCtrl"></textarea>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Fill out your weaknesses..." 
-          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10" 
-          formControlName="weaknessesCtrl"></textarea>
-      </mat-form-field>
-      <br>
-      <div class="playerRegistrationButtonGroup">
-        <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
-        <button mat-button matStepperNext class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <!-- SPORT CV -->
-  <mat-step [stepControl]="sportCvFormGroup" [optional]="true">
-    <form [formGroup]="sportCvFormGroup">
-      <ng-template matStepLabel></ng-template><br>
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
-      <hr>
-      <mat-hint>Club info</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Current club" 
-          type="text"
-          formControlName="currentClubCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Current position" 
-          type="text" 
-          formControlName="currentPositionCtrl">
-      </mat-form-field>
-      <br>
-      <mat-hint>Other info</mat-hint>
-      <br>
-      <mat-form-field>
-        <textarea matInput placeholder="Accomplishments"
-          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10"
-          formControlName="accomplishmentsCtrl"></textarea>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Statistics"
-          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10"
-          formControlName="statisticsCtrl"></textarea>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Former clubs" 
-          matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10" 
-          formControlName="formerClubsCtrl"></textarea>
-      </mat-form-field>
-      <br>
-      <div class="playerRegistrationButtonGroup">
-        <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
-        <button mat-button matStepperNext class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <!-- NATIONAL TEAM -->
-  <mat-step [stepControl]="nationalTeamFormGroup" [optional]="true">
-    <form [formGroup]="nationalTeamFormGroup">
-      <ng-template matStepLabel></ng-template><br>
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
-      <hr>
-      <mat-hint>A Team</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Appearances"
-          type="text" 
-          formControlName="aTeamAppearancesCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Position" 
-          type="text" 
-          formControlName="aTeamPositionCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Statistics"
-          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-          formControlName="aTeamStatisticsCtrl"></textarea>
-      </mat-form-field>
-      <br>
-      <mat-hint>B Team</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Appearances"
-          type="text" 
-          formControlName="bTeamAppearancesCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Position"
-          type="text" 
-          formControlName="bTeamPositionCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Statistics"
-          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-          formControlName="bTeamStatisticsCtrl"></textarea>
-      </mat-form-field>
-      <br>
-      <mat-hint>U21 Team</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Appearances"
-          type="text" 
-          formControlName="u21TeamAppearancesCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Position"
-          type="text" 
-          formControlName="u21TeamPositionCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Statistics" 
-          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-          formControlName="u21TeamStatisticsCtrl"></textarea>
-      </mat-form-field>
-      <br>
-      <mat-hint>U18 Team</mat-hint>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="Appearances" 
-          type="text"
-          formControlName="u18TeamAppearancesCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Position"
-          type="text" 
-          formControlName="u18TeamPositionCtrl">
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Statistics" 
-          matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-          formControlName="u18TeamStatisticsCtrl"></textarea>
-      </mat-form-field>
-      <br>
-      <div class="playerRegistrationButtonGroup">
-        <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
-        <button mat-button matStepperNext class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <!-- PLAYER PRESENTATION -->
-  <mat-step [stepControl]="playerPresentationFormGroup" [optional]="true">
-    <form [formGroup]="playerPresentationFormGroup">
-      <ng-template matStepLabel></ng-template><br>
-      <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.</p>
-      <hr>
-      <!-- <input matInput type="file" (change)="onFileSelected($event)">
-      <button mat-button type="button" (click)="onUpload()">Upload</button> -->
-      <mat-hint>Click below to upload video</mat-hint>
-      <br>
-      <mat-form-field>
-          <ngx-mat-file-input #removableInput formControlName="removableFile" (change)="onFileSelected($event)" placeholder="Upload video"></ngx-mat-file-input>
+    </mat-step>
+    <!-- ADDITIONAL INFO -->
+    <mat-step [stepControl]="additionalInfoFormGroup">
+      <form [formGroup]="additionalInfoFormGroup">
+        <ng-template matStepLabel></ng-template><br>
+        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+          rate.</p>
+        <hr>
+        <mat-label>Measurements</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Height in cm" type="text" formControlName="heightCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Weight in kg" type="text" formControlName="weightCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Bodyfat in %" type="text" formControlName="bodyfatCtrl">
+        </mat-form-field>
+        <br>
+        <mat-label>Positions</mat-label>
+        <br>
+        <mat-form-field>
+          <mat-select placeholder="Primary position" formControlName="primaryPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Secondary position" formControlName="secondaryPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-label>Preferred hand</mat-label>
+        <br>
+        <mat-form-field>
+          <mat-select placeholder="Select Hand" formControlName="preferredHandCtrl">
+            <mat-option value="Right">Right Hand</mat-option>
+            <mat-option value="Left">Left Hand</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <div style="display: inline-block;">
+          <div class="prevBtn">
+            <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
+          </div>
+          <div class="nextBtn">
+            <button mat-button matStepperNext class="btn btn-primary">Next</button>
+          </div>
+        </div>
+
+      </form>
+    </mat-step>
+    <!-- STRENGTHS & WEAKNESSES -->
+    <mat-step [stepControl]="strengthWeaknessFormGroup">
+      <form [formGroup]="strengthWeaknessFormGroup">
+        <ng-template matStepLabel></ng-template>
+        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+          rate.</p>
+        <hr>
+        <mat-label>Strengths & Weaknesses</mat-label>
+        <br>
+        <mat-form-field>
+          <textarea matInput placeholder="Fill out your strengths..." matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="strengthsCtrl"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Fill out your weaknesses..." matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="weaknessesCtrl"></textarea>
+        </mat-form-field>
+        <br>
+        <div class="playerRegistrationButtonGroup">
+          <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
+          <button mat-button matStepperNext class="btn btn-primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- SPORT CV -->
+    <mat-step [stepControl]="sportCvFormGroup">
+      <form [formGroup]="sportCvFormGroup">
+        <ng-template matStepLabel></ng-template><br>
+        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+          rate.</p>
+        <hr>
+        <mat-label>Club info</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Current club" type="text" formControlName="currentClubCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Current position" formControlName="currentPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-label>Other info</mat-label>
+        <br>
+        <mat-form-field>
+          <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="accomplishmentsCtrl"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="statisticsCtrl"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Former clubs" matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="formerClubsCtrl"></textarea>
+        </mat-form-field>
+        <br>
+        <div class="playerRegistrationButtonGroup">
+          <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
+          <button mat-button matStepperNext class="btn btn-primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- NATIONAL TEAM -->
+    <mat-step [stepControl]="nationalTeamFormGroup">
+      <form [formGroup]="nationalTeamFormGroup">
+        <ng-template matStepLabel></ng-template><br>
+        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+          rate.</p>
+        <hr>
+        <mat-label>A Team</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Appearances" type="text" formControlName="aTeamAppearancesCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Position" formControlName="aTeamPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="doubleSizeField">
+          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="3"
+            formControlName="aTeamStatisticsCtrl"></textarea>
+        </mat-form-field>
+        <br>
+        <mat-label>B Team</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Appearances" type="text" formControlName="bTeamAppearancesCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Position" formControlName="bTeamPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="doubleSizeField">
+          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="3"
+            formControlName="bTeamStatisticsCtrl"></textarea>
+        </mat-form-field>
+        <br>
+        <mat-label>U21 Team</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Appearances" type="text" formControlName="u21TeamAppearancesCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Position" formControlName="u21TeamPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="doubleSizeField">
+          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="3"
+            formControlName="u21TeamStatisticsCtrl"></textarea>
+        </mat-form-field>
+        <br>
+        <mat-label>U18 Team</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Appearances" type="text" formControlName="u18TeamAppearancesCtrl">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Position" formControlName="u18TeamPositionCtrl">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Centre back">Centre back</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="doubleSizeField">
+          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+            formControlName="u18TeamStatisticsCtrl"></textarea>
+        </mat-form-field>
+        <br>
+        <div class="playerRegistrationButtonGroup">
+          <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
+          <button mat-button matStepperNext class="btn btn-primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- PLAYER PRESENTATION -->
+    <mat-step [stepControl]="playerPresentationFormGroup">
+      <form [formGroup]="playerPresentationFormGroup">
+        <ng-template matStepLabel></ng-template><br>
+        <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.
+        </p>
+        <hr>
+        <!-- <input matInput type="file" (change)="onFileSelected($event)">
+            <button mat-button type="button" (click)="onUpload()">Upload</button> -->
+        <mat-label>Click below to upload video</mat-label>
+        <br>
+        <mat-form-field>
+          <ngx-mat-file-input #removableInput formControlName="removableFile" (change)="onFileSelected($event)"
+            placeholder="Upload video"></ngx-mat-file-input>
           <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
             <mat-icon>clear</mat-icon>
           </button>
-      </mat-form-field>
-      <br>
-      <mat-label [ngStyle]="{color: uploadStatus ? 'green' : 'red' }">{{ uploadText }}</mat-label>
-      <br>
-      <button class="btn btn-primary" (click)="removableInput.open()">Choose File</button>
-      <button class="btn btn-primary" (click)="onUpload()">Upload</button>
-      <br>
-      <div class="playerRegistrationButtonGroup">
+        </mat-form-field>
+        <br>
+        <mat-label [ngStyle]="{color: uploadStatus ? 'green' : 'red' }">{{ uploadText }}</mat-label>
+        <br>
+        <button class="btn btn-primary chooseFileBtn" (click)="removableInput.open()">Choose File</button>
+        <button class="btn btn-primary uploadBtn" (click)="onUpload()">Upload</button>
+        <br>
+        <div class="playerRegistrationButtonGroup">
+          <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
+          <button mat-button matStepperNext class="btn btn-primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- LAST STEP -->
+    <mat-step>
+      <ng-template matStepLabel></ng-template><br>
+      <p>You have completed all steps. Click <strong>register</strong> to create your account.</p>>
+      <div>
         <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
-        <button mat-button matStepperNext class="btn btn-primary">Next</button>
+        <button mat-button (click)="stepper.reset()" class="btn btn-danger">Reset</button>
+        <!-- SUBMIT -->
+        <button mat-button (click)="registerPlayer()" class="btn btn-primary">Register</button>
       </div>
-    </form>
-  </mat-step>
-  <!-- LAST STEP -->
-  <mat-step>
-    <ng-template matStepLabel></ng-template><br>
-    <p>You have completed all steps. Click <strong>register</strong> to create your account.</p>>
-    <div>
-      <button mat-button matStepperPrevious class="btn btn-primary">Back</button>
-      <button mat-button (click)="stepper.reset()" class="btn btn-danger">Reset</button>
-      <!-- SUBMIT -->
-      <button mat-button (click)="registerPlayer()" class="btn btn-submit">Submit</button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
