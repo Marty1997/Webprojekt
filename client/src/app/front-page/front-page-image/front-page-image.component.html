@@ -56,8 +56,10 @@
         <input type="submit" value="Login" class="loginbutton" />
         <div style="text-align: center;">
           <a (click)="openRecoverPasswordModal(recoverPasswordModal)">Forgot password?</a>
+          <br>
+          <p>Or</p>
         </div>
-        <h2>Login with facebook</h2>
+        <a style="padding-left: 15px;" href="#" title="Facebook" class="btn-facebook btn"><i style="margin-left:-5px; margin-right: 20px;" class="fa fa-facebook "></i>Connect with Facebook</a>
       </form>
     </div>
  
@@ -103,7 +105,7 @@
         </div>
         <input type="submit" value="Reset Password" class="loginbutton" />
       </form>
-      <h5> {{recoverPasswordResult}} </h5>
+      <h5 style="margin-top: 30px;"> {{recoverPasswordResult}} </h5>
     </div>
   </ng-template>
 

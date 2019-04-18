@@ -78,12 +78,44 @@ html {
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
   box-shadow: 1px 2px 5px rgba(0,0,0,.31);
   border: solid 1px #cbc9c9;
-  
+  padding-top: 30px;
 }
 
-  .box form input[type=submit] {
-    text-align: center;
-  }
+.btn-facebook {
+  box-sizing: border-box;
+  position: relative;
+  /* width: 13em;  - apply for fixed size */
+  margin: 0.2em;
+  padding: 0 15px 0 20px;
+  border: none;
+
+  line-height: 34px;
+  white-space: nowrap;
+  border-radius: 0.2em;
+  font-size: 16px;
+  background-color: #4C69BA;
+}
+.btn-facebook:before {
+  border-right: #364e92 1px solid;
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 100%;
+}
+.btn-facebook:link, .btn-facebook:visited {
+  color: #fff;
+}
+.btn-facebook:active, .btn-facebook:hover {
+  background: #6a87c4;
+  color: #fff;
+}
+
+.box form input, .box form label {
+  margin-top:10px;
+}
 
 form {
   margin: 0 5px;
@@ -148,11 +180,9 @@ input[type=password] {
 }
 
   .loginbutton:hover {
-    top: 3px;
+    top: 0.5px;
     background-color: #a9a9a9;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+
   }
 
 #frontPageText h1 {
