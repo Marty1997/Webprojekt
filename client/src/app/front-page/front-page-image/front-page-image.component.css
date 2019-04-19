@@ -1,3 +1,5 @@
+
+
 #frontPageImage {
   background-image: url('../../../assets/images/backgroundBlue.png');
   background-size: cover;
@@ -11,6 +13,7 @@
   font-family: 'Fresno'
 }
 
+/*Set a smaller headline on mobile phone */
 @media screen and (max-width: 600px) {
   #frontPageHeadline {
     font-size: 45px;
@@ -49,8 +52,8 @@ select {
   margin-left: 18px;
 }
 
-#playerLoginBox h1, #playerLoginBox h3, #clubLoginBox h1, #clubLoginBox h3, #playerLoginBox h5, #clubLoginBox h5 {
-  font-weight: 300;
+ #playerLoginBox h1, #clubLoginBox h1, #playerLoginBox h3, #clubLoginBox h3, #playerLoginBox h5, #clubLoginBox h5 {
+  font-weight: bold;
   color: #4c4c4c;
   text-align: center;
   margin-bottom: 10px;
@@ -59,6 +62,7 @@ select {
 #playerLoginBox h1, #clubLoginBox h1 { 
   padding-top: 10px;
   font-size: 32px;
+  color: rgb(252, 250, 248);
 }
 
 #playerLoginBox h3, #clubLoginBox h3 {
@@ -73,6 +77,7 @@ html {
   background-color: #ffffff;
 }
 
+/* Box used for Login modal and Recover password */
 .box {
   margin: 100px auto;
   width: 300px;
@@ -81,21 +86,24 @@ html {
   -moz-border-radius: 8px/7px;
   border-radius: 8px/7px;
   background-color: #ebebeb;
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  box-shadow: 1px 2px 5px rgba(0,0,0,.31);
+  -webkit-box-shadow: 1px 2px 5px rgba(110,122,152,1);
+  -moz-box-shadow: 1px 2px 5px rgba(110,122,152,1);
+  box-shadow: 1px 2px 5px rgba(110,122,152,1);
   border: solid 1px #cbc9c9;
-  padding-top: 30px;
+  padding-top: 10px;
+  /*background-image: linear-gradient(rgb(136, 187, 226), #ebebeb); */
+  background: rgb(110,122,152);
+  background: linear-gradient( rgba(110,122,152,1) 9%, rgba(197,198,199,1) 68%);
+  text-align: center;
 }
 
+/* Sign up with facebook design button*/
 .btn-facebook {
   box-sizing: border-box;
   position: relative;
-  /* width: 13em;  - apply for fixed size */
   margin: 0.2em;
   padding: 0 15px 0 20px;
   border: none;
-
   line-height: 34px;
   white-space: nowrap;
   border-radius: 0.2em;
@@ -128,41 +136,45 @@ form {
   margin: 0 5px;
 }
 
-input[type=text], [type=email], [type=tel], input[type=password] {
-  width: 220px;
+/* Input fields in login and recover password modal box*/
+input[type=text], [type=email], input[type=password] {
+  width: 240px;
   height: 39px;
-  -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px;
-  -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px;
-  border-radius: 0px 4px 4px 0px/5px 5px 4px 4px;
+  border-radius: 7px;
   background-color: #fff;
   -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
   box-shadow: 1px 2px 5px rgba(0,0,0,.09);
   border: solid 1px #cbc9c9;
-  margin-left: -5px;
   margin-top: 13px;
-  padding-left: 10px;
 }
 
-input[type=password] {
-  margin-bottom: 25px;
+/*Set red border on invalid input*/
+.ng-invalid .is-invalid {
+    border:2px solid #f00;
 }
 
-#icon {
-  display: inline-block;
-  width: 45px;
-  background-color: #000000;
-  padding: 8px 0px 8px 15px;
-  margin-left: 15px;
-  -webkit-border-radius: 4px 0px 0px 4px;
-  -moz-border-radius: 4px 0px 0px 4px;
-  border-radius: 4px 0px 0px 4px;
-  color: white;
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
-  box-shadow: 1px 2px 5px rgba(0,0,0,.09);
-  border: solid 0px #cbc9c9;
+/*Icon design for login modal and recover password*/
+.inner-addon { 
+  position: relative; 
 }
+
+/* style icon */
+.inner-addon .glyphicon {
+position: absolute;
+margin: 20px 0px 20px 35px;
+line-height: none;
+pointer-events: none;
+font-size: 20px;
+color: #8C8984;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  40px; }
+
 
 .loginbutton {
   margin: 0 auto 15px auto;
@@ -177,32 +189,26 @@ input[type=password] {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: #000000;
-  -webkit-box-shadow: 0 3px #a9a9a9;
-  -moz-box-shadow: 0 3px #a9a9a9;
-  box-shadow: 0 3px #a9a9a9;
+  background-color: rgb(78, 88, 114);
+  -webkit-box-shadow: 3px #a9a9a9;
+  -moz-box-shadow: 3px #a9a9a9;
+  box-shadow: 3px #a9a9a9;
   transition: all 0.1s linear 0s;
   top: 0px;
   position: relative;
+  border-width: 0px;
+  border-style: none;
+  border-color: none;
+  border-image: none;
 }
 
   .loginbutton:hover {
     top: 0.5px;
-    background-color: #a9a9a9;
+    background-color: rgb(111, 124, 156);
 
   }
 
-#frontPageText h1 {
-  text-align: center;
-  margin-top: 150px;
-  font-weight: bold;
-}
-
-#frontPageText h2 {
-  text-align: center;
-  font-weight: bold;
-}
-
+/* Login and Register button on frontpage */
 .frontPageButton {
   margin-bottom: 25px;
   font-weight: bold;
@@ -237,6 +243,13 @@ input[type=password] {
   height: auto;
 }
 
+  @media (max-width: 500px) {
+  #playerLogin img, #clubLogin img, #playerRegistration img, #clubRegistration img {
+    width:155px;
+    height: auto;
+  }
+} 
+
 #chooseLogin, #chooseRegister {
   margin-top: 200px;
 }
@@ -244,3 +257,5 @@ input[type=password] {
 a {
   cursor: pointer;
 }
+
+

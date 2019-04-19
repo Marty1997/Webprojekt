@@ -2,101 +2,127 @@
 <section id="frontPageImage" class="container-fluid">
   <div id="divOverFrontImage" class="row" style="margin-top: 160px">
 
-      <div style="text-align: center" class="col-lg-6 col-md-7 col-sm-8">
-            <h1 class="colorLightGrey" id="frontPageHeadline">Sportconnectors</h1>
-    <h2 class=colorLightGrey id="frontPageSlogan"> Find på et fedt slogan som kan stå på denne fine
-      linje så kunderne kan læse et mega fedt slogan på denne linje</h2>
+    <div style="text-align: center" class="col-lg-6 col-md-7 col-sm-8">
+      <h1 class="colorLightGrey" id="frontPageHeadline">Sportconnectors</h1>
+      <h2 class=colorLightGrey id="frontPageSlogan"> Find på et fedt slogan som kan stå på denne fine
+        linje så kunderne kan læse et mega fedt slogan på denne linje</h2>
       <div class="row" style="margin-top: 60px;">
         <div class="col-sm-6 col-md-6">
           <a class="frontPageButton" (click)="openModal(chooseLoginModal)">Login</a>
         </div>
         <div class="col-sm-6 col-md-6">
-           <a class="frontPageButton "  (click)="openModal(chooseRegistrationModal)">Register</a>
+          <a class="frontPageButton " (click)="openModal(chooseRegistrationModal)">Register</a>
         </div>
       </div>
-        </div>
-        <div style="text-align: center" class="col-lg-6 col-md-5 col-sm-4">
-        </div>
-    
+    </div>
+    <div style="text-align: center" class="col-lg-6 col-md-5 col-sm-4">
+    </div>
+
   </div>
- 
+
 
 
   <!-- LOGIN MODAL -->
   <ng-template #chooseLoginModal>
-        <h2 style="text-align: center;">Choose Login</h2>
-        <div class="row">
-          <div class="col-md-6" style="text-align: center;">
-            <a  id="playerLogin"   (click)="openSecondModalNested(playerLoginModal)"><img src="assets/Images/player-icon.png" /></a>
-            <h3>Player</h3>
-          </div>
-          <div class="col-md-6" style="text-align: center;">
-            <a id="clubLogin"  (click)="openSecondModalNested(clubLoginModal)"><img src="assets/Images/club-icon.png" /></a>
-            <h3>Club</h3>
-          </div>
-        </div>
+    <h2 style="text-align: center;">Choose Login</h2>
+    <div class="row">
+      <div class="col-md-6 col-xs-6" style="text-align: center;">
+        <a id="playerLogin" (click)="openSecondModalNested(playerLoginModal)"><img
+            src="assets/Images/player-icon.png" /></a>
+        <h3>Player</h3>
+      </div>
+      <div class="col-md-6 col-xs-6" style="text-align: center;">
+        <a id="clubLogin" (click)="openSecondModalNested(clubLoginModal)"><img src="assets/Images/club-icon.png" /></a>
+        <h3>Club</h3>
+      </div>
+    </div>
   </ng-template>
 
 
   <!-- PLAYER LOGIN -->
   <ng-template #playerLoginModal>
-   <div id="playerLoginBox"  class="box"  >
-      <h1>Player Login</h1>
-      <form>
-        <label id="icon" for="name"><i class="glyphicon glyphicon-envelope"></i></label>
-        <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
-          type="email" id="name" placeholder="E-mail" required
-          oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
-        <label id="icon" for="name"><i class="glyphicon glyphicon-lock"></i></label>
-        <input autocomplete="off" name="password" type="password"
-          pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name"
-          placeholder="Password" required
-          oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')"
-          oninput="setCustomValidity('')" />
-        <input type="submit" value="Login" class="loginbutton" />
-        <div style="text-align: center;">
-          <a (click)="openRecoverPasswordModal(recoverPasswordModal)">Forgot password?</a>
-          <br>
-          <p>Or</p>
+    <div id="playerLoginBox" class="box">
+      <h1 class="frontPageHeadline">Player Login</h1>
+      <form name="form" (ngSubmit)="f.form.valid && playerLogin(f)" #f="ngForm" novalidate>
+        <div class="inner-addon left-addon">
+          <i class="glyphicon glyphicon-envelope"></i>
+          <input type="text" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
         </div>
-        <a style="padding-left: 15px;" href="#" title="Facebook" class="btn-facebook btn"><i style="margin-left:-5px; margin-right: 20px;" class="fa fa-facebook "></i>Connect with Facebook</a>
+
+        <div style="text-align: center; color:red; height:20px;">
+          <div *ngIf="f.submitted && email.invalid">
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="inner-addon left-addon">
+          <i class="glyphicon glyphicon-lock"></i>
+          <input name="password" type="password" ngModel name="password" #password="ngModel" minlength="6"
+            [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" placeholder="Password" required password />
+        </div>
+        <div style="text-align: center; color:red; height:20px;">
+          <div *ngIf="f.submitted && password.invalid">
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">Password must be 6 characters or longer</div>
+          </div>
+        </div>
+        <input type="submit" value="Login" class="loginbutton" />
       </form>
+      <div style="text-align: center;">
+        <a (click)="openRecoverPasswordModal(recoverPasswordModal)">Forgot password?</a>
+        <a style="padding-left: 20px; margin-top: 25px;" href="#" title="Facebook" class="btn-facebook btn"><i
+            style="margin-left:-5px; margin-right: 20px;" class="fa fa-facebook "></i>Connect with Facebook</a>
+      </div>
     </div>
- 
   </ng-template>
 
 
   <!-- CLUB LOGIN -->
   <ng-template #clubLoginModal>
-  <div id="clubLoginBox" class="box" >
-    <h1>Club Login</h1>
-    <form >
-      <label id="icon" for="name"><i class="glyphicon glyphicon-envelope"></i></label>
-      <input autocomplete="off" name="email" pattern="[a-zA-ZæøåÆØÅ0-9._%+-]+[a-zA-ZæøåÆØÅ0-9.-]+\.[a-z]{2,}$"
-        type="email" id="name" placeholder="E-mail" required
-        oninvalid="this.setCustomValidity('Indtast en mailadresse')" oninput="setCustomValidity('')" />
-      <label id="icon" for="name"><i class="glyphicon glyphicon-lock"></i></label>
-      <input autocomplete="off" name="password" type="password"
-        pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZÆØÅ])(?=.*[a-zæøå]).*$" id="name"
-        placeholder="Password" required
-        oninvalid="this.setCustomValidity('Indtast minimum 8 tegn med tal, store og små bogstaver.')"
-        oninput="setCustomValidity('')" />
-      <input type="submit" value="Login" class="loginbutton" />
+    <div id="clubLoginBox" class="box">
+      <h1 class="frontPageHeadline">Club Login</h1>
+      <form name="form" (ngSubmit)="f.form.valid && clubLogin(f)" #f="ngForm" novalidate>
+        <div class="inner-addon left-addon">
+          <i class="glyphicon glyphicon-envelope"></i>
+          <input type="text" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+        </div>
+        <div style="text-align: center; color:red; height:20px;">
+          <div *ngIf="f.submitted && email.invalid">
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="inner-addon left-addon">
+          <i class="glyphicon glyphicon-lock"></i>
+          <input name="password" type="password" ngModel name="password" #password="ngModel" minlength="6"
+            [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" placeholder="Password" required password />
+        </div>
+        <div style="text-align: center; color:red; height:20px;">
+          <div *ngIf="f.submitted && password.invalid">
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">Password must be 6 characters or longer</div>
+          </div>
+        </div>
+        <input type="submit" value="Login" class="loginbutton" />
+      </form>
       <div style="text-align: center;">
         <a (click)="openRecoverPasswordModal(recoverPasswordModal)">Forgot password?</a>
       </div>
-    </form>
-  </div>
+    </div>
   </ng-template>
 
   <!-- RECOVER PASSWORD MODAL -->
   <ng-template #recoverPasswordModal>
-    <div id="playerLoginBox" class="box" >
-      <h1>Recover Password</h1>
+    <div id="playerLoginBox" class="box">
+      <h1 class="frontPageHeadline">Recover Password</h1>
       <form name="form" (ngSubmit)="f.form.valid && recoverPasswordClicked(f)" #f="ngForm" novalidate>
-        <label id="icon" for="email"><i class="glyphicon glyphicon-envelope"></i></label>
-        <input type="text" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+        <div class="inner-addon left-addon">
+          <i class="glyphicon glyphicon-envelope"></i>
+          <input type="text" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+        </div>
         <div style="text-align: center; color:red; height:20px;">
           <div *ngIf="f.submitted && email.invalid">
             <div *ngIf="email.errors.required">Email is required</div>
@@ -111,16 +137,16 @@
 
   <!-- REGISTER MODAL -->
   <ng-template #chooseRegistrationModal>
-        <h2 style="text-align: center;">Choose Registration</h2>
-        <div class="row">
-          <div class="col-md-6" style="text-align: center;">
-            <a id="playerRegistration" href="#"><img src="assets/Images/player-icon.png" /></a>
-            <h3>Player</h3>
-          </div>
-          <div class="col-md-6" style="text-align: center;">
-            <a id="clubRegistration" href="#"><img src="assets/Images/club-icon.png" /></a>
-            <h3>Club</h3>
-          </div>
-        </div>
+    <h2 style="text-align: center;">Choose Registration</h2>
+    <div class="row">
+      <div class="col-md-6" style="text-align: center;">
+        <a id="playerRegistration" href="#"><img src="assets/Images/player-icon.png" /></a>
+        <h3>Player</h3>
+      </div>
+      <div class="col-md-6" style="text-align: center;">
+        <a id="clubRegistration" href="#"><img src="assets/Images/club-icon.png" /></a>
+        <h3>Club</h3>
+      </div>
+    </div>
   </ng-template>
 </section>

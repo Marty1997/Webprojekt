@@ -24,22 +24,38 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   openSecondModalNested(template: TemplateRef<any>) {
-    this.modalRef2 = this.modalService.show(template);
+    this.modalRef2 = this.modalService.show(template, {class: 'customModal'});
     this.modalRef.hide();
     this.modalRef = null;
   }
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
-    this.modalRefRecoverPassword = this.modalService.show(template);
+    this.modalRefRecoverPassword = this.modalService.show(template, {class: 'customModal'});
   }
   
   recoverPasswordClicked(form : NgForm) {
-    console.log(form.value.email);
-    console.log(form.valid);
     // this.loginService.revocerPassword(form.value.email).subscribe(
     //   (succes) =>(this.recoverPasswordResult = /*Tildel værdien fra succes beskden som kommer fra server*/""), 
     //   (error) => (this.recoverPasswordResult= "asd" + error /* TIldel recoverPasswordREsult værdien fra error beskden fra serveren*/),
     //   () => (console.log("Completed")))
+  }
+
+  clubLogin(form: NgForm) {
+    console.log(form.value.email);
+    console.log(form.value.password);
+    // this.loginService.clubLogin(form.value.email, form.value.password).subscribe(
+    //   (succes)=>("a"),
+    //   (error) => ("a"),
+    //   () => ("a"))
+  }
+
+  playerLogin(form: NgForm) {
+    console.log(form.value.email);
+    console.log(form.value.password);
+    // this.loginService.playerLogin(form.value.email, form.value.password).subscribe(
+    //   (succes)=>("a"),
+    //   (error) => ("a"),
+    //   () => ("a"))
   }
 
   @HostListener('backdrop-click', ['$event'])

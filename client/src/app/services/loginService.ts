@@ -12,4 +12,20 @@ export class loginService {
     return this.http.post(url, email);
   }
 
+  clubLogin(email: string, password: string) {
+    let url = "WEB API controller metode";
+    return this.http.post(url,{
+      email: email,
+      password : password
+    });
+  }
+
+  playerLogin(email: string, password: string) {
+    let url = "WEB API controller metode";
+    return this.http.post(url,{
+      email: email,
+      password : password
+    });
+  }
+
 }

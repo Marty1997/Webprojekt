@@ -1,3 +1,8 @@
+.customModal {
+  width:300px;
+  margin: 0 auto;
+}
+
 .colorLightBlue{
   color: #66FCF1
 }
@@ -17,6 +22,7 @@ h1 {
 
 .forPlayerClubBackgroundColor {
   background-color: #e8eaec;
+  border-radius: 10px;
 }
 
 body {
@@ -116,7 +122,7 @@ accordion-group h5 {
     content: '\02795';
     float: right;
 }
-  
+  /* Design for tables on Dashboards and search results*/
   .tableFixed {
     width: 90%;
     margin: 0 auto;
