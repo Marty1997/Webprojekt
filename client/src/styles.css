@@ -47,7 +47,6 @@ accordion-group h5 {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     .body-content {
       padding-top: 50px;
-      
     }
   }
   /* MULTI-STEP REGISTER */
@@ -101,6 +100,10 @@ accordion-group h5 {
   .row {
     margin-right: 0px; /* this is the exact culprit */
     margin-left: 0px;
+  }
+  
+  #forPlayers, #forClubs, #aboutUs {
+    height: 50px;
   }
   
   .informationText {

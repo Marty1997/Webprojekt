@@ -4,11 +4,31 @@
   height: 700px;
 }
 
+
+
+#marginTopFrontpage {
+  margin-top: 160px;
+}
+
+@media (max-width: 415px) {
+  #marginTopFrontpage {
+    margin-top: 90px;
+  }
+}
+
 #frontPageHeadline {
   font-size: 60px;
   font-weight: bold;
   font-style: italic;
   font-family: 'Fresno'
+}
+
+/*Set a smaller headline on mobile phone */
+@media screen and (max-width: 600px) {
+  #frontPageHeadline {
+    font-size: 45px;
+    font-weight: bold;
+  }
 }
 
 #frontPageSlogan {
@@ -35,173 +55,177 @@ select {
   color: #4c4c4c;
 }
 
-#playerLoginBox p, #clubLoginBox p {
+#playerLoginBox p, #clubLoginBox p, #recoverBox p {
   font-size: 12px;
   width: 150px;
   display: inline-block;
   margin-left: 18px;
 }
 
-#playerLoginBox h1, #clubLoginBox h1 {
-  font-size: 32px;
-  font-weight: 300;
+ #playerLoginBox h1, #clubLoginBox h1, #recoverBox h1, #playerLoginBox h3, #clubLoginBox h3, #playerLoginBox h5, #clubLoginBox h5 {
+  font-weight: bold;
   color: #4c4c4c;
   text-align: center;
-  padding-top: 10px;
   margin-bottom: 10px;
+}
+
+#playerLoginBox h1, #clubLoginBox h1 { 
+  padding-top: 10px;
+  padding-left: 25px;
+  font-size: 32px;
+  color: rgb(252, 250, 248);
+}
+
+#recoverBox h1 {
+  padding-top: 10px;
+  font-size: 32px;
+  color: rgb(252, 250, 248);
+}
+
+#playerLoginBox h3, #clubLoginBox h3 {
+  font-size: 25px;
+}
+
+#playerLoginBox h5, #clubLoginBox h5 {
+  font-size: 22px;
 }
 
 html {
   background-color: #ffffff;
 }
 
+/* Box used for Login modal and Recover password */
 .box {
-  margin: 130px auto;
-  width: 343px;
-  height: 464px;
+  margin: 100px auto;
+  width: 300px;
+  height: 380px;
   -webkit-border-radius: 8px/7px;
   -moz-border-radius: 8px/7px;
   border-radius: 8px/7px;
   background-color: #ebebeb;
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  box-shadow: 1px 2px 5px rgba(0,0,0,.31);
+  -webkit-box-shadow: 1px 2px 5px rgba(110,122,152,1);
+  -moz-box-shadow: 1px 2px 5px rgba(110,122,152,1);
+  box-shadow: 1px 2px 5px rgba(110,122,152,1);
   border: solid 1px #cbc9c9;
+  padding-top: 10px;
+  /*background-image: linear-gradient(rgb(136, 187, 226), #ebebeb); */
+  background: rgb(110,122,152);
+  background: linear-gradient( rgba(110,122,152,1) 9%, rgba(197,198,199,1) 68%);
+  text-align: center;
 }
 
-.signupbox {
-  margin: 40px auto;
-  width: 343px;
-  height: 700px;
-  -webkit-border-radius: 8px/7px;
-  -moz-border-radius: 8px/7px;
-  border-radius: 8px/7px;
-  background-color: #ebebeb;
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-  border: solid 1px #cbc9c9;
+/* Sign up with facebook design button*/
+.btn-facebook {
+  box-sizing: border-box;
+  position: relative;
+  margin: 0.2em;
+  padding: 0 15px 0 20px;
+  border: none;
+  line-height: 34px;
+  white-space: nowrap;
+  border-radius: 0.2em;
+  font-size: 16px;
+  background-color: #4C69BA;
+}
+.btn-facebook:before {
+  border-right: #364e92 1px solid;
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 100%;
+}
+.btn-facebook:link, .btn-facebook:visited {
+  color: #fff;
+}
+.btn-facebook:active, .btn-facebook:hover {
+  background: #6a87c4;
+  color: #fff;
 }
 
-input[type=radio] {
-  visibility: hidden;
+.box form input, .box form label {
+  margin-top:10px;
 }
 
 form {
-  margin: 0 30px;
+  margin: 0 5px;
 }
 
-input[type=text], [type=email], [type=tel], input[type=password] {
-  width: 200px;
+/* Input fields in login and recover password modal box*/
+input[type=text], [type=email], input[type=password] {
+  width: 240px;
   height: 39px;
-  -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px;
-  -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px;
-  border-radius: 0px 4px 4px 0px/5px 5px 4px 4px;
+  border-radius: 7px;
   background-color: #fff;
   -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
   box-shadow: 1px 2px 5px rgba(0,0,0,.09);
   border: solid 1px #cbc9c9;
-  margin-left: -5px;
   margin-top: 13px;
-  padding-left: 10px;
 }
 
-input[type=password] {
-  margin-bottom: 25px;
+/*Set red border on invalid input*/
+.ng-invalid .is-invalid {
+    border:2px solid #f00;
 }
 
-#icon {
-  display: inline-block;
-  width: 45px;
-  background-color: #000000;
-  padding: 8px 0px 8px 15px;
-  margin-left: 15px;
-  -webkit-border-radius: 4px 0px 0px 4px;
-  -moz-border-radius: 4px 0px 0px 4px;
-  border-radius: 4px 0px 0px 4px;
-  color: white;
-  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
-  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09);
-  box-shadow: 1px 2px 5px rgba(0,0,0,.09);
-  border: solid 0px #cbc9c9;
+/*Icon design for login modal and recover password*/
+.inner-addon { 
+  position: relative; 
 }
 
-.button {
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  padding: 6px 25px 25px 20px;
-  margin: 25px 8px 20px 0px;
-  display: inline-block;
-  float: right;
-  text-decoration: none;
-  width: 90px;
-  height: 30px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background-color: #000000;
-  -webkit-box-shadow: 0 3px #a9a9a9;
-  -moz-box-shadow: 0 3px #a9a9a9;
-  box-shadow: 0 3px #a9a9a9;
-  transition: all 0.1s linear 0s;
-  top: 0px;
-  position: relative;
+/* style icon */
+.inner-addon .glyphicon {
+position: absolute;
+margin: 20px 0px 20px 35px;
+line-height: none;
+pointer-events: none;
+font-size: 20px;
+color: #8C8984;
 }
 
-  .button:hover {
-    top: 3px;
-    background-color: #a9a9a9;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
 
+/* add padding  */
+.left-addon input  { padding-left:  40px; }
 
 
 .loginbutton {
+  margin: 0 auto 15px auto;
   font-size: 14px;
   font-weight: 600;
   color: white;
   padding: 6px 25px 25px 20px;
-  margin: 10px 24px 20px 0px;
-  display: inline-block;
-  float: right;
+  display: block;
   text-decoration: none;
-  width: 243px;
+  width: 200px;
   height: 35px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: #000000;
-  -webkit-box-shadow: 0 3px #a9a9a9;
-  -moz-box-shadow: 0 3px #a9a9a9;
-  box-shadow: 0 3px #a9a9a9;
+  background-color: rgb(78, 88, 114);
+  -webkit-box-shadow: 3px #a9a9a9;
+  -moz-box-shadow: 3px #a9a9a9;
+  box-shadow: 3px #a9a9a9;
   transition: all 0.1s linear 0s;
   top: 0px;
   position: relative;
+  border-width: 0px;
+  border-style: none;
+  border-color: none;
+  border-image: none;
 }
 
   .loginbutton:hover {
-    top: 3px;
-    background-color: #a9a9a9;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+    top: 0.5px;
+    background-color: rgb(111, 124, 156);
+
   }
 
-#frontPageText h1 {
-  text-align: center;
-  margin-top: 150px;
-  font-weight: bold;
-}
-
-#frontPageText h2 {
-  text-align: center;
-  font-weight: bold;
-}
-
+/* Login and Register button on frontpage */
 .frontPageButton {
   margin-bottom: 25px;
   font-weight: bold;
@@ -236,8 +260,25 @@ input[type=password] {
   height: auto;
 }
 
+  @media (max-width: 500px) {
+  #playerLogin img, #clubLogin img, #playerRegistration img, #clubRegistration img {
+    width:155px;
+    height: auto;
+  }
+} 
+
 #chooseLogin, #chooseRegister {
   margin-top: 200px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.close {
+  margin-right: 15px;
+  margin-top:-5px;
+  font-size: 30px;
 }
 
 
