@@ -12,4 +12,9 @@ export class registerService {
     return this.http.post(url, player);
   }
 
+  sendConfirmationEmail(playerEmail: string) {
+    let url = "WEB API controller metode";
+    return this.http.post(url, playerEmail);
+  }
+
 }

@@ -132,10 +132,19 @@ export class RegisterPlayerComponent implements OnInit {
   registerPlayer() {
     this.onUpload();
     this.registerService.registerPlayer(this.buildPlayer());
+    this.sendConfirmationEmail(this.emailControl.value)
   }
+
+  /*
+    Send confirmation email to player's email
+  */
+ sendConfirmationEmail(playerEmail: string) {
+    this.registerService.sendConfirmationEmail(playerEmail);
+ }
 
   /* 
     Build player with form inputs
+    (Mangler player model)
   */
   buildPlayer() {
     // player: Player = new Player(); //imported from player model
