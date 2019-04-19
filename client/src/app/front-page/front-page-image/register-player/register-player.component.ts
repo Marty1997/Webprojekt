@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
@@ -21,6 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     providers: [registerService, uploadFilesService]
 })
 export class RegisterPlayerComponent implements OnInit {
+  @Input() modalRef: any;
   personalInfoFormGroup: FormGroup; 
   additionalInfoFormGroup: FormGroup;
   strengthWeaknessFormGroup: FormGroup;
@@ -28,9 +29,8 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamFormGroup: FormGroup;
   playerPresentationFormGroup: FormGroup;
   hide = true; // password visibility
-  selectedFile: File = null;
-  uploadStatus: boolean = false;
-  uploadText: string = "";
+  profilePicture: File = null;
+  presentationVideo: File = null;
 
   // input validators
   validate = new MyErrorStateMatcher();
@@ -104,25 +104,23 @@ export class RegisterPlayerComponent implements OnInit {
     });
   }
 
-  onFileSelected(event) {
-    this.selectedFile = <File>event.target.files[0];
-    if(this.selectedFile.size > 0) {
-      this.uploadStatus = true;
-      this.uploadText = 'Your file has been uploaded';
-    } else {
-      this.uploadStatus = false;
-      this.uploadText = '';
-    }
+  onProfilePictureFileSelected(event) {
+    this.profilePicture = <File>event.target.files[0];
   }
 
+  onPresentationVideoFileSelected(event) {
+    this.presentationVideo = <File>event.target.files[0];
+  }
+
+  /* 
+    Upload files with uploadService
+  */
   onUpload() {
-    if(this.selectedFile != null) {
-      this.uploadFilesService.uploadFile(this.selectedFile);
-      this.uploadText = "Your file has been uploaded";
-      this.uploadStatus = true;
-    } else {
-      this.uploadText = "Please select a file"
-      this.uploadStatus = false;
+    if(this.profilePicture != null) {
+      this.uploadFilesService.uploadFile(this.profilePicture);
+    }
+    if(this.presentationVideo != null) {
+      this.uploadFilesService.uploadFile(this.presentationVideo);
     }
   }
 
@@ -130,6 +128,7 @@ export class RegisterPlayerComponent implements OnInit {
     Register player with registerService
   */
   registerPlayer() {
+    this.onUpload();
     this.registerService.registerPlayer(this.buildPlayer());
   }
 

@@ -2,7 +2,7 @@
   <mat-horizontal-stepper [linear]="true" #stepper>
     <h2 class="lead">Register Player</h2>
     <!-- PERSONAL INFO -->
-    <mat-step [stepControl]="personalInfoFormGroup" [optional]="true">
+    <mat-step [stepControl]="personalInfoFormGroup">
       <div class="formWrapper">
         <form [formGroup]="personalInfoFormGroup">
           <ng-template matStepLabel></ng-template><br>
@@ -401,25 +401,43 @@
         </p>
         <hr>
 
-        <mat-label>Click below to upload video</mat-label>
-        <br>
-        <mat-form-field>
-          <ngx-mat-file-input #removableInput formControlName="file" (change)="onFileSelected($event)"
-            placeholder="Upload video"></ngx-mat-file-input>
-          <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event)">
-            <mat-icon>clear</mat-icon>
-          </button>
-        </mat-form-field>
-        <br>
-        <!-- <mat-label [ngStyle]="{color: uploadStatus ? 'green' : 'red' }">{{ uploadText }}</mat-label> -->
-        <br>
-        <button class="btn btn-primary chooseFileBtn" (click)="removableInput.open()">Choose File</button>
-        <button class="btn btn-primary uploadBtn" (click)="onUpload()">Upload</button>
+        <div class="row">
+          <div class="col-xs-6">
+              <mat-label>Upload profile picture</mat-label>
+              <br>
+              <mat-form-field class="doubleSizeField">
+                <ngx-mat-file-input #profilePicture formControlName="file" (change)="onProfilePictureFileSelected($event)"
+                  placeholder="Upload picture" accept="image/*"></ngx-mat-file-input>
+                <button mat-icon-button matSuffix *ngIf="!profilePicture.empty" (click)="profilePicture.clear($event)">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-form-field>
+              <br>
+              <br>
+              <button class="btn btn-primary chooseFileBtn" (click)="profilePicture.open()">Choose File</button>
+          </div>
+
+          <div class="col-xs-6">
+              <mat-label>Upload presentation video</mat-label>
+              <br>
+              <mat-form-field class="doubleSizeField">
+                <ngx-mat-file-input #playerPresentation formControlName="file" (change)="onPresentationVideoFileSelected($event)"
+                  placeholder="Upload video" accept="video/*"></ngx-mat-file-input>
+                <button mat-icon-button matSuffix *ngIf="!playerPresentation.empty" (click)="playerPresentation.clear($event)">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <br>
+              <br>
+              <button class="btn btn-primary chooseFileBtn" (click)="playerPresentation.open()">Choose File</button>
+          </div>
+        </div>
 
         <br><hr><br>
         
         <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn" (click)="registerPlayer()">Register</button>
       </form>
     </mat-step>
 
@@ -427,11 +445,17 @@
     <!-- LAST STEP -->
     <mat-step>
       <ng-template matStepLabel></ng-template><br>
-      <p>You have completed all steps. Click <strong>register</strong> to create your account.</p>
+      <h1 class="lastStepHeadline">
+        Thank you!
+      </h1>
+      <p class="lastStepInfo">
+        Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
+        <br>
+        Please click the link in the email to confirm your email.
+      </p>
       <hr>
 
-      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-      <button mat-flat-button matStepperNext (click)="registerPlayer()" class="btn btn-primary nextBtn">Register</button>
+      <button mat-flat-button class="btn btn-primary doneBtn" (click)="modalRef.hide()">Done</button>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
