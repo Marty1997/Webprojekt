@@ -23,6 +23,7 @@ body {
   background-color: #000115;
   font-family: 'Roboto';
 }
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 .panel-group .panel .panel-heading {
   background-color: #2A344F;
@@ -49,6 +50,11 @@ accordion-group h5 {
       
     }
   }
+  /* MULTI-STEP REGISTER */
+  .cdk-global-overlay-wrapper, 
+  .cdk-overlay-container {
+     z-index: 9999!important;
+  } 
 
   .modal-backdrop {
     background-color: white;
@@ -82,10 +88,7 @@ accordion-group h5 {
   
   body {
     padding-right: 0 !important;
-    
   }
-
-
 
  
   

@@ -1,0 +1,54 @@
+mat-horizontal-stepper {
+    width: 100%;
+}
+
+/* Fields */
+
+mat-form-field {
+    margin: auto 0.5%;
+    width: 49%;
+}
+
+.doubleSizeField {
+    width: 98%;
+}
+
+.threeFieldsOnSameRow {
+    width: 32.3333%;
+}
+
+/* Buttons */
+
+.nextBtn,
+.previousBtn,
+.firstNextBtn,
+.doneBtn {
+    border: 1px solid lightblue;
+    margin: auto 1%;
+}
+
+.firstNextBtn,
+.doneBtn {
+    width: 100%;
+}
+
+.nextBtn {
+    width: 48%;
+}
+
+.previousBtn {
+    width: 48%;
+}
+
+.uploadBtn,
+.chooseFileBtn {
+    margin-right: 5px;
+}
+
+.lastStepHeadline {
+    color: darkgray;
+}
+
+.lastStepInfo {
+    color: darkgray;
+}

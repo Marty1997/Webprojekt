@@ -13,6 +13,10 @@ export class FrontPageImageComponent implements OnInit {
   modalRef2: BsModalRef;
   isVisible: boolean = true;
 
+  playerRegistrationModal: BsModalRef;
+  optional: String = ' Optional';
+  required: String = ' Required';
+
   constructor(private modalService: BsModalService, private loginService: loginService) { }
   
   openModal(template: TemplateRef<any>) {
@@ -26,6 +30,11 @@ export class FrontPageImageComponent implements OnInit {
     this.modalRef = null;
   }
 
+  openPlayerRegistrationModal(template: TemplateRef<any>) {
+    this.playerRegistrationModal = this.modalService.show(template);
+    this.modalRef.hide();
+    this.modalRef = null;
+  }
   // recoverPasswordClicked(email: string) {
   //   this.loginService.revocerPassword.subscribe((succes) =>(console.log("succes")), 
   //   error) => (console.log("error")), () => (console.log("Completed"));

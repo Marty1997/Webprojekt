@@ -88,7 +88,7 @@
         <h2 style="text-align: center;">Choose Registration</h2>
         <div class="row">
           <div class="col-md-6" style="text-align: center;">
-            <a id="playerRegistration" href="#"><img src="assets/Images/player-icon.png" /></a>
+            <a id="playerRegistration" (click)="openPlayerRegistrationModal(registerPlayer)"><img src="assets/Images/player-icon.png" /></a>
             <h3>Player</h3>
           </div>
           <div class="col-md-6" style="text-align: center;">
@@ -98,3 +98,8 @@
         </div>
   </ng-template>
 </section>
+
+<!-- REGISTER PLAYER -->
+<ng-template #registerPlayer style="align-content:center;">
+  <app-register-player [modalRef]="playerRegistrationModal"></app-register-player>
+</ng-template>

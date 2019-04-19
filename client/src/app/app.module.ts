@@ -5,6 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
+import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, ErrorStateMatcher } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './multi-page/footer/footer.component';
@@ -21,6 +27,7 @@ import { ClubDashboardComponent } from './club-dashboard/club-dashboard.componen
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +43,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     SearchForClubsComponent,
     PlayerDashboardComponent,
     ClubDashboardComponent,
+    RegisterPlayerComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,9 +59,18 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     ]),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    CdkStepperModule,
+    MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
+    MatPaginatorModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialFileInputModule
   ],
-  providers: [],
+  providers: [
+    {provide: ErrorStateMatcher}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
