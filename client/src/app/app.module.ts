@@ -6,7 +6,8 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule } from '@angular/material';
+import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, ErrorStateMatcher } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialFileInputModule } from 'ngx-material-file-input';
@@ -61,19 +62,14 @@ import { RegisterPlayerComponent } from './front-page/front-page-image/register-
     AccordionModule.forRoot(),
     CdkStepperModule,
     MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
+    MatPaginatorModule,
+    MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialFileInputModule
   ],
   providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false }
-    },
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true }
-    }
+    {provide: ErrorStateMatcher}
   ],
   bootstrap: [AppComponent]
 })

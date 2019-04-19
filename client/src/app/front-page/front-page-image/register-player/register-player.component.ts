@@ -1,9 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
+import { ErrorStateMatcher } from '@angular/material';
 // import {playerModel} from '..models/player.model';
 // import { MustMatch } from './_helpers/must-match.validator';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
     selector: 'app-register-player',
@@ -23,28 +32,44 @@ export class RegisterPlayerComponent implements OnInit {
   uploadStatus: boolean = false;
   uploadText: string = "";
 
+  // input validators
+  validate = new MyErrorStateMatcher();
+  numbersOnlyRegex = /^[0-9]*$/;
+  emailControl = new FormControl('', [Validators.required, Validators.email]);
+  passwordControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  confirmPasswordControl = new FormControl('', Validators.required);
+  firstNameControl = new FormControl('', Validators.required);
+  lastNameControl = new FormControl('', Validators.required);
+  countryControl = new FormControl('', Validators.required);
+  cityControl = new FormControl('', Validators.required);
+  dayControl = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2), Validators.pattern(this.numbersOnlyRegex)]);
+  monthControl = new FormControl('', Validators.required);
+  yearControl = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(this.numbersOnlyRegex)]);
+  heightControl = new FormControl('', Validators.pattern(this.numbersOnlyRegex));
+  weightControl = new FormControl('', Validators.pattern(this.numbersOnlyRegex));
+  bodyfatControl = new FormControl('', Validators.pattern(this.numbersOnlyRegex));
+
   constructor(private _formBuilder: FormBuilder, 
                 private registerService: registerService, 
                 private uploadFilesService: uploadFilesService) {}
 
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      country: ['', Validators.required],
-      city: ['', Validators.required],
-      day: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-      month: ['', Validators.required],
-      year: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]]
+      email: ['', this.emailControl],
+      password: ['', this.passwordControl],
+      confirmPassword: ['', this.passwordControl],
+      firstName: ['', this.firstNameControl],
+      lastName: ['', this.lastNameControl],
+      country: ['', this.countryControl],
+      city: ['', this.cityControl],
+      day: ['', this.dayControl],
+      month: ['', this.monthControl],
+      year: ['', this.yearControl]
     });
-    this.email = this.personalInfoFormGroup.value.email;
     this.additionalInfoFormGroup = this._formBuilder.group({
-      height: [''],
-      weight: [''],
-      bodyfat: [''],
+      height: ['', this.heightControl],
+      weight: ['', this.weightControl],
+      bodyfat: ['', this.bodyfatControl],
       primaryPosition: [''],
       secondaryPosition: [''],
       preferredHand: ['']
@@ -77,11 +102,6 @@ export class RegisterPlayerComponent implements OnInit {
     this.playerPresentationFormGroup = this._formBuilder.group({
       file: ['']
     });
-  }
-
-  getErrorMessage() {
-    return this.personalInfoFormGroup.value.email.hasError('required') ? 'You must enter a value' : 
-      this.personalInfoFormGroup.value.email.hasError('email') ? 'Not a valid email' : '';
   }
 
   onFileSelected(event) {

@@ -2,17 +2,40 @@ mat-horizontal-stepper {
     width: 100%;
 }
 
+/* Fields */
+
 mat-form-field {
     margin: auto 0.5%;
     width: 49%;
 }
 
-.nextBtn {
-    float: right;
+.doubleSizeField {
+    width: 98%;
 }
 
-.prevBtn {
-    float: left;
+.threeFieldsOnSameRow {
+    width: 32.3333%;
+}
+
+/* Buttons */
+
+.nextBtn,
+.previousBtn,
+.firstNextBtn {
+    border: 1px solid lightblue;
+    margin: auto 1%;
+}
+
+.firstNextBtn {
+    width: 100%;
+}
+
+.nextBtn {
+    width: 48%;
+}
+
+.previousBtn {
+    width: 48%;
 }
 
 .uploadBtn,
