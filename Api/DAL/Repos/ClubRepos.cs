@@ -21,6 +21,10 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
+        public Club GetByEmail(string email) {
+            throw new NotImplementedException();
+        }
+
         public Club GetById(int id) {
             throw new NotImplementedException();
         }

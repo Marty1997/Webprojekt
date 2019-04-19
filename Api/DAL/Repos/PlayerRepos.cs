@@ -22,6 +22,10 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
+        public Player GetByEmail(string email) {
+            throw new NotImplementedException();
+        }
+
         public Player GetById(int id) {
             throw new NotImplementedException();
         }
