@@ -22,7 +22,7 @@ export class FrontPageComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (number > 160) {
+    if (number > 65) {
       this.navbarBackground = '#2A344F';
     } else {
       this.navbarBackground = 'transparent';
