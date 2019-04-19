@@ -1,10 +1,9 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm} from '@angular/forms';
+import {Component, OnInit, Input, Attribute} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm, AbstractControl, Validator} from '@angular/forms';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
 import { ErrorStateMatcher } from '@angular/material';
 // import {playerModel} from '..models/player.model';
-// import { MustMatch } from './_helpers/must-match.validator';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -32,12 +31,15 @@ export class RegisterPlayerComponent implements OnInit {
   profilePicture: File = null;
   presentationVideo: File = null;
 
+  currentPassword: string;
+  confirmPassword: string;
+
   // input validators
   validate = new MyErrorStateMatcher();
   numbersOnlyRegex = /^[0-9]*$/;
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   passwordControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  confirmPasswordControl = new FormControl('', Validators.required);
+  confirmPasswordControl = new FormControl('', [Validators.required]);
   firstNameControl = new FormControl('', Validators.required);
   lastNameControl = new FormControl('', Validators.required);
   countryControl = new FormControl('', Validators.required);
@@ -57,7 +59,7 @@ export class RegisterPlayerComponent implements OnInit {
     this.personalInfoFormGroup = this._formBuilder.group({
       email: ['', this.emailControl],
       password: ['', this.passwordControl],
-      confirmPassword: ['', this.passwordControl],
+      confirmPassword: ['', this.confirmPasswordControl],
       firstName: ['', this.firstNameControl],
       lastName: ['', this.lastNameControl],
       country: ['', this.countryControl],
