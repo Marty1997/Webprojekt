@@ -31,8 +31,8 @@ namespace Api {
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //Dependency injections
             services.AddTransient<Account>();
-
             services.AddTransient<IRepository<Player>>(s => {
                 return RepositoryFactory<Player>.CreatePlayerRepos().With(() => {
                     var conn = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
@@ -49,6 +49,7 @@ namespace Api {
                 });
             });
 
+            //Tokens
             var key = Encoding.ASCII.GetBytes("THIS IS A SECRET AND SHOULD NOT BE HARDCODED");
 
             services.AddAuthentication(x => {
