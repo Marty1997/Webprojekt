@@ -211,3 +211,12 @@ accordion-group h5 {
     height: 250px !important;
     width: 100% !important;
   }
+
+  .tableValAndPrefs {
+    width: 90%;
+    margin: 0 auto;
+    table-layout: fixed;
+  }
+      .tableValAndPrefs tr td, .tableValAndPrefs tr th {
+        padding-top: 15.231px;
+      }
