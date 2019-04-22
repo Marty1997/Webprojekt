@@ -17,8 +17,7 @@ export class FrontPageImageComponent implements OnInit {
   recoverPasswordResult : string = "Email has been sent";
 
   playerRegistrationModal: BsModalRef;
-  optional: String = ' Optional';
-  required: String = ' Required';
+  clubRegistrationModal: BsModalRef;
 
   constructor(private modalService: BsModalService, private loginService: loginService) { }
   
@@ -66,10 +65,12 @@ export class FrontPageImageComponent implements OnInit {
     this.modalRef.hide();
     this.modalRef = null;
   }
-  // recoverPasswordClicked(email: string) {
-  //   this.loginService.revocerPassword.subscribe((succes) =>(console.log("succes")), 
-  //   error) => (console.log("error")), () => (console.log("Completed"));
-  // }
+
+  openClubRegistrationModal(template: TemplateRef<any>) {
+    this.clubRegistrationModal = this.modalService.show(template);
+    this.modalRef.hide();
+    this.modalRef = null;
+  }
 
   @HostListener('backdrop-click', ['$event'])
   testing123() {

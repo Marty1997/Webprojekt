@@ -153,7 +153,7 @@
             <h3>Player</h3>
           </div>
           <div class="col-md-6" style="text-align: center;">
-            <a id="clubRegistration" href="#"><img src="assets/Images/club-icon.png" /></a>
+            <a id="clubRegistration" (click)="openClubRegistrationModal(registerClub)"><img src="assets/Images/club-icon.png" /></a>
             <h3>Club</h3>
           </div>
         </div>
@@ -161,6 +161,11 @@
 </section>
 
 <!-- REGISTER PLAYER -->
-<ng-template #registerPlayer style="align-content:center;">
+<ng-template #registerPlayer>
   <app-register-player [modalRef]="playerRegistrationModal"></app-register-player>
+</ng-template>
+
+<!-- REGISTER CLUB -->
+<ng-template #registerClub>
+  <app-register-club [modalRef]="clubRegistrationModal"></app-register-club>
 </ng-template>
