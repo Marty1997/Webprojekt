@@ -1,3 +1,218 @@
-<p>
-  register-club works!
-</p>
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <!-- REQUIRED CLUB INFO -->
+  <mat-step [stepControl]="clubRequiredInfoFormGroup">
+    <form [formGroup]="clubRequiredInfoFormGroup">
+      <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
+      <hr>
+
+      <mat-label>Login credentials</mat-label>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailControl?.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+          [formControl]="passwordControl" [errorStateMatcher]='validate'>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="passwordControl?.hasError('minlength') && !passwordControl?.hasError('required')">
+          Password must be at least 6 characters
+        </mat-error>
+        <mat-error *ngIf="passwordControl?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Club Name</mat-label><br>
+      <mat-form-field class="doubleSizeField">
+        <input matInput placeholder="Club name" [formControl]="clubNameControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="clubNameControl?.hasError('required')">
+          Club name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <mat-label>League</mat-label><br>
+      <mat-form-field class="doubleSizeField">
+        <mat-select placeholder="League" [formControl]="leagueControl" [errorStateMatcher]="validate">
+          <mat-option value="firstLeague">First league name</mat-option>
+          <mat-option value="secondLeague">Second league name</mat-option>
+          <mat-option value="thirdLeague">Third league name</mat-option>
+        </mat-select>
+        <mat-error *ngIf="leagueControl?.hasError('required')">
+          League is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Address</mat-label><br>
+      <mat-form-field class="doubleSizeField">
+        <input matInput placeholder="Street Address" [formControl]="streetAddressControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="streetAddressControl?.hasError('required')">
+          Street address is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="doubleSizeField">
+        <input matInput placeholder="Street Address Line 2" [formControl]="streetAddressLineTwoControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="streetAddressLineTwoControl?.hasError('required')">
+          Please put number / floor on this line
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+          <mat-option value="Denmark">Denmark</mat-option>
+          <mat-option value="Sweden">Sweden</mat-option>
+          <mat-option value="Norway">Norway</mat-option>
+        </mat-select>
+        <mat-error *ngIf="countryControl?.hasError('required')">
+          Country is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="City" [formControl]="cityControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="cityControl?.hasError('required')">
+          City is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="State / province" [formControl]="stateControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="stateControl?.hasError('required')">
+          State / province is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Postal / Zip code" [formControl]="zipcodeControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="zipcodeControl?.hasError('required')">
+          Postal / Zip code is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br><hr><br>
+      <button mat-flat-button matStepperNext class="btn btn-primary firstNextBtn">Next</button>
+    </form>
+  </mat-step>
+
+
+  <!-- CLUB TRAINING SCHEDULE -->
+  <mat-step [stepControl]="trainingScheduleFormGroup">
+    <form [formGroup]="trainingScheduleFormGroup">
+        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+          rate.</p>
+        <hr>
+        <mat-label>Training hours</mat-label>
+        <div class="row">
+          <div class="col-xs-6">
+            <mat-label>Monday</mat-label>
+            <mat-select placeholder="From" class="selectTrainingHours">
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+            </mat-select>
+            <mat-select placeholder="To" class="selectTrainingHours">
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+              <mat-option></mat-option>
+            </mat-select>
+          </div>
+          <div class="col-xs-6">
+              <mat-label>Tuesday</mat-label>
+              <mat-select placeholder="From" class="selectTrainingHours">
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+              </mat-select>
+              <mat-select placeholder="To" class="selectTrainingHours">
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+                <mat-option></mat-option>
+              </mat-select>
+          </div>
+        </div>
+
+        <br><hr><br>
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+    </form>
+  </mat-step>
+
+
+  <!-- CLUB SQUAD -->
+  <mat-step>
+    <form>
+
+    </form>
+  </mat-step>
+
+
+  <!-- CLUB STAFF -->
+  <mat-step>
+    <form>
+
+    </form>
+  </mat-step>
+
+
+  <!-- CLUB PICTURES -->
+  <mat-step>
+    <form>
+
+    </form>
+  </mat-step>
+
+
+  <!-- VALUES AND PREFERENCES -->
+  <mat-step>
+    <form>
+
+    </form>
+  </mat-step>
+
+
+  <!-- LAST STEP -->
+</mat-horizontal-stepper>

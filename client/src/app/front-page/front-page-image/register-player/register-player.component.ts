@@ -31,15 +31,11 @@ export class RegisterPlayerComponent implements OnInit {
   profilePicture: File = null;
   presentationVideo: File = null;
 
-  currentPassword: string;
-  confirmPassword: string;
-
   // input validators
   validate = new MyErrorStateMatcher();
   numbersOnlyRegex = /^[0-9]*$/;
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   passwordControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  confirmPasswordControl = new FormControl('', [Validators.required]);
   firstNameControl = new FormControl('', Validators.required);
   lastNameControl = new FormControl('', Validators.required);
   countryControl = new FormControl('', Validators.required);
@@ -57,21 +53,20 @@ export class RegisterPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
-      email: ['', this.emailControl.validator],
-      password: ['', this.passwordControl.validator],
-      confirmPassword: ['', this.confirmPasswordControl.validator],
-      firstName: ['', this.firstNameControl.validator],
-      lastName: ['', this.lastNameControl.validator],
-      country: ['', this.countryControl.validator],
-      city: ['', this.cityControl.validator],
-      day: ['', this.dayControl.validator],
-      month: ['', this.monthControl.validator],
-      year: ['', this.yearControl.validator]
+      email: this.emailControl,
+      password: this.passwordControl,
+      firstName: this.firstNameControl,
+      lastName: this.lastNameControl,
+      country: this.countryControl,
+      city: this.cityControl,
+      day: this.dayControl,
+      month: this.monthControl,
+      year: this.yearControl
     });
     this.additionalInfoFormGroup = this._formBuilder.group({
-      height: ['', this.heightControl.validator],
-      weight: ['', this.weightControl.validator],
-      bodyfat: ['', this.bodyfatControl.validator],
+      height: this.heightControl,
+      weight: this.weightControl,
+      bodyfat: this.bodyfatControl,
       primaryPosition: [''],
       secondaryPosition: [''],
       preferredHand: ['']
