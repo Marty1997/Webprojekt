@@ -57,21 +57,21 @@ export class RegisterPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
-      email: ['', this.emailControl],
-      password: ['', this.passwordControl],
-      confirmPassword: ['', this.confirmPasswordControl],
-      firstName: ['', this.firstNameControl],
-      lastName: ['', this.lastNameControl],
-      country: ['', this.countryControl],
-      city: ['', this.cityControl],
-      day: ['', this.dayControl],
-      month: ['', this.monthControl],
-      year: ['', this.yearControl]
+      email: ['', this.emailControl.validator],
+      password: ['', this.passwordControl.validator],
+      confirmPassword: ['', this.confirmPasswordControl.validator],
+      firstName: ['', this.firstNameControl.validator],
+      lastName: ['', this.lastNameControl.validator],
+      country: ['', this.countryControl.validator],
+      city: ['', this.cityControl.validator],
+      day: ['', this.dayControl.validator],
+      month: ['', this.monthControl.validator],
+      year: ['', this.yearControl.validator]
     });
     this.additionalInfoFormGroup = this._formBuilder.group({
-      height: ['', this.heightControl],
-      weight: ['', this.weightControl],
-      bodyfat: ['', this.bodyfatControl],
+      height: ['', this.heightControl.validator],
+      weight: ['', this.weightControl.validator],
+      bodyfat: ['', this.bodyfatControl.validator],
       primaryPosition: [''],
       secondaryPosition: [''],
       preferredHand: ['']
