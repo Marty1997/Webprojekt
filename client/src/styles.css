@@ -157,10 +157,29 @@ accordion-group h5 {
     border-bottom: 0px;
   }
 
+  .Schedule {
+    width: 90%;
+    margin: auto;
+  }
+
   .carousel {
     width: 70%;
   }
 
+  .carousel.slide {
+    margin: auto;
+  }
+
+  @media (max-width: 415px) {
+    .carousel {
+      width: 100%;
+    }
+  
+    .carousel.slide {
+      margin: none;
+    }
+  }
+  
   .item img {
     object-fit: cover;
     height: 250px !important;
@@ -194,3 +213,13 @@ accordion-group h5 {
       position: relative;
       top: 1px;
     }
+
+.tableFixedValAndPrefs {
+      width: 90%;
+      margin: 0 auto;
+      table-layout: fixed;
+    }
+  
+    .tableFixedValAndPrefs tr td, .tableFixedValAndPrefs tr th {
+        padding-top: 15.231px;
+      }
