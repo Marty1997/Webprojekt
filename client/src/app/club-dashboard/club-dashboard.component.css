@@ -1,0 +1,85 @@
+@media (max-width: 415px) {
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+        font-size: 70%;
+    }
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) { 
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+        font-size: 100%;
+    }
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+        font-size: 50%;
+    }
+}
+
+
+@media only screen 
+and (min-device-width : 1024px) 
+and (orientation : portrait) { 
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+        font-size: 50%;
+    }
+}
+
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 812px) 
+and (-webkit-device-pixel-ratio : 3)
+and (orientation : landscape) { 
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+        font-size: 100%;
+    }
+}
+
+.squad {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    word-wrap: break-word;
+    width: 30%;
+    text-align: center;
+}
+
+.goalKeeper {
+    top: 15%;
+    left: 50%;
+}
+
+.left-back {
+    top: 40%;
+    left: 20%;  
+}
+
+.center-back {
+    top: 45%;
+    left: 50%;
+}
+
+.right-back {
+    top: 40%;
+    right: -10%;   
+}
+
+.pivot {
+    top: 30%;
+    left: 50%; 
+}
+
+.left-wing {
+    top: 20%;
+    left: 20%; 
+}
+
+.right-wing {
+    top: 20%;
+    right: -10%;
+}
