@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-
 import { AppComponent } from './app.component';
 import { FooterComponent } from './multi-page/footer/footer.component';
 import { FrontPageNavbarComponent } from './front-page/front-page-navbar/front-page-navbar.component';
@@ -21,6 +20,7 @@ import { ClubDashboardComponent } from './club-dashboard/club-dashboard.componen
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { loginService } from './services/loginService';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     CarouselModule.forRoot(),
     AccordionModule.forRoot()
   ],
-  providers: [],
+  providers: [loginService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -57,21 +57,21 @@ select {
   color: #4c4c4c;
 }
 
-#playerLoginBox p, #clubLoginBox p, #recoverBox p {
+#loginBox p, #recoverBox p {
   font-size: 12px;
   width: 150px;
   display: inline-block;
   margin-left: 18px;
 }
 
- #playerLoginBox h1, #clubLoginBox h1, #recoverBox h1, #playerLoginBox h3, #clubLoginBox h3, #playerLoginBox h5, #clubLoginBox h5 {
+ #loginBox h1, #recoverBox h1, #loginBox h3, #loginBox h5 {
   font-weight: bold;
   color: #4c4c4c;
   text-align: center;
   margin-bottom: 10px;
 }
 
-#playerLoginBox h1, #clubLoginBox h1 { 
+#loginBox h1 { 
   padding-top: 10px;
   padding-left: 25px;
   font-size: 32px;
@@ -84,11 +84,11 @@ select {
   color: rgb(252, 250, 248);
 }
 
-#playerLoginBox h3, #clubLoginBox h3 {
+#loginBox h3 {
   font-size: 25px;
 }
 
-#playerLoginBox h5, #clubLoginBox h5 {
+#loginBox h5 {
   font-size: 22px;
 }
 
@@ -257,21 +257,17 @@ color: #8C8984;
     top: 1px;
   }
 
-#playerLogin img, #clubLogin img, #playerRegistration img, #clubRegistration img {
+ #playerRegistration img, #clubRegistration img {
   width: 200px;
   height: auto;
 }
 
   @media (max-width: 500px) {
-  #playerLogin img, #clubLogin img, #playerRegistration img, #clubRegistration img {
+  #playerRegistration img, #clubRegistration img {
     width:155px;
     height: auto;
   }
 } 
-
-#chooseLogin, #chooseRegister {
-  margin-top: 200px;
-}
 
 a {
   cursor: pointer;

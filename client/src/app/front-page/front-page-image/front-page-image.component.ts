@@ -1,32 +1,27 @@
-import { Component, OnInit, TemplateRef, HostListener } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { loginService } from 'src/app/services/loginService';
 import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-front-page-image',
   templateUrl: './front-page-image.component.html',
   styleUrls: ['./front-page-image.component.css'],
-  providers: [ loginService ]
+  providers: []
 })
 export class FrontPageImageComponent implements OnInit {
   modalRef: BsModalRef | null;
-  modalRef2: BsModalRef | null;
   modalRefRecoverPassword: BsModalRef;
-  isVisible: boolean = true;
+  wrongEmailOrPassword : boolean = false;
   recoverPasswordResult : string = "Email has been sent";
 
-  constructor(private modalService: BsModalService, private loginService: loginService) { }
+  constructor(private modalService: BsModalService, private loginService: loginService,
+    private router: Router) { }
   
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-    this.isVisible = false;
-  }
-
-  openSecondModalNested(template: TemplateRef<any>) {
-    this.modalRef2 = this.modalService.show(template, {class: 'customModal'});
-    this.modalRef.hide();
-    this.modalRef = null;
+    this.modalRef = this.modalService.show(template, {class: 'customModal'});
+    this.wrongEmailOrPassword = false;
   }
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
@@ -40,28 +35,42 @@ export class FrontPageImageComponent implements OnInit {
     //   () => (console.log("Completed")))
   }
 
-  clubLogin(form: NgForm) {
-    console.log(form.value.email);
-    console.log(form.value.password);
-    // this.loginService.clubLogin(form.value.email, form.value.password).subscribe(
-    //   (succes)=>("a"),
-    //   (error) => ("a"),
-    //   () => ("a"))
+  closeAllModals() {
+    this.modalRef.hide();
+    this.modalRef = null;
+    this.modalRefRecoverPassword.hide();
+    this.modalRefRecoverPassword = null;
+
   }
 
-  playerLogin(form: NgForm) {
-    console.log(form.value.email);
-    console.log(form.value.password);
-    // this.loginService.playerLogin(form.value.email, form.value.password).subscribe(
-    //   (succes)=>("a"),
-    //   (error) => ("a"),
-    //   () => ("a"))
+  loginUser(form: NgForm) {
+    this.loginService.loginUser(form).subscribe(
+       (succes:any) => {
+         console.log(succes);
+         if(succes.isPlayer) {
+           this.loginService.playerLoggedIn = true;
+           this.loginService.token = succes.token;
+           this.closeAllModals();
+           this.router.navigate(['/player-dashboard'])
+         }
+         else if (succes.isClub) {
+           this.loginService.clubLoggedIn = true;
+           this.loginService.token = succes.token;
+           this.closeAllModals();
+           this.router.navigate(['/club-dashboard'])
+          // this.closeAllModals();
+         }
+         form.resetForm();
+       },
+       (error) => {
+         if(error.error == "Failed to authenticate") {
+            this.wrongEmailOrPassword = true;
+         }
+          
+       }
+    )
   }
 
-  @HostListener('backdrop-click', ['$event'])
-  testing123() {
-    this.isVisible = true;
-  }
 
   ngOnInit() {
     
