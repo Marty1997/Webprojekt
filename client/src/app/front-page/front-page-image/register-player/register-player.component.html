@@ -50,12 +50,15 @@
         <mat-label>Country info</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Country" [formControl]="countryControl"
-            [errorStateMatcher]='validate'>
-          <mat-error *ngIf="countryControl?.hasError('required')">
-            Country is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+            <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+              <mat-option value="Denmark">Denmark</mat-option>
+              <mat-option value="Sweden">Sweden</mat-option>
+              <mat-option value="Norway">Norway</mat-option>
+            </mat-select>
+            <mat-error *ngIf="countryControl?.hasError('required')">
+              Country is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
         <mat-form-field>
           <input matInput placeholder="City" [formControl]="cityControl" [errorStateMatcher]='validate'>
           <mat-error *ngIf="cityControl?.hasError('required')">
