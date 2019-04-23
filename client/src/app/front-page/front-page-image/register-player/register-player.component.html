@@ -425,7 +425,7 @@
           <mat-label>Upload profile picture</mat-label>
           <br>
           <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #profilePicture formControlName="file" (change)="onProfilePictureFileSelected($event)"
+            <ngx-mat-file-input #profilePicture formControlName="profilePictureControl" (change)="onProfilePictureFileSelected($event)"
               placeholder="Upload picture" accept="image/*"></ngx-mat-file-input>
             <button mat-icon-button matSuffix *ngIf="!profilePicture.empty" (click)="profilePicture.clear($event)">
               <mat-icon>clear</mat-icon>
@@ -440,7 +440,7 @@
           <mat-label>Upload presentation video</mat-label>
           <br>
           <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #playerPresentation formControlName="file"
+            <ngx-mat-file-input #playerPresentation formControlName="videoFileControl"
               (change)="onPresentationVideoFileSelected($event)" placeholder="Upload video" accept="video/*">
             </ngx-mat-file-input>
             <button mat-icon-button matSuffix *ngIf="!playerPresentation.empty"

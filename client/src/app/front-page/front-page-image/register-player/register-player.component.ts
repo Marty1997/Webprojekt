@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgF
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
 import { ErrorStateMatcher } from '@angular/material';
-// import {playerModel} from '..models/player.model';
+import { Player } from '../../../models/player.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -21,6 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterPlayerComponent implements OnInit {
   @Input() modalRef: any;
+  player: Player = new Player();
   personalInfoFormGroup: FormGroup; 
   additionalInfoFormGroup: FormGroup;
   strengthWeaknessFormGroup: FormGroup;
@@ -53,52 +54,29 @@ export class RegisterPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
-      email: this.emailControl,
-      password: this.passwordControl,
-      firstName: this.firstNameControl,
-      lastName: this.lastNameControl,
-      country: this.countryControl,
-      city: this.cityControl,
-      day: this.dayControl,
-      month: this.monthControl,
-      year: this.yearControl
+      email: this.emailControl, password: this.passwordControl, firstName: this.firstNameControl,
+      lastName: this.lastNameControl, country: this.countryControl, city: this.cityControl,
+      day: this.dayControl, month: this.monthControl, year: this.yearControl
     });
     this.additionalInfoFormGroup = this._formBuilder.group({
-      height: this.heightControl,
-      weight: this.weightControl,
-      bodyfat: this.bodyfatControl,
-      primaryPosition: [''],
-      secondaryPosition: [''],
-      preferredHand: ['']
+      height: this.heightControl, weight: this.weightControl, bodyfat: this.bodyfatControl,
+      primaryPosition: [''], secondaryPosition: [''], preferredHand: ['']
     });
     this.strengthWeaknessFormGroup = this._formBuilder.group({
-      strengths: [''],
-      weaknesses: ['']
+      strengths: [''], weaknesses: ['']
     });
     this.sportCvFormGroup = this._formBuilder.group({
-      currentClub: [''],
-      currentPosition: [''],
-      currentSecondaryPosition: [''],
-      accomplishments: [''],
-      statistics: [''],
-      formerClubs: ['']
+      currentClub: [''], currentPosition: [''], currentSecondaryPosition: [''],
+      accomplishments: [''], statistics: [''], formerClubs: ['']
     });
     this.nationalTeamFormGroup = this._formBuilder.group({
-      aTeamAppearances: [''],
-      aTeamPosition: [''],
-      aTeamStatistics: [''],
-      bTeamAppearances: [''],
-      bTeamPosition: [''],
-      bTeamStatistics: [''],
-      u21TeamAppearances: [''],
-      u21TeamPosition: [''],
-      u21TeamStatistics: [''],
-      u18TeamAppearances: [''],
-      u18TeamPosition: [''],
-      u18TeamStatistics: [''],
+      aTeamAppearances: [''], aTeamPosition: [''], aTeamStatistics: [''], 
+      bTeamAppearances: [''], bTeamPosition: [''], bTeamStatistics: [''],
+      u21TeamAppearances: [''], u21TeamPosition: [''], u21TeamStatistics: [''],
+      u18TeamAppearances: [''], u18TeamPosition: [''], u18TeamStatistics: ['']
     });
     this.playerPresentationFormGroup = this._formBuilder.group({
-      file: ['']
+      profilePictureControl: [''], videoFileControl: ['']
     });
   }
 
@@ -140,54 +118,44 @@ export class RegisterPlayerComponent implements OnInit {
 
   /* 
     Build player with form inputs
-    (Mangler player model)
   */
   buildPlayer() {
-    // player: Player = new Player(); //imported from player model
+    this.player.email = this.personalInfoFormGroup.value.email;
+    this.player.password = this.personalInfoFormGroup.value.password;
+    this.player.firstName = this.personalInfoFormGroup.value.firstName;
+    this.player.lastName = this.personalInfoFormGroup.value.lastName;
+    this.player.country = this.personalInfoFormGroup.value.country;
+    this.player.city = this.personalInfoFormGroup.value.city;
+    this.player.day = this.personalInfoFormGroup.value.day;
+    this.player.month = this.personalInfoFormGroup.value.month;
+    this.player.year = this.personalInfoFormGroup.value.year;
+    this.player.height = this.additionalInfoFormGroup.value.height;
+    this.player.weight = this.additionalInfoFormGroup.value.weight;
+    this.player.bodyfat = this.additionalInfoFormGroup.value.bodyfat;
+    this.player.primaryPosition = this.additionalInfoFormGroup.value.primaryPosition;
+    this.player.secondaryPosition = this.additionalInfoFormGroup.value.secondaryPosition;
+    this.player.preferredHand = this.additionalInfoFormGroup.value.preferredHand;
+    this.player.strengths = this.strengthWeaknessFormGroup.value.strengths;
+    this.player.weaknesses = this.strengthWeaknessFormGroup.value.weaknesses;
+    this.player.currentClub = this.sportCvFormGroup.value.currentClub;
+    this.player.currentPrimaryPosition = this.sportCvFormGroup.value.currentPrimaryPosition;
+    this.player.currentSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
+    this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;
+    this.player.statistics = this.sportCvFormGroup.value.statistics;
+    this.player.formerClubs = this.sportCvFormGroup.value.formerClubs;
+    this.player.aTeamAppearances = this.nationalTeamFormGroup.value.aTeamAppearances;
+    this.player.aTeamPosition = this.nationalTeamFormGroup.value.aTeamPosition;
+    this.player.aTeamStatistics = this.nationalTeamFormGroup.value.aTeamStatistics;
+    this.player.bTeamAppearances = this.nationalTeamFormGroup.value.bTeamAppearances;
+    this.player.bTeamPosition = this.nationalTeamFormGroup.value.bTeamPosition;
+    this.player.bTeamStatistics = this.nationalTeamFormGroup.value.bTeamStatistics;
+    this.player.u21TeamAppearances = this.nationalTeamFormGroup.value.u21TeamAppearances;
+    this.player.u21TeamPosition = this.nationalTeamFormGroup.value.u21TeamPosition;
+    this.player.u21TeamStatistics = this.nationalTeamFormGroup.value.u21TeamStatistics;
+    this.player.u18TeamAppearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
+    this.player.u18TeamPosition = this.nationalTeamFormGroup.value.u18TeamPosition;
+    this.player.u18TeamStatistics = this.nationalTeamFormGroup.value.u18TeamStatistics;
 
-    // required info
-
-    // player.email = this.personalInfoFormGroup.value.email;
-    // player.password = this.personalInfoFormGroup.value.password;
-    // player.firstName = this.personalInfoFormGroup.value.firstName;
-    // player.lastName = this.personalInfoFormGroup.value.lastName;
-    // player.country = this.personalInfoFormGroup.value.country;
-    // player.city = this.personalInfoFormGroup.value.city;
-    // player.day = this.personalInfoFormGroup.value.day;
-    // player.month = this.personalInfoFormGroup.value.month;
-    // player.year = this.personalInfoFormGroup.value.year;
-
-    // optional info - (can be null)
-
-    // player.height = this.additionalInfoFormGroup.value.height;
-    // player.weight = this.additionalInfoFormGroup.value.weight;
-    // player.bodyfat = this.additionalInfoFormGroup.value.bodyfat;
-    // player.primaryPosition = this.additionalInfoFormGroup.value.primaryPosition;
-    // player.secondaryPosition = this.additionalInfoFormGroup.value.secondaryPosition;
-    // player.preferredHand = this.additionalInfoFormGroup.value.preferredHand;
-
-    // player.strengths = this.strengthWeaknessFormGroup.value.strengths;
-    // player.weaknesses = this.strengthWeaknessFormGroup.value.weaknesses;
-
-    // player.currentClub = this.sportCvFormGroup.value.currentClub;
-    // player.currentPosition = this.sportCvFormGroup.value.currentPosition;
-    // player.accomplishments = this.sportCvFormGroup.value.accomplishments;
-    // player.statistics = this.sportCvFormGroup.value.statistics;
-    // player.formerClubs = this.sportCvFormGroup.value.formerClubs;
-
-    // player.aTeamAppearances = this.nationalTeamFormGroup.value.aTeamAppearances;
-    // player.aTeamPosition = this.nationalTeamFormGroup.value.aTeamPosition;
-    // player.aTeamStatistics = this.nationalTeamFormGroup.value.aTeamStatistics;
-    // player.bTeamAppearances = this.nationalTeamFormGroup.value.bTeamAppearances;
-    // player.bTeamPosition = this.nationalTeamFormGroup.value.bTeamPosition;
-    // player.bTeamStatistics = this.nationalTeamFormGroup.value.bTeamStatistics;
-    // player.u21TeamAppearances = this.nationalTeamFormGroup.value.u21TeamAppearances;
-    // player.u21TeamPosition = this.nationalTeamFormGroup.value.u21TeamPosition;
-    // player.u21TeamStatistics = this.nationalTeamFormGroup.value.u21TeamStatistics;
-    // player.u18TeamAppearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
-    // player.u18TeamPosition = this.nationalTeamFormGroup.value.u18TeamPosition;
-    // player.u18TeamStatistics = this.nationalTeamFormGroup.value.u18TeamStatistics;
-
-    // return player;
+    return this.player;
   }
 }
