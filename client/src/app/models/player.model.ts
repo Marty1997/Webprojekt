@@ -39,6 +39,9 @@ export class Player {
     u18TeamAppearances: string;
     u18TeamPosition: string;
     u18TeamStatistics: string;
+    // picture/video
+    profilePicture: File;
+    videoPresentation: File;
 
     constructor() {}
 }

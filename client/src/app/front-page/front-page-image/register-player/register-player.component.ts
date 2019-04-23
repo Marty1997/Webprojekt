@@ -66,7 +66,7 @@ export class RegisterPlayerComponent implements OnInit {
       strengths: [''], weaknesses: ['']
     });
     this.sportCvFormGroup = this._formBuilder.group({
-      currentClub: [''], currentPosition: [''], currentSecondaryPosition: [''],
+      currentClub: [''], currentPrimaryPosition: [''], currentSecondaryPosition: [''],
       accomplishments: [''], statistics: [''], formerClubs: ['']
     });
     this.nationalTeamFormGroup = this._formBuilder.group({
@@ -106,7 +106,8 @@ export class RegisterPlayerComponent implements OnInit {
   registerPlayer() {
     this.onUpload();
     this.registerService.registerPlayer(this.buildPlayer());
-    this.sendConfirmationEmail(this.emailControl.value)
+    this.sendConfirmationEmail(this.emailControl.value);
+    console.log(this.player);
   }
 
   /*
@@ -155,6 +156,8 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.u18TeamAppearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
     this.player.u18TeamPosition = this.nationalTeamFormGroup.value.u18TeamPosition;
     this.player.u18TeamStatistics = this.nationalTeamFormGroup.value.u18TeamStatistics;
+    this.player.profilePicture = this.playerPresentationFormGroup.value.profilePictureControl;
+    this.player.videoPresentation = this.playerPresentationFormGroup.value.videoFileControl;
 
     return this.player;
   }
