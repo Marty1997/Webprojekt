@@ -11,4 +11,8 @@ export class uploadFilesService {
     
   }
 
+  uploadFiles(fileList: any) {
+    // upload multiple files to the host file system ...
+  }
+
 }
