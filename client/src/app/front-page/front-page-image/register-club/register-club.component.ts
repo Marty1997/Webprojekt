@@ -100,6 +100,7 @@ export class RegisterClubComponent implements OnInit {
       centreBackControl: [''],
       rightBackControl: [''],
       rightWingControl: [''],
+      pivotControl: [''],
       defenceControl: [''],
       benchPlayerControl: ['']
     });
