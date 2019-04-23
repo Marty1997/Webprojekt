@@ -78,6 +78,7 @@ export class RegisterPlayerComponent implements OnInit {
     this.sportCvFormGroup = this._formBuilder.group({
       currentClub: [''],
       currentPosition: [''],
+      currentSecondaryPosition: [''],
       accomplishments: [''],
       statistics: [''],
       formerClubs: ['']

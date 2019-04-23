@@ -165,6 +165,7 @@
           <mat-option value="Pivot">Pivot</mat-option>
           <mat-option value="Right back">Right back</mat-option>
           <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
@@ -176,6 +177,7 @@
           <mat-option value="Pivot">Pivot</mat-option>
           <mat-option value="Right back">Right back</mat-option>
           <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -234,11 +236,11 @@
 
       <mat-label>Club info</mat-label>
       <br>
-      <mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
         <input matInput placeholder="Current club" formControlName="currentClub"
           [errorStateMatcher]='validate'>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
         <mat-select placeholder="Current position" formControlName="currentPosition" [errorStateMatcher]='validate'>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
@@ -247,6 +249,19 @@
           <mat-option value="Pivot">Pivot</mat-option>
           <mat-option value="Right back">Right back</mat-option>
           <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <mat-select placeholder="Current secondary position" formControlName="currentSecondaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Centre back">Centre back</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -299,6 +314,7 @@
               <mat-option value="Pivot">Pivot</mat-option>
               <mat-option value="Right back">Right back</mat-option>
               <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
             </mat-select>
           </mat-form-field>
           <br>
@@ -323,6 +339,7 @@
               <mat-option value="Pivot">Pivot</mat-option>
               <mat-option value="Right back">Right back</mat-option>
               <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
             </mat-select>
           </mat-form-field>
           <br>
@@ -348,6 +365,7 @@
               <mat-option value="Pivot">Pivot</mat-option>
               <mat-option value="Right back">Right back</mat-option>
               <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
             </mat-select>
           </mat-form-field>
           <br>
@@ -372,6 +390,7 @@
               <mat-option value="Pivot">Pivot</mat-option>
               <mat-option value="Right back">Right back</mat-option>
               <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
             </mat-select>
           </mat-form-field>
           <br>
