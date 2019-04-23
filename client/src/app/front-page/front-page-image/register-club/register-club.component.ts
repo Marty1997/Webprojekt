@@ -163,36 +163,44 @@ export class RegisterClubComponent implements OnInit {
     // club.state = this.clubRequiredInfoFormGroup.value.state;
     // club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
 
-    // 
+    // club.regularMonday = this.trainingScheduleFormGroup.value.regularMondayFromControl + " - " + this.trainingScheduleFormGroup.value.regularMondayToControl;
+    // club.regularTuesday = this.trainingScheduleFormGroup.value.regularTuesdayToControl + " - " + this.trainingScheduleFormGroup.value.regularTuesdayFromControl;
+    // club.regularWednesday = this.trainingScheduleFormGroup.value.regularWednesdayToControl + " - " + this.trainingScheduleFormGroup.value.regularWednesdayFromControl;
+    // club.regularThursday = this.trainingScheduleFormGroup.value.regularThursdayToControl + " - " + this.trainingScheduleFormGroup.value.regularThursdayFromControl;
+    // club.regularFriday = this.trainingScheduleFormGroup.value.regularFridayToControl + " - " + this.trainingScheduleFormGroup.value.regularFridayFromControl;
+    // club.regularSaturday = this.trainingScheduleFormGroup.value.regularSaturdayToControl + " - " + this.trainingScheduleFormGroup.value.regularSaturdayFromControl;
+    // club.regularSunday = this.trainingScheduleFormGroup.value.regularSundayToControl + " - " + this.trainingScheduleFormGroup.value.regularSundayFromControl;
+    
+    // club.fitnessMonday = this.trainingScheduleFormGroup.value.fitnessMondayFromControl + " - " + this.trainingScheduleFormGroup.value.fitnessMondayToControl;
+    // club.fitnessTuesday = this.trainingScheduleFormGroup.value.fitnessTuesdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl;
+    // club.fitnessWednesday = this.trainingScheduleFormGroup.value.fitnessWednesdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl;
+    // club.fitnessThursday = this.trainingScheduleFormGroup.value.fitnessThursdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessThursdayFromControl;
+    // club.fitnessFriday = this.trainingScheduleFormGroup.value.fitnessFridayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessFridayFromControl;
+    // club.fitnessSaturday = this.trainingScheduleFormGroup.value.fitnessSaturdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl;
+    // club.fitnessSunday = this.trainingScheduleFormGroup.value.fitnessSundayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessSundayFromControl;
+    
+    // club.goalkeeper = this.clubSquadFormGroup.value.goalkeeperControl;
+    // club.leftWing = this.clubSquadFormGroup.value.leftWingControl;
+    // club.leftBack = this.clubSquadFormGroup.value.leftBackControl;
+    // club.centreBack = this.clubSquadFormGroup.value.centreBackControl;
+    // club.rightBack = this.clubSquadFormGroup.value.rightBackControl;
+    // club.rightWing = this.clubSquadFormGroup.value.rightWingControl;
+    // club.defence = this.clubSquadFormGroup.value.defenceControl;
 
-    // regularMondayFromControl: [''],
-    //   regularMondayToControl: [''],
-    //   regularTuesdayFromControl: [''],
-    //   regularTuesdayToControl: [''],
-    //   regularWednesdayFromControl: [''],
-    //   regularWednesdayToControl: [''],
-    //   regularThursdayFromControl: [''],
-    //   regularThursdayToControl: [''],
-    //   regularFridayFromControl: [''],
-    //   regularFridayToControl: [''],
-    //   regularSaturdayFromControl: [''],
-    //   regularSaturdayToControl: [''],
-    //   regularSundayFromControl: [''],
-    //   regularSundayToControl: [''],
-    //   fitnessMondayFromControl: [''],
-    //   fitnessMondayToControl: [''],
-    //   fitnessTuesdayFromControl: [''],
-    //   fitnessTuesdayToControl: [''],
-    //   fitnessWednesdayFromControl: [''],
-    //   fitnessWednesdayToControl: [''],
-    //   fitnessThursdayFromControl: [''],
-    //   fitnessThursdayToControl: [''],
-    //   fitnessFridayFromControl: [''],
-    //   fitnessFridayToControl: [''],
-    //   fitnessSaturdayFromControl: [''],
-    //   fitnessSaturdayToControl: [''],
-    //   fitnessSundayFromControl: [''],
-    //   fitnessSundayToControl: ['']
+    /* ADD THE BENCH PLAYERS TO CLUB LIST  */
+    // club.benchPlayers = this.clubSquadFormGroup.value.benchPlayerControl; // not sure if working
+
+    // club.trainer = this.clubStaffFormGroup.value.trainerControl;
+    // club.assistantTrainer = this.clubStaffFormGroup.value.assistantTrainerControl;
+    // club.physiotherapist = this.clubStaffFormGroup.value.physiotherapistControl;
+    // club.doctor = this.clubStaffFormGroup.value.doctorControl;
+    // club.manager = this.clubStaffFormGroup.value.managerControl;
+
+    // club.logo = /* PATH TO IMAGE?? */
+    // club.facilityPictures = /* PATH TO IMAGES?? */
+
+    // club.values = this.valuesAndPreferencesFormGroup.value.valuesControl;
+    // club.preferences = this.valuesAndPreferencesFormGroup.value.preferencesControl;
 
     // return club;
   }
