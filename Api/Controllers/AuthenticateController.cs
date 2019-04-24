@@ -27,7 +27,7 @@ namespace Api.Controllers {
 
             var user = authentication.Validate(loginRequest.Email, loginRequest.Password);
  
-            if (user.ToString() == "") {
+            if (user.ToString() == "Failed to authenticate") {
                 return StatusCode(400, "Failed to authenticate");
             }
             return Ok(user);

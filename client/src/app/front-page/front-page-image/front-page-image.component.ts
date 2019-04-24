@@ -38,8 +38,11 @@ export class FrontPageImageComponent implements OnInit {
   closeAllModals() {
     this.modalRef.hide();
     this.modalRef = null;
-    this.modalRefRecoverPassword.hide();
-    this.modalRefRecoverPassword = null;
+    if(this.modalRefRecoverPassword != null) {
+      this.modalRefRecoverPassword.hide();
+      this.modalRefRecoverPassword = null;
+    }
+
 
   }
 
@@ -58,7 +61,6 @@ export class FrontPageImageComponent implements OnInit {
            this.loginService.token = succes.token;
            this.closeAllModals();
            this.router.navigate(['/club-dashboard'])
-          // this.closeAllModals();
          }
          form.resetForm();
        },

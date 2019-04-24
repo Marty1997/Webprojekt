@@ -30,6 +30,10 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
+        public Player getCredentialscsByEmail(string email) {
+            throw new NotImplementedException();
+        }
+
         public void Insert(Player entity) {
             throw new NotImplementedException();
         }

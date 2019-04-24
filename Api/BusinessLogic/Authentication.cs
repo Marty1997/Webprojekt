@@ -15,7 +15,6 @@ namespace Api.BusinessLogic {
         private readonly IRepository<Player> playerRepos;
         private readonly IRepository<Club> clubRepos;
 
-
         public Authentication(Account account, IRepository<Player> playerRepos, IRepository<Club> clubRepos) {
             this.account = account;
             this.playerRepos = playerRepos;
@@ -23,7 +22,7 @@ namespace Api.BusinessLogic {
         }
 
         public object Validate(string email, string password) {
-            //Club club = clubRepos.GetByEmail(email);
+            //Club club = clubRepos.getCredentialscsByEmail(email);
             Club club = new Club();
             if(club.ErrorMessage == null) {
                 if (true /*account.ValidateLogin(club.UserCredentialscs.Salt, club.UserCredentialscs.HashPassword, password)*/) {
@@ -33,7 +32,7 @@ namespace Api.BusinessLogic {
                 }
             }
             else {
-                Player player = playerRepos.GetByEmail(email);
+                Player player = playerRepos.getCredentialscsByEmail(email);
                 if(player.ErrorMessage == "") {
                     if(true /*account.ValidateLogin(player.UserCredentialscs.Salt, player.UserCredentialscs.HashPassword, password)*/) {
                         player.Token = GenerateToken(player.Id);
