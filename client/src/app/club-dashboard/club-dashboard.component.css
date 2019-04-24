@@ -1,6 +1,7 @@
 @media (max-width: 415px) {
     .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
-        font-size: 70%;
+        font-size: 60%;
+        
     }
 }
 
