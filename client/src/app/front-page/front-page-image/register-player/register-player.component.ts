@@ -40,7 +40,6 @@ export class RegisterPlayerComponent implements OnInit {
   firstNameControl = new FormControl('', Validators.required);
   lastNameControl = new FormControl('', Validators.required);
   countryControl = new FormControl('', Validators.required);
-  cityControl = new FormControl('', Validators.required);
   dayControl = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2), Validators.pattern(this.numbersOnlyRegex)]);
   monthControl = new FormControl('', Validators.required);
   yearControl = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(this.numbersOnlyRegex)]);
@@ -55,7 +54,7 @@ export class RegisterPlayerComponent implements OnInit {
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
       email: this.emailControl, password: this.passwordControl, firstName: this.firstNameControl,
-      lastName: this.lastNameControl, country: this.countryControl, city: this.cityControl,
+      lastName: this.lastNameControl, country: this.countryControl,
       day: this.dayControl, month: this.monthControl, year: this.yearControl
     });
     this.additionalInfoFormGroup = this._formBuilder.group({
