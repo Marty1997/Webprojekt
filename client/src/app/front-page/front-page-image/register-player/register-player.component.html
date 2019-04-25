@@ -78,18 +78,18 @@
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
           <mat-select placeholder="Select Month" [formControl]="monthControl" [errorStateMatcher]='validate'>
-            <mat-option value="January">January</mat-option>
-            <mat-option value="February">February</mat-option>
-            <mat-option value="March">March</mat-option>
-            <mat-option value="April">April</mat-option>
-            <mat-option value="May">May</mat-option>
-            <mat-option value="June">June</mat-option>
-            <mat-option value="July">July</mat-option>
-            <mat-option value="August">August</mat-option>
-            <mat-option value="September">September</mat-option>
-            <mat-option value="October">October</mat-option>
-            <mat-option value="November">November</mat-option>
-            <mat-option value="December">December</mat-option>
+            <mat-option value="01">January</mat-option>
+            <mat-option value="02">February</mat-option>
+            <mat-option value="03">March</mat-option>
+            <mat-option value="04">April</mat-option>
+            <mat-option value="05">May</mat-option>
+            <mat-option value="06">June</mat-option>
+            <mat-option value="07">July</mat-option>
+            <mat-option value="08">August</mat-option>
+            <mat-option value="09">September</mat-option>
+            <mat-option value="10">October</mat-option>
+            <mat-option value="11">November</mat-option>
+            <mat-option value="12">December</mat-option>
           </mat-select>
           <mat-error *ngIf="monthControl?.hasError('required')">
             Month is <strong>required</strong>

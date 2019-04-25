@@ -28,6 +28,7 @@ export class RegisterClubComponent implements OnInit {
   clubRequiredInfoFormGroup: FormGroup;
   trainingScheduleFormGroup: FormGroup;
   clubSquadFormGroup: FormGroup;
+  openPositionsFormGroup: FormGroup;
   clubStaffFormGroup: FormGroup;
   clubPicturesFormGroup: FormGroup;
   valuesAndPreferencesFormGroup: FormGroup;
@@ -82,6 +83,9 @@ export class RegisterClubComponent implements OnInit {
     });
     this.clubSquadFormGroup = this._formBuilder.group({
       playerNameControl: [''], playerPositionControl: [''], shirtNumberControl: this.numbersOnlyControl
+    });
+    this.openPositionsFormGroup = this._formBuilder.group({
+      
     });
     this.clubStaffFormGroup = this._formBuilder.group({
       trainerControl: [''], assistantTrainerControl: [''], physiotherapistControl: [''],
