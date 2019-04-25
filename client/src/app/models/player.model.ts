@@ -5,6 +5,7 @@ import {Weakness} from '../models/weakness.model'
 
 export class Player {
     // required info
+    password: string;
     email: string;
     firstName: string;
     lastName: string;
@@ -13,9 +14,9 @@ export class Player {
     month: string;
     year: string;
     // additional info
-    height: string;
-    weight: string;
-    bodyfat: string;
+    height: number;
+    weight: number;
+    bodyfat: number;
     primaryPosition: Position;
     secondaryPosition: Position;
     preferredHand: string;
@@ -26,8 +27,8 @@ export class Player {
     weaknessList : Weakness [] = [];
     // sport cv
     currentClub: string;
-    currentPrimaryPosition: Position;
-    currentSecondaryPosition: Position;
+    currentClubPrimaryPosition: Position;
+    currentClubSecondaryPosition: Position;
     accomplishments: string;
     statistics: string;
     formerClubs: string;

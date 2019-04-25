@@ -6,6 +6,7 @@ import { Position } from '../models/position.model'
 
 export class Club {
     // required info
+    password: string
     name: string;
     email: string;
     league: string;
