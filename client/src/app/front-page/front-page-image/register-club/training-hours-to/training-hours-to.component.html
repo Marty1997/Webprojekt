@@ -1,3 +1,7 @@
-<p>
-  training-hours-to works!
-</p>
+<mat-form-field [formGroup]="group">
+  <mat-select placeholder="To" [formControlName]="controlName" [errorStateMatcher]="matcher">
+    <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">
+      {{trainingHour.value}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -114,9 +114,11 @@
             [controlName]="'regularMondayFromControl'" 
             [matcher]="validate">
           </app-training-hours-from>
-          <mat-select placeholder="To" class="selectTrainingHours" formControlName="regularMondayToControl" [errorStateMatcher]="validate">
-            
-          </mat-select>
+          <app-training-hours-to
+            [group]="trainingScheduleFormGroup" 
+            [controlName]="'regularMondayToControl'" 
+            [matcher]="validate">
+          </app-training-hours-to>
           <br>
           <br>
           <mat-label>Wednesday</mat-label><br>
@@ -125,7 +127,11 @@
             [controlName]="'regularWednesdayFromControl'" 
             [matcher]="validate">
           </app-training-hours-from>
-          
+          <app-training-hours-to
+            [group]="trainingScheduleFormGroup" 
+            [controlName]="'regularWednesdayToControl'" 
+            [matcher]="validate">
+          </app-training-hours-to>
           <mat-select placeholder="To" class="selectTrainingHours" formControlName="regularWednesdayToControl" [errorStateMatcher]="validate">
           </mat-select>
           <br>
@@ -261,171 +267,37 @@
           <br>
           <mat-label>Tuesday</mat-label><br>
           <mat-select placeholder="From" class="selectTrainingHours" formControlName="fitnessTuesdayFromControl" [errorStateMatcher]="validate">
-            <mat-option value="00:00">00:00</mat-option>
-            <mat-option value="01:00">01:00</mat-option>
-            <mat-option value="02:00">02:00</mat-option>
-            <mat-option value="03:00">03:00</mat-option>
-            <mat-option value="04:00">04:00</mat-option>
-            <mat-option value="05:00">05:00</mat-option>
-            <mat-option value="06:00">06:00</mat-option>
-            <mat-option value="07:00">07:00</mat-option>
-            <mat-option value="08:00">08:00</mat-option>
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-            <mat-option value="20:00">20:00</mat-option>
-            <mat-option value="21:00">21:00</mat-option>
-            <mat-option value="22:00">22:00</mat-option>
-            <mat-option value="23:00">23:00</mat-option>
-            <mat-option value="24:00">24:00</mat-option>
           </mat-select>
+          <app-training-hours-from
+            [group]="trainingScheduleFormGroup" 
+            [controlName]="'fitnessTuesdayFromControl'" 
+            [matcher]="validate">
+          </app-training-hours-from>
           <mat-select placeholder="To" class="selectTrainingHours" formControlName="fitnessTuesdayToControl" [errorStateMatcher]="validate">
-            <mat-option value="00:00">00:00</mat-option>
-            <mat-option value="01:00">01:00</mat-option>
-            <mat-option value="02:00">02:00</mat-option>
-            <mat-option value="03:00">03:00</mat-option>
-            <mat-option value="04:00">04:00</mat-option>
-            <mat-option value="05:00">05:00</mat-option>
-            <mat-option value="06:00">06:00</mat-option>
-            <mat-option value="07:00">07:00</mat-option>
-            <mat-option value="08:00">08:00</mat-option>
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-            <mat-option value="20:00">20:00</mat-option>
-            <mat-option value="21:00">21:00</mat-option>
-            <mat-option value="22:00">22:00</mat-option>
-            <mat-option value="23:00">23:00</mat-option>
-            <mat-option value="24:00">24:00</mat-option>
           </mat-select>
           <br>
           <br>
           <mat-label>Thursday</mat-label><br>
           <mat-select placeholder="From" class="selectTrainingHours" formControlName="fitnessThursdayFromControl" [errorStateMatcher]="validate">
-            <mat-option value="00:00">00:00</mat-option>
-            <mat-option value="01:00">01:00</mat-option>
-            <mat-option value="02:00">02:00</mat-option>
-            <mat-option value="03:00">03:00</mat-option>
-            <mat-option value="04:00">04:00</mat-option>
-            <mat-option value="05:00">05:00</mat-option>
-            <mat-option value="06:00">06:00</mat-option>
-            <mat-option value="07:00">07:00</mat-option>
-            <mat-option value="08:00">08:00</mat-option>
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-            <mat-option value="20:00">20:00</mat-option>
-            <mat-option value="21:00">21:00</mat-option>
-            <mat-option value="22:00">22:00</mat-option>
-            <mat-option value="23:00">23:00</mat-option>
-            <mat-option value="24:00">24:00</mat-option>
           </mat-select>
+          <app-training-hours-from
+            [group]="trainingScheduleFormGroup" 
+            [controlName]="'fitnessThursdayFromControl'" 
+            [matcher]="validate">
+          </app-training-hours-from>
           <mat-select placeholder="To" class="selectTrainingHours" formControlName="fitnessThursdayToControl" [errorStateMatcher]="validate">
-            <mat-option value="00:00">00:00</mat-option>
-            <mat-option value="01:00">01:00</mat-option>
-            <mat-option value="02:00">02:00</mat-option>
-            <mat-option value="03:00">03:00</mat-option>
-            <mat-option value="04:00">04:00</mat-option>
-            <mat-option value="05:00">05:00</mat-option>
-            <mat-option value="06:00">06:00</mat-option>
-            <mat-option value="07:00">07:00</mat-option>
-            <mat-option value="08:00">08:00</mat-option>
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-            <mat-option value="20:00">20:00</mat-option>
-            <mat-option value="21:00">21:00</mat-option>
-            <mat-option value="22:00">22:00</mat-option>
-            <mat-option value="23:00">23:00</mat-option>
-            <mat-option value="24:00">24:00</mat-option>
           </mat-select>
           <br><br>
           <mat-label>Saturday</mat-label><br>
           <mat-select placeholder="From" class="selectTrainingHours" formControlName="fitnessSaturdayFromControl" [errorStateMatcher]="validate">
-            <mat-option value="00:00">00:00</mat-option>
-            <mat-option value="01:00">01:00</mat-option>
-            <mat-option value="02:00">02:00</mat-option>
-            <mat-option value="03:00">03:00</mat-option>
-            <mat-option value="04:00">04:00</mat-option>
-            <mat-option value="05:00">05:00</mat-option>
-            <mat-option value="06:00">06:00</mat-option>
-            <mat-option value="07:00">07:00</mat-option>
-            <mat-option value="08:00">08:00</mat-option>
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-            <mat-option value="20:00">20:00</mat-option>
-            <mat-option value="21:00">21:00</mat-option>
-            <mat-option value="22:00">22:00</mat-option>
-            <mat-option value="23:00">23:00</mat-option>
-            <mat-option value="24:00">24:00</mat-option>
           </mat-select>
+          <app-training-hours-from
+            [group]="trainingScheduleFormGroup" 
+            [controlName]="'fitnessSaturdayFromControl'" 
+            [matcher]="validate">
+          </app-training-hours-from>
           <mat-select placeholder="To" class="selectTrainingHours" formControlName="fitnessSaturdayToControl" [errorStateMatcher]="validate">
-            <mat-option value="00:00">00:00</mat-option>
-            <mat-option value="01:00">01:00</mat-option>
-            <mat-option value="02:00">02:00</mat-option>
-            <mat-option value="03:00">03:00</mat-option>
-            <mat-option value="04:00">04:00</mat-option>
-            <mat-option value="05:00">05:00</mat-option>
-            <mat-option value="06:00">06:00</mat-option>
-            <mat-option value="07:00">07:00</mat-option>
-            <mat-option value="08:00">08:00</mat-option>
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-            <mat-option value="20:00">20:00</mat-option>
-            <mat-option value="21:00">21:00</mat-option>
-            <mat-option value="22:00">22:00</mat-option>
-            <mat-option value="23:00">23:00</mat-option>
-            <mat-option value="24:00">24:00</mat-option>
+
           </mat-select>
         </div>
       </div>
