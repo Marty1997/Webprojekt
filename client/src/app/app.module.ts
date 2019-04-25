@@ -29,6 +29,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
 import { RegisterClubComponent } from './front-page/front-page-image/register-club/register-club.component';
+import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
+import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
     ClubDashboardComponent,
     RegisterPlayerComponent,
     RegisterClubComponent,
+    TrainingHoursFromComponent,
+    TrainingHoursToComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
