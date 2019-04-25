@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
-    public class UserCredentialscs {
+    public class UserCredentials {
         public string Salt { get; set; }
         public string HashPassword { get; set; }
         public int LoginAttempts { get; set; }
