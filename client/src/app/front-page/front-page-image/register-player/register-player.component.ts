@@ -4,6 +4,7 @@ import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
 import { ErrorStateMatcher } from '@angular/material';
 import { Player } from '../../../models/player.model';
+import { NationalTeam } from 'src/app/models/nationalTeam.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -22,6 +23,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class RegisterPlayerComponent implements OnInit {
   @Input() modalRef: any;
   player: Player = new Player();
+  nationalTeamA: NationalTeam = new NationalTeam();
+  nationalTeamB: NationalTeam = new NationalTeam();
+  nationalTeamU21: NationalTeam = new NationalTeam();
+  nationalTeamU18: NationalTeam = new NationalTeam();
+
   personalInfoFormGroup: FormGroup; 
   additionalInfoFormGroup: FormGroup;
   strengthWeaknessFormGroup: FormGroup;
@@ -140,7 +146,6 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.firstName = this.personalInfoFormGroup.value.firstName;
     this.player.lastName = this.personalInfoFormGroup.value.lastName;
     this.player.country = this.personalInfoFormGroup.value.country;
-    this.player.city = this.personalInfoFormGroup.value.city;
     this.player.day = this.personalInfoFormGroup.value.day;
     this.player.month = this.personalInfoFormGroup.value.month;
     this.player.year = this.personalInfoFormGroup.value.year;
@@ -150,26 +155,34 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.primaryPosition = this.additionalInfoFormGroup.value.primaryPosition;
     this.player.secondaryPosition = this.additionalInfoFormGroup.value.secondaryPosition;
     this.player.preferredHand = this.additionalInfoFormGroup.value.preferredHand;
-    this.player.strengths = this.strengthWeaknessFormGroup.value.strengths;
-    this.player.weaknesses = this.strengthWeaknessFormGroup.value.weaknesses;
+    this.player.strengthDescription = this.strengthWeaknessFormGroup.value.strengths;
+    this.player.weaknessDescription = this.strengthWeaknessFormGroup.value.weaknesses;
+    // checkbox weaknesses goes here...
+
     this.player.currentClub = this.sportCvFormGroup.value.currentClub;
-    this.player.currentPrimaryPosition = this.sportCvFormGroup.value.currentPrimaryPosition;
-    this.player.currentSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
+    this.player.currentClubPrimaryPosition = this.sportCvFormGroup.value.currentPrimaryPosition;
+    this.player.currentClubSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
     this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;
     this.player.statistics = this.sportCvFormGroup.value.statistics;
     this.player.formerClubs = this.sportCvFormGroup.value.formerClubs;
-    this.player.aTeamAppearances = this.nationalTeamFormGroup.value.aTeamAppearances;
-    this.player.aTeamPosition = this.nationalTeamFormGroup.value.aTeamPosition;
-    this.player.aTeamStatistics = this.nationalTeamFormGroup.value.aTeamStatistics;
-    this.player.bTeamAppearances = this.nationalTeamFormGroup.value.bTeamAppearances;
-    this.player.bTeamPosition = this.nationalTeamFormGroup.value.bTeamPosition;
-    this.player.bTeamStatistics = this.nationalTeamFormGroup.value.bTeamStatistics;
-    this.player.u21TeamAppearances = this.nationalTeamFormGroup.value.u21TeamAppearances;
-    this.player.u21TeamPosition = this.nationalTeamFormGroup.value.u21TeamPosition;
-    this.player.u21TeamStatistics = this.nationalTeamFormGroup.value.u21TeamStatistics;
-    this.player.u18TeamAppearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
-    this.player.u18TeamPosition = this.nationalTeamFormGroup.value.u18TeamPosition;
-    this.player.u18TeamStatistics = this.nationalTeamFormGroup.value.u18TeamStatistics;
+    // national teams
+    this.nationalTeamA.name = "A";
+    this.nationalTeamA.appearances = this.nationalTeamFormGroup.value.aTeamAppearances;
+    this.nationalTeamA.position = this.nationalTeamFormGroup.value.aTeamPosition;
+    this.nationalTeamA.statistic = this.nationalTeamFormGroup.value.aTeamStatistics;
+    this.nationalTeamB.name = "B";
+    this.nationalTeamB.appearances = this.nationalTeamFormGroup.value.bTeamAppearances;
+    this.nationalTeamB.position = this.nationalTeamFormGroup.value.bTeamPosition;
+    this.nationalTeamB.statistic = this.nationalTeamFormGroup.value.bTeamStatistics;
+    this.nationalTeamU21.name = "U21";
+    this.nationalTeamU21.appearances = this.nationalTeamFormGroup.value.u21TeamAppearances;
+    this.nationalTeamU21.position = this.nationalTeamFormGroup.value.u21TeamPosition;
+    this.nationalTeamU21.statistic = this.nationalTeamFormGroup.value.u21TeamStatistics;
+    this.nationalTeamU18.name = "U18";
+    this.nationalTeamU18.appearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
+    this.nationalTeamU18.position = this.nationalTeamFormGroup.value.u18TeamPosition;
+    this.nationalTeamU18.statistic = this.nationalTeamFormGroup.value.u18TeamStatistics;
+    
     this.player.profilePicture = this.playerPresentationFormGroup.value.profilePictureControl;
     this.player.videoPresentation = this.playerPresentationFormGroup.value.videoFileControl;
 
