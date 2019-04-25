@@ -29,7 +29,7 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        public Club getCredentialscsByEmail(string email) {
+        public UserCredentialscs getCredentialscsByEmail(string email) {
             throw new NotImplementedException();
         }
 

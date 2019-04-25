@@ -7,5 +7,6 @@ namespace Api.DAL.Entities {
     public class UserCredentialscs {
         public string Salt { get; set; }
         public string HashPassword { get; set; }
+        public int LoginAttempts { get; set; }
     }
 }

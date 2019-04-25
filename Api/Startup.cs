@@ -50,8 +50,12 @@ namespace Api {
                 });
             });
 
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
             //Tokens
-            var key = Encoding.ASCII.GetBytes("THIS IS A SECRET AND SHOULD NOT BE HARDCODED");
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services.AddAuthentication(x => {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
