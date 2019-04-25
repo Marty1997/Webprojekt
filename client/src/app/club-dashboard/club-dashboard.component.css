@@ -1,7 +1,6 @@
 @media (max-width: 415px) {
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
-        font-size: 60%;
-        
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+        font-size: 50%; 
     }
 }
 
@@ -9,7 +8,7 @@
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) 
 and (orientation : portrait) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 100%;
     }
 }
@@ -18,7 +17,7 @@ and (orientation : portrait) {
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) 
 and (orientation : landscape) {
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 50%;
     }
 }
@@ -27,7 +26,7 @@ and (orientation : landscape) {
 @media only screen 
 and (min-device-width : 1024px) 
 and (orientation : portrait) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 50%;
     }
 }
@@ -37,8 +36,16 @@ and (min-device-width : 375px)
 and (max-device-width : 812px) 
 and (-webkit-device-pixel-ratio : 3)
 and (orientation : landscape) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing {
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 100%;
+    }
+}
+
+@media only screen 
+and (min-device-width : 1366px) 
+and (orientation : landscape) { 
+    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+        font-size: 80%;
     }
 }
 
@@ -56,31 +63,45 @@ and (orientation : landscape) {
 }
 
 .left-back {
-    top: 40%;
-    left: 20%;  
+    top: 60%;
+    left: 15%;  
 }
 
 .center-back {
-    top: 45%;
+    top: 80%;
     left: 50%;
 }
 
 .right-back {
-    top: 40%;
-    right: -10%;   
+    top: 60%;
+    right: -15%;   
 }
 
 .pivot {
-    top: 30%;
+    top: 48%;
     left: 50%; 
 }
 
 .left-wing {
-    top: 20%;
-    left: 20%; 
+    top: 25%;
+    left: 15%; 
 }
 
 .right-wing {
-    top: 20%;
-    right: -10%;
+    top: 25%;
+    right: -15%;
+}
+
+.defence {
+    top: 95%;
+    right: -15%;
+}
+
+
+.custom-tabs .mat-tab-label .mat-tab-label-content {
+    /* text */
+}
+
+.custom-tabs .mat-tab-label-active {
+    background-color: #d7d9db;
 }

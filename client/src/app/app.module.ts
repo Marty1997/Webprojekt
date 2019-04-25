@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, ErrorStateMatcher } from '@angular/material';
+import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, ErrorStateMatcher } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -61,7 +61,7 @@ import { RegisterPlayerComponent } from './front-page/front-page-image/register-
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
     CdkStepperModule,
-    MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
+    MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
     MatPaginatorModule,
     MatCardModule,
     ReactiveFormsModule,
