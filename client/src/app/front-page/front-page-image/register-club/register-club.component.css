@@ -2,6 +2,14 @@ mat-horizontal-stepper {
     width: 100%;
 }
 
+mat-checkbox label {
+    font-weight: normal;
+}
+
+mat-font-weight {
+    font-weight: normal;
+}
+
 table {
     width: 100%;
 }
