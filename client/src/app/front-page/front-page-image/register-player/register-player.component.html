@@ -207,46 +207,34 @@
       <hr>
       <div class="row">
         <div class="col-xs-6">
-          <mat-label>Strengths</mat-label>
+          <mat-label>Strengths</mat-label><br>
+          <mat-hint>Choose your strengths</mat-hint><br><br>
+          <mat-checkbox>Strength #1</mat-checkbox><br>
+          <mat-checkbox>Strength #2</mat-checkbox><br>
+          <mat-checkbox>Strength #3</mat-checkbox><br>
+          <mat-checkbox>Strength #4</mat-checkbox><br>
+          <mat-checkbox>Strength #5</mat-checkbox><br>
           <br>
-          <mat-hint>Check the boxes</mat-hint>
-          <br>
-          <mat-checkbox>Strength #1</mat-checkbox>
-          <mat-checkbox>Strength #2</mat-checkbox>
-          <mat-checkbox>Strength #3</mat-checkbox>
-          <mat-checkbox>Strength #4</mat-checkbox>
-          <mat-checkbox>Strength #5</mat-checkbox>
-          <mat-checkbox>Strength #6</mat-checkbox>
-          <mat-checkbox>Strength #7</mat-checkbox>
-          <mat-checkbox>Strength #8</mat-checkbox>
-          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Describe your strengths in depth..." matTextareaAutosize matAutosizeMinRows="10"
+              matAutosizeMaxRows="10" formControlName="strengths" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
         </div>
         <div class="col-xs-6">
-          <mat-label>Weaknesses</mat-label>
+          <mat-label>Weaknesses</mat-label><br>
+          <mat-hint>Choose your weaknesses</mat-hint><br><br>
+          <mat-checkbox>Weakness #1</mat-checkbox><br>
+          <mat-checkbox>Weakness #2</mat-checkbox><br>
+          <mat-checkbox>Weakness #3</mat-checkbox><br>
+          <mat-checkbox>Weakness #4</mat-checkbox><br>
+          <mat-checkbox>Weakness #5</mat-checkbox><br>
           <br>
-          <mat-hint>Check the boxes</mat-hint>
-          <br>
-          <mat-checkbox>Weakness #1</mat-checkbox>
-          <mat-checkbox>Weakness #2</mat-checkbox>
-          <mat-checkbox>Weakness #3</mat-checkbox>
-          <mat-checkbox>Weakness #4</mat-checkbox>
-          <mat-checkbox>Weakness #5</mat-checkbox>
-          <mat-checkbox>Weakness #6</mat-checkbox>
-          <mat-checkbox>Weakness #7</mat-checkbox>
-          <mat-checkbox>Weakness #8</mat-checkbox>
-          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Describe your weaknesses in depth..." matTextareaAutosize matAutosizeMinRows="10"
+              matAutosizeMaxRows="10" formControlName="weaknesses" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
         </div>
       </div>
-
-      <br>
-      <mat-form-field>
-        <textarea matInput placeholder="Fill out your strengths..." matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10" formControlName="strengths" [errorStateMatcher]='validate'></textarea>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Fill out your weaknesses..." matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10" formControlName="weaknesses" [errorStateMatcher]='validate'></textarea>
-      </mat-form-field>
 
       <br>
       <hr><br>
