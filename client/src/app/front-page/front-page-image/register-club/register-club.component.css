@@ -2,6 +2,10 @@ mat-horizontal-stepper {
     width: 100%;
 }
 
+table {
+    width: 100%;
+}
+
 /* Fields */
 
 mat-form-field,
@@ -16,6 +20,14 @@ mat-form-field,
 
 .threeFieldsOnSameRow {
     width: 32.3333%;
+}
+
+.addPlayerFields {
+    width: 28%;
+}
+
+.addPlayerButton {
+    margin: auto 0.5%;
 }
 
 /* Buttons */
