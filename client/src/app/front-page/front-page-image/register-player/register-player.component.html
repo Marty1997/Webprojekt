@@ -51,9 +51,9 @@
         <br>
         <mat-form-field class="doubleSizeField">
             <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
-              <mat-option value="Denmark">Denmark</mat-option>
-              <mat-option value="Sweden">Sweden</mat-option>
-              <mat-option value="Norway">Norway</mat-option>
+              <mat-option *ngFor="let country of countryList" [value]="country">
+                {{country}}
+              </mat-option>
             </mat-select>
             <mat-error *ngIf="countryControl?.hasError('required')">
               Country is <strong>required</strong>
