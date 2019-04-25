@@ -17,6 +17,6 @@ namespace Api.DAL {
         bool Update(TEntity entity);
         int Delete(int id);
         void Save();
-        UserCredentialscs getCredentialscsByEmail(string email);
+        UserCredentials getCredentialsByEmail(string email);
     }
 }

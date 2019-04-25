@@ -37,8 +37,8 @@ namespace Api.BusinessLogic {
                 }
             }
             else {
-                UserCredentialscs playerCredentialscs = playerRepos.getCredentialscsByEmail(email);
-                if(playerCredentialscs != null) {
+                UserCredentials playerCredentials = playerRepos.getCredentialsByEmail(email);
+                if(playerCredentials != null) {
                     if(true /*account.ValidateLogin(player.UserCredentialscs.Salt, player.UserCredentialscs.HashPassword, password)*/) {
                         Player player = new Player(); /*FIND SPILLER HER*/
                         player.Token = GenerateToken(player.Id);
