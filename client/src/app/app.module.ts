@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, ErrorStateMatcher } from '@angular/material';
+import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -29,6 +29,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
 import { RegisterClubComponent } from './front-page/front-page-image/register-club/register-club.component';
+import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
+import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 
 @NgModule({
@@ -47,6 +49,8 @@ import { loginService } from './services/loginService';
     ClubDashboardComponent,
     RegisterPlayerComponent,
     RegisterClubComponent,
+    TrainingHoursFromComponent,
+    TrainingHoursToComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -65,7 +69,7 @@ import { loginService } from './services/loginService';
     AccordionModule.forRoot(),
     CdkStepperModule,
     MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
-    MatPaginatorModule,
+    MatPaginatorModule, MatCheckboxModule, MatTableModule,
     MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,

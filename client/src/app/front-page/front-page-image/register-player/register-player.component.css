@@ -4,7 +4,8 @@ mat-horizontal-stepper {
 
 /* Fields */
 
-mat-form-field {
+mat-form-field,
+mat-checkbox {
     margin: auto 0.5%;
     width: 49%;
 }

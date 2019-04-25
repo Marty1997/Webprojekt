@@ -6,7 +6,7 @@ export class Club {
     country: string;
     league: string;
     streetAddress: string;
-    streetAddressLineTwo: string;
+    streetNumber: string;
     city: string;
     state: string;
     zipcode: string;
@@ -39,7 +39,7 @@ export class Club {
     trainer: string;
     assistantTrainer: string;
     physiotherapist: string;
-    doctor: string;
+    assistantPhysiotherapist: string;
     manager: string;
     // files
     logo: File;

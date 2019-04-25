@@ -49,7 +49,7 @@
         <br>
         <mat-label>Country info</mat-label>
         <br>
-        <mat-form-field>
+        <mat-form-field class="doubleSizeField">
             <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
               <mat-option value="Denmark">Denmark</mat-option>
               <mat-option value="Sweden">Sweden</mat-option>
@@ -59,12 +59,6 @@
               Country is <strong>required</strong>
             </mat-error>
           </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="City" [formControl]="cityControl" [errorStateMatcher]='validate'>
-          <mat-error *ngIf="cityControl?.hasError('required')">
-            City is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
 
         <br>
         <mat-label>Date of birth</mat-label>
@@ -173,6 +167,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Secondary position" formControlName="secondaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="None">None</mat-option>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
           <mat-option value="Left back">Left back</mat-option>
@@ -191,6 +186,7 @@
         <mat-select placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
           <mat-option value="Right">Right Hand</mat-option>
           <mat-option value="Left">Left Hand</mat-option>
+          <mat-option value="Both">Both Hands</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -209,8 +205,39 @@
       <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
         rate.</p>
       <hr>
+      <div class="row">
+        <div class="col-xs-6">
+          <mat-label>Strengths</mat-label>
+          <br>
+          <mat-hint>Check the boxes</mat-hint>
+          <br>
+          <mat-checkbox>Strength #1</mat-checkbox>
+          <mat-checkbox>Strength #2</mat-checkbox>
+          <mat-checkbox>Strength #3</mat-checkbox>
+          <mat-checkbox>Strength #4</mat-checkbox>
+          <mat-checkbox>Strength #5</mat-checkbox>
+          <mat-checkbox>Strength #6</mat-checkbox>
+          <mat-checkbox>Strength #7</mat-checkbox>
+          <mat-checkbox>Strength #8</mat-checkbox>
+          <br>
+        </div>
+        <div class="col-xs-6">
+          <mat-label>Weaknesses</mat-label>
+          <br>
+          <mat-hint>Check the boxes</mat-hint>
+          <br>
+          <mat-checkbox>Weakness #1</mat-checkbox>
+          <mat-checkbox>Weakness #2</mat-checkbox>
+          <mat-checkbox>Weakness #3</mat-checkbox>
+          <mat-checkbox>Weakness #4</mat-checkbox>
+          <mat-checkbox>Weakness #5</mat-checkbox>
+          <mat-checkbox>Weakness #6</mat-checkbox>
+          <mat-checkbox>Weakness #7</mat-checkbox>
+          <mat-checkbox>Weakness #8</mat-checkbox>
+          <br>
+        </div>
+      </div>
 
-      <mat-label>Strengths & Weaknesses</mat-label>
       <br>
       <mat-form-field>
         <textarea matInput placeholder="Fill out your strengths..." matTextareaAutosize matAutosizeMinRows="10"
@@ -257,6 +284,7 @@
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <mat-select placeholder="Current secondary position" formControlName="currentSecondaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="None">None</mat-option>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
           <mat-option value="Left back">Left back</mat-option>

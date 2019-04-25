@@ -4,6 +4,8 @@ import { ErrorStateMatcher } from '@angular/material';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
 import { Club } from '../../../models/club.model';
+import { SquadPlayer } from '../../../models/squadPlayer.model';
+import { asElementData } from '@angular/core/src/view';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -32,6 +34,14 @@ export class RegisterClubComponent implements OnInit {
   clubLogo: File = null;
   facilityPictures: FileList = null;
 
+  // squad table
+  displayedColumns: string[] = ['shirtNumber', 'name', 'position'];
+  elementData: SquadPlayer[] = [{name: 'name', position: 'pos', shirtNumber: 1}];
+  dataSource = this.elementData;
+  @Input() squadPlayerName: string;
+  @Input() squadPlayerPosition: string;
+  @Input() squadPlayerShirtNumber: number;
+  squadPlayer = new SquadPlayer();
 
   // validate
   validate = new MyErrorStateMatcher();
@@ -43,9 +53,8 @@ export class RegisterClubComponent implements OnInit {
   countryControl = new FormControl('', Validators.required);
   leagueControl = new FormControl('', Validators.required);
   streetAddressControl = new FormControl('', Validators.required);
-  streetAddressLineTwoControl = new FormControl('', Validators.required);
+  streetNumberControl = new FormControl('', [Validators.required, Validators.pattern(this.numbersOnlyRegex)]);
   cityControl = new FormControl('', Validators.required);
-  stateControl = new FormControl('', Validators.required);
   zipcodeControl = new FormControl('', Validators.required);
 
   constructor(private _formBuilder: FormBuilder, 
@@ -56,8 +65,8 @@ export class RegisterClubComponent implements OnInit {
     this.clubRequiredInfoFormGroup = this._formBuilder.group({
       email: this.emailControl, password: this.passwordControl, clubName: this.clubNameControl,
       country: this.countryControl, league: this.leagueControl, streetAddress: this.streetAddressControl,
-      streetAddressLineTwo: this.streetAddressLineTwoControl, city: this.cityControl,
-      state: this.stateControl, zipcode: this.zipcodeControl
+      streetNumber: this.streetNumberControl, city: this.cityControl,
+      zipcode: this.zipcodeControl
     });
     this.trainingScheduleFormGroup = this._formBuilder.group({
       regularMondayFromControl: [''], regularMondayToControl: [''], regularTuesdayFromControl: [''],
@@ -72,13 +81,11 @@ export class RegisterClubComponent implements OnInit {
       fitnessSundayToControl: ['']
     });
     this.clubSquadFormGroup = this._formBuilder.group({
-      goalkeeperControl: [''], leftWingControl: [''], leftBackControl: [''],
-      centreBackControl: [''], rightBackControl: [''], rightWingControl: [''],
-      pivotControl: [''], defenceControl: [''], benchPlayerControl: ['']
+      playerNameControl: [''], playerPositionControl: [''], shirtNumberControl: this.numbersOnlyControl
     });
     this.clubStaffFormGroup = this._formBuilder.group({
       trainerControl: [''], assistantTrainerControl: [''], physiotherapistControl: [''],
-      doctorControl: [''], managerControl: ['']
+      assistantPhysiotherapistControl: [''], managerControl: ['']
     });
     this.clubPicturesFormGroup = this._formBuilder.group({
       clubLogoControl: [''], facilityPicturesControl: ['']
@@ -86,6 +93,16 @@ export class RegisterClubComponent implements OnInit {
     this.valuesAndPreferencesFormGroup = this._formBuilder.group({
       valuesControl: [''], preferencesControl: ['']
     });
+  }
+
+  onAddPlayerToSquad() {
+    this.squadPlayer.name = this.clubSquadFormGroup.get('playerNameControl').value;
+    this.squadPlayer.position = this.clubSquadFormGroup.get('playerPositionControl').value;
+    this.squadPlayer.shirtNumber = this.clubSquadFormGroup.get('shirtNumberControl').value;
+
+    this.elementData.push(this.squadPlayer);
+    
+    console.log(this.elementData);
   }
 
   onClubLogoSelected(event) {
@@ -123,7 +140,7 @@ export class RegisterClubComponent implements OnInit {
     this.club.country = this.clubRequiredInfoFormGroup.value.country;
     this.club.league = this.clubRequiredInfoFormGroup.value.league;
     this.club.streetAddress = this.clubRequiredInfoFormGroup.value.streetAddress;
-    this.club.streetAddressLineTwo = this.clubRequiredInfoFormGroup.value.streetAddressLineTwo;
+    this.club.streetNumber = this.clubRequiredInfoFormGroup.value.streetNumber;
     this.club.city = this.clubRequiredInfoFormGroup.value.city;
     this.club.state = this.clubRequiredInfoFormGroup.value.state;
     this.club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
@@ -153,7 +170,7 @@ export class RegisterClubComponent implements OnInit {
     this.club.trainer = this.clubStaffFormGroup.value.trainerControl;
     this.club.assistantTrainer = this.clubStaffFormGroup.value.assistantTrainerControl;
     this.club.physiotherapist = this.clubStaffFormGroup.value.physiotherapistControl;
-    this.club.doctor = this.clubStaffFormGroup.value.doctorControl;
+    this.club.assistantPhysiotherapist = this.clubStaffFormGroup.value.assistantPhysiotherapistControl;
     this.club.manager = this.clubStaffFormGroup.value.managerControl;
     this.club.logo = this.clubPicturesFormGroup.value.clubLogoControl;
     this.club.facilityPictures = this.clubPicturesFormGroup.value.facilityPicturesControl;
