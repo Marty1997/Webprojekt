@@ -28,6 +28,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
+import { loginService } from './services/loginService';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { RegisterPlayerComponent } from './front-page/front-page-image/register-
   providers: [
     {provide: ErrorStateMatcher}
   ],
+  providers: [loginService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

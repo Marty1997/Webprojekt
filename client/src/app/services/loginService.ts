@@ -1,10 +1,16 @@
 //import { nameModel } from "../models/name.model";
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+
 
 @Injectable()
 
 export class loginService {
+  playerLoggedIn = false;
+  clubLoggedIn = false;
+  token: string;
+
   constructor(private http: HttpClient) {}
 
   revocerPassword(email: string) {
@@ -12,20 +18,10 @@ export class loginService {
     return this.http.post(url, email);
   }
 
-  clubLogin(email: string, password: string) {
-    let url = "WEB API controller metode";
-    return this.http.post(url,{
-      email: email,
-      password : password
-    });
-  }
+  loginUser(form: NgForm) {
+    let url = "https://localhost:44310/api/authenticate/";
 
-  playerLogin(email: string, password: string) {
-    let url = "WEB API controller metode";
-    return this.http.post(url,{
-      email: email,
-      password : password
-    });
+    return this.http.post(url, form.value);
   }
 
 }

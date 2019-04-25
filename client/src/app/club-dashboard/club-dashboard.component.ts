@@ -16,6 +16,7 @@ export class ClubDashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

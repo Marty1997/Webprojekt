@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Api.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace Api.DAL {
         bool Update(TEntity entity);
         int Delete(int id);
         void Save();
+        UserCredentialscs getCredentialscsByEmail(string email);
     }
 }

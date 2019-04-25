@@ -29,6 +29,10 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
+        public UserCredentialscs getCredentialscsByEmail(string email) {
+            throw new NotImplementedException();
+        }
+
         public void Insert(Club entity) {
             throw new NotImplementedException();
         }
