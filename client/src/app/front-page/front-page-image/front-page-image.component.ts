@@ -83,7 +83,8 @@ clubRegistrationModal: BsModalRef;
          }
           
        }
-    )
+    );
+  }
   
   openPlayerRegistrationModal(template: TemplateRef<any>) {
     this.playerRegistrationModal = this.modalService.show(template);

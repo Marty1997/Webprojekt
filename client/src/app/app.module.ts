@@ -76,9 +76,9 @@ import { loginService } from './services/loginService';
     MaterialFileInputModule
   ],
   providers: [
-    {provide: ErrorStateMatcher}
+    ErrorStateMatcher,
+    loginService
   ],
-  providers: [loginService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
