@@ -12,6 +12,11 @@ export class registerService {
     return this.http.post(url, player);
   }
 
+  registerClub(club: any) /* should be of type clubModel */{
+    let url = "";
+    return this.http.post(url, club);
+  }
+
   sendConfirmationEmail(playerEmail: string) {
     let url = "WEB API controller metode";
     return this.http.post(url, playerEmail);

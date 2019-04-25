@@ -1,472 +1,482 @@
-<div>
-  <mat-horizontal-stepper [linear]="true" #stepper>
-    <h2 class="lead">Register Player</h2>
-    <!-- PERSONAL INFO -->
-    <mat-step [stepControl]="personalInfoFormGroup">
-      <div class="formWrapper">
-        <form [formGroup]="personalInfoFormGroup">
-          <ng-template matStepLabel></ng-template><br>
-          <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
-          <hr>
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <!-- PERSONAL INFO -->
+  <mat-step [stepControl]="personalInfoFormGroup">
+    <div class="formWrapper">
+      <form [formGroup]="personalInfoFormGroup">
+        <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
+        <hr>
 
-          <mat-label>Login credentials</mat-label>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]='validate'>
-            <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
-              Please enter a valid email address
-            </mat-error>
-            <mat-error *ngIf="emailControl?.hasError('required')">
-              Email is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
-              [formControl]="passwordControl" [errorStateMatcher]='validate' [(ngModel)]="currentPassword">
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error *ngIf="passwordControl?.hasError('minlength') && !passwordControl?.hasError('required')">
-              Password must be at least 6 characters
-            </mat-error>
-            <mat-error *ngIf="passwordControl?.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+        <mat-label>Login credentials</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]='validate'>
+          <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailControl?.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+            [formControl]="passwordControl" [errorStateMatcher]='validate'>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="passwordControl?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="passwordControl?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <br>
-          <mat-label>Your full name</mat-label>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="First Name" type="text" [formControl]="firstNameControl"
-              [errorStateMatcher]='validate'>
-            <mat-error *ngIf="firstNameControl?.hasError('required')">
-              First name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Last Name" type="text" [formControl]="lastNameControl"
-              [errorStateMatcher]='validate'>
-            <mat-error *ngIf="lastNameControl?.hasError('required')">
-              Last name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <br>
-          <mat-label>Country info</mat-label>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="Country" type="text" [formControl]="countryControl"
-              [errorStateMatcher]='validate'>
+        <br>
+        <mat-label>Your full name</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="First Name" [formControl]="firstNameControl"
+            [errorStateMatcher]='validate'>
+          <mat-error *ngIf="firstNameControl?.hasError('required')">
+            First name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last Name" [formControl]="lastNameControl"
+            [errorStateMatcher]='validate'>
+          <mat-error *ngIf="lastNameControl?.hasError('required')">
+            Last name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-label>Country info</mat-label>
+        <br>
+        <mat-form-field>
+            <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+              <mat-option value="Denmark">Denmark</mat-option>
+              <mat-option value="Sweden">Sweden</mat-option>
+              <mat-option value="Norway">Norway</mat-option>
+            </mat-select>
             <mat-error *ngIf="countryControl?.hasError('required')">
               Country is <strong>required</strong>
             </mat-error>
           </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="City" [formControl]="cityControl" [errorStateMatcher]='validate'>
+          <mat-error *ngIf="cityControl?.hasError('required')">
+            City is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <br>
+        <mat-label>Date of birth</mat-label>
+        <br>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <input matInput placeholder="Day (DD)" [formControl]="dayControl" [errorStateMatcher]='validate'>
+          <mat-error
+            *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
+            Day of birth must be 2 characters
+          </mat-error>
+          <mat-error *ngIf="dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
+            Day of birth must be a number
+          </mat-error>
+          <mat-error *ngIf="dayControl?.hasError('required')">
+            Day is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <mat-select placeholder="Select Month" [formControl]="monthControl" [errorStateMatcher]='validate'>
+            <mat-option value="January">January</mat-option>
+            <mat-option value="February">February</mat-option>
+            <mat-option value="March">March</mat-option>
+            <mat-option value="April">April</mat-option>
+            <mat-option value="May">May</mat-option>
+            <mat-option value="June">June</mat-option>
+            <mat-option value="July">July</mat-option>
+            <mat-option value="August">August</mat-option>
+            <mat-option value="September">September</mat-option>
+            <mat-option value="October">October</mat-option>
+            <mat-option value="November">November</mat-option>
+            <mat-option value="December">December</mat-option>
+          </mat-select>
+          <mat-error *ngIf="monthControl?.hasError('required')">
+            Month is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <input matInput placeholder="Year (YYYY)" [formControl]="yearControl"
+            [errorStateMatcher]='validate'>
+          <mat-error
+            *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
+            Year must be a number
+          </mat-error>
+          <mat-error *ngIf="yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
+            Year must be 4 characters
+          </mat-error>
+          <mat-error *ngIf="yearControl?.hasError('required')">
+            Year is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <br>
+        <hr><br>
+
+        <button mat-flat-button matStepperNext class="btn btn-primary firstNextBtn">Next</button>
+      </form>
+    </div>
+  </mat-step>
+
+
+  <!-- ADDITIONAL INFO -->
+  <mat-step [stepControl]="additionalInfoFormGroup">
+    <form [formGroup]="additionalInfoFormGroup">
+      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+        rate.</p>
+      <hr>
+
+      <mat-label>Measurements</mat-label>
+      <br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput placeholder="Height in cm" [formControl]="heightControl"
+          [errorStateMatcher]='validate'>
+        <mat-error *ngIf="heightControl?.hasError('pattern')">
+          Height must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput placeholder="Weight in kg" [formControl]="weightControl"
+          [errorStateMatcher]='validate'>
+        <mat-error *ngIf="weightControl?.hasError('pattern')">
+          Weight must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput placeholder="Bodyfat in %" [formControl]="bodyfatControl"
+          [errorStateMatcher]='validate'>
+        <mat-error *ngIf="bodyfatControl?.hasError('pattern')">
+          Body fat must be a number
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Positions</mat-label>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="Primary position" formControlName="primaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Centre back">Centre back</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Secondary position" formControlName="secondaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Centre back">Centre back</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Preferred hand</mat-label>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
+          <mat-option value="Right">Right Hand</mat-option>
+          <mat-option value="Left">Left Hand</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <hr><br>
+
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+    </form>
+  </mat-step>
+
+
+  <!-- STRENGTHS & WEAKNESSES -->
+  <mat-step [stepControl]="strengthWeaknessFormGroup">
+    <form [formGroup]="strengthWeaknessFormGroup">
+      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+        rate.</p>
+      <hr>
+
+      <mat-label>Strengths & Weaknesses</mat-label>
+      <br>
+      <mat-form-field>
+        <textarea matInput placeholder="Fill out your strengths..." matTextareaAutosize matAutosizeMinRows="10"
+          matAutosizeMaxRows="10" formControlName="strengths" [errorStateMatcher]='validate'></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Fill out your weaknesses..." matTextareaAutosize matAutosizeMinRows="10"
+          matAutosizeMaxRows="10" formControlName="weaknesses" [errorStateMatcher]='validate'></textarea>
+      </mat-form-field>
+
+      <br>
+      <hr><br>
+
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+    </form>
+  </mat-step>
+
+
+  <!-- SPORT CV -->
+  <mat-step [stepControl]="sportCvFormGroup">
+    <form [formGroup]="sportCvFormGroup">
+      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+        rate.</p>
+      <hr>
+
+      <mat-label>Club info</mat-label>
+      <br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput placeholder="Current club" formControlName="currentClub"
+          [errorStateMatcher]='validate'>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <mat-select placeholder="Current position" formControlName="currentPrimaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Centre back">Centre back</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <mat-select placeholder="Current secondary position" formControlName="currentSecondaryPosition" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Centre back">Centre back</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Other info</mat-label>
+      <br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
+          matAutosizeMaxRows="10" formControlName="accomplishments" [errorStateMatcher]='validate'></textarea>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10"
+          formControlName="statistics" [errorStateMatcher]='validate'></textarea>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <textarea matInput placeholder="Former clubs" matTextareaAutosize matAutosizeMinRows="10"
+          matAutosizeMaxRows="10" formControlName="formerClubs" [errorStateMatcher]='validate'></textarea>
+      </mat-form-field>
+
+      <br>
+      <hr><br>
+
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+    </form>
+  </mat-step>
+
+
+  <!-- NATIONAL TEAM -->
+  <mat-step [stepControl]="nationalTeamFormGroup">
+    <form [formGroup]="nationalTeamFormGroup">
+      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
+        rate.</p>
+      <hr>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <mat-label>A Team</mat-label>
+          <br>
           <mat-form-field>
-            <input matInput placeholder="City" type="text" [formControl]="cityControl" [errorStateMatcher]='validate'>
-            <mat-error *ngIf="cityControl?.hasError('required')">
-              City is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-
-          <br>
-          <mat-label>Date of birth</mat-label>
-          <br>
-          <mat-form-field class="threeFieldsOnSameRow">
-            <input matInput placeholder="Day (DD)" type="text" [formControl]="dayControl"
+            <input matInput placeholder="Appearances" formControlName="aTeamAppearances"
               [errorStateMatcher]='validate'>
-            <mat-error
-              *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
-              Day of birth must be 2 characters
-            </mat-error>
-            <mat-error *ngIf="dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
-              Day of birth must be a number
-            </mat-error>
-            <mat-error *ngIf="dayControl?.hasError('required')">
-              Day is <strong>required</strong>
-            </mat-error>
           </mat-form-field>
-          <mat-form-field class="threeFieldsOnSameRow">
-            <mat-select placeholder="Select Month" [formControl]="monthControl" [errorStateMatcher]='validate'>
-              <mat-option value="January">January</mat-option>
-              <mat-option value="February">February</mat-option>
-              <mat-option value="March">March</mat-option>
-              <mat-option value="April">April</mat-option>
-              <mat-option value="May">May</mat-option>
-              <mat-option value="June">June</mat-option>
-              <mat-option value="July">July</mat-option>
-              <mat-option value="August">August</mat-option>
-              <mat-option value="September">September</mat-option>
-              <mat-option value="October">October</mat-option>
-              <mat-option value="November">November</mat-option>
-              <mat-option value="December">December</mat-option>
+          <mat-form-field>
+            <mat-select placeholder="Position" formControlName="aTeamPosition" [errorStateMatcher]='validate'>
+              <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+              <mat-option value="Left wing">Left wing</mat-option>
+              <mat-option value="Left back">Left back</mat-option>
+              <mat-option value="Centre back">Centre back</mat-option>
+              <mat-option value="Pivot">Pivot</mat-option>
+              <mat-option value="Right back">Right back</mat-option>
+              <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
             </mat-select>
-            <mat-error *ngIf="monthControl?.hasError('required')">
-              Month is <strong>required</strong>
-            </mat-error>
           </mat-form-field>
-          <mat-form-field class="threeFieldsOnSameRow">
-            <input matInput placeholder="Year (YYYY)" type="text" [formControl]="yearControl"
-              [errorStateMatcher]='validate'>
-            <mat-error
-              *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
-              Year must be a number
-            </mat-error>
-            <mat-error *ngIf="yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
-              Year must be 4 characters
-            </mat-error>
-            <mat-error *ngIf="yearControl?.hasError('required')">
-              Year is <strong>required</strong>
-            </mat-error>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" formControlName="aTeamStatistics" [errorStateMatcher]='validate'></textarea>
           </mat-form-field>
 
           <br>
-          <hr><br>
+          <mat-label>U21 Team</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" formControlName="u21TeamAppearances"
+              [errorStateMatcher]='validate'>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" formControlName="u21TeamPosition" [errorStateMatcher]='validate'>
+              <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+              <mat-option value="Left wing">Left wing</mat-option>
+              <mat-option value="Left back">Left back</mat-option>
+              <mat-option value="Centre back">Centre back</mat-option>
+              <mat-option value="Pivot">Pivot</mat-option>
+              <mat-option value="Right back">Right back</mat-option>
+              <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" formControlName="u21TeamStatistics" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+        </div>
 
-          <button mat-flat-button matStepperNext class="btn btn-primary firstNextBtn">Next</button>
-        </form>
+        <div class="col-xs-6">
+          <mat-label>B Team</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" formControlName="bTeamAppearances"
+              [errorStateMatcher]='validate'>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" formControlName="bTeamPosition" [errorStateMatcher]='validate'>
+              <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+              <mat-option value="Left wing">Left wing</mat-option>
+              <mat-option value="Left back">Left back</mat-option>
+              <mat-option value="Centre back">Centre back</mat-option>
+              <mat-option value="Pivot">Pivot</mat-option>
+              <mat-option value="Right back">Right back</mat-option>
+              <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" formControlName="bTeamStatistics" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+
+          <br>
+          <mat-label>U18 Team</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" formControlName="u18TeamAppearances"
+              [errorStateMatcher]='validate'>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" formControlName="u18TeamPosition" [errorStateMatcher]='validate'>
+              <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+              <mat-option value="Left wing">Left wing</mat-option>
+              <mat-option value="Left back">Left back</mat-option>
+              <mat-option value="Centre back">Centre back</mat-option>
+              <mat-option value="Pivot">Pivot</mat-option>
+              <mat-option value="Right back">Right back</mat-option>
+              <mat-option value="Right wing">Right wing</mat-option>
+              <mat-option value="Defence">Defence</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" formControlName="u18TeamStatistics" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+        </div>
       </div>
-    </mat-step>
+
+      <br>
+      <hr><br>
+
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+    </form>
+  </mat-step>
 
 
-    <!-- ADDITIONAL INFO -->
-    <mat-step [stepControl]="additionalInfoFormGroup">
-      <form [formGroup]="additionalInfoFormGroup">
-        <ng-template matStepLabel></ng-template><br>
-        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-          rate.</p>
-        <hr>
-
-        <mat-label>Measurements</mat-label>
-        <br>
-        <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Height in cm" type="text" [formControl]="heightControl"
-            [errorStateMatcher]='validate'>
-          <mat-error *ngIf="heightControl?.hasError('pattern')">
-            Height must be a number
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Weight in kg" type="text" [formControl]="weightControl"
-            [errorStateMatcher]='validate'>
-          <mat-error *ngIf="weightControl?.hasError('pattern')">
-            Weight must be a number
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Bodyfat in %" type="text" [formControl]="bodyfatControl"
-            [errorStateMatcher]='validate'>
-          <mat-error *ngIf="bodyfatControl?.hasError('pattern')">
-            Body fat must be a number
-          </mat-error>
-        </mat-form-field>
-
-        <br>
-        <mat-label>Positions</mat-label>
-        <br>
-        <mat-form-field>
-          <mat-select placeholder="Primary position" formControlName="primaryPosition" [errorStateMatcher]='validate'>
-            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-            <mat-option value="Left wing">Left wing</mat-option>
-            <mat-option value="Left back">Left back</mat-option>
-            <mat-option value="Centre back">Centre back</mat-option>
-            <mat-option value="Pivot">Pivot</mat-option>
-            <mat-option value="Right back">Right back</mat-option>
-            <mat-option value="Right wing">Right wing</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select placeholder="Secondary position" formControlName="secondaryPosition"
-            [errorStateMatcher]='validate'>
-            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-            <mat-option value="Left wing">Left wing</mat-option>
-            <mat-option value="Left back">Left back</mat-option>
-            <mat-option value="Centre back">Centre back</mat-option>
-            <mat-option value="Pivot">Pivot</mat-option>
-            <mat-option value="Right back">Right back</mat-option>
-            <mat-option value="Right wing">Right wing</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <br>
-        <mat-label>Preferred hand</mat-label>
-        <br>
-        <mat-form-field>
-          <mat-select placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
-            <mat-option value="Right">Right Hand</mat-option>
-            <mat-option value="Left">Left Hand</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <br>
-        <hr><br>
-
-        <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
-      </form>
-    </mat-step>
-
-
-    <!-- STRENGTHS & WEAKNESSES -->
-    <mat-step [stepControl]="strengthWeaknessFormGroup">
-      <form [formGroup]="strengthWeaknessFormGroup">
-        <ng-template matStepLabel></ng-template>
-        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-          rate.</p>
-        <hr>
-
-        <mat-label>Strengths & Weaknesses</mat-label>
-        <br>
-        <mat-form-field>
-          <textarea matInput placeholder="Fill out your strengths..." matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="strengths" [errorStateMatcher]='validate'></textarea>
-        </mat-form-field>
-        <mat-form-field>
-          <textarea matInput placeholder="Fill out your weaknesses..." matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="weaknesses" [errorStateMatcher]='validate'></textarea>
-        </mat-form-field>
-
-        <br>
-        <hr><br>
-
-        <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
-      </form>
-    </mat-step>
-
-
-    <!-- SPORT CV -->
-    <mat-step [stepControl]="sportCvFormGroup">
-      <form [formGroup]="sportCvFormGroup">
-        <ng-template matStepLabel></ng-template><br>
-        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-          rate.</p>
-        <hr>
-
-        <mat-label>Club info</mat-label>
-        <br>
-        <mat-form-field>
-          <input matInput placeholder="Current club" type="text" formControlName="currentClub"
-            [errorStateMatcher]='validate'>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select placeholder="Current position" formControlName="currentPosition" [errorStateMatcher]='validate'>
-            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-            <mat-option value="Left wing">Left wing</mat-option>
-            <mat-option value="Left back">Left back</mat-option>
-            <mat-option value="Centre back">Centre back</mat-option>
-            <mat-option value="Pivot">Pivot</mat-option>
-            <mat-option value="Right back">Right back</mat-option>
-            <mat-option value="Right wing">Right wing</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <br>
-        <mat-label>Other info</mat-label>
-        <br>
-        <mat-form-field class="threeFieldsOnSameRow">
-          <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="accomplishments" [errorStateMatcher]='validate'></textarea>
-        </mat-form-field>
-        <mat-form-field class="threeFieldsOnSameRow">
-          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="statistics" [errorStateMatcher]='validate'></textarea>
-        </mat-form-field>
-        <mat-form-field class="threeFieldsOnSameRow">
-          <textarea matInput placeholder="Former clubs" matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" formControlName="formerClubs" [errorStateMatcher]='validate'></textarea>
-        </mat-form-field>
-
-        <br>
-        <hr><br>
-
-        <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
-      </form>
-    </mat-step>
-
-
-    <!-- NATIONAL TEAM -->
-    <mat-step [stepControl]="nationalTeamFormGroup">
-      <form [formGroup]="nationalTeamFormGroup">
-        <ng-template matStepLabel></ng-template><br>
-        <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-          rate.</p>
-        <hr>
-
-        <div class="row">
-          <div class="col-xs-6">
-            <mat-label>A Team</mat-label>
-            <br>
-            <mat-form-field>
-              <input matInput placeholder="Appearances" type="text" formControlName="aTeamAppearances"
-                [errorStateMatcher]='validate'>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-select placeholder="Position" formControlName="aTeamPosition" [errorStateMatcher]='validate'>
-                <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-                <mat-option value="Left wing">Left wing</mat-option>
-                <mat-option value="Left back">Left back</mat-option>
-                <mat-option value="Centre back">Centre back</mat-option>
-                <mat-option value="Pivot">Pivot</mat-option>
-                <mat-option value="Right back">Right back</mat-option>
-                <mat-option value="Right wing">Right wing</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <br>
-            <mat-form-field class="doubleSizeField">
-              <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-                matAutosizeMaxRows="3" formControlName="aTeamStatistics" [errorStateMatcher]='validate'></textarea>
-            </mat-form-field>
-
-            <br>
-            <mat-label>U21 Team</mat-label>
-            <br>
-            <mat-form-field>
-              <input matInput placeholder="Appearances" type="text" formControlName="u21TeamAppearances"
-                [errorStateMatcher]='validate'>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-select placeholder="Position" formControlName="u21TeamPosition" [errorStateMatcher]='validate'>
-                <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-                <mat-option value="Left wing">Left wing</mat-option>
-                <mat-option value="Left back">Left back</mat-option>
-                <mat-option value="Centre back">Centre back</mat-option>
-                <mat-option value="Pivot">Pivot</mat-option>
-                <mat-option value="Right back">Right back</mat-option>
-                <mat-option value="Right wing">Right wing</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <br>
-            <mat-form-field class="doubleSizeField">
-              <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-                matAutosizeMaxRows="3" formControlName="u21TeamStatistics" [errorStateMatcher]='validate'></textarea>
-            </mat-form-field>
-          </div>
-
-          <div class="col-xs-6">
-            <mat-label>B Team</mat-label>
-            <br>
-            <mat-form-field>
-              <input matInput placeholder="Appearances" type="text" formControlName="bTeamAppearances"
-                [errorStateMatcher]='validate'>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-select placeholder="Position" formControlName="bTeamPosition" [errorStateMatcher]='validate'>
-                <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-                <mat-option value="Left wing">Left wing</mat-option>
-                <mat-option value="Left back">Left back</mat-option>
-                <mat-option value="Centre back">Centre back</mat-option>
-                <mat-option value="Pivot">Pivot</mat-option>
-                <mat-option value="Right back">Right back</mat-option>
-                <mat-option value="Right wing">Right wing</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <br>
-            <mat-form-field class="doubleSizeField">
-              <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-                matAutosizeMaxRows="3" formControlName="bTeamStatistics" [errorStateMatcher]='validate'></textarea>
-            </mat-form-field>
-
-            <br>
-            <mat-label>U18 Team</mat-label>
-            <br>
-            <mat-form-field>
-              <input matInput placeholder="Appearances" type="text" formControlName="u18TeamAppearances"
-                [errorStateMatcher]='validate'>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-select placeholder="Position" formControlName="u18TeamPosition" [errorStateMatcher]='validate'>
-                <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-                <mat-option value="Left wing">Left wing</mat-option>
-                <mat-option value="Left back">Left back</mat-option>
-                <mat-option value="Centre back">Centre back</mat-option>
-                <mat-option value="Pivot">Pivot</mat-option>
-                <mat-option value="Right back">Right back</mat-option>
-                <mat-option value="Right wing">Right wing</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <br>
-            <mat-form-field class="doubleSizeField">
-              <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-                matAutosizeMaxRows="3" formControlName="u18TeamStatistics" [errorStateMatcher]='validate'></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <br>
-        <hr><br>
-
-        <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
-      </form>
-    </mat-step>
-
-
-    <!-- PLAYER PRESENTATION -->
-    <mat-step [stepControl]="playerPresentationFormGroup">
-      <form [formGroup]="playerPresentationFormGroup">
-        <ng-template matStepLabel></ng-template><br>
-        <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.
-        </p>
-        <hr>
-
-        <div class="row">
-          <div class="col-xs-6">
-            <mat-label>Upload profile picture</mat-label>
-            <br>
-            <mat-form-field class="doubleSizeField">
-              <ngx-mat-file-input #profilePicture formControlName="file" (change)="onProfilePictureFileSelected($event)"
-                placeholder="Upload picture" accept="image/*"></ngx-mat-file-input>
-              <button mat-icon-button matSuffix *ngIf="!profilePicture.empty" (click)="profilePicture.clear($event)">
-                <mat-icon>clear</mat-icon>
-              </button>
-            </mat-form-field>
-            <br>
-            <br>
-            <button class="btn btn-primary chooseFileBtn" (click)="profilePicture.open()">Choose File</button>
-          </div>
-
-          <div class="col-xs-6">
-            <mat-label>Upload presentation video</mat-label>
-            <br>
-            <mat-form-field class="doubleSizeField">
-              <ngx-mat-file-input #playerPresentation formControlName="file"
-                (change)="onPresentationVideoFileSelected($event)" placeholder="Upload video" accept="video/*">
-              </ngx-mat-file-input>
-              <button mat-icon-button matSuffix *ngIf="!playerPresentation.empty"
-                (click)="playerPresentation.clear($event)">
-                <mat-icon>clear</mat-icon>
-              </button>
-            </mat-form-field>
-
-            <br>
-            <br>
-            <button class="btn btn-primary chooseFileBtn" (click)="playerPresentation.open()">Choose File</button>
-          </div>
-        </div>
-
-        <br>
-        <hr><br>
-
-        <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
-        <button mat-flat-button matStepperNext class="btn btn-primary nextBtn"
-          (click)="registerPlayer()">Register</button>
-      </form>
-    </mat-step>
-
-
-    <!-- LAST STEP -->
-    <mat-step>
-      <ng-template matStepLabel></ng-template><br>
-      <h1 class="lastStepHeadline">
-        Thank you!
-      </h1>
-      <p class="lastStepInfo">
-        Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
-        <br>
-        Please click the link in the email to confirm your email.
+  <!-- PLAYER PRESENTATION -->
+  <mat-step [stepControl]="playerPresentationFormGroup">
+    <form [formGroup]="playerPresentationFormGroup">
+      <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.
       </p>
       <hr>
 
-      <button mat-flat-button class="btn btn-primary doneBtn" (click)="modalRef.hide()">Done</button>
-    </mat-step>
-  </mat-horizontal-stepper>
-</div>
+      <div class="row">
+        <div class="col-xs-6">
+          <mat-label>Upload profile picture</mat-label>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <ngx-mat-file-input #profilePicture formControlName="profilePictureControl" (change)="onProfilePictureFileSelected($event)"
+              placeholder="Upload picture" accept="image/*"></ngx-mat-file-input>
+            <button mat-icon-button matSuffix *ngIf="!profilePicture.empty" (click)="profilePicture.clear($event)">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+          <br>
+          <br>
+          <button class="btn btn-primary chooseFileBtn" (click)="profilePicture.open()">Choose File</button>
+        </div>
+
+        <div class="col-xs-6">
+          <mat-label>Upload presentation video</mat-label>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <ngx-mat-file-input #playerPresentation formControlName="videoFileControl"
+              (change)="onPresentationVideoFileSelected($event)" placeholder="Upload video" accept="video/*">
+            </ngx-mat-file-input>
+            <button mat-icon-button matSuffix *ngIf="!playerPresentation.empty"
+              (click)="playerPresentation.clear($event)">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <br>
+          <br>
+          <button class="btn btn-primary chooseFileBtn" (click)="playerPresentation.open()">Choose File</button>
+        </div>
+      </div>
+
+      <br>
+      <hr><br>
+
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn"
+        (click)="registerPlayer()">Register</button>
+    </form>
+  </mat-step>
+
+
+  <!-- LAST STEP -->
+  <mat-step>
+    <h1 class="lastStepHeadline">
+      Thank you!
+    </h1>
+    <p class="lastStepInfo">
+      Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
+      <br>
+      Please click the link in the email to confirm your email.
+    </p>
+    <hr>
+
+    <button mat-flat-button class="btn btn-primary doneBtn" (click)="modalRef.hide()">Done</button>
+  </mat-step>
+</mat-horizontal-stepper>

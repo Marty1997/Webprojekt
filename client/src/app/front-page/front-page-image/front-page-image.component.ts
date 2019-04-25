@@ -12,20 +12,29 @@ import { Router } from "@angular/router";
 })
 export class FrontPageImageComponent implements OnInit {
   modalRef: BsModalRef | null;
+  modalRef2: BsModalRef | null;
   modalRefRecoverPassword: BsModalRef;
   wrongEmailOrPassword : boolean = false;
   recoverPasswordResult : string = "Email has been sent";
+clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
-  optional: String = ' Optional';
-  required: String = ' Required';
   constructor(private modalService: BsModalService, private loginService: loginService,
     private router: Router) { }
  
 
   
+  
+
+  
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'customModal'});
     this.wrongEmailOrPassword = false;
+  }
+
+  openSecondModalNested(template: TemplateRef<any>) {
+    this.modalRef2 = this.modalService.show(template, {class: 'customModal'});
+    this.modalRef.hide();
+    this.modalRef = null;
   }
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
@@ -81,7 +90,12 @@ export class FrontPageImageComponent implements OnInit {
     this.modalRef.hide();
     this.modalRef = null;
   }
- 
+
+  openClubRegistrationModal(template: TemplateRef<any>) {
+    this.clubRegistrationModal = this.modalService.show(template);
+    this.modalRef.hide();
+    this.modalRef = null;
+  }
 
 
   ngOnInit() {
