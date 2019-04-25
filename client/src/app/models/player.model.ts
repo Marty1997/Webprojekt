@@ -1,44 +1,38 @@
+import {NationalTeam} from '../models/nationalTeam.model'
+import {Position} from '../models/position.model'
+import {Strength} from '../models/strength.model'
+import {Weakness} from '../models/weakness.model'
+
 export class Player {
     // required info
     email: string;
-    password: string;
     firstName: string;
     lastName: string;
     country: string;
-    city: string;
-    day: number;
+    day: string;
     month: string;
-    year: number;
+    year: string;
     // additional info
     height: string;
     weight: string;
     bodyfat: string;
-    primaryPosition: string;
-    secondaryPosition: string;
+    primaryPosition: Position;
+    secondaryPosition: Position;
     preferredHand: string;
     // strengths/weaknesses
-    strengths: string;
-    weaknesses: string;
+    strengthDescription: string;
+    weaknessDescription: string;
+    strengthList : Strength [] = [];
+    weaknessList : Weakness [] = [];
     // sport cv
     currentClub: string;
-    currentPrimaryPosition: string;
-    currentSecondaryPosition: string;
+    currentPrimaryPosition: Position;
+    currentSecondaryPosition: Position;
     accomplishments: string;
     statistics: string;
     formerClubs: string;
     // national team
-    aTeamAppearances: string;
-    aTeamPosition: string;
-    aTeamStatistics: string;
-    bTeamAppearances: string;
-    bTeamPosition: string;
-    bTeamStatistics: string;
-    u21TeamAppearances: string;
-    u21TeamPosition: string;
-    u21TeamStatistics: string;
-    u18TeamAppearances: string;
-    u18TeamPosition: string;
-    u18TeamStatistics: string;
+    nationalTeam : NationalTeam [] = [];
     // picture/video
     profilePicture: File;
     videoPresentation: File;

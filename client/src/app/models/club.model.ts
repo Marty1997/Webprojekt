@@ -1,3 +1,4 @@
+
 export class Club {
     // required info
     email: string;
