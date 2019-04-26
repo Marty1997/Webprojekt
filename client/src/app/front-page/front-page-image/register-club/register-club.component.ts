@@ -179,25 +179,31 @@ export class RegisterClubComponent implements OnInit {
   }
 
   onAddPlayerToSquad() {
-    this.squadPlayer = new SquadPlayer();
-    this.squadPlayer.name = this.clubSquadFormGroup.get(
-      "playerNameControl"
-    ).value;
-    this.squadPlayer.position = this.clubSquadFormGroup.get(
-      "playerPositionControl"
-    ).value;
-    this.squadPlayer.shirtNumber = this.clubSquadFormGroup.get(
-      "shirtNumberControl"
-    ).value;
+    if (
+      this.clubSquadFormGroup.get("playerNameControl").value !== "" &&
+      this.clubSquadFormGroup.get("playerPositionControl").value !== "" &&
+      this.clubSquadFormGroup.get("shirtNumberControl").value !== ""
+    ) {
+      this.squadPlayer = new SquadPlayer();
+      this.squadPlayer.name = this.clubSquadFormGroup.get(
+        "playerNameControl"
+      ).value;
+      this.squadPlayer.position = this.clubSquadFormGroup.get(
+        "playerPositionControl"
+      ).value;
+      this.squadPlayer.shirtNumber = this.clubSquadFormGroup.get(
+        "shirtNumberControl"
+      ).value;
 
-    this.dataSource.push(this.squadPlayer); //add the new model object to the dataSource
-    this.dataSource = [...this.dataSource]; //refresh the dataSource
+      this.dataSource.push(this.squadPlayer); //add the new model object to the dataSource
+      this.dataSource = [...this.dataSource]; //refresh the dataSource
 
-    // reset input fields
-    this.clubSquadFormGroup.get("playerNameControl").setValue("");
-    this.clubSquadFormGroup.get("playerPositionControl").setValue("");
-    this.clubSquadFormGroup.get("shirtNumberControl").setValue("");
-    console.log(this.dataSource);
+      // reset input fields
+      this.clubSquadFormGroup.get("playerNameControl").setValue("");
+      this.clubSquadFormGroup.get("playerPositionControl").setValue("");
+      this.clubSquadFormGroup.get("shirtNumberControl").setValue("");
+      console.log(this.dataSource);
+    }
   }
 
   onClubLogoSelected(event) {
