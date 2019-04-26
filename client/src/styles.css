@@ -9,6 +9,14 @@
     font-style: normal;
 }
 
+/* GLOBAL REGISTER STYLES */
+.mat-checkbox-layout {
+  font-weight: normal;
+}
+.mat-elevation-z8 {
+  box-shadow: none;
+}
+
 .colorLightBlue{
   color: #66FCF1
 }
