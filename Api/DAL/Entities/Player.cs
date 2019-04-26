@@ -22,8 +22,8 @@ namespace Api.DAL.Entities {
         public int Height { get; set; }
         public int Weight { get; set; }
         public int BodyFat { get; set; }
-        public Position PrimaryPosition { get; set; }
-        public Position SecondaryPosition { get; set; }
+        public string PrimaryPosition { get; set; }
+        public string SecondaryPosition { get; set; }
         public string PreferredHand { get; set; }
         public string StrengthDescription { get; set; }
         public string WeaknessDescription { get; set; }
@@ -31,8 +31,8 @@ namespace Api.DAL.Entities {
         public List<string> StrengthList { get; set; }
         public List<NationalTeam> NationalTeamList { get; set; }
         public string CurrentClub { get; set; }
-        public Position CurrentClubPrimaryPosition { get; set; }
-        public Position CurrentClubSecondaryPosition { get; set; }
+        public string CurrentClubPrimaryPosition { get; set; }
+        public string CurrentClubSecondaryPosition { get; set; }
         public string Accomplishments { get; set; }
         public string Statistics { get; set; }
         public string FormerClubs { get; set; }
