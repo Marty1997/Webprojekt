@@ -257,7 +257,16 @@
         <input matInput placeholder="Player name" formControlName="playerNameControl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
-        <input matInput placeholder="Position" formControlName="playerPositionControl" [errorStateMatcher]="validate">
+        <mat-select placeholder="Position" formControlName="playerPositionControl" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Centre back">Centre back</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
         <input matInput placeholder="Shirt number" formControlName="shirtNumberControl" [errorStateMatcher]="validate">
@@ -280,9 +289,9 @@
           <td mat-cell *matCellDef="let squadPlayer"> {{squadPlayer.name}} </td>
         </ng-container>
 
-        <!-- Weight Column -->
+        <!-- Position Column -->
         <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef> Weight </th>
+          <th mat-header-cell *matHeaderCellDef> Position </th>
           <td mat-cell *matCellDef="let squadPlayer"> {{squadPlayer.position}} </td>
         </ng-container>
 
