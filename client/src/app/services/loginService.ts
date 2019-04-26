@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { Club } from '../models/club.model';
 import { Player } from '../models/player.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable()
@@ -14,7 +15,27 @@ export class loginService {
   clubInSession: Club;
   playerInSession: Player;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {
+    this.tokenStillValid();
+  }
+
+  private tokenStillValid() {
+    if(this.isAuthenticated()) {
+      this.token = localStorage.getItem('token');
+      this.typeOfLogin = localStorage.getItem('typeOfLogin');
+    }
+    else {
+      this.logout();
+    }
+  }
+
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    // Check whether the token is expired and return
+    // true or false
+    return true;
+    return !this.jwtHelper.isTokenExpired(token);
+  }
 
   revocerPassword(email: string) {
     let url = "WEB API controller metode";
@@ -24,7 +45,7 @@ export class loginService {
   loginUser(form: NgForm) {
     let url = "https://localhost:44310/api/authenticate/";
     
-    this.http.post(url, form.value).subscribe(
+     return this.http.post(url, form.value).subscribe(
       (succes:any) => {
         console.log(succes);
         if(succes.isPlayer) {
@@ -33,7 +54,6 @@ export class loginService {
           this.playerInSession = succes.player;
           localStorage.setItem('typeOfLogin', this.typeOfLogin);
           localStorage.setItem('token', this.token);
-          return true;
         }
         else if (succes.isClub) {
           this.typeOfLogin = "Club";
@@ -41,17 +61,11 @@ export class loginService {
           this.clubInSession = succes.club;
           localStorage.setItem('typeOfLogin', this.typeOfLogin);
           localStorage.setItem('token', this.token);
-          return true;
         }
       },
       (error) => {
-        if(error.error == "Failed to authenticate") {
-           return false
-        }
-        return false;
       }
    );
-   return false;
   }
 
   logout() {
