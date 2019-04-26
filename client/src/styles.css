@@ -9,6 +9,10 @@
     font-style: normal;
 }
 
+.mat-checkbox-layout {
+  font-weight: normal;
+}
+
 .colorLightBlue{
   color: #66FCF1
 }
