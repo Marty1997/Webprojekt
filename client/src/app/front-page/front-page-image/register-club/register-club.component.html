@@ -253,6 +253,7 @@
       <hr>
 
       <mat-label>Add player to Squad</mat-label><br>
+      <mat-hint>Fill out all fields to add a player</mat-hint><br>
       <mat-form-field class="addPlayerFields">
         <input matInput placeholder="Player name" formControlName="playerNameControl" [errorStateMatcher]="validate">
       </mat-form-field>
@@ -270,6 +271,9 @@
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
         <input matInput placeholder="Shirt number" formControlName="shirtNumberControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Shirt number must be a number
+        </mat-error>
       </mat-form-field>
       <button class="btn btn-success addPlayerButton" (click)="onAddPlayerToSquad()">Add</button><br>
 
