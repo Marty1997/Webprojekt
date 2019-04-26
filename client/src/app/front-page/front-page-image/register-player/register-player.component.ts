@@ -1,8 +1,8 @@
-import {Component, OnInit, Input, Attribute} from '@angular/core';
+import {Component, OnInit, Input, Attribute, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm, AbstractControl, Validator} from '@angular/forms';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher, MatCheckbox } from '@angular/material';
 import { Player } from '../../../models/player.model';
 import { NationalTeam } from 'src/app/models/nationalTeam.model';
 
@@ -27,6 +27,17 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamB: NationalTeam = new NationalTeam();
   nationalTeamU21: NationalTeam = new NationalTeam();
   nationalTeamU18: NationalTeam = new NationalTeam();
+
+  @ViewChild('firstStrength') private firstStrength: MatCheckbox;
+  @ViewChild('secondStrength') private secondStrength: MatCheckbox;
+  @ViewChild('thirdStrength') private thirdStrength: MatCheckbox;
+  @ViewChild('fourthStrength') private fourthStrength: MatCheckbox;
+  @ViewChild('fifthStrength') private fifthStrength: MatCheckbox;
+  @ViewChild('firstWeakness') private firstWeakness: MatCheckbox;
+  @ViewChild('secondWeakness') private secondWeakness: MatCheckbox;
+  @ViewChild('thirdWeakness') private thirdWeakness: MatCheckbox;
+  @ViewChild('fourthWeakness') private fourthWeakness: MatCheckbox;
+  @ViewChild('fifthWeakness') private fifthWeakness: MatCheckbox;
 
   personalInfoFormGroup: FormGroup; 
   additionalInfoFormGroup: FormGroup;
@@ -83,7 +94,7 @@ export class RegisterPlayerComponent implements OnInit {
       primaryPosition: [''], secondaryPosition: [''], preferredHand: ['']
     });
     this.strengthWeaknessFormGroup = this._formBuilder.group({
-      strengths: [''], weaknesses: ['']
+      strengths: [''], weaknesses: [''], strengthOne: ['']
     });
     this.sportCvFormGroup = this._formBuilder.group({
       currentClub: [''], currentPrimaryPosition: [''], currentSecondaryPosition: [''],
@@ -149,15 +160,49 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.day = this.personalInfoFormGroup.value.day;
     this.player.month = this.personalInfoFormGroup.value.month;
     this.player.year = this.personalInfoFormGroup.value.year;
+
     this.player.height = this.additionalInfoFormGroup.value.height;
     this.player.weight = this.additionalInfoFormGroup.value.weight;
     this.player.bodyfat = this.additionalInfoFormGroup.value.bodyfat;
     this.player.primaryPosition = this.additionalInfoFormGroup.value.primaryPosition;
     this.player.secondaryPosition = this.additionalInfoFormGroup.value.secondaryPosition;
     this.player.preferredHand = this.additionalInfoFormGroup.value.preferredHand;
+
+    // strengths
     this.player.strengthDescription = this.strengthWeaknessFormGroup.value.strengths;
+    if(this.firstStrength.checked) {
+      // this.player.strengthList.push(this.firstStrength.value);
+    }
+    if(this.secondStrength.checked) {
+      // this.player.strengthList.push(this.secondStrength.value);
+    }
+    if(this.thirdStrength.checked) {
+      // this.player.strengthList.push(this.thirdStrength.value);
+    }
+    if(this.fourthStrength.checked) {
+      // this.player.strengthList.push(this.fourthStrength.value);
+    }
+    if(this.fifthStrength.checked) {
+      // this.player.strengthList.push(this.fifthStrength.value);
+    }
+    
+    // weaknesses
     this.player.weaknessDescription = this.strengthWeaknessFormGroup.value.weaknesses;
-    // checkbox weaknesses goes here...
+    if(this.firstWeakness.checked) {
+      // this.player.weaknessList.push(this.firstWeakness.value);
+    }
+    if(this.secondWeakness.checked) {
+      // this.player.weaknessList.push(this.secondWeakness.value);
+    }
+    if(this.thirdWeakness.checked) {
+      // this.player.weaknessList.push(this.thirdWeakness.value);
+    }
+    if(this.fourthWeakness.checked) {
+      // this.player.weaknessList.push(this.fourthWeakness.value);
+    }
+    if(this.fifthWeakness.checked) {
+      // this.player.weaknessList.push(this.fifthWeakness.value);
+    }
 
     this.player.currentClub = this.sportCvFormGroup.value.currentClub;
     this.player.currentClubPrimaryPosition = this.sportCvFormGroup.value.currentPrimaryPosition;
