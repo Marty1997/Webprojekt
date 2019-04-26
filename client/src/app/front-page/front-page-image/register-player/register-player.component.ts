@@ -1,24 +1,40 @@
-import {Component, OnInit, Input, Attribute, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm, AbstractControl, Validator} from '@angular/forms';
-import { registerService } from 'src/app/services/registerService';
-import { uploadFilesService } from 'src/app/services/uploadFilesService';
-import { ErrorStateMatcher, MatCheckbox } from '@angular/material';
-import { Player } from '../../../models/player.model';
-import { NationalTeam } from 'src/app/models/nationalTeam.model';
+import { Component, OnInit, Input, Attribute, ViewChild } from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  AbstractControl,
+  Validator
+} from "@angular/forms";
+import { registerService } from "src/app/services/registerService";
+import { uploadFilesService } from "src/app/services/uploadFilesService";
+import { ErrorStateMatcher, MatCheckbox } from "@angular/material";
+import { Player } from "../../../models/player.model";
+import { NationalTeam } from "src/app/models/nationalTeam.model";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
     const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
   }
 }
 
 @Component({
-    selector: 'app-register-player',
-    templateUrl: './register-player.component.html',
-    styleUrls: ['./register-player.component.css'],
-    providers: [registerService, uploadFilesService]
+  selector: "app-register-player",
+  templateUrl: "./register-player.component.html",
+  styleUrls: ["./register-player.component.css"],
+  providers: [registerService, uploadFilesService]
 })
 export class RegisterPlayerComponent implements OnInit {
   @Input() modalRef: any;
@@ -28,18 +44,18 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamU21: NationalTeam = new NationalTeam();
   nationalTeamU18: NationalTeam = new NationalTeam();
 
-  @ViewChild('firstStrength') private firstStrength: MatCheckbox;
-  @ViewChild('secondStrength') private secondStrength: MatCheckbox;
-  @ViewChild('thirdStrength') private thirdStrength: MatCheckbox;
-  @ViewChild('fourthStrength') private fourthStrength: MatCheckbox;
-  @ViewChild('fifthStrength') private fifthStrength: MatCheckbox;
-  @ViewChild('firstWeakness') private firstWeakness: MatCheckbox;
-  @ViewChild('secondWeakness') private secondWeakness: MatCheckbox;
-  @ViewChild('thirdWeakness') private thirdWeakness: MatCheckbox;
-  @ViewChild('fourthWeakness') private fourthWeakness: MatCheckbox;
-  @ViewChild('fifthWeakness') private fifthWeakness: MatCheckbox;
+  @ViewChild("firstStrength") private firstStrength: MatCheckbox;
+  @ViewChild("secondStrength") private secondStrength: MatCheckbox;
+  @ViewChild("thirdStrength") private thirdStrength: MatCheckbox;
+  @ViewChild("fourthStrength") private fourthStrength: MatCheckbox;
+  @ViewChild("fifthStrength") private fifthStrength: MatCheckbox;
+  @ViewChild("firstWeakness") private firstWeakness: MatCheckbox;
+  @ViewChild("secondWeakness") private secondWeakness: MatCheckbox;
+  @ViewChild("thirdWeakness") private thirdWeakness: MatCheckbox;
+  @ViewChild("fourthWeakness") private fourthWeakness: MatCheckbox;
+  @ViewChild("fifthWeakness") private fifthWeakness: MatCheckbox;
 
-  personalInfoFormGroup: FormGroup; 
+  personalInfoFormGroup: FormGroup;
   additionalInfoFormGroup: FormGroup;
   strengthWeaknessFormGroup: FormGroup;
   sportCvFormGroup: FormGroup;
@@ -48,66 +64,125 @@ export class RegisterPlayerComponent implements OnInit {
   hide = true; // password visibility
   profilePicture: File = null;
   presentationVideo: File = null;
-  countryList: string[] = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
-	,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands"
-	,"Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica"
-	,"Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"
-	,"Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana"
-	,"Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India"
-	,"Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia"
-	,"Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania"
-	,"Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia"
-	,"New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal"
-	,"Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles"
-	,"Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan"
-	,"Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia"
-	,"Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay"
-	,"Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  countryList: string[] = [
+    "Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan",
+    "Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi",
+    "Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic",
+    "Denmark","Djibouti","Dominica","Dominican Republic",
+    "Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia",
+    "Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies",
+    "Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana",
+    "Haiti","Honduras","Hong Kong","Hungary",
+    "Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy",
+    "Jamaica","Japan","Jersey","Jordan",
+    "Kazakhstan","Kenya","Kuwait","Kyrgyz Republic",
+    "Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
+    "Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique",
+    "Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway",
+    "Oman",
+    "Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico",
+    "Qatar",
+    "Reunion","Romania","Russia","Rwanda",
+    "Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria",
+    "Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos",
+    "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan",
+    "Venezuela","Vietnam","Virgin Islands (US)",
+    "Yemen",
+    "Zambia","Zimbabwe"
+  ];
 
   // input validators
   validate = new MyErrorStateMatcher();
   numbersOnlyRegex = /^[0-9]*$/;
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  firstNameControl = new FormControl('', Validators.required);
-  lastNameControl = new FormControl('', Validators.required);
-  countryControl = new FormControl('', Validators.required);
-  dayControl = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2), Validators.pattern(this.numbersOnlyRegex)]);
-  monthControl = new FormControl('', Validators.required);
-  yearControl = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(this.numbersOnlyRegex)]);
-  heightControl = new FormControl('', Validators.pattern(this.numbersOnlyRegex));
-  weightControl = new FormControl('', Validators.pattern(this.numbersOnlyRegex));
-  bodyfatControl = new FormControl('', Validators.pattern(this.numbersOnlyRegex));
+  emailControl = new FormControl("", [Validators.required, Validators.email]);
+  passwordControl = new FormControl("", [
+    Validators.required,
+    Validators.minLength(6)
+  ]);
+  firstNameControl = new FormControl("", Validators.required);
+  lastNameControl = new FormControl("", Validators.required);
+  countryControl = new FormControl("", Validators.required);
+  dayControl = new FormControl("", [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(2),
+    Validators.pattern(this.numbersOnlyRegex)
+  ]);
+  monthControl = new FormControl("", Validators.required);
+  yearControl = new FormControl("", [
+    Validators.required,
+    Validators.minLength(4),
+    Validators.maxLength(4),
+    Validators.pattern(this.numbersOnlyRegex)
+  ]);
+  heightControl = new FormControl(
+    "",
+    Validators.pattern(this.numbersOnlyRegex)
+  );
+  weightControl = new FormControl(
+    "",
+    Validators.pattern(this.numbersOnlyRegex)
+  );
+  bodyfatControl = new FormControl(
+    "",
+    Validators.pattern(this.numbersOnlyRegex)
+  );
 
-  constructor(private _formBuilder: FormBuilder, 
-                private registerService: registerService, 
-                private uploadFilesService: uploadFilesService) {}
+  constructor(
+    private _formBuilder: FormBuilder,
+    private registerService: registerService,
+    private uploadFilesService: uploadFilesService
+  ) {}
 
   ngOnInit() {
     this.personalInfoFormGroup = this._formBuilder.group({
-      email: this.emailControl, password: this.passwordControl, firstName: this.firstNameControl,
-      lastName: this.lastNameControl, country: this.countryControl,
-      day: this.dayControl, month: this.monthControl, year: this.yearControl
+      email: this.emailControl,
+      password: this.passwordControl,
+      firstName: this.firstNameControl,
+      lastName: this.lastNameControl,
+      country: this.countryControl,
+      day: this.dayControl,
+      month: this.monthControl,
+      year: this.yearControl
     });
     this.additionalInfoFormGroup = this._formBuilder.group({
-      height: this.heightControl, weight: this.weightControl, bodyfat: this.bodyfatControl,
-      primaryPosition: [''], secondaryPosition: [''], preferredHand: ['']
+      height: this.heightControl,
+      weight: this.weightControl,
+      bodyfat: this.bodyfatControl,
+      primaryPosition: [""],
+      secondaryPosition: [""],
+      preferredHand: [""]
     });
     this.strengthWeaknessFormGroup = this._formBuilder.group({
-      strengths: [''], weaknesses: [''], strengthOne: ['']
+      strengths: [""],
+      weaknesses: [""],
+      strengthOne: [""]
     });
     this.sportCvFormGroup = this._formBuilder.group({
-      currentClub: [''], currentPrimaryPosition: [''], currentSecondaryPosition: [''],
-      accomplishments: [''], statistics: [''], formerClubs: ['']
+      currentClub: [""],
+      currentPrimaryPosition: [""],
+      currentSecondaryPosition: [""],
+      accomplishments: [""],
+      statistics: [""],
+      formerClubs: [""]
     });
     this.nationalTeamFormGroup = this._formBuilder.group({
-      aTeamAppearances: [''], aTeamPosition: [''], aTeamStatistics: [''], 
-      bTeamAppearances: [''], bTeamPosition: [''], bTeamStatistics: [''],
-      u21TeamAppearances: [''], u21TeamPosition: [''], u21TeamStatistics: [''],
-      u18TeamAppearances: [''], u18TeamPosition: [''], u18TeamStatistics: ['']
+      aTeamAppearances: [""],
+      aTeamPosition: [""],
+      aTeamStatistics: [""],
+      bTeamAppearances: [""],
+      bTeamPosition: [""],
+      bTeamStatistics: [""],
+      u21TeamAppearances: [""],
+      u21TeamPosition: [""],
+      u21TeamStatistics: [""],
+      u18TeamAppearances: [""],
+      u18TeamPosition: [""],
+      u18TeamStatistics: [""]
     });
     this.playerPresentationFormGroup = this._formBuilder.group({
-      profilePictureControl: [''], videoFileControl: ['']
+      profilePictureControl: [""],
+      videoFileControl: [""]
     });
   }
 
@@ -123,10 +198,10 @@ export class RegisterPlayerComponent implements OnInit {
     Upload files with uploadService
   */
   onUpload() {
-    if(this.profilePicture != null) {
+    if (this.profilePicture != null) {
       this.uploadFilesService.uploadFile(this.profilePicture);
     }
-    if(this.presentationVideo != null) {
+    if (this.presentationVideo != null) {
       this.uploadFilesService.uploadFile(this.presentationVideo);
     }
   }
@@ -144,9 +219,9 @@ export class RegisterPlayerComponent implements OnInit {
   /*
     Send confirmation email to player's email
   */
- sendConfirmationEmail(playerEmail: string) {
+  sendConfirmationEmail(playerEmail: string) {
     this.registerService.sendConfirmationEmail(playerEmail);
- }
+  }
 
   /* 
     Build player with form inputs
@@ -170,37 +245,37 @@ export class RegisterPlayerComponent implements OnInit {
 
     // strengths
     this.player.strengthDescription = this.strengthWeaknessFormGroup.value.strengths;
-    if(this.firstStrength.checked) {
+    if (this.firstStrength.checked) {
       this.player.strengthList.push(this.firstStrength.value);
     }
-    if(this.secondStrength.checked) {
+    if (this.secondStrength.checked) {
       this.player.strengthList.push(this.secondStrength.value);
     }
-    if(this.thirdStrength.checked) {
+    if (this.thirdStrength.checked) {
       this.player.strengthList.push(this.thirdStrength.value);
     }
-    if(this.fourthStrength.checked) {
+    if (this.fourthStrength.checked) {
       this.player.strengthList.push(this.fourthStrength.value);
     }
-    if(this.fifthStrength.checked) {
+    if (this.fifthStrength.checked) {
       this.player.strengthList.push(this.fifthStrength.value);
     }
 
     // weaknesses
     this.player.weaknessDescription = this.strengthWeaknessFormGroup.value.weaknesses;
-    if(this.firstWeakness.checked) {
+    if (this.firstWeakness.checked) {
       this.player.weaknessList.push(this.firstWeakness.value);
     }
-    if(this.secondWeakness.checked) {
+    if (this.secondWeakness.checked) {
       this.player.weaknessList.push(this.secondWeakness.value);
     }
-    if(this.thirdWeakness.checked) {
+    if (this.thirdWeakness.checked) {
       this.player.weaknessList.push(this.thirdWeakness.value);
     }
-    if(this.fourthWeakness.checked) {
+    if (this.fourthWeakness.checked) {
       this.player.weaknessList.push(this.fourthWeakness.value);
     }
-    if(this.fifthWeakness.checked) {
+    if (this.fifthWeakness.checked) {
       this.player.weaknessList.push(this.fifthWeakness.value);
     }
 
