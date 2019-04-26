@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormGroupDirective, NgForm, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher, MatCheckbox } from '@angular/material';
 import { registerService } from 'src/app/services/registerService';
 import { uploadFilesService } from 'src/app/services/uploadFilesService';
 import { Club } from '../../../models/club.model';
 import { SquadPlayer } from '../../../models/squadPlayer.model';
+import { TrainingHours } from '../../../models/trainingHours.model';
 import { asElementData } from '@angular/core/src/view';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -34,6 +35,32 @@ export class RegisterClubComponent implements OnInit {
   valuesAndPreferencesFormGroup: FormGroup;
   clubLogo: File = null;
   facilityPictures: FileList = null;
+
+  // training hours
+  regular: TrainingHours = new TrainingHours();
+  fitness: TrainingHours = new TrainingHours();
+
+  // open positions
+  @ViewChild('goalkeeperOpen') goalkeeperOpen: MatCheckbox;
+  @ViewChild('leftWingOpen') leftWingOpen: MatCheckbox;
+  @ViewChild('leftBackOpen') leftBackOpen: MatCheckbox;
+  @ViewChild('centreBackOpen') centreBackOpen: MatCheckbox;
+  @ViewChild('pivotOpen') pivotOpen: MatCheckbox;
+  @ViewChild('rightBackOpen') rightBackOpen: MatCheckbox;
+  @ViewChild('rightWingOpen') rightWingOpen: MatCheckbox;
+  @ViewChild('defenceOpen') defenceOpen: MatCheckbox;
+
+  // values&preferences
+  @ViewChild('firstValue') firstValue: MatCheckbox;
+  @ViewChild('secondValue') secondValue: MatCheckbox;
+  @ViewChild('thirdValue') thirdValue: MatCheckbox;
+  @ViewChild('fourthValue') fourthValue: MatCheckbox;
+  @ViewChild('fifthValue') fifthValue: MatCheckbox;
+  @ViewChild('firstPreference') firstPreference: MatCheckbox;
+  @ViewChild('secondPreference') secondPreference: MatCheckbox;
+  @ViewChild('thirdPreference') thirdPreference: MatCheckbox;
+  @ViewChild('fourthPreference') fourthPreference: MatCheckbox;
+  @ViewChild('fifthPreference') fifthPreference: MatCheckbox;
 
   // squad table
   displayedColumns: string[] = ['shirtNumber', 'name', 'position'];
@@ -146,40 +173,96 @@ export class RegisterClubComponent implements OnInit {
     this.club.streetAddress = this.clubRequiredInfoFormGroup.value.streetAddress;
     this.club.streetNumber = this.clubRequiredInfoFormGroup.value.streetNumber;
     this.club.city = this.clubRequiredInfoFormGroup.value.city;
-    this.club.state = this.clubRequiredInfoFormGroup.value.state;
     this.club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
-    this.club.regularMonday = this.trainingScheduleFormGroup.value.regularMondayFromControl + " - " + this.trainingScheduleFormGroup.value.regularMondayToControl;
-    this.club.regularTuesday = this.trainingScheduleFormGroup.value.regularTuesdayToControl + " - " + this.trainingScheduleFormGroup.value.regularTuesdayFromControl;
-    this.club.regularWednesday = this.trainingScheduleFormGroup.value.regularWednesdayToControl + " - " + this.trainingScheduleFormGroup.value.regularWednesdayFromControl;
-    this.club.regularThursday = this.trainingScheduleFormGroup.value.regularThursdayToControl + " - " + this.trainingScheduleFormGroup.value.regularThursdayFromControl;
-    this.club.regularFriday = this.trainingScheduleFormGroup.value.regularFridayToControl + " - " + this.trainingScheduleFormGroup.value.regularFridayFromControl;
-    this.club.regularSaturday = this.trainingScheduleFormGroup.value.regularSaturdayToControl + " - " + this.trainingScheduleFormGroup.value.regularSaturdayFromControl;
-    this.club.regularSunday = this.trainingScheduleFormGroup.value.regularSundayToControl + " - " + this.trainingScheduleFormGroup.value.regularSundayFromControl;
-    this.club.fitnessMonday = this.trainingScheduleFormGroup.value.fitnessMondayFromControl + " - " + this.trainingScheduleFormGroup.value.fitnessMondayToControl;
-    this.club.fitnessTuesday = this.trainingScheduleFormGroup.value.fitnessTuesdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl;
-    this.club.fitnessWednesday = this.trainingScheduleFormGroup.value.fitnessWednesdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl;
-    this.club.fitnessThursday = this.trainingScheduleFormGroup.value.fitnessThursdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessThursdayFromControl;
-    this.club.fitnessFriday = this.trainingScheduleFormGroup.value.fitnessFridayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessFridayFromControl;
-    this.club.fitnessSaturday = this.trainingScheduleFormGroup.value.fitnessSaturdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl;
-    this.club.fitnessSunday = this.trainingScheduleFormGroup.value.fitnessSundayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessSundayFromControl;
-    this.club.goalkeeper = this.clubSquadFormGroup.value.goalkeeperControl;
-    this.club.leftWing = this.clubSquadFormGroup.value.leftWingControl;
-    this.club.leftBack = this.clubSquadFormGroup.value.leftBackControl;
-    this.club.centreBack = this.clubSquadFormGroup.value.centreBackControl;
-    this.club.rightBack = this.clubSquadFormGroup.value.rightBackControl;
-    this.club.rightWing = this.clubSquadFormGroup.value.rightWingControl;
-    this.club.pivot = this.clubSquadFormGroup.value.pivotControl;
-    this.club.defence = this.clubSquadFormGroup.value.defenceControl;
-    this.club.benchPlayers = this.clubSquadFormGroup.value.benchPlayerControl;
+    // training hours
+    this.regular.name = "Regular";
+    this.regular.mon = this.trainingScheduleFormGroup.value.regularMondayFromControl + " - " + this.trainingScheduleFormGroup.value.regularMondayToControl;
+    this.regular.tue = this.trainingScheduleFormGroup.value.regularTuesdayToControl + " - " + this.trainingScheduleFormGroup.value.regularTuesdayFromControl;
+    this.regular.wed = this.trainingScheduleFormGroup.value.regularWednesdayToControl + " - " + this.trainingScheduleFormGroup.value.regularWednesdayFromControl;
+    this.regular.thu = this.trainingScheduleFormGroup.value.regularThursdayToControl + " - " + this.trainingScheduleFormGroup.value.regularThursdayFromControl;
+    this.regular.fri = this.trainingScheduleFormGroup.value.regularFridayToControl + " - " + this.trainingScheduleFormGroup.value.regularFridayFromControl;
+    this.regular.sat = this.trainingScheduleFormGroup.value.regularSaturdayToControl + " - " + this.trainingScheduleFormGroup.value.regularSaturdayFromControl;
+    this.regular.sun = this.trainingScheduleFormGroup.value.regularSundayToControl + " - " + this.trainingScheduleFormGroup.value.regularSundayFromControl;
+    this.club.trainingHoursList.push(this.regular);
+    this.fitness.name = "Fitness";
+    this.fitness.mon = this.trainingScheduleFormGroup.value.fitnessMondayFromControl + " - " + this.trainingScheduleFormGroup.value.fitnessMondayToControl;
+    this.fitness.tue = this.trainingScheduleFormGroup.value.fitnessTuesdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl;
+    this.fitness.wed = this.trainingScheduleFormGroup.value.fitnessWednesdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl;
+    this.fitness.thu = this.trainingScheduleFormGroup.value.fitnessThursdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessThursdayFromControl;
+    this.fitness.fri = this.trainingScheduleFormGroup.value.fitnessFridayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessFridayFromControl;
+    this.fitness.sat = this.trainingScheduleFormGroup.value.fitnessSaturdayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl;
+    this.fitness.sun = this.trainingScheduleFormGroup.value.fitnessSundayToControl + " - " + this.trainingScheduleFormGroup.value.fitnessSundayFromControl;
+    this.club.trainingHoursList.push(this.fitness);
+    // squad
+    this.club.squadPlayersList = this.elementData;
+    // open positions
+    if(this.goalkeeperOpen.checked) {
+      this.club.openPositionList.push(this.goalkeeperOpen.value);
+    }
+    if(this.leftWingOpen.checked) {
+      this.club.openPositionList.push(this.leftWingOpen.value);
+    }
+    if(this.leftBackOpen.checked) {
+      this.club.openPositionList.push(this.leftBackOpen.value);
+    }
+    if(this.centreBackOpen.checked) {
+      this.club.openPositionList.push(this.centreBackOpen.value);
+    }
+    if(this.pivotOpen.checked) {
+      this.club.openPositionList.push(this.pivotOpen.value);
+    }
+    if(this.rightBackOpen.checked) {
+      this.club.openPositionList.push(this.rightBackOpen.value);
+    }
+    if(this.rightWingOpen.checked) {
+      this.club.openPositionList.push(this.rightWingOpen.value);
+    }
+    if(this.defenceOpen.checked) {
+      this.club.openPositionList.push(this.defenceOpen.value);
+    }
+    // staff
     this.club.trainer = this.clubStaffFormGroup.value.trainerControl;
     this.club.assistantTrainer = this.clubStaffFormGroup.value.assistantTrainerControl;
     this.club.physiotherapist = this.clubStaffFormGroup.value.physiotherapistControl;
     this.club.assistantPhysiotherapist = this.clubStaffFormGroup.value.assistantPhysiotherapistControl;
     this.club.manager = this.clubStaffFormGroup.value.managerControl;
+    // files
     this.club.logo = this.clubPicturesFormGroup.value.clubLogoControl;
     this.club.facilityPictures = this.clubPicturesFormGroup.value.facilityPicturesControl;
-    this.club.values = this.valuesAndPreferencesFormGroup.value.valuesControl;
-    this.club.preferences = this.valuesAndPreferencesFormGroup.value.preferencesControl;
+    // values
+    this.club.valueDescription = this.valuesAndPreferencesFormGroup.value.valuesControl;
+    if(this.firstValue.checked) {
+      this.club.valuesList.push(this.firstValue.value);
+    }
+    if(this.secondValue.checked) {
+      this.club.valuesList.push(this.secondValue.value);
+    }
+    if(this.thirdValue.checked) {
+      this.club.valuesList.push(this.thirdValue.value);
+    }
+    if(this.fourthValue.checked) {
+      this.club.valuesList.push(this.fourthValue.value);
+    }
+    if(this.fifthValue.checked) {
+      this.club.valuesList.push(this.fifthValue.value);
+    }
+    // preferences
+    this.club.preferenceDescription = this.valuesAndPreferencesFormGroup.value.preferencesControl;
+    if(this.firstPreference.checked) {
+      this.club.valuesList.push(this.firstPreference.value);
+    }
+    if(this.secondPreference.checked) {
+      this.club.valuesList.push(this.secondPreference.value);
+    }
+    if(this.thirdPreference.checked) {
+      this.club.valuesList.push(this.thirdPreference.value);
+    }
+    if(this.fourthPreference.checked) {
+      this.club.valuesList.push(this.fourthPreference.value);
+    }
+    if(this.fifthPreference.checked) {
+      this.club.valuesList.push(this.fifthPreference.value);
+    }
 
     return this.club;
   }

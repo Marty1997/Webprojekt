@@ -14,8 +14,6 @@ export class Club {
     zipcode: string;
     trainingHoursList : TrainingHours[] = [];
     squadPlayersList : SquadPlayer[] = [];
-    valuesList : string[] = [];
-    preferenceList : string[] = [];
     openPositionList : string[] = [];
 
     // staff
@@ -32,6 +30,8 @@ export class Club {
     // values/preferences
     valueDescription: string;
     preferenceDescription: string;
+    valuesList : string[] = [];
+    preferenceList : string[] = [];
 
     constructor() {}
 }
