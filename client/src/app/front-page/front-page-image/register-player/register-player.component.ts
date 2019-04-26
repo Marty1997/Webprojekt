@@ -171,37 +171,37 @@ export class RegisterPlayerComponent implements OnInit {
     // strengths
     this.player.strengthDescription = this.strengthWeaknessFormGroup.value.strengths;
     if(this.firstStrength.checked) {
-      // this.player.strengthList.push(this.firstStrength.value);
+      this.player.strengthList.push(this.firstStrength.value);
     }
     if(this.secondStrength.checked) {
-      // this.player.strengthList.push(this.secondStrength.value);
+      this.player.strengthList.push(this.secondStrength.value);
     }
     if(this.thirdStrength.checked) {
-      // this.player.strengthList.push(this.thirdStrength.value);
+      this.player.strengthList.push(this.thirdStrength.value);
     }
     if(this.fourthStrength.checked) {
-      // this.player.strengthList.push(this.fourthStrength.value);
+      this.player.strengthList.push(this.fourthStrength.value);
     }
     if(this.fifthStrength.checked) {
-      // this.player.strengthList.push(this.fifthStrength.value);
+      this.player.strengthList.push(this.fifthStrength.value);
     }
-    
+
     // weaknesses
     this.player.weaknessDescription = this.strengthWeaknessFormGroup.value.weaknesses;
     if(this.firstWeakness.checked) {
-      // this.player.weaknessList.push(this.firstWeakness.value);
+      this.player.weaknessList.push(this.firstWeakness.value);
     }
     if(this.secondWeakness.checked) {
-      // this.player.weaknessList.push(this.secondWeakness.value);
+      this.player.weaknessList.push(this.secondWeakness.value);
     }
     if(this.thirdWeakness.checked) {
-      // this.player.weaknessList.push(this.thirdWeakness.value);
+      this.player.weaknessList.push(this.thirdWeakness.value);
     }
     if(this.fourthWeakness.checked) {
-      // this.player.weaknessList.push(this.fourthWeakness.value);
+      this.player.weaknessList.push(this.fourthWeakness.value);
     }
     if(this.fifthWeakness.checked) {
-      // this.player.weaknessList.push(this.fifthWeakness.value);
+      this.player.weaknessList.push(this.fifthWeakness.value);
     }
 
     this.player.currentClub = this.sportCvFormGroup.value.currentClub;
