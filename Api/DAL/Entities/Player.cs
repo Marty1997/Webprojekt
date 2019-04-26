@@ -27,8 +27,8 @@ namespace Api.DAL.Entities {
         public string PreferredHand { get; set; }
         public string StrengthDescription { get; set; }
         public string WeaknessDescription { get; set; }
-        public List<Weakness> WeaknessList { get; set; }
-        public List<Strength> StrengthList { get; set; }
+        public List<string> WeaknessList { get; set; }
+        public List<string> StrengthList { get; set; }
         public List<NationalTeam> NationalTeamList { get; set; }
         public string CurrentClub { get; set; }
         public Position CurrentClubPrimaryPosition { get; set; }
@@ -42,8 +42,8 @@ namespace Api.DAL.Entities {
 
         public Player() {
             IsPLayer = true;
-            WeaknessList = new List<Weakness>();
-            StrengthList = new List<Strength>();
+            WeaknessList = new List<string>();
+            StrengthList = new List<string>();
             NationalTeamList = new List<NationalTeam>();
         }
     }

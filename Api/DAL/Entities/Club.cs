@@ -33,8 +33,8 @@ namespace Api.DAL.Entities {
 
         public List<TrainingHours> TrainingHoursList { get; set; }
         public List<SquadPlayer> SquadPlayersList { get; set; }
-        public List<Value> ValuesList { get; set; }
-        public List<Preference> PreferenceList { get; set; }
+        public List<string> ValuesList { get; set; }
+        public List<string> PreferenceList { get; set; }
         public List<Position> OpenPositionsList { get; set; }
 
         //// files
@@ -45,8 +45,8 @@ namespace Api.DAL.Entities {
         public Club() {
             TrainingHoursList = new List<TrainingHours>();
             SquadPlayersList = new List<SquadPlayer>();
-            ValuesList = new List<Value>();
-            PreferenceList = new List<Preference>();
+            ValuesList = new List<string>();
+            PreferenceList = new List<string>();
             OpenPositionsList = new List<Position>();
             IsClub = true;
         }
