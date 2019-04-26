@@ -1,8 +1,5 @@
 import { TrainingHours } from '../models/trainingHours.model'
 import { SquadPlayer } from '../models/squadPlayer.model'
-import { Value } from '../models/value.model'
-import { Preference } from '../models/preference.model'
-import { Position } from '../models/position.model'
 
 export class Club {
     // required info
@@ -17,9 +14,9 @@ export class Club {
     zipcode: string;
     trainingHoursList : TrainingHours[] = [];
     squadPlayersList : SquadPlayer[] = [];
-    valuesList : Value[] = [];
-    preferenceList : Preference[] = [];
-    openPositionList : Position[] = [];
+    valuesList : string[] = [];
+    preferenceList : string[] = [];
+    openPositionList : string[] = [];
 
     // staff
     trainer: string;
