@@ -8,6 +8,6 @@ namespace Api.DAL.Entities {
 
         public string ShirtNumber { get; set; }
         public string Name { get; set; }
-        public Position Position { get; set; }
+        public string Position { get; set; }
     }
 }
