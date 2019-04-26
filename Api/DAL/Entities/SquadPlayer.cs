@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
-    public class Strength {
+    public class SquadPlayer {
+
+        public string ShirtNumber { get; set; }
         public string Name { get; set; }
+        public string Position { get; set; }
     }
 }

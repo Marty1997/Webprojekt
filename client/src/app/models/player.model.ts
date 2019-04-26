@@ -1,7 +1,4 @@
 import {NationalTeam} from '../models/nationalTeam.model'
-import {Position} from '../models/position.model'
-import {Strength} from '../models/strength.model'
-import {Weakness} from '../models/weakness.model'
 
 export class Player {
     // required info
@@ -17,18 +14,18 @@ export class Player {
     height: number;
     weight: number;
     bodyfat: number;
-    primaryPosition: Position;
-    secondaryPosition: Position;
+    primaryPosition: string;
+    secondaryPosition: string;
     preferredHand: string;
     // strengths/weaknesses
     strengthDescription: string;
     weaknessDescription: string;
-    strengthList : Strength [] = [];
-    weaknessList : Weakness [] = [];
+    strengthList : string [] = [];
+    weaknessList : string [] = [];
     // sport cv
     currentClub: string;
-    currentClubPrimaryPosition: Position;
-    currentClubSecondaryPosition: Position;
+    currentClubPrimaryPosition: string;
+    currentClubSecondaryPosition: string;
     accomplishments: string;
     statistics: string;
     formerClubs: string;
