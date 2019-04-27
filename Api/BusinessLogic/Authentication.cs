@@ -26,10 +26,10 @@ namespace Api.BusinessLogic {
         }
 
         public object Validate(string email, string password) {
-            //UserCredentialscs clubCredentialscs = clubRepos.getCredentialscsByEmail(email);
+            //UserCredentials clubCredentials = clubRepos.getCredentialsByEmail(email);
 
-            if(/*clubCredentialscs != null*/ true) {
-                if (true /*account.ValidateLogin(club.UserCredentialscs.Salt, club.UserCredentialscs.HashPassword, password)*/) {
+            if(/*clubCredentials != null*/ true) {
+                if (true /*account.ValidateLogin(club.UserCredentials.Salt, club.UserCredentials.HashPassword, password)*/) {
                     Club club = new Club(); /*FIND KLUBBEN HER*/
                     club.Token = GenerateToken(club.Id);
                     club.ErrorMessage = "Email =" + email + " " + "Password =" + password;
@@ -39,7 +39,7 @@ namespace Api.BusinessLogic {
             else {
                 UserCredentials playerCredentials = playerRepos.getCredentialsByEmail(email);
                 if(playerCredentials != null) {
-                    if(true /*account.ValidateLogin(player.UserCredentialscs.Salt, player.UserCredentialscs.HashPassword, password)*/) {
+                    if(true /*account.ValidateLogin(player.UserCredentials.Salt, player.UserCredentials.HashPassword, password)*/) {
                         Player player = new Player(); /*FIND SPILLER HER*/
                         player.Token = GenerateToken(player.Id);
                         player.ErrorMessage = "Email =" + email + " " + "Password =" + password;
@@ -51,6 +51,7 @@ namespace Api.BusinessLogic {
         }
 
         private string GenerateToken(int id) {
+            id = 2;
             var tokenHandler = new JwtSecurityTokenHandler();
             
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -59,7 +60,7 @@ namespace Api.BusinessLogic {
                 {
                     new Claim(ClaimTypes.Name, id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

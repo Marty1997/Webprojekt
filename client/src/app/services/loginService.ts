@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { Club } from '../models/club.model';
 import { Player } from '../models/player.model';
-import { JwtHelperService } from '@auth0/angular-jwt';
+
+import decode from "jwt-decode";
 
 
 @Injectable()
@@ -15,10 +16,12 @@ export class loginService {
   clubInSession: Club;
   playerInSession: Player;
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) {
+  constructor(private http: HttpClient) {
     this.tokenStillValid();
   }
 
+  //Helping method for loginService constructor to check if old 
+  //token from login is still valid when visiting frontpage
   private tokenStillValid() {
     if(this.isAuthenticated()) {
       this.token = localStorage.getItem('token');
@@ -29,12 +32,23 @@ export class loginService {
     }
   }
 
+  //Check if token is expired
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
+    const now = Date.now() / 1000;
+    let decodeToken;
     // Check whether the token is expired and return
     // true or false
-    return true;
-    return !this.jwtHelper.isTokenExpired(token);
+    if (token) {
+      decodeToken = decode(token);
+      if (decodeToken.exp < now) {
+        console.log("Token udløbet")
+        this.logout();
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 
   revocerPassword(email: string) {
@@ -69,7 +83,7 @@ export class loginService {
   }
 
   logout() {
-    // remove token and bool from local storage to log user out
+    // remove token and type from local storage to log user out
     localStorage.removeItem('token');
     localStorage.removeItem('typeOfLogin');
     this.typeOfLogin = "";
