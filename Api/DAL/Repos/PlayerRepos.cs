@@ -12,12 +12,6 @@ namespace Api.DAL.Repos {
     public class PlayerRepos : IRepository<Player> {
         public Func<IDbConnection> Connection { get; set; }
 
-        private readonly string _connString;
-
-        public PlayerRepos(IConfiguration config) {
-            _connString = config.GetConnectionString("DefaultConnection");
-        }
-
         public Player Create(Player entity) {
 
             Player p = new Player();
@@ -96,7 +90,11 @@ namespace Api.DAL.Repos {
         }
 
         public Player GetByEmail(string email) {
-            throw new NotImplementedException();
+            Player player = new Player();
+            using (var conn = Connection()) {
+                player = conn.QuerySingle<Player>("select * from Player where email = @email", new { email });
+            }
+            return player;
         }
 
         public Player GetById(int id) {

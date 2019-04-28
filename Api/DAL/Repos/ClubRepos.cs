@@ -1,4 +1,5 @@
 ﻿using Api.DAL.Entities;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +23,12 @@ namespace Api.DAL.Repos {
         }
 
         public Club GetByEmail(string email) {
-            throw new NotImplementedException();
+            Club club = new Club();
+            using (var conn = Connection()) {
+
+                club = conn.QuerySingle<Club>("select * from Club where email = @email", new { email });
+            }
+            return club;
         }
 
         public Club GetById(int id) {
