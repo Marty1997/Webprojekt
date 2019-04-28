@@ -8,5 +8,10 @@ namespace Api.DAL.Entities {
         public string Salt { get; set; }
         public string HashPassword { get; set; }
         public int LoginAttempts { get; set; }
+        public bool Club { get; set; }
+
+        public UserCredentials() {
+            Club = true;
+        }
     }
 }

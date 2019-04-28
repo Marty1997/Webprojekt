@@ -26,21 +26,20 @@ namespace Api.BusinessLogic {
         }
 
         public object Validate(string email, string password) {
-            //UserCredentialscs clubCredentialscs = clubRepos.getCredentialscsByEmail(email);
+            UserCredentials credentials = playerRepos.getCredentialsByEmail(email);
 
-            if(/*clubCredentialscs != null*/ true) {
-                if (true /*account.ValidateLogin(club.UserCredentialscs.Salt, club.UserCredentialscs.HashPassword, password)*/) {
-                    Club club = new Club(); /*FIND KLUBBEN HER*/
+            if(credentials != null && credentials.Club) {
+                if (account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
+                    Club club = clubRepos.GetByEmail(email);
                     club.Token = GenerateToken(club.Id);
                     club.ErrorMessage = "Email =" + email + " " + "Password =" + password;
                     return club;
                 }
             }
             else {
-                UserCredentials playerCredentials = playerRepos.getCredentialsByEmail(email);
-                if(playerCredentials != null) {
-                    if(true /*account.ValidateLogin(player.UserCredentialscs.Salt, player.UserCredentialscs.HashPassword, password)*/) {
-                        Player player = new Player(); /*FIND SPILLER HER*/
+                if(credentials != null && !credentials.Club) {
+                    if(account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
+                        Player player = playerRepos.GetByEmail(email);
                         player.Token = GenerateToken(player.Id);
                         player.ErrorMessage = "Email =" + email + " " + "Password =" + password;
                         return player;
