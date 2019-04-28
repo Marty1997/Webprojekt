@@ -13,9 +13,9 @@ namespace Api.Controllers
     [ApiController]
     public class PlayerController : ControllerBase {
 
-        private readonly IPlayerService _playerService;
+        private readonly IService<Player> _playerService;
 
-        public PlayerController(IPlayerService playerService) {
+        public PlayerController(IService<Player> playerService) {
             _playerService = playerService;
         }
 
@@ -24,7 +24,7 @@ namespace Api.Controllers
 
             var player = _playerService.Create(entity);
 
-            return Ok(entity);
+            return Ok(player);
         }
     }
 }

@@ -7,37 +7,33 @@ using System.Threading.Tasks;
 
 namespace Api.BusinessLogic {
 
-    public interface IPlayerService {
-
-        Player Create(Player entity);
-    }
-
-    public class PlayerLogic : IPlayerService {
+    public class PlayerLogic : IService<Player> {
         private readonly PlayerRepos _playerRepository;
         private Account _account;
+        private UserCredentialsLogic _userCredentialsLogic;
+
 
         public PlayerLogic(PlayerRepos playerRepository) {
             _playerRepository = playerRepository;
             _account = new Account();
+            _userCredentialsLogic = new UserCredentialsLogic();
         }
 
         public Player Create(Player entity) {
 
-            //tjek email
+            //Check if email already exist
+            Player p = _playerRepository.GetByEmail(entity.Email);
 
-            string s = _account.CreatePasswordHash(entity.Password);
-            char[] splitter = { ':' };
-            var split = s.Split(splitter);
-            string salt = split[0];
-            string hashValue = split[1];
-
-            UserCredentials userCredentials = new UserCredentials();
-            userCredentials.HashPassword = hashValue;
-            userCredentials.Salt = salt;
-
-            entity.UserCredentials = userCredentials;
-
-            return _playerRepository.Create(entity);
+            if (p.Id > 0) {
+                p.ErrorMessage = "Email already exist";
+            }
+            else {
+                //Adding userCredentials to player
+                entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
+                //Creating player
+                p = _playerRepository.Create(entity);
+            }
+            return p;
         }
     }
 }
