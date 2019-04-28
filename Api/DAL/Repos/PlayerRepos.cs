@@ -20,6 +20,8 @@ namespace Api.DAL.Repos {
 
         }
 
+        public Func<IDbConnection> Connection { get; set; }
+
         public Player Create(Player entity) {
 
             Player p = new Player();
@@ -204,7 +206,29 @@ namespace Api.DAL.Repos {
         }
 
         public UserCredentials getCredentialsByEmail(string email) {
-            throw new NotImplementedException();
+
+            int id = 0;
+            UserCredentials UC = new UserCredentials();
+            using (var conn = Connection()) {
+                try {
+                    id = conn.Query("select club.id from Club where email=@email", new { email }).Single();
+                    if (id < 0) {
+                        id = conn.Query("select player.id from Player where email=@email", new { email }).Single();
+                        UC.Club = false;
+                    }
+                    if (id < 0) {
+                        return null;
+                    }
+                    else {
+                        UC = conn.QuerySingle<UserCredentials>("select * from Usercredentials where usercredentials.id=@id", new { id });
+                        return UC;
+                    }
+                }
+                catch (SqlException e) {
+                    return null;
+                }
+            }
+           
         }
 
         public void Insert(Player entity) {
