@@ -32,6 +32,7 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { AuthGuardService } from './services/authGuardService';
 
 @NgModule({
   declarations: [
@@ -59,8 +60,8 @@ import { loginService } from './services/loginService';
     TooltipModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: FrontPageComponent, pathMatch: 'full' },
-      { path: 'club-dashboard', component: ClubDashboardComponent },
-      { path: 'player-dashboard', component: PlayerDashboardComponent },
+      { path: 'club-dashboard', component: ClubDashboardComponent, /*canActivate: [AuthGuardService]*/ },
+      { path: 'player-dashboard', component: PlayerDashboardComponent, /*canActivate: [AuthGuardService]*/ },
       { path: 'search-for-clubs', component: SearchForClubsComponent },
       { path: 'search-for-players', component: SearchForPlayersComponent },
     ]),
@@ -77,7 +78,8 @@ import { loginService } from './services/loginService';
   ],
   providers: [
     ErrorStateMatcher,
-    loginService
+    loginService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })
