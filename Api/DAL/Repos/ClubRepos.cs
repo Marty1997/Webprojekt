@@ -204,30 +204,27 @@ namespace Api.DAL.Repos {
 
         public Club GetByEmail(string email) {
 
-            Club c = new Club();
+            Club club = new Club();
 
             using (var conn = new SqlConnection(_connString)) {
                 conn.Open();
 
                 try {
+                    club = conn.QuerySingle<Club>("select * from Club where email = @email", new { email });
 
-                    //Return club_ID
-                    string clubSQL = @"Select club_ID from Club where email = @Email";
-                    var club_ID = conn.Query<int>(clubSQL, new { Email = email }).Single();
-
-                    if (club_ID < 1) {
-                        c.ErrorMessage = "The club does not exist";
+                    if (club.Id < 1) {
+                        club.ErrorMessage = "The club does not exist";
                     }
                     else {
-                        c.ErrorMessage = "";
+                        club.ErrorMessage = "";
                     }
-
                 }
                 catch (SqlException e) {
-                    c.ErrorMessage = ErrorHandling.Exception(e);
+                    club.ErrorMessage = ErrorHandling.Exception(e);
                 }
+
             }
-            return c;
+            return club;
         }
 
         public Club GetById(int id) {

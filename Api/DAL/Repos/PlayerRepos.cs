@@ -176,30 +176,27 @@ namespace Api.DAL.Repos {
 
         public Player GetByEmail(string email) {
 
-            Player p = new Player();
+            Player player = new Player();
 
             using (var conn = new SqlConnection(_connString)) {
                 conn.Open();
 
                 try {
+                    player = conn.QuerySingle<Player>("select * from Player where email = @email", new { email });
 
-                    //Return playerID
-                    string playerSQL = @"Select player_ID from Player where email = @Email";
-                    var player_ID = conn.Query<int>(playerSQL, new { Email = email }).Single();
-
-                    if (player_ID < 1) {
-                        p.ErrorMessage = "The player does not exist";
+                    if (player.Id < 1) {
+                        player.ErrorMessage = "The player does not exist";
                     }
                     else {
-                        p.ErrorMessage = "";
+                        player.ErrorMessage = "";
                     }
-
                 }
                 catch (SqlException e) {
-                    p.ErrorMessage = ErrorHandling.Exception(e);
+                    player.ErrorMessage = ErrorHandling.Exception(e);
                 }
+
             }
-            return p;
+            return player;
         }
         
         public Player GetById(int id) {
