@@ -92,6 +92,7 @@ export class RegisterPlayerComponent implements OnInit {
   ];
 
   // input validators
+  errorMessage = "";
   validate = new MyErrorStateMatcher();
   numbersOnlyRegex = /^[0-9]*$/;
   emailControl = new FormControl("", [Validators.required, Validators.email]);
@@ -211,8 +212,12 @@ export class RegisterPlayerComponent implements OnInit {
   */
   registerPlayer() {
     this.onUpload();
-    this.registerService.registerPlayer(this.buildPlayer());
-    this.sendConfirmationEmail(this.emailControl.value);
+    if(this.registerService.registerPlayer(this.buildPlayer())) {
+      this.sendConfirmationEmail(this.emailControl.value);
+    }
+    else {
+      this.errorMessage = "Something went wrong with the registration.";
+    }
     console.log(this.player);
   }
 
