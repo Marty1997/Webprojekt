@@ -248,11 +248,12 @@
   <!-- CLUB SQUAD -->
   <mat-step [stepControl]="clubSquadFormGroup">
     <form [formGroup]="clubSquadFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <p>
+        Add your current squad for this season. This is <strong>optional</strong>.
+      </p>
       <hr>
 
-      <mat-label>Add player to Squad</mat-label><br>
+      <mat-label>Add player to current Squad</mat-label><br>
       <mat-hint>Fill out all fields to add a player</mat-hint><br>
       <mat-form-field class="addPlayerFields">
         <input matInput placeholder="Player name" formControlName="playerNameControl" [errorStateMatcher]="validate">
@@ -309,6 +310,71 @@
       <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
     </form>
   </mat-step>
+
+  <!-- CLUB NEXT YEAR SQUAD -->
+  <mat-step [stepControl]="nextYearSquadFormGroup">
+    <form [formGroup]="nextYearSquadFormGroup">
+      <p>Add your squad for the next season. This is <strong>optional</strong>.</p>
+      <hr>
+
+      <mat-label>Add player to next year Squad</mat-label><br>
+      <mat-hint>Fill out all fields to add a player</mat-hint><br>
+      <mat-form-field class="addPlayerFields">
+        <input matInput placeholder="Player name" formControlName="playerNameControl" [errorStateMatcher]="validate">
+      </mat-form-field>
+      <mat-form-field class="addPlayerFields">
+        <mat-select placeholder="Position" formControlName="playerPositionControl" [errorStateMatcher]='validate'>
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Playmaker">Playmaker</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="addPlayerFields">
+        <input matInput placeholder="Shirt number" formControlName="shirtNumberControl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Shirt number must be a number
+        </mat-error>
+      </mat-form-field>
+      <button class="btn btn-success addPlayerButton" (click)="onAddPlayerToNextYearSquad()">Add</button><br>
+
+      <mat-label>Squad List</mat-label><br>
+      <mat-hint>Add players above</mat-hint>
+      <table mat-table [dataSource]="nextYearSquadSource" class="mat-elevation-z8">
+
+        <!-- Shirt Number Column -->
+        <ng-container matColumnDef="shirtNumber">
+          <th mat-header-cell *matHeaderCellDef> Shirt # </th>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer"> {{nextYearSquadPlayer.shirtNumber}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer"> {{nextYearSquadPlayer.name}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> Position </th>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer"> {{nextYearSquadPlayer.position}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="nextYearSquadColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: nextYearSquadColumns;"></tr>
+      </table>
+
+      <br>
+      <hr><br>
+      <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
+      <button mat-flat-button matStepperNext class="btn btn-primary nextBtn">Next</button>
+    </form>
+  </mat-step>
+
 
   <!-- OPEN POSITIONS -->
   <mat-step [stepControl]="openPositionsFormGroup">
@@ -466,14 +532,20 @@
 
   <!-- LAST STEP -->
   <mat-step>
-    <h1 class="lastStepHeadline">
-      Thank you!
-    </h1>
-    <p class="lastStepInfo">
-      Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
-      <br>
-      Please click the link in the email to confirm your email.
+    <div *ngIf="errorMessage === ''">
+      <h1 class="lastStepHeadline">
+        Thank you!
+      </h1>
+      <p class="lastStepInfo">
+        Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
+        <br>
+        Please click the link in the email to confirm your email.
+      </p>
+    </div>
+    <p class="lastStepInfo" *ngIf="errorMessage !== ''">
+      {{ errorMessage }}
     </p>
+
     <hr>
 
     <button mat-flat-button class="btn btn-primary doneBtn" (click)="modalRef.hide()">Done</button>

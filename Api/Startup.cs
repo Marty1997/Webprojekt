@@ -35,6 +35,9 @@ namespace Api {
             //Dependency injections
             services.AddTransient<Authentication>();
             services.AddTransient<Account>();
+            services.AddTransient<UserCredentialsLogic>();
+            services.AddTransient<PlayerLogic>();
+            services.AddTransient<ClubLogic>();
             services.AddTransient<IRepository<Player>>(s => {
                 return RepositoryFactory<Player>.CreatePlayerRepos().With(() => {
                     var conn = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));

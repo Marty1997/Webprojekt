@@ -42,6 +42,7 @@ export class RegisterClubComponent implements OnInit {
   clubRequiredInfoFormGroup: FormGroup;
   trainingScheduleFormGroup: FormGroup;
   clubSquadFormGroup: FormGroup;
+  nextYearSquadFormGroup: FormGroup;
   openPositionsFormGroup: FormGroup;
   clubStaffFormGroup: FormGroup;
   clubPicturesFormGroup: FormGroup;
@@ -84,7 +85,17 @@ export class RegisterClubComponent implements OnInit {
   @Input() squadPlayerShirtNumber: number;
   squadPlayer = new SquadPlayer();
 
+  // next year squad table
+  nextYearSquadColumns: string[] = ["shirtNumber", "name", "position"];
+  nextYearSquadData: SquadPlayer[] = [];
+  nextYearSquadSource = this.nextYearSquadData;
+  @Input() nextYearPlayerName: string;
+  @Input() nextYearPlayerPosition: string;
+  @Input() nextYearPlayerShirtNumber: number;
+  nextYearSquadPlayer = new SquadPlayer();
+
   // validate
+  errorMessage = "";
   validate = new MyErrorStateMatcher();
   numbersOnlyRegex = /^[0-9]*$/;
   numbersOnlyControl = new FormControl(
@@ -160,6 +171,11 @@ export class RegisterClubComponent implements OnInit {
       playerPositionControl: [""],
       shirtNumberControl: this.numbersOnlyControl
     });
+    this.nextYearSquadFormGroup = this._formBuilder.group({
+      playerNameControl: [""],
+      playerPositionControl: [""],
+      shirtNumberControl: this.numbersOnlyControl
+    });
     this.openPositionsFormGroup = this._formBuilder.group({});
     this.clubStaffFormGroup = this._formBuilder.group({
       trainerControl: [""],
@@ -206,6 +222,34 @@ export class RegisterClubComponent implements OnInit {
     }
   }
 
+  onAddPlayerToNextYearSquad() {
+    if (
+      this.nextYearSquadFormGroup.get("playerNameControl").value !== "" &&
+      this.nextYearSquadFormGroup.get("playerPositionControl").value !== "" &&
+      this.nextYearSquadFormGroup.get("shirtNumberControl").value !== ""
+    ) {
+      this.nextYearSquadPlayer = new SquadPlayer();
+      this.nextYearSquadPlayer.name = this.nextYearSquadFormGroup.get(
+        "playerNameControl"
+      ).value;
+      this.nextYearSquadPlayer.position = this.nextYearSquadFormGroup.get(
+        "playerPositionControl"
+      ).value;
+      this.nextYearSquadPlayer.shirtNumber = this.nextYearSquadFormGroup.get(
+        "shirtNumberControl"
+      ).value;
+
+      this.nextYearSquadSource.push(this.nextYearSquadPlayer); //add the new model object to the dataSource
+      this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+
+      // reset input fields
+      this.nextYearSquadFormGroup.get("playerNameControl").setValue("");
+      this.nextYearSquadFormGroup.get("playerPositionControl").setValue("");
+      this.nextYearSquadFormGroup.get("shirtNumberControl").setValue("");
+      console.log(this.nextYearSquadSource);
+    }
+  }
+
   onClubLogoSelected(event) {
     this.clubLogo = <File>event.target.files[0];
   }
@@ -225,8 +269,11 @@ export class RegisterClubComponent implements OnInit {
 
   registerClub() {
     this.onUpload();
-    this.registerService.registerClub(this.buildClub());
-    this.sendEmailConfirmation(this.emailControl.value);
+    if (this.registerService.registerClub(this.buildClub())) {
+      this.sendEmailConfirmation(this.emailControl.value);
+    } else {
+      this.errorMessage = "Something went wrong with the registration.";
+    }
     console.log(this.club);
   }
 
@@ -306,7 +353,8 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessSundayFromControl;
     this.club.trainingHoursList.push(this.fitness);
     // squad
-    this.club.squadPlayersList = this.elementData;
+    this.club.currentSquadPlayersList = this.dataSource;
+    this.club.nextYearSquadPlayersList = this.nextYearSquadSource;
     // open positions
     if (this.goalkeeperOpen.checked) {
       this.club.openPositionList.push(this.goalkeeperOpen.value);

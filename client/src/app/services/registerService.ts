@@ -9,16 +9,40 @@ export class registerService {
 
   registerPlayer(player: Player) {
     let url = "WEB API controller metode";
-    return this.http.post(url, player);
+    return this.http.post(url, player).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
   }
 
   registerClub(club: Club) {
     let url = "WEB API controller metode";
-    return this.http.post(url, club);
+    return this.http.post(url, club).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
   }
 
   sendConfirmationEmail(playerEmail: string) {
     let url = "WEB API controller metode";
-    return this.http.post(url, playerEmail);
+    return this.http.post(url, playerEmail).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
   }
 }
