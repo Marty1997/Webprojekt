@@ -1,51 +1,90 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<section>
-  <div class="row" style="margin-top:25px;">
-    <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
-      <img src="../../assets/Images/club-icon.png" height="150" width="150" />
-      <h3 style="word-wrap: break-word;">TTH Holstebro</h3>
+<section class="custom-container forPlayerClubBackgroundColor">
+  <div class="row" style="margin-top: 25px;">
+    <div class="col-md-2" style="text-align: center; margin-top: 15px;">
+        <a class="editProfileButton">Edit Profile</a>
+    </div>
+    <div class="col-md-10"></div>
+  </div>
 
-      <h4>Description</h4>
+  <div class="row">
+    <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
+      <img class="responsiveImage" src="../../assets/Images/club-icon.png" height="150" width="150" />
+      <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3> 
+
+      <h4>{{clubBinding.country}}</h4>
+      <h4>{{clubBinding.leauge}}</h4>
+      <h4>{{clubBinding.zipcode}} {{clubBinding.city}}</h4>
+      <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4> 
 
     </div>
     <div class="col-md-4">
-      <div style="width: 100%; height: 300px;">
-        <h2 style="text-align: center;">Squad</h2>
-
-        <img src="../../assets/Images/player-icon.png" />
+      <div style="width: 100%;">
+        <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
+        
+        <mat-tab-group class="custom-tabs" mat-align-tabs="center">
+          <mat-tab label="Current Year" > 
+              <div>
+                  <img class="responsiveImage" src="../../assets/Images/squadImage.png"/>
+                  <div class="squad goalKeeper">#1 Niklas Landin Jakobsen <br> #3 Jannick Green</div>
+                  <div class="squad left-back">#24 Mikkel Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad center-back">#25 Daniel Narcisse <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad right-back">#5 Nedim Remili <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad pivot">#7 Rene Toft Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad left-wing">#22 Guðjón Valur Sigurðsson <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad right-wing">#19 Luc Abolo <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad defence">#34 Magnus Mortensen <br> #5 Anders Tranbjerg</div>
+                </div>
+          </mat-tab>
+          <mat-tab label="Next Year"> 
+              <div>
+                  <img class="responsiveImage" src="../../assets/Images/squadImage.png"/>
+                  <div class="squad goalKeeper">#1 Niklas Landin Jakobsen <br> #3 Jannick Green</div>
+                  <div class="squad left-back">#24 Mikkel Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad center-back">#25 Daniel Narcisse <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad right-back">#5 Nedim Remili <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad pivot">#7 Rene Toft Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad left-wing">#22 Guðjón Valur Sigurðsson <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad right-wing">#19 Luc Abolo <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
+                  <div class="squad defence">#34 Magnus Mortensen <br> #5 Anders Tranbjerg</div>
+                </div>
+          </mat-tab>
+        </mat-tab-group>
+        
       </div>
       <div style="width: 100%; height: 300px;">
-        <h3 style="text-align:center;">Technical staff</h3>
+        <h3 style="text-align:center; font-family: 'Fresno'">Technical staff</h3>
         <table class="tableFixed">
           <tr>
             <td>Trainer:</td>
-            <td>Morten Olsen</td>
+            <td>{{clubBinding.trainer}}</td>
           </tr>
           <tr>
             <td>Assistant Trainer:</td>
-            <td>Sunday Lemi</td>
+            <td>{{clubBinding.assistantTrainer}}</td>
           </tr>
           <tr>
             <td>Physiotherapist:</td>
-            <td>Morten Albert</td>
+            <td>{{clubBinding.physiotherapist }}</td>
           </tr>
           <tr>
-            <td>Doctor:</td>
-            <td>rBaun</td>
+            <td>Assistant Physiotherapist:</td>
+            <td>{{clubBinding.assistantPhysiotherapist}}</td>
           </tr>
           <tr>
             <td>Team Manager:</td>
-            <td>Martin Lund æ gren </td>
+            <td>lkmmasdlkmasd</td>
           </tr>
         </table>
       </div>
     </div>
-    <div class="col-md-6" style="text-align: center">
+    <div class="col-md-6">
       <div style="width: 100%;">
-        <h2 style="text-align: center;">Training</h2>
+        <h2 style="text-align: center; font-family: 'Fresno'">Training</h2>
         <div id="trainingTable" class="table-responsive">
-          <table class="table">
+          <div style="margin-top: 9.5px"></div>
+          <table class="table Schedule">
             <thead>
               <tr style="word-wrap:break-word;">
                 <th></th>
@@ -59,29 +98,33 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Handball</td>
-                <td>17-19</td>
-                <td>Rest</td>
-                <td>18-20</td>
-                <td>Rest</td>
-                <td>11-13</td>
-                <td>Rest</td>
-                <td>Rest</td>
-              </tr>
-              <tr>
-                <td>Fitness training</td>
-                <td>16-17</td>
-                <td>Rest</td>
-                <td>Rest</td>
-                <td>17-19</td>
-                <td>Rest</td>
-                <td>18-20</td>
-                <td>Rest</td>
-              </tr>
+              <!-- <div *ngFor="let traning of {{clubBinding.trainingHoursList}}">
+                 <tr *ngIf="traning.name == 'Handball'">
+                    <td>{{traning.name}}</td>
+                    <td>{{traning.mon}}</td>
+                    <td>{{traning.tue}}</td>
+                    <td>{{traning.wed}}</td>
+                    <td>{{traning.thu}}</td>
+                    <td>{{traning.fri}}</td>
+                    <td>{{traning.sat}}</td>
+                    <td>{{traning.sun}}</td>
+                </tr>
+                <tr *ngIf="traning.name == 'Fitness Traning'">
+                    <td>{{traning.name}}</td>
+                    <td>{{traning.mon}}</td>
+                    <td>{{traning.tue}}</td>
+                    <td>{{traning.wed}}</td>
+                    <td>{{traning.thu}}</td>
+                    <td>{{traning.fri}}</td>
+                    <td>{{traning.sat}}</td>
+                    <td>{{traning.sun}}</td>
+                </tr>
+              </div> -->
             </tbody>
 
           </table>
+          <div style="margin-top: 9px"></div>
+        
         </div>
 
           <carousel [interval]="myInterval" >
@@ -91,11 +134,57 @@
           </carousel>
 
         </div>
-      </div>
-      <div style="width: 100%; height: 300px;">
-        <h2 style="text-align:center;">Values and preferences</h2>
 
+        <div style="width: 100%; height: 300px">
+          <h2 style="text-align:center; font-family: 'Fresno'">Values and preferences</h2>
+  
+          <table class="tableValAndPrefs">
+            <tr>
+              <td colspan="2">{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</td>
+            </tr>
+            <tr>
+              <td>Open Position(s):</td>
+              <td>Left Wing, Center Back, Right Back, Pivot</td>
+            </tr>
+            <tr>
+              <td>Age restriction (max):</td>
+              <td>28 years</td>
+            </tr>
+            <tr>
+              <td>Training Camp:</td>
+              <td>1-2 yearly </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
+    We strive to develop and improve players from a young age,
+                in order for them to be prepared for when the time comes to play on A-teams, and in big leagues all around the world.<br>
+                We believe we have the right team, tools and facilities for our players to flourish.
+    
+    <button class="openContactAdvisorBtn" onclick="openChatAdvisor()">Contact Advisor</button>
+    
+    <div class="" id="myForm">
+      <form class="form-container">
+        <h1>Chat</h1>
+    
+        <label for="msg"><b>Message</b></label>
+        <textarea placeholder="Type message.." name="msg" required></textarea>
+    
+        <button type="submit" class="btn">Send</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </form>
+    </div>
+  
 
 </section>
+<div style="height: 15px;"></div>
+<!-- <script>
+  function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+    
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+</script> -->
