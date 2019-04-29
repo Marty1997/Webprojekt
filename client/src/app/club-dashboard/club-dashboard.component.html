@@ -11,9 +11,12 @@
   <div class="row">
     <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
       <img class="responsiveImage" src="../../assets/Images/club-icon.png" height="150" width="150" />
-      <h3 style="word-wrap: break-word;">TTH Holstebro</h3>
+      <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3> 
 
-      <h4>Description</h4>
+      <h4>{{clubBinding.country}}</h4>
+      <h4>{{clubBinding.leauge}}</h4>
+      <h4>{{clubBinding.zipcode}} {{clubBinding.city}}</h4>
+      <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4> 
 
     </div>
     <div class="col-md-4">
@@ -55,23 +58,23 @@
         <table class="tableFixed">
           <tr>
             <td>Trainer:</td>
-            <td>Morten Olsen</td>
+            <td>{{clubBinding.trainer}}</td>
           </tr>
           <tr>
             <td>Assistant Trainer:</td>
-            <td>Sunday Lemi</td>
+            <td>{{clubBinding.assistantTrainer}}</td>
           </tr>
           <tr>
             <td>Physiotherapist:</td>
-            <td>Morten Albert</td>
+            <td>{{clubBinding.physiotherapist }}</td>
           </tr>
           <tr>
-            <td>Doctor:</td>
-            <td>rBaun</td>
+            <td>Assistant Physiotherapist:</td>
+            <td>{{clubBinding.assistantPhysiotherapist}}</td>
           </tr>
           <tr>
             <td>Team Manager:</td>
-            <td>Martin Lund æ gren </td>
+            <td>lkmmasdlkmasd</td>
           </tr>
         </table>
       </div>
@@ -95,26 +98,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Handball</td>
-                <td>17-19</td>
-                <td>Rest</td>
-                <td>18-20</td>
-                <td>Rest</td>
-                <td>11-13</td>
-                <td>Rest</td>
-                <td>Rest</td>
-              </tr>
-              <tr>
-                <td>Fitness training</td>
-                <td>16-17</td>
-                <td>Rest</td>
-                <td>Rest</td>
-                <td>17-19</td>
-                <td>Rest</td>
-                <td>18-20</td>
-                <td>Rest</td>
-              </tr>
+              <!-- <div *ngFor="let traning of {{clubBinding.trainingHoursList}}">
+                 <tr *ngIf="traning.name == 'Handball'">
+                    <td>{{traning.name}}</td>
+                    <td>{{traning.mon}}</td>
+                    <td>{{traning.tue}}</td>
+                    <td>{{traning.wed}}</td>
+                    <td>{{traning.thu}}</td>
+                    <td>{{traning.fri}}</td>
+                    <td>{{traning.sat}}</td>
+                    <td>{{traning.sun}}</td>
+                </tr>
+                <tr *ngIf="traning.name == 'Fitness Traning'">
+                    <td>{{traning.name}}</td>
+                    <td>{{traning.mon}}</td>
+                    <td>{{traning.tue}}</td>
+                    <td>{{traning.wed}}</td>
+                    <td>{{traning.thu}}</td>
+                    <td>{{traning.fri}}</td>
+                    <td>{{traning.sat}}</td>
+                    <td>{{traning.sun}}</td>
+                </tr>
+              </div> -->
             </tbody>
 
           </table>
@@ -135,9 +140,7 @@
   
           <table class="tableValAndPrefs">
             <tr>
-              <td colspan="2">We strive to develop and improve players from a young age,
-                in order for them to be prepared for when the time comes to play on A-teams, and in big leagues all around the world.<br>
-                We believe we have the right team, tools and facilities for our players to flourish.</td>
+              <td colspan="2">{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</td>
             </tr>
             <tr>
               <td>Open Position(s):</td>
@@ -155,7 +158,9 @@
         </div>
       </div>
     </div>
-    
+    We strive to develop and improve players from a young age,
+                in order for them to be prepared for when the time comes to play on A-teams, and in big leagues all around the world.<br>
+                We believe we have the right team, tools and facilities for our players to flourish.
     
     <button class="openContactAdvisorBtn" onclick="openChatAdvisor()">Contact Advisor</button>
     

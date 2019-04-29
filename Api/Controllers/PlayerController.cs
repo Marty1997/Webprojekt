@@ -25,7 +25,7 @@ namespace Api.Controllers
             entity = new Player();
 
             entity.Email = "jens";
-            entity.
+            
 
             Player player = _playerService.Create(entity);
 

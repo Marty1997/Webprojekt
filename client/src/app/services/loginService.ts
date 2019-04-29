@@ -13,7 +13,7 @@ import decode from "jwt-decode";
 export class loginService {
   typeOfLogin: string;
   token: string;
-  clubInSession: Club;
+  clubInSession = new Club();
   playerInSession: Player;
 
   constructor(private http: HttpClient) {
