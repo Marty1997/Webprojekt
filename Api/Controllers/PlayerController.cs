@@ -22,7 +22,12 @@ namespace Api.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Player entity) {
 
-            var player = _playerService.Create(entity);
+            entity = new Player();
+
+            entity.Email = "jens";
+            entity.
+
+            Player player = _playerService.Create(entity);
 
             return Ok(player);
         }

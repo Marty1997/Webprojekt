@@ -8,7 +8,7 @@ export class registerService {
   constructor(private http: HttpClient) {}
 
   registerPlayer(player: any) /* should be of type playerModel */ {
-    let url = "WEB API controller metode";
+    let url = "localhost:27463/api/create";
     return this.http.post(url, player);
   }
 

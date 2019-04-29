@@ -11,26 +11,19 @@ using System.Threading.Tasks;
 namespace Api.DAL.Repos {
     public class ClubRepos : IRepository<Club> {
 
-        
-        private List<int> _rowCountList;
-        private readonly string _connString;
-
-        public ClubRepos(IConfiguration config) {
-            _connString = config.GetConnectionString("DefaultConnection");
-            _rowCountList = new List<int>();
-        }
+        public Func<IDbConnection> Connection { get; set; }
 
         public Club Create(Club entity) {
 
+            List<int> _rowCountList = new List<int>();
+
             Club c = new Club();
 
-            using (var conn = new SqlConnection(_connString)) {
-                conn.Open();
+            using (var conn = Connection()) {
 
-                using (SqlTransaction tran = conn.BeginTransaction()) {
+                using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
-
-
+                        
                         //Return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO [UserCredentials] ([Hashpassword, Salt, LoginAttempts]) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -206,8 +199,7 @@ namespace Api.DAL.Repos {
 
             Club club = new Club();
 
-            using (var conn = new SqlConnection(_connString)) {
-                conn.Open();
+            using (var conn = Connection()) {
 
                 try {
                     club = conn.QuerySingle<Club>("select * from Club where email = @email", new { email });
