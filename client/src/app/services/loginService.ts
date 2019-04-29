@@ -21,7 +21,7 @@ export class loginService {
   }
 
   //Helping method for loginService constructor to check if old 
-  //token from login is still valid when visiting frontpage
+  //token from login is still valid when visiting the site
   private tokenStillValid() {
     if(this.isAuthenticated()) {
       this.token = localStorage.getItem('token');
@@ -59,27 +59,23 @@ export class loginService {
   loginUser(form: NgForm) {
     let url = "https://localhost:44310/api/authenticate/";
     
-     return this.http.post(url, form.value).subscribe(
-      (succes:any) => {
-        console.log(succes);
-        if(succes.isPlayer) {
-          this.typeOfLogin ="Player";
-          this.token = succes.token;
-          this.playerInSession = succes.player;
-          localStorage.setItem('typeOfLogin', this.typeOfLogin);
-          localStorage.setItem('token', this.token);
-        }
-        else if (succes.isClub) {
-          this.typeOfLogin = "Club";
-          this.token = succes.token;
-          this.clubInSession = succes.club;
-          localStorage.setItem('typeOfLogin', this.typeOfLogin);
-          localStorage.setItem('token', this.token);
-        }
-      },
-      (error) => {
-      }
-   );
+     return this.http.post(url, form.value);
+  }
+
+  setupPlayerLogin(succes: any) {
+    this.typeOfLogin = "Player";
+    this.token = succes.token;
+    this.playerInSession = succes.player;
+    localStorage.setItem("typeOfLogin", this.typeOfLogin);
+    localStorage.setItem("token", this.token);
+  }
+
+  setupClubLogin(succes: any) {
+    this.typeOfLogin = "Club";
+    this.token = succes.token;
+    this.clubInSession = succes.club;
+    localStorage.setItem('typeOfLogin', this.typeOfLogin);
+    localStorage.setItem('token', this.token);
   }
 
   logout() {
