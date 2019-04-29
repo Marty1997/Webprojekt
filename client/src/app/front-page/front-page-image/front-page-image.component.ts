@@ -55,37 +55,30 @@ clubRegistrationModal: BsModalRef;
       this.modalRefRecoverPassword.hide();
       this.modalRefRecoverPassword = null;
     }
-
-
   }
 
   loginUser(form: NgForm) {
-    this.loginService.loginUser(form).subscribe(
-       (succes:any) => {
-         console.log(succes);
-         if(succes.isPlayer) {
-           this.loginService.playerLoggedIn = true;
-           this.loginService.token = succes.token;
-           this.closeAllModals();
-           this.router.navigate(['/player-dashboard'])
-         }
-         else if (succes.isClub) {
-           this.loginService.clubLoggedIn = true;
-           this.loginService.token = succes.token;
-           this.closeAllModals();
-           this.router.navigate(['/club-dashboard'])
-         }
-         form.resetForm();
-       },
-       (error) => {
-         if(error.error == "Failed to authenticate") {
-            this.wrongEmailOrPassword = true;
-         }
-          
-       }
-    );
+    
+    this.loginService.loginUser(form)
+    // .subscribe(
+    //   () => {
+    //     if(this.loginService.typeOfLogin == "Player") {
+    //       this.router.navigate(['/player-dashboard'])
+    //     }
+    //     else if(this.loginService.typeOfLogin == "Club") {
+    //       this.router.navigate(['/club-dashboard'])
+    //     }
+    //     this.closeAllModals();
+    //   },
+    //   error => {
+    //     if(error.error == "Failed to authenticate") {
+    //       this.wrongEmailOrPassword = true;
+    //     }
+    //   }
+    // )
+    form.resetForm();
   }
-  
+
   openPlayerRegistrationModal(template: TemplateRef<any>) {
     this.playerRegistrationModal = this.modalService.show(template);
     this.modalRef.hide();

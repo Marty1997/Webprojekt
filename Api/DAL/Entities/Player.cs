@@ -9,7 +9,7 @@ namespace Api.DAL.Entities {
         [JsonIgnore]
         public int Id { get; set; }
         [JsonIgnore]
-        public UserCredentials UserCredentialscs { get; set; }
+        public UserCredentials UserCredentials { get; set; }
         [JsonIgnore]
         public string Password { get; set; }
         public string Email { get; set; }
@@ -30,11 +30,13 @@ namespace Api.DAL.Entities {
         public List<string> WeaknessList { get; set; }
         public List<string> StrengthList { get; set; }
         public List<NationalTeam> NationalTeamList { get; set; }
-        public string CurrentClub { get; set; }
         public string CurrentClubPrimaryPosition { get; set; }
         public string CurrentClubSecondaryPosition { get; set; }
+        public string CurrentClub { get; set; }
         public string Accomplishments { get; set; }
         public string Statistics { get; set; }
+        public string VideoPath { get; set; }
+        public string ImagePath { get; set; }
         public string FormerClubs { get; set; }
         public string ErrorMessage { get; set; }
         public string Token { get; set; }
