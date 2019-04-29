@@ -56,14 +56,33 @@ export class ClubDashboardComponent implements OnInit {
     this.traning2.sat="12-12";
     this.traning2.sun="REST";
     this.clubBinding.trainingHoursList.push(this.traning2);
-    
     this.clubBinding.openPositionList.push("Left back");
     this.clubBinding.openPositionList.push("Right back");
+    this.clubBinding.openPositionList.push("Right back");
+    this.clubBinding.openPositionList.push("Right back");
+    this.clubBinding.openPositionList.push("Right back");
+    this.clubBinding.openPositionList.push("Right back");
+    this.clubBinding.openPositionList.push("Right back");
+
     this.clubBinding.valueDescription="Vlaue value value";
-    this.clubBinding.preferenceDescription="prefe pref pref pref";
+    this.clubBinding.preferenceDescription="We strive to develop and improve players from a young age, in order for them to be prepared for when the time comes to play on A-teams, and in big leagues all around the world. We believe we have the right team, tools and facilities for our players to flourish.";
     this.clubBinding.valuesList.push("mklasd");
     this.clubBinding.valuesList.push("lkmasdkm");
+    this.clubBinding.valuesList.push("lkmasdkm");
+    this.clubBinding.valuesList.push("lkmasdkm");
+    this.clubBinding.valuesList.push("lkmasdkm");
+    this.clubBinding.valuesList.push("lkmasdkm");
+    this.clubBinding.valuesList.push("lkmasdkm");
+    this.clubBinding.valuesList.push("lkmasdkm");
    this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+   this.clubBinding.preferenceList.push("Pref");
+
    this.clubBinding.preferenceList.push("Pref pref pref");
    }
 
