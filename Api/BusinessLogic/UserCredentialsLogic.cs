@@ -7,12 +7,12 @@ using Api.DAL.Entities;
 namespace Api.BusinessLogic {
     public class UserCredentialsLogic {
 
-        private Account _account;
+        private readonly Account _account;
         private UserCredentials _userCredentials;
 
 
-        public UserCredentialsLogic() {
-            _account = new Account();
+        public UserCredentialsLogic(Account account) {
+            _account = account;
             _userCredentials = new UserCredentials();
         }
 

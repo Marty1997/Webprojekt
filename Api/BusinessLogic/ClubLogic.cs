@@ -1,4 +1,5 @@
-﻿using Api.DAL.Entities;
+﻿using Api.DAL;
+using Api.DAL.Entities;
 using Api.DAL.Repos;
 using System;
 using System.Collections.Generic;
@@ -7,32 +8,39 @@ using System.Threading.Tasks;
 
 namespace Api.BusinessLogic {
 
-    public class ClubLogic : IService<Club> {
-        private readonly ClubRepos _clubRepository;
-        private Account _account;
-        private UserCredentialsLogic _userCredentialsLogic;
+    public class ClubLogic {
+        private readonly IRepository<Club> _clubRepos;
+        private readonly Account _account;
+        private readonly UserCredentialsLogic _userCredentialsLogic;
 
-        public ClubLogic(ClubRepos clubRepository) {
-            _clubRepository = clubRepository;
-            _account = new Account();
-            _userCredentialsLogic = new UserCredentialsLogic();
+        public ClubLogic(Account account, IRepository<Club> clubRepos, UserCredentialsLogic userCredentialsLogic) {
+            _clubRepos = clubRepos;
+            _account = account; ;
+            _userCredentialsLogic = userCredentialsLogic;
         }
         
         public Club Create(Club entity) {
 
-            //Check if email already exist
-            Club c = _clubRepository.GetByEmail(entity.Email);
+            ////Check if email already exist
+            //Club c = _clubRepository.GetByEmail(entity.Email);
 
-            if (c.Id > 0) {
-                c.ErrorMessage = "Email already exist";
-            }
-            else {
-                //Adding userCredentials to club
-                entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
-                //Creating club
-                c = _clubRepository.Create(entity);
-            }
-            return c;
+            //if (c.Id > 0) {
+            //    c.ErrorMessage = "Email already exist";
+            //}
+            //else {
+            //    //Adding userCredentials to club
+            //    entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
+            //    //Creating club
+            //    c = _clubRepository.Create(entity);
+            //}
+
+            //return c
+
+            //Adding userCredentials to club
+            entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
+            //Creating club
+            return _clubRepos.Create(entity);
+            
         }
     }
 }

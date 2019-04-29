@@ -34,7 +34,7 @@ namespace Api.DAL.Entities {
         public string CurrentClubSecondaryPosition { get; set; }
         public string CurrentClub { get; set; }
         public string Accomplishments { get; set; }
-        public string Statistics { get; set; }
+        public string Statistic { get; set; }
         public string VideoPath { get; set; }
         public string ImagePath { get; set; }
         public string FormerClubs { get; set; }

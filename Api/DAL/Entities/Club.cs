@@ -22,7 +22,7 @@ namespace Api.DAL.Entities {
         public string StreetAddress { get; set; }
         public string StreetNumber { get; set; }
         public string City { get; set; }
-        public string Zipcode { get; set; }
+        public int Zipcode { get; set; }
         public string Trainer { get; set; }
         public string AssistantTrainer { get; set; }
         public string Physiotherapist { get; set; }
@@ -32,7 +32,8 @@ namespace Api.DAL.Entities {
         public string PreferenceDescription { get; set; }
 
         public List<TrainingHours> TrainingHoursList { get; set; }
-        public List<SquadPlayer> SquadPlayersList { get; set; }
+        public List<SquadPlayer> CurrentSquadPlayersList { get; set; }
+        public List<SquadPlayer> NextYearSquadPlayersList { get; set; }
         public List<string> ValuesList { get; set; }
         public List<string> PreferenceList { get; set; }
         public List<string> OpenPositionsList { get; set; }
@@ -44,7 +45,8 @@ namespace Api.DAL.Entities {
 
         public Club() {
             TrainingHoursList = new List<TrainingHours>();
-            SquadPlayersList = new List<SquadPlayer>();
+            CurrentSquadPlayersList = new List<SquadPlayer>();
+            NextYearSquadPlayersList = new List<SquadPlayer>();
             ValuesList = new List<string>();
             PreferenceList = new List<string>();
             OpenPositionsList = new List<string>();
