@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: 'app-club-dashboard',
   templateUrl: './club-dashboard.component.html',
-  styleUrls: ['./club-dashboard.component.css']
+  styleUrls: ['./club-dashboard.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ClubDashboardComponent implements OnInit {
 
