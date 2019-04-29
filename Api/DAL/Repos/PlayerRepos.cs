@@ -24,7 +24,6 @@ namespace Api.DAL.Repos {
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     //try {
                         
-                        
                         //Insert userCredentials and return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -66,16 +65,19 @@ namespace Api.DAL.Repos {
 
                                 //Return strength ID
                                 string strengthSQL = @"Select strength_id from Strength where name = @Name";
-                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).Single();
+                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
 
-                                //Insert PlayerStrength
-                                string playerStrengthSQL = @"INSERT INTO PlayerStrength (Player_ID, Strength_ID) 
+                                if(strength_ID != 0) {
+                                
+                                    //Insert PlayerStrength
+                                    string playerStrengthSQL = @"INSERT INTO PlayerStrength (Player_ID, Strength_ID) 
                                         VALUES (@Player_ID, @Strength_ID)";
 
-                                _rowCountList.Add(conn.Execute(playerStrengthSQL, new {
-                                    Player_ID = player_ID,
-                                    Strength_ID = strength_ID
-                                }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(playerStrengthSQL, new {
+                                        Player_ID = player_ID,
+                                        Strength_ID = strength_ID
+                                    }, transaction: tran));
+                                } 
                             }
                         }
                        
@@ -87,16 +89,19 @@ namespace Api.DAL.Repos {
 
                                 //Return weakness ID
                                 string weaknessSQL = @"Select weakness_id from Weakness where name = @Name";
-                                int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).Single();
+                                int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
 
-                                //Insert PlayerWeakness
-                                string playerWeaknessSQL = @"INSERT INTO PlayerWeakness (Player_ID, Weakness_ID) 
+                                if (weakness_ID != 0) {
+
+                                    //Insert PlayerWeakness
+                                    string playerWeaknessSQL = @"INSERT INTO PlayerWeakness (Player_ID, Weakness_ID) 
                                         VALUES (@Player_ID, @Weakness_ID)";
 
-                                _rowCountList.Add(conn.Execute(playerWeaknessSQL, new {
-                                    Player_ID = player_ID,
-                                    Weakness_ID = weakness_ID
-                                }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(playerWeaknessSQL, new {
+                                        Player_ID = player_ID,
+                                        Weakness_ID = weakness_ID
+                                    }, transaction: tran));
+                                }
                             }
                         }
                         
@@ -107,19 +112,22 @@ namespace Api.DAL.Repos {
 
                                 //Return national team position ID
                                 string nationalTeamPositionSQL = @"Select position_id from position where name = @Position";
-                                int nationalTeamPosition_ID = conn.Query<int>(nationalTeamPositionSQL, new { Position = nt.Position }, transaction: tran).Single();
+                                int nationalTeamPosition_ID = conn.Query<int>(nationalTeamPositionSQL, new { Position = nt.Position }, transaction: tran).FirstOrDefault();
 
-                                //Insert NationalTeam
-                                string nationalTeamSQL = @"INSERT INTO NationalTeam (Name, Appearances, Statistic, Player_ID, Position_ID) 
+                                if (nationalTeamPosition_ID != 0) {
+
+                                    //Insert NationalTeam
+                                    string nationalTeamSQL = @"INSERT INTO NationalTeam (Name, Appearances, Statistic, Player_ID, Position_ID) 
                                         VALUES (@Name, @Appearances, @Statistic, @Player_ID, @Position_ID)";
 
-                                _rowCountList.Add(conn.Execute(nationalTeamSQL, new {
-                                    Name = nt.Name,
-                                    Appearances = nt.Appearances,
-                                    Statistic = nt.Statistic,
-                                    Player_ID = player_ID,
-                                    Position_ID = nationalTeamPosition_ID
-                                }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(nationalTeamSQL, new {
+                                        Name = nt.Name,
+                                        Appearances = nt.Appearances,
+                                        Statistic = nt.Statistic,
+                                        Player_ID = player_ID,
+                                        Position_ID = nationalTeamPosition_ID
+                                    }, transaction: tran));
+                                }
                             }
                         }    
                         

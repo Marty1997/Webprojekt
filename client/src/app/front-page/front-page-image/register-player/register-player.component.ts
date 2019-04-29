@@ -288,7 +288,7 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.currentClubPrimaryPosition = this.sportCvFormGroup.value.currentPrimaryPosition;
     this.player.currentClubSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
     this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;
-    this.player.statistics = this.sportCvFormGroup.value.statistics;
+    this.player.statistic = this.sportCvFormGroup.value.statistics;
     this.player.formerClubs = this.sportCvFormGroup.value.formerClubs;
     // national teams
     this.nationalTeamA.name = "A";

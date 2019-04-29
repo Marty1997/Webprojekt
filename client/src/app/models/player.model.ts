@@ -27,7 +27,7 @@ export class Player {
     currentClubPrimaryPosition: string;
     currentClubSecondaryPosition: string;
     accomplishments: string;
-    statistics: string;
+    statistic: string;
     formerClubs: string;
     // national team
     nationalTeam : NationalTeam [] = [];

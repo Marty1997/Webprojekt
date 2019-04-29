@@ -9,9 +9,9 @@ export class Club {
     league: string = "";
     country: string = "";
     streetAddress: string = "";
-    streetNumber: string = "";
-    city: string = "";
-    zipcode: string = "";
+    streetNumber: number; 
+    city: string = "";    
+    zipcode: number;      
     trainingHoursList : TrainingHours[] = [];
     currentSquadPlayersList : SquadPlayer[] = [];
     nextYearSquadPlayersList : SquadPlayer[] = [];
