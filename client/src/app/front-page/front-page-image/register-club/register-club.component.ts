@@ -269,10 +269,9 @@ export class RegisterClubComponent implements OnInit {
 
   registerClub() {
     this.onUpload();
-    if(this.registerService.registerClub(this.buildClub())) {
+    if (this.registerService.registerClub(this.buildClub())) {
       this.sendEmailConfirmation(this.emailControl.value);
-    }
-    else {
+    } else {
       this.errorMessage = "Something went wrong with the registration.";
     }
     console.log(this.club);
@@ -354,8 +353,8 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessSundayFromControl;
     this.club.trainingHoursList.push(this.fitness);
     // squad
-    this.club.squadPlayersList = this.dataSource;
-    // this.club.
+    this.club.currentSquadPlayersList = this.dataSource;
+    this.club.nextYearSquadPlayersList = this.nextYearSquadSource;
     // open positions
     if (this.goalkeeperOpen.checked) {
       this.club.openPositionList.push(this.goalkeeperOpen.value);
