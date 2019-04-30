@@ -18,9 +18,9 @@ namespace Api.DAL.Entities {
         public string Day { get; set; }
         public string Month { get; set; }
         public string Year { get; set; }
-        public int Height { get; set; }
-        public int Weight { get; set; }
-        public int BodyFat { get; set; }
+        public int? Height { get; set; }
+        public int? Weight { get; set; }
+        public int? BodyFat { get; set; }
         public string PrimaryPosition { get; set; }
         public string SecondaryPosition { get; set; }
         public string PreferredHand { get; set; }

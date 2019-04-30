@@ -31,20 +31,36 @@ namespace Api.DAL.Repos {
                 
                         //Return primary position ID
                         string primaryPositionSQL = @"Select id from position where name = @PrimaryPosition";
-                        int? primaryPosition_ID = conn.Query<int>(primaryPositionSQL, new { PrimaryPosition = entity.PrimaryPosition }, transaction: tran).Single();
+                        int? primaryPosition_ID = conn.Query<int>(primaryPositionSQL, new { PrimaryPosition = entity.PrimaryPosition }, transaction: tran).FirstOrDefault();
+
+                        if(primaryPosition_ID == 0) {
+                            primaryPosition_ID = null;
+                        }
 
                         //Return secondary position ID
                         string secondaryPositionSQL = @"Select id from position where name = @SecondaryPosition";
-                        int? secondaryPosition_ID = conn.Query<int>(secondaryPositionSQL, new { SecondaryPosition = entity.SecondaryPosition }, transaction: tran).Single();
+                        int? secondaryPosition_ID = conn.Query<int>(secondaryPositionSQL, new { SecondaryPosition = entity.SecondaryPosition }, transaction: tran).FirstOrDefault();
+
+                        if (secondaryPosition_ID == 0) {
+                            secondaryPosition_ID = null;
+                        }
 
                         //Return current club primary position ID
                         string currentClubPrimaryPositionSQL = @"Select id from position where name = @CurrentClubPrimaryPosition";
-                        int? currentClubPrimaryPosition_ID = conn.Query<int>(currentClubPrimaryPositionSQL, new { CurrentClubPrimaryPosition  = entity.CurrentClubPrimaryPosition }, transaction: tran).Single();
+                        int? currentClubPrimaryPosition_ID = conn.Query<int>(currentClubPrimaryPositionSQL, new { CurrentClubPrimaryPosition  = entity.CurrentClubPrimaryPosition }, transaction: tran).FirstOrDefault();
+
+                        if (currentClubPrimaryPosition_ID == 0) {
+                            currentClubPrimaryPosition_ID = null;
+                        }
 
                         //Return current club secondary position ID
                         string currentClubSecondaryPositionSQL = @"Select id from position where name = @CurrentClubSecondaryPosition";
-                        int? currentClubSecondaryPosition_ID = conn.Query<int>(currentClubSecondaryPositionSQL, new { CurrentClubSecondaryPosition = entity.CurrentClubSecondaryPosition }, transaction: tran).Single();
-                    
+                        int? currentClubSecondaryPosition_ID = conn.Query<int>(currentClubSecondaryPositionSQL, new { CurrentClubSecondaryPosition = entity.CurrentClubSecondaryPosition }, transaction: tran).FirstOrDefault();
+
+                        if (currentClubSecondaryPosition_ID == 0) {
+                            currentClubSecondaryPosition_ID = null;
+                        }
+
                         //Insert player and return player_ID
                         string playerSQL = @"INSERT INTO Player (Firstname, Lastname, Email, Day, Month, Year, Country, Height, Weight, Bodyfat, PreferredHand, CurrentClub, Accomplishments, Statistic, StrengthDescription, 
                                             WeaknessDescription, VideoPath, ImagePath, FormerClubs, PrimaryPosition_ID, SecondaryPosition_ID, CurrentClubPrimaryPosition_ID, CurrentClubSecondaryPosition_ID, UserCredentials_ID) 
