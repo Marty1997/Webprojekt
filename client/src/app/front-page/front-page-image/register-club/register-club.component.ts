@@ -201,6 +201,7 @@ export class RegisterClubComponent implements OnInit {
       this.clubSquadFormGroup.get("shirtNumberControl").value !== ""
     ) {
       this.squadPlayer = new SquadPlayer();
+      this.squadPlayer.season = 'Current year';
       this.squadPlayer.name = this.clubSquadFormGroup.get(
         "playerNameControl"
       ).value;
@@ -229,6 +230,7 @@ export class RegisterClubComponent implements OnInit {
       this.nextYearSquadFormGroup.get("shirtNumberControl").value !== ""
     ) {
       this.nextYearSquadPlayer = new SquadPlayer();
+      this.nextYearSquadPlayer.season = 'Next year';
       this.nextYearSquadPlayer.name = this.nextYearSquadFormGroup.get(
         "playerNameControl"
       ).value;
