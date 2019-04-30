@@ -14,7 +14,7 @@
       <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3> 
 
       <h4>{{clubBinding.country}}</h4>
-      <h4>{{clubBinding.leauge}}</h4>
+      <h4>{{clubBinding.league}}</h4>
       <h4>{{clubBinding.zipcode}} {{clubBinding.city}}</h4>
       <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4> 
 
@@ -74,7 +74,7 @@
           </tr>
           <tr>
             <td>Team Manager:</td>
-            <td>lkmmasdlkmasd</td>
+            <td>{{clubBinding.manager}}</td>
           </tr>
         </table>
       </div>
@@ -97,8 +97,7 @@
                 <th>Sun</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- <div *ngFor="let traning of {{clubBinding.trainingHoursList}}">
+            <tbody *ngFor="let traning of clubBinding.trainingHoursList">
                  <tr *ngIf="traning.name == 'Handball'">
                     <td>{{traning.name}}</td>
                     <td>{{traning.mon}}</td>
@@ -119,9 +118,7 @@
                     <td>{{traning.sat}}</td>
                     <td>{{traning.sun}}</td>
                 </tr>
-              </div> -->
             </tbody>
-
           </table>
           <div style="margin-top: 9px"></div>
         
@@ -132,35 +129,68 @@
               <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
            </slide>
           </carousel>
-
         </div>
 
         <div style="width: 100%; height: 300px">
           <h2 style="text-align:center; font-family: 'Fresno'">Values and preferences</h2>
-  
-          <table class="tableValAndPrefs">
-            <tr>
-              <td colspan="2">{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</td>
-            </tr>
+          <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5>
+
+          <div class="row positionsValuesPref">
+            <div class="col-md-4">
+              <h4 >Open Positions</h4>
+              <p *ngIf="clubBinding.openPositionList.length == 0">Not specified</p>
+              <div *ngFor="let positions of clubBinding.openPositionList">
+                  <p>{{positions}}</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Values</h4>
+                <p *ngIf="clubBinding.valuesList.length == 0">Not specified</p>
+                <div *ngFor="let values of clubBinding.valuesList">
+                    <p>{{values}}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Preferences</h4>
+                <p *ngIf="clubBinding.preferenceList.length == 0">Not specified</p>
+                <div *ngFor="let pref of clubBinding.preferenceList">
+                    <p >{{pref}}</p>
+                </div>
+            </div>
+          </div>
+          
+          <p style="text-align:center;" *ngFor="let values of clubBinding.valuesList"></p>
+          <!-- <table class="tableFixed">
+              
             <tr>
               <td>Open Position(s):</td>
               <td>Left Wing, Center Back, Right Back, Pivot</td>
             </tr>
+            <p>{{clubBinding.valuesList.join(', ')}}</p>
             <tr>
-              <td>Age restriction (max):</td>
-              <td>28 years</td>
+              <td style="background-color: black; padding-top: 10px;">Values</td>
+              <td style="background-color: red">28 years</td>
+              <td style="background-color: green">kmlasd</td>
+              <td style="background-color: red">28 years</td>
+              <td style="background-color: green">kmlasd</td>
+
             </tr>
             <tr>
-              <td>Training Camp:</td>
+              <td style="background-color: green">kmlasd</td>
+              <td style="background-color: red">28 years</td>
+              <td style="background-color: green">kmlasd</td>
+              <td style="background-color: red">28 years</td>
+
+            </tr>
+
+            <tr>
+              <td>Preferences</td>
               <td>1-2 yearly </td>
             </tr>
-          </table>
+          </table> -->
         </div>
       </div>
     </div>
-    We strive to develop and improve players from a young age,
-                in order for them to be prepared for when the time comes to play on A-teams, and in big leagues all around the world.<br>
-                We believe we have the right team, tools and facilities for our players to flourish.
     
     <button class="openContactAdvisorBtn" onclick="openChatAdvisor()">Contact Advisor</button>
     

@@ -8,7 +8,7 @@ namespace Api.DAL {
 
     // Class used for giving an error message
     public static class ErrorHandling {
-
+        // -2 er timeout. Hvis kraka serveren ikke svarer fx
         public static string Exception(SqlException e) {
             string errorMessage = "";
             switch (e.Number) {

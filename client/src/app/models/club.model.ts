@@ -34,6 +34,6 @@ export class Club {
     valuesList : string[] = [];
     preferenceList : string[] = [];
 
-    constructor() {
-    }
+    constructor() {}
+
 }

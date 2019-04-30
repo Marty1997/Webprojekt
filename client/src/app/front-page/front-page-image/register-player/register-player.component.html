@@ -318,11 +318,15 @@
 
       <div class="row">
         <div class="col-xs-6">
-          <mat-label>A Team</mat-label>
+          <mat-label>A Team</mat-label><br>
+          <mat-hint>Fill out at least appearances and position</mat-hint>
           <br>
           <mat-form-field>
             <input matInput placeholder="Appearances" formControlName="aTeamAppearances"
               [errorStateMatcher]='validate'>
+            <mat-error *ngIf="aTeamNumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Position" formControlName="aTeamPosition" [errorStateMatcher]='validate'>
@@ -335,6 +339,7 @@
               <mat-option value="Right wing">Right wing</mat-option>
               <mat-option value="Defence">Defence</mat-option>
             </mat-select>
+
           </mat-form-field>
           <br>
           <mat-form-field class="doubleSizeField">
@@ -343,11 +348,15 @@
           </mat-form-field>
 
           <br>
-          <mat-label>U21 Team</mat-label>
+          <mat-label>U21 Team</mat-label><br>
+          <mat-hint>Fill out at least appearances and position</mat-hint>
           <br>
           <mat-form-field>
             <input matInput placeholder="Appearances" formControlName="u21TeamAppearances"
               [errorStateMatcher]='validate'>
+              <mat-error *ngIf="u21NumberControl?.hasError('pattern')">
+                Appearances must be a number
+              </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Position" formControlName="u21TeamPosition" [errorStateMatcher]='validate'>
@@ -369,11 +378,15 @@
         </div>
 
         <div class="col-xs-6">
-          <mat-label>B Team</mat-label>
+          <mat-label>B Team</mat-label><br>
+          <mat-hint>Fill out at least appearances and position</mat-hint>
           <br>
           <mat-form-field>
             <input matInput placeholder="Appearances" formControlName="bTeamAppearances"
               [errorStateMatcher]='validate'>
+            <mat-error *ngIf="bTeamNumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Position" formControlName="bTeamPosition" [errorStateMatcher]='validate'>
@@ -394,11 +407,15 @@
           </mat-form-field>
 
           <br>
-          <mat-label>U18 Team</mat-label>
+          <mat-label>U18 Team</mat-label><br>
+          <mat-hint>Fill out at least appearances and position</mat-hint>
           <br>
           <mat-form-field>
             <input matInput placeholder="Appearances" formControlName="u18TeamAppearances"
               [errorStateMatcher]='validate'>
+            <mat-error *ngIf="u18NumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Position" formControlName="u18TeamPosition" [errorStateMatcher]='validate'>
