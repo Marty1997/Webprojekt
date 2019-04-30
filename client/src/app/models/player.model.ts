@@ -30,7 +30,7 @@ export class Player {
     statistic: string;
     formerClubs: string;
     // national team
-    nationalTeam : NationalTeam [] = [];
+    nationalTeamList : NationalTeam [] = [];
     // picture/video
     profilePicture: File;
     videoPresentation: File;
