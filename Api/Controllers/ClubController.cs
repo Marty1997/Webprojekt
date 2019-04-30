@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers {
-
+    [Authorize]
+    [EnableCors("allowOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClubController : ControllerBase {
@@ -21,6 +22,7 @@ namespace Api.Controllers {
             _clubLogic = clubLogic;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Club entity) {
 

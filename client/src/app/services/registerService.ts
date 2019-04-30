@@ -9,6 +9,7 @@ export class registerService {
 
   registerPlayer(player: Player) {
     let url = "http://localhost:51298/api/Player";
+    console.log(player);
     return this.http.post(url, player).subscribe(
       (success) => {
         return true;
