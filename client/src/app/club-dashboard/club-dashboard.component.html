@@ -54,7 +54,7 @@
         
       </div>
       <div style="width: 100%; height: 300px;">
-        <h3 style="text-align:center; font-family: 'Fresno'">Technical staff</h3>
+        <h2 style="text-align:center; font-family: 'Fresno'">Technical staff</h2>
         <table class="tableFixed">
           <tr>
             <td>Trainer:</td>
@@ -131,26 +131,27 @@
           </carousel>
         </div>
 
-        <div style="width: 100%; height: 300px">
-          <h2 style="text-align:center; font-family: 'Fresno'">Values and preferences</h2>
-          <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5>
-
-          <div class="row positionsValuesPref">
-            <div class="col-md-4">
-              <h4 >Open Positions</h4>
-              <p *ngIf="clubBinding.openPositionList.length == 0">Not specified</p>
-              <div *ngFor="let positions of clubBinding.openPositionList">
-                  <p>{{positions}}</p>
-              </div>
+        <div style="width: 100%; height: 300px; text-align: center; align-content: center">
+          <h2 style="font-family: 'Fresno'">Open positions in club</h2>
+          <p *ngIf="clubBinding.openPositionList.length == 0">No open positions specified</p>
+          <div *ngFor="let positions of clubBinding.openPositionList">
+              <div style="width:100%;  margin-bottom: 10px;">{{positions}}</div>
+          </div>
+          <div class="row" style="margin-top:10px; text-align: center">
+            <h2 style="font-family: 'Fresno'">Values & Preferences</h2>
+            <!-- <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5> -->
+            <div style="margin-left: 10%; margin-right: 10%;">
+              <h5>TTH Holstebro er en klub som værdsætter bla blalb lalalsl aklsaklasl kaslkaslk sakad assk dj je  kajsjd jsja jasjas ja  jask sj jaskj </h5>
             </div>
-            <div class="col-md-4">
+           
+            <div class="col-md-6">
                 <h4>Values</h4>
                 <p *ngIf="clubBinding.valuesList.length == 0">Not specified</p>
                 <div *ngFor="let values of clubBinding.valuesList">
                     <p>{{values}}</p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <h4>Preferences</h4>
                 <p *ngIf="clubBinding.preferenceList.length == 0">Not specified</p>
                 <div *ngFor="let pref of clubBinding.preferenceList">
@@ -159,35 +160,8 @@
             </div>
           </div>
           
-          <p style="text-align:center;" *ngFor="let values of clubBinding.valuesList"></p>
-          <!-- <table class="tableFixed">
-              
-            <tr>
-              <td>Open Position(s):</td>
-              <td>Left Wing, Center Back, Right Back, Pivot</td>
-            </tr>
-            <p>{{clubBinding.valuesList.join(', ')}}</p>
-            <tr>
-              <td style="background-color: black; padding-top: 10px;">Values</td>
-              <td style="background-color: red">28 years</td>
-              <td style="background-color: green">kmlasd</td>
-              <td style="background-color: red">28 years</td>
-              <td style="background-color: green">kmlasd</td>
+       
 
-            </tr>
-            <tr>
-              <td style="background-color: green">kmlasd</td>
-              <td style="background-color: red">28 years</td>
-              <td style="background-color: green">kmlasd</td>
-              <td style="background-color: red">28 years</td>
-
-            </tr>
-
-            <tr>
-              <td>Preferences</td>
-              <td>1-2 yearly </td>
-            </tr>
-          </table> -->
         </div>
       </div>
     </div>

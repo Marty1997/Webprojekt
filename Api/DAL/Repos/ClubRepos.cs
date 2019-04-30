@@ -255,13 +255,13 @@ namespace Api.DAL.Repos {
                 (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
 
                 club.OpenPositionsList = conn.Query<string>("select p.name from Position p " +
-                    "inner join ClubPosition cp on cp.club_ID = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
+                    "inner join ClubPosition cp on cp.position_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
 
                 club.ValuesList = conn.Query<string>("select v.name from Value v " +
-                    "inner join ClubValue cv on cv.club_ID = v.id where cv.club_ID = @id", new { id = club.Id }).ToList();
+                    "inner join ClubValue cv on cv.value_id = v.id where cv.club_ID = @id", new { id = club.Id }).ToList();
 
                 club.PreferenceList = conn.Query<string>("select p.name from Preference p" +
-                    " inner join ClubPreference cp on cp.club_ID = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
+                    " inner join ClubPreference cp on cp.preference_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
 
                 if (club.Id < 1) {
                         club.ErrorMessage = "The club does not exist";

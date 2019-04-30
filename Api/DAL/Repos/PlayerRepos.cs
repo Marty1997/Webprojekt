@@ -206,16 +206,16 @@ namespace Api.DAL.Repos {
             UserCredentials UC = new UserCredentials();
             using (var conn = Connection()) {
                 //try {
-                    id = conn.Query<int>("select id from Club where email=@email", new { email }).FirstOrDefault();
+                    id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
                     if (id < 0) {
-                        id = conn.Query("select id from Player where email=@email", new { email }).Single();
+                        id = conn.Query("select userCredentials_id from Player where email=@email", new { email }).Single();
                         UC.Club = false;
                     }
                     if (id < 0) {
                         return null;
                     }
                     else {
-                    UC = conn.QueryFirstOrDefault<UserCredentials>("select * from Usercredentials where id=@id", new { id });
+                    UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).Single();
                         return UC;
                     }
                 //}

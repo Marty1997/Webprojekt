@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { loginService } from 'src/app/services/loginService';
 import { Club } from '../models/club.model';
-import { TrainingHours } from '../models/trainingHours.model';
 
 @Component({
   selector: 'app-club-dashboard',

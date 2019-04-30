@@ -8,7 +8,7 @@ export class registerService {
   constructor(private http: HttpClient) {}
 
   registerPlayer(player: Player) {
-    let url = "http://localhost:51298/api/Player";
+    let url = "https://localhost:44310/api/Player";
     console.log(player);
     return this.http.post(url, player).subscribe(
       (success) => {
@@ -22,7 +22,7 @@ export class registerService {
   }
 
   registerClub(club: Club) {
-    let url = "http://localhost:51298/api/Club";
+    let url = "https://localhost:44310/api/Club";
     return this.http.post(url, club).subscribe(
       (success) => {
         return true;

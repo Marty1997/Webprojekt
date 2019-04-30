@@ -59,7 +59,7 @@ export class loginService {
 
   loginUser(form: NgForm) {
     let url = "https://localhost:44310/api/authenticate/";
-    
+    console.log(form.value);
      return this.http.post(url, form.value);
   }
 
