@@ -300,7 +300,7 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularMondayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularMondayToControl !== ""
     ) {
-      this.regular.name = "Regular";
+      this.regular.name = "Handball";
       this.regular.mon =
         this.trainingScheduleFormGroup.value.regularMondayFromControl +
         " - " +
@@ -380,13 +380,15 @@ export class RegisterClubComponent implements OnInit {
     } else {
       this.regular.sun = null;
     }
-    this.club.trainingHoursList.push(this.regular);
+    if(this.regular.name === "Handball") {
+      this.club.trainingHoursList.push(this.regular);
+    }
 
     if (
       this.trainingScheduleFormGroup.value.fitnessMondayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessMondayToControl !== ""
     ) {
-      this.fitness.name = "Fitness";
+      this.fitness.name = "Fitness training";
       this.fitness.mon =
         this.trainingScheduleFormGroup.value.fitnessMondayFromControl +
         " - " +
@@ -466,7 +468,9 @@ export class RegisterClubComponent implements OnInit {
     } else {
       this.fitness.sun = null;
     }
-    this.club.trainingHoursList.push(this.fitness);
+    if(this.fitness.name === "Fitness training") {
+      this.club.trainingHoursList.push(this.fitness);
+    }
     
 
     // squad
