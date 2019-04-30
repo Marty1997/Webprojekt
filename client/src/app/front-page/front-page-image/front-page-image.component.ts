@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
   selector: 'app-front-page-image',
   templateUrl: './front-page-image.component.html',
   styleUrls: ['./front-page-image.component.css'],
-  providers: [ loginService ]
+  providers: []
 })
 export class FrontPageImageComponent implements OnInit {
   modalRef: BsModalRef | null;
@@ -60,8 +60,7 @@ clubRegistrationModal: BsModalRef;
   loginUser(form: NgForm) {
     
     this.loginService.loginUser(form).subscribe(
-      (succes:any) => {     
-        console.log(succes);  
+      (succes:any) => {      
         this.closeAllModals();
         if(succes.isPlayer) {
           this.loginService.setupPlayerLogin(succes);

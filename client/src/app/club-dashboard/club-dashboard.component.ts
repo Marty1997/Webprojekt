@@ -13,8 +13,6 @@ import { TrainingHours } from '../models/trainingHours.model';
 export class ClubDashboardComponent implements OnInit {
 
   clubBinding: Club;
-  traning1 = new TrainingHours();
-  traning2 = new TrainingHours();
 
   myInterval = 3000;
   slides = [
@@ -22,6 +20,7 @@ export class ClubDashboardComponent implements OnInit {
     {image: 'assets/Images/omklædning.jpg'},
     {image: 'assets/Images/Styrke.jpg'}
   ];
+
   constructor(private loginService: loginService) {
   //   this.clubBinding = new Club();
   //   this.clubBinding.name="lkamsd";
@@ -89,7 +88,6 @@ export class ClubDashboardComponent implements OnInit {
   ngOnInit() {
     if(this.loginService.typeOfLogin == "Club") {
         this.clubBinding = this.loginService.clubInSession;
-        
         console.log(this.clubBinding);
     }
     else if(this.loginService.typeOfLogin == "Player") {

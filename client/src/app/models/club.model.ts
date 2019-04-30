@@ -36,4 +36,33 @@ export class Club {
 
     constructor() {}
 
+    buildPlayer(succes:any, club: Club)  {
+        this.name = succes.name;
+        this.email = succes.email;
+        this.league = succes.league;
+        this.country = succes.country;
+        this.streetAddress = succes.streetAddress;
+        this.streetNumber
+        this.city = succes.city; 
+        this.zipcode     
+        this.trainingHoursList = succes.trainingHoursList;
+        this.currentSquadPlayersList = succes.currentSquadPlayersList;
+        this.nextYearSquadPlayersList = succes.nextYearSquadPlayersList;
+        this.openPositionList = succes.openPositionsList;
+
+        // staff
+        this.trainer = succes.trainer;
+        this.assistantTrainer = succes.assistantTrainer;
+        this.physiotherapist = succes.physiotherapist;
+        this.assistantPhysiotherapist = succes.assistantPhysiotherapist;
+        this.manager = succes.manager;
+
+        // values/preferences
+        this.valueDescription = succes.valueDescription;
+        this.preferenceDescription = succes.preferenceDescription;
+        this.valuesList = succes.valuesList;
+        this.preferenceList = succes.preferenceList;
+
+        return club;
+    }
 }

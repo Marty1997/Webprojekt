@@ -46,7 +46,6 @@ namespace Api.BusinessLogic {
                     }
                 }
             }
-            return credentials;
             return "Failed to authenticate";
         }
 

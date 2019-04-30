@@ -231,30 +231,32 @@ namespace Api.DAL.Repos {
         public Club GetByEmail(string email) {
 
             Club club = new Club();
-            var varEmail = new {
-                Email = email
-            };
+
             using (var conn = Connection()) {
 
                 //try {
-                //club = conn.Query<Club, string, Club>("select c.* | ci.* from club c inner join ZipcodeCity" +
-                //    " ci on c.zipcode = ci.zipcode where c.email = @Email",
-                //(clubinside, city) => { clubinside.City = city; return club; }, varEmail).Single();
+                club = conn.Query<Club, string, Club>("select c.*, ci.city from club c" +
+                    " inner join ZipcodeCity ci on c.zipcode = ci.zipcode where c.email = @email",
+                (clubinside, city) => { clubinside.City = city; return clubinside; }, new { email }, splitOn: "city").Single();
 
+                club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new {id = club.Id }).ToList();
 
+                club.CurrentSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
+                    " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Current year'",
+                (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id}, splitOn:"name").ToList();
 
+                club.NextYearSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
+                     " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Next year'",
+                (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
 
-                club = conn.QuerySingle<Club>("select * from Club where email = @email", new { email });
-                club.City = conn.Query<string>("select city from zipcodecity where zipcode = @zipcode", new { zipcode = club.Zipcode }).Single();
-                club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
-                club.CurrentSquadPlayersList = conn.Query<SquadPlayer>("select * from Squadplayers where club_id = @id and season = 'Current year' ", new { id = club.Id }).ToList();
-                club.NextYearSquadPlayersList = conn.Query<SquadPlayer>("select * from Squadplayers where club_id = @id and season = 'Next year' ", new { id = club.Id }).ToList();
-                foreach (SquadPlayer item in club.CurrentSquadPlayersList) {
-                    item.Position = conn.Query<string>("select name from position where position.id = @id", new { id = item.Position_ID }).Single();
-                }
-                foreach (SquadPlayer item in club.NextYearSquadPlayersList) {
-                    item.Position = conn.Query<string>("select name from position where id = @id", new { id = item.Position_ID }).Single();
-                }
+                club.OpenPositionsList = conn.Query<string>("select p.name from Position p " +
+                    "inner join ClubPosition cp on cp.club_ID = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
+
+                club.ValuesList = conn.Query<string>("select v.name from Value v " +
+                    "inner join ClubValue cv on cv.club_ID = v.id where cv.club_ID = @id", new { id = club.Id }).ToList();
+
+                club.PreferenceList = conn.Query<string>("select p.name from Preference p" +
+                    " inner join ClubPreference cp on cp.club_ID = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
 
                 if (club.Id < 1) {
                         club.ErrorMessage = "The club does not exist";

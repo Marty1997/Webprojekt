@@ -1,6 +1,6 @@
 //import { nameModel } from "../models/name.model";
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { Club } from '../models/club.model';
 import { Player } from '../models/player.model';
@@ -13,11 +13,12 @@ import decode from "jwt-decode";
 export class loginService {
   typeOfLogin: string;
   token: string;
-  clubInSession = new Club();
+  clubInSession: Club;
   playerInSession: Player;
 
   constructor(private http: HttpClient) {
     this.tokenStillValid();
+    this.clubInSession = new Club();
   }
 
   //Helping method for loginService constructor to check if old 
@@ -73,7 +74,9 @@ export class loginService {
   setupClubLogin(succes: any) {
     this.typeOfLogin = "Club";
     this.token = succes.token;
-    this.clubInSession = succes;
+    console.log(succes);
+    this.clubInSession = this.clubInSession.buildPlayer(succes, this.clubInSession);
+    console.log(this.clubInSession);
     localStorage.setItem('typeOfLogin', this.typeOfLogin);
     localStorage.setItem('token', this.token);
   }
