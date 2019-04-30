@@ -61,7 +61,7 @@ namespace Api.DAL.Repos {
                             foreach (string value in entity.ValuesList) {
 
                                 //Return value ID
-                                string valuesSQL = @"Select value_id from Value where name = @Name";
+                                string valuesSQL = @"Select id from Value where name = @Name";
                                 int value_ID = conn.Query<int>(valuesSQL, new { Name = value }, transaction: tran).FirstOrDefault();
 
                                 if (value_ID != 0) {
@@ -83,7 +83,7 @@ namespace Api.DAL.Repos {
                             foreach (string preference in entity.PreferenceList) {
 
                                 //Return preference ID
-                                string preferenceSQL = @"Select preference_id from Preference where name = @Name";
+                                string preferenceSQL = @"Select id from Preference where name = @Name";
                                 int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
 
                                 if (preference_ID != 0) {
@@ -107,7 +107,7 @@ namespace Api.DAL.Repos {
 
                                 //Return squad player position ID
 
-                                string squadPlayerPositionSQL = @"Select position_id from position where name = @Position";
+                                string squadPlayerPositionSQL = @"Select id from position where name = @Position";
 
                                 int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.Position }, transaction: tran).FirstOrDefault();
 
@@ -134,7 +134,7 @@ namespace Api.DAL.Repos {
 
                                 //Return squad player position ID
 
-                                string squadPlayerPositionSQL = @"Select position_id from position where name = @Position";
+                                string squadPlayerPositionSQL = @"Select id from position where name = @Position";
 
                                 int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.Position }, transaction: tran).FirstOrDefault();
 
@@ -160,7 +160,7 @@ namespace Api.DAL.Repos {
                             foreach (string openPosition in entity.OpenPositionsList) {
 
                                 //Return open position ID
-                                string openPositionSQL = @"Select position_id from Position where name = @Name";
+                                string openPositionSQL = @"Select id from Position where name = @Name";
                                 int openPosition_ID = conn.Query<int>(openPositionSQL, new { Name = openPosition }, transaction: tran).FirstOrDefault();
 
                                 if (openPosition_ID != 0) {

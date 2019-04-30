@@ -25,7 +25,6 @@ namespace Api.Controllers {
         public IActionResult Register([FromBody] Club entity) {
 
 
-
             //Club entity = new Club();
             //TrainingHours th1 = new TrainingHours();
             //th1.Name = "Handball";

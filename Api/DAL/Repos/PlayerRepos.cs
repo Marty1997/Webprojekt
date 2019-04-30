@@ -30,19 +30,19 @@ namespace Api.DAL.Repos {
                         int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0}, transaction: tran).Single();
 
                         //Return primary position ID
-                        string primaryPositionSQL = @"Select position_id from position where name = @PrimaryPosition";
+                        string primaryPositionSQL = @"Select id from position where name = @PrimaryPosition";
                         int primaryPosition_ID = conn.Query<int>(primaryPositionSQL, new { PrimaryPosition = entity.PrimaryPosition }, transaction: tran).Single();
 
                         //Return secondary position ID
-                        string secondaryPositionSQL = @"Select position_id from position where name = @SecondaryPosition";
+                        string secondaryPositionSQL = @"Select id from position where name = @SecondaryPosition";
                         int secondaryPosition_ID = conn.Query<int>(secondaryPositionSQL, new { SecondaryPosition = entity.SecondaryPosition }, transaction: tran).Single();
 
                         //Return current club primary position ID
-                        string currentClubPrimaryPositionSQL = @"Select position_id from position where name = @CurrentClubPrimaryPosition";
+                        string currentClubPrimaryPositionSQL = @"Select id from position where name = @CurrentClubPrimaryPosition";
                         int currentClubPrimaryPosition_ID = conn.Query<int>(currentClubPrimaryPositionSQL, new { CurrentClubPrimaryPosition  = entity.CurrentClubPrimaryPosition }, transaction: tran).Single();
 
                         //Return current club secondary position ID
-                        string currentClubSecondaryPositionSQL = @"Select position_id from position where name = @CurrentClubSecondaryPosition";
+                        string currentClubSecondaryPositionSQL = @"Select id from position where name = @CurrentClubSecondaryPosition";
                         int currentClubSecondaryPosition_ID = conn.Query<int>(currentClubSecondaryPositionSQL, new { CurrentClubSecondaryPosition = entity.CurrentClubSecondaryPosition }, transaction: tran).Single();
                         
                         //Insert player and return player_ID
@@ -64,7 +64,7 @@ namespace Api.DAL.Repos {
                             foreach (string strength in entity.StrengthList) {
 
                                 //Return strength ID
-                                string strengthSQL = @"Select strength_id from Strength where name = @Name";
+                                string strengthSQL = @"Select id from Strength where name = @Name";
                                 int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
 
                                 if(strength_ID != 0) {
@@ -88,7 +88,7 @@ namespace Api.DAL.Repos {
                             foreach (string weakness in entity.WeaknessList) {
 
                                 //Return weakness ID
-                                string weaknessSQL = @"Select weakness_id from Weakness where name = @Name";
+                                string weaknessSQL = @"Select id from Weakness where name = @Name";
                                 int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
 
                                 if (weakness_ID != 0) {
@@ -111,7 +111,7 @@ namespace Api.DAL.Repos {
                             foreach (NationalTeam nt in entity.NationalTeamList) {
 
                                 //Return national team position ID
-                                string nationalTeamPositionSQL = @"Select position_id from position where name = @Position";
+                                string nationalTeamPositionSQL = @"Select id from position where name = @Position";
                                 int nationalTeamPosition_ID = conn.Query<int>(nationalTeamPositionSQL, new { Position = nt.Position }, transaction: tran).FirstOrDefault();
 
                                 if (nationalTeamPosition_ID != 0) {
