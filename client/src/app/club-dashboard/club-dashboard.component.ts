@@ -28,9 +28,9 @@ export class ClubDashboardComponent implements OnInit {
     this.clubBinding.league="First leauge";
     this.clubBinding.country="Denmark";
     this.clubBinding.streetAddress="Fyensgade";
-    this.clubBinding.streetNumber="2";
+    this.clubBinding.streetNumber=2;
     this.clubBinding.city="Tvis";
-    this.clubBinding.zipcode="1212";
+    this.clubBinding.zipcode=1212;
     this.clubBinding.trainer="Morten";
     this.clubBinding.assistantTrainer="John";
     this.clubBinding.physiotherapist="kmalsd";

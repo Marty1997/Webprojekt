@@ -288,29 +288,29 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.currentClubPrimaryPosition = this.sportCvFormGroup.value.currentPrimaryPosition;
     this.player.currentClubSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
     this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;
-    this.player.statistics = this.sportCvFormGroup.value.statistics;
+    this.player.statistic = this.sportCvFormGroup.value.statistics;
     this.player.formerClubs = this.sportCvFormGroup.value.formerClubs;
     // national teams
     this.nationalTeamA.name = "A";
     this.nationalTeamA.appearances = this.nationalTeamFormGroup.value.aTeamAppearances;
     this.nationalTeamA.position = this.nationalTeamFormGroup.value.aTeamPosition;
     this.nationalTeamA.statistic = this.nationalTeamFormGroup.value.aTeamStatistics;
-    this.player.nationalTeam.push(this.nationalTeamA);
+    this.player.nationalTeamList.push(this.nationalTeamA);
     this.nationalTeamB.name = "B";
     this.nationalTeamB.appearances = this.nationalTeamFormGroup.value.bTeamAppearances;
     this.nationalTeamB.position = this.nationalTeamFormGroup.value.bTeamPosition;
     this.nationalTeamB.statistic = this.nationalTeamFormGroup.value.bTeamStatistics;
-    this.player.nationalTeam.push(this.nationalTeamB);
+    this.player.nationalTeamList.push(this.nationalTeamB);
     this.nationalTeamU21.name = "U21";
     this.nationalTeamU21.appearances = this.nationalTeamFormGroup.value.u21TeamAppearances;
     this.nationalTeamU21.position = this.nationalTeamFormGroup.value.u21TeamPosition;
     this.nationalTeamU21.statistic = this.nationalTeamFormGroup.value.u21TeamStatistics;
-    this.player.nationalTeam.push(this.nationalTeamU21);
+    this.player.nationalTeamList.push(this.nationalTeamU21);
     this.nationalTeamU18.name = "U18";
     this.nationalTeamU18.appearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
     this.nationalTeamU18.position = this.nationalTeamFormGroup.value.u18TeamPosition;
     this.nationalTeamU18.statistic = this.nationalTeamFormGroup.value.u18TeamStatistics;
-    this.player.nationalTeam.push(this.nationalTeamU18);
+    this.player.nationalTeamList.push(this.nationalTeamU18);
 
     this.player.profilePicture = this.playerPresentationFormGroup.value.profilePictureControl;
     this.player.videoPresentation = this.playerPresentationFormGroup.value.videoFileControl;

@@ -61,17 +61,20 @@ namespace Api.DAL.Repos {
                             foreach (string value in entity.ValuesList) {
 
                                 //Return value ID
-                                string valuesSQL = @"Select value_id from Value where name = @Name";
-                                var value_ID = conn.Query<int>(valuesSQL, new { Name = value }, transaction: tran).Single();
+                                string valuesSQL = @"Select id from Value where name = @Name";
+                                int value_ID = conn.Query<int>(valuesSQL, new { Name = value }, transaction: tran).FirstOrDefault();
 
-                                //Insert ClubValue
-                                string clubValueSQL = @"INSERT INTO ClubValue (Club_ID, Value_ID) 
+                                if (value_ID != 0) {
+
+                                    //Insert ClubValue
+                                    string clubValueSQL = @"INSERT INTO ClubValue (Club_ID, Value_ID) 
                                         VALUES (@Club_ID, @Value_ID)";
 
-                                _rowCountList.Add(conn.Execute(clubValueSQL, new {
-                                    Club_ID = club_ID,
-                                    Value_ID = value_ID
-                                }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(clubValueSQL, new {
+                                        Club_ID = club_ID,
+                                        Value_ID = value_ID
+                                    }, transaction: tran));
+                                }
                             }
                         }
 
@@ -80,63 +83,76 @@ namespace Api.DAL.Repos {
                             foreach (string preference in entity.PreferenceList) {
 
                                 //Return preference ID
-                                string preferenceSQL = @"Select preference_id from Preference where name = @Name";
-                                var preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).Single();
+                                string preferenceSQL = @"Select id from Preference where name = @Name";
+                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
 
-                                //Insert ClubPreference
-                                string clubPreferenceSQL = @"INSERT INTO ClubPreference (Club_ID, Preference_ID) 
+                                if (preference_ID != 0) {
+
+                                    //Insert ClubPreference
+                                    string clubPreferenceSQL = @"INSERT INTO ClubPreference (Club_ID, Preference_ID) 
                                         VALUES (@Club_ID, @Preference_ID)";
 
-                                _rowCountList.Add(conn.Execute(clubPreferenceSQL, new {
-                                    Club_ID = club_ID,
-                                    Preference_ID = preference_ID
-                                }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(clubPreferenceSQL, new {
+                                        Club_ID = club_ID,
+                                        Preference_ID = preference_ID
+                                    }, transaction: tran));
+                                }
                             }
                         }
-                       
+
 
                         //Current Squad Players
-                        foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
+                        if (entity.CurrentSquadPlayersList.Count > 0) {
+                            foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
 
-                            //Return squad player position ID
+                                //Return squad player position ID
 
-                            string squadPlayerPositionSQL = @"Select position_id from position where name = @Position";
+                                string squadPlayerPositionSQL = @"Select id from position where name = @Position";
 
-                            var squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.Position }, transaction: tran).Single();
+                                int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.Position }, transaction: tran).FirstOrDefault();
 
-                            //Insert Squad Player
-                            string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
+                                if (squadPlayerPosition_ID != 0) {
+
+                                    //Insert Squad Player
+                                    string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
                                         VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
 
-                            _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                ShirtNumber = csp.ShirtNumber,
-                                Season = csp.Season,
-                                Name = csp.Name,
-                                Club_ID = club_ID,
-                                Position_ID = squadPlayerPosition_ID
-                            }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                        ShirtNumber = csp.ShirtNumber,
+                                        Season = csp.Season,
+                                        Name = csp.Name,
+                                        Club_ID = club_ID,
+                                        Position_ID = squadPlayerPosition_ID
+                                    }, transaction: tran));
+                                }
+                            }
                         }
 
                         //Next Year Squad Players
-                        foreach (SquadPlayer nysp in entity.NextYearSquadPlayersList) {
+                        if (entity.NextYearSquadPlayersList.Count > 0) {
+                            foreach (SquadPlayer nysp in entity.NextYearSquadPlayersList) {
 
-                            //Return squad player position ID
+                                //Return squad player position ID
 
-                            string squadPlayerPositionSQL = @"Select position_id from position where name = @Position";
+                                string squadPlayerPositionSQL = @"Select id from position where name = @Position";
 
-                            var squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.Position }, transaction: tran).Single();
+                                int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.Position }, transaction: tran).FirstOrDefault();
 
-                            //Insert Squad Player
-                            string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
+                                if (squadPlayerPosition_ID != 0) {
+
+                                    //Insert Squad Player
+                                    string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
                                         VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
 
-                            _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                ShirtNumber = nysp.ShirtNumber,
-                                Season = nysp.Season,
-                                Name = nysp.Name,
-                                Club_ID = club_ID,
-                                Position_ID = squadPlayerPosition_ID
-                            }, transaction: tran));
+                                    _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                        ShirtNumber = nysp.ShirtNumber,
+                                        Season = nysp.Season,
+                                        Name = nysp.Name,
+                                        Club_ID = club_ID,
+                                        Position_ID = squadPlayerPosition_ID
+                                    }, transaction: tran));
+                                }
+                            }
                         }
 
                         //Open positions
@@ -144,17 +160,20 @@ namespace Api.DAL.Repos {
                             foreach (string openPosition in entity.OpenPositionsList) {
 
                                 //Return open position ID
-                                string openPositionSQL = @"Select position_id from Position where name = @Name";
-                                var openPosition_ID = conn.Query<int>(openPositionSQL, new { Name = openPosition }, transaction: tran).Single();
+                                string openPositionSQL = @"Select id from Position where name = @Name";
+                                int openPosition_ID = conn.Query<int>(openPositionSQL, new { Name = openPosition }, transaction: tran).FirstOrDefault();
 
-                                //Insert ClubPosition
-                                string clubPositionSQL = @"INSERT INTO ClubPosition (Club_ID, Position_ID) 
+                                if (openPosition_ID != 0) {
+
+                                    //Insert ClubPosition
+                                    string clubPositionSQL = @"INSERT INTO ClubPosition (Club_ID, Position_ID) 
                                         VALUES (@Club_ID, @Position_ID)";
 
-                                _rowCountList.Add(conn.Execute(clubPositionSQL, new {
+                                    _rowCountList.Add(conn.Execute(clubPositionSQL, new {
                                     Club_ID = club_ID,
                                     Position_ID = openPosition_ID
-                                }, transaction: tran));
+                                    }, transaction: tran));
+                                }
                             }
                         }
                         

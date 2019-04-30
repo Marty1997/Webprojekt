@@ -8,7 +8,7 @@ export class registerService {
   constructor(private http: HttpClient) {}
 
   registerPlayer(player: Player) {
-    let url = "WEB API controller metode";
+    let url = "http://localhost:51298/api/Player";
     return this.http.post(url, player).subscribe(
       (success) => {
         return true;
@@ -21,7 +21,7 @@ export class registerService {
   }
 
   registerClub(club: Club) {
-    let url = "WEB API controller metode";
+    let url = "http://localhost:51298/api/Club";
     return this.http.post(url, club).subscribe(
       (success) => {
         return true;
