@@ -22,7 +22,7 @@ namespace Api.Controllers
         public PlayerController(PlayerLogic playerLogic) {
             _playerLogic = playerLogic;
         }
-        
+
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Player entity) {
@@ -57,11 +57,11 @@ namespace Api.Controllers
             //entity.CurrentClubSecondaryPosition = "Left wing";
             //entity.CurrentClub = "Right wing";
             //entity.Accomplishments = "MVP 2017";
-            //entity.Statistic = "Gode resultater"; 
+            //entity.Statistic = "Gode resultater";
             //entity.ImagePath = "imagepath.com";
             //entity.VideoPath = "videopath.com";
             //entity.FormerClubs = "TMT Tønder";
-            
+
             Player player = _playerLogic.Create(entity);
 
             return Ok(player);

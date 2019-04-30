@@ -27,10 +27,15 @@ namespace Api.DAL.Repos {
                         //Return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
-
                         var userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
-
-
+                        
+                        //Insert zipcodeCity
+                        string zipCodeSQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City)"; 
+                        _rowCountList.Add(conn.Execute(zipCodeSQL, new {
+                            Zipcode = entity.Zipcode,
+                            City = entity.City
+                        }, transaction: tran));
+                    
                         //Insert Club
                         string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, AddressNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
                                         Zipcode, UserCredentials_ID) 
