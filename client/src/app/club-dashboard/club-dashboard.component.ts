@@ -12,7 +12,7 @@ import { TrainingHours } from '../models/trainingHours.model';
 })
 export class ClubDashboardComponent implements OnInit {
 
-  clubBinding: Club;
+  clubBinding: Club = new Club();
   traning1 = new TrainingHours();
   traning2 = new TrainingHours();
 
@@ -88,7 +88,7 @@ export class ClubDashboardComponent implements OnInit {
 
   ngOnInit() {
     if(this.loginService.typeOfLogin == "Club") {
-        //this.clubBinding = this.loginService.clubInSession;
+        // this.clubBinding = this.loginService.clubInSession;
     }
     else if(this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen

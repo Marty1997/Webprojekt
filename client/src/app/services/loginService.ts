@@ -73,7 +73,7 @@ export class loginService {
   setupClubLogin(succes: any) {
     this.typeOfLogin = "Club";
     this.token = succes.token;
-    this.clubInSession = succes.club;
+    this.clubInSession = JSON.parse(succes);
     localStorage.setItem('typeOfLogin', this.typeOfLogin);
     localStorage.setItem('token', this.token);
   }

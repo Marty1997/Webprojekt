@@ -60,16 +60,18 @@ clubRegistrationModal: BsModalRef;
   loginUser(form: NgForm) {
     
     this.loginService.loginUser(form).subscribe(
-      (succes:any) => {
-        if(succes.isPlayer == "Player") {
+      (succes:any) => {        
+        this.closeAllModals();
+        console.log(succes);
+        if(succes.isPlayer) {
           this.loginService.setupPlayerLogin(succes);
           this.router.navigate(['/player-dashboard'])
         }
-        else if(succes.isClub == "Club") {
+        else if(succes.isClub) {
           this.loginService.setupClubLogin(succes);
           this.router.navigate(['/club-dashboard'])
         }
-        this.closeAllModals();
+
       },
       error => {
         if(error.error == "Failed to authenticate") {

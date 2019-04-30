@@ -212,22 +212,41 @@ namespace Api.DAL.Repos {
         public Club GetByEmail(string email) {
 
             Club club = new Club();
-
+            var varEmail = new {
+                Email = email
+            };
             using (var conn = Connection()) {
 
-                try {
-                    club = conn.QuerySingle<Club>("select * from Club where email = @email", new { email });
+                //try {
+                //club = conn.Query<Club, string, Club>("select c.* | ci.* from club c inner join ZipcodeCity" +
+                //    " ci on c.zipcode = ci.zipcode where c.email = @Email",
+                //(clubinside, city) => { clubinside.City = city; return club; }, varEmail).Single();
 
-                    if (club.Id < 1) {
+
+
+
+                club = conn.QuerySingle<Club>("select * from Club where email = @email", new { email });
+                club.City = conn.Query<string>("select city from zipcodecity where zipcode = @zipcode", new { zipcode = club.Zipcode }).Single();
+                club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
+                club.CurrentSquadPlayersList = conn.Query<SquadPlayer>("select * from Squadplayers where club_id = @id and season = 'Current year' ", new { id = club.Id }).ToList();
+                club.NextYearSquadPlayersList = conn.Query<SquadPlayer>("select * from Squadplayers where club_id = @id and season = 'Next year' ", new { id = club.Id }).ToList();
+                foreach (SquadPlayer item in club.CurrentSquadPlayersList) {
+                    item.Position = conn.Query<string>("select name from position where position.id = @id", new { id = item.Position_ID }).Single();
+                }
+                foreach (SquadPlayer item in club.NextYearSquadPlayersList) {
+                    item.Position = conn.Query<string>("select name from position where id = @id", new { id = item.Position_ID }).Single();
+                }
+
+                if (club.Id < 1) {
                         club.ErrorMessage = "The club does not exist";
                     }
                     else {
                         club.ErrorMessage = "";
                     }
-                }
-                catch (SqlException e) {
-                    club.ErrorMessage = ErrorHandling.Exception(e);
-                }
+                //}
+                //catch (SqlException e) {
+                //    club.ErrorMessage = ErrorHandling.Exception(e);
+                //}
 
             }
             return club;

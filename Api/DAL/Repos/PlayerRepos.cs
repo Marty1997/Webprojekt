@@ -185,23 +185,23 @@ namespace Api.DAL.Repos {
             int id = 0;
             UserCredentials UC = new UserCredentials();
             using (var conn = Connection()) {
-                try {
-                    id = conn.Query("select club.id from Club where email=@email", new { email }).Single();
+                //try {
+                    id = conn.Query<int>("select id from Club where email=@email", new { email }).FirstOrDefault();
                     if (id < 0) {
-                        id = conn.Query("select player.id from Player where email=@email", new { email }).Single();
+                        id = conn.Query("select id from Player where email=@email", new { email }).Single();
                         UC.Club = false;
                     }
                     if (id < 0) {
                         return null;
                     }
                     else {
-                        UC = conn.QuerySingle<UserCredentials>("select * from Usercredentials where usercredentials.id=@id", new { id });
+                    UC = conn.QueryFirstOrDefault<UserCredentials>("select * from Usercredentials where id=@id", new { id });
                         return UC;
                     }
-                }
-                catch (SqlException e) {
-                    return null;
-                }
+                //}
+                //catch (SqlException e) {
+                //    return null;
+                //}
             }
            
         }
