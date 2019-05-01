@@ -215,7 +215,7 @@ namespace Api.DAL.Repos {
                         return null;
                     }
                     else {
-                    UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).Single();
+                    UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).FirstOrDefault();
                         return UC;
                     }
                 //}
