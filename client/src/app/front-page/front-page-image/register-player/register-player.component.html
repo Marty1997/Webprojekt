@@ -3,7 +3,12 @@
   <mat-step [stepControl]="personalInfoFormGroup">
     <div class="formWrapper">
       <form [formGroup]="personalInfoFormGroup">
-        <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
+        <h2 class="stepHeadline">Personal Information</h2>
+        <br>
+        <p>
+          All of these fields are <strong>required</strong>. 
+          <br>
+          Please fill out your personal information before you continue.</p>
         <hr>
 
         <mat-label>Login credentials</mat-label>
@@ -122,8 +127,12 @@
   <!-- ADDITIONAL INFO -->
   <mat-step [stepControl]="additionalInfoFormGroup">
     <form [formGroup]="additionalInfoFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Additional Information</h2>
+      <br>
+      <p>
+        All of these fields are <strong>optional</strong>. 
+        <br>
+        It is recommended filling out as much information as possible for better search results, when a club is looking for a player.</p>
       <hr>
 
       <mat-label>Measurements</mat-label>
@@ -202,8 +211,13 @@
   <!-- STRENGTHS & WEAKNESSES -->
   <mat-step [stepControl]="strengthWeaknessFormGroup">
     <form [formGroup]="strengthWeaknessFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Strengths and Weaknesses</h2>
+      <br>
+      <p>
+        All of these fields are <strong>optional</strong>.
+        <br>
+        Filling out strengths and weaknesses will improve your match with clubs.
+      </p>
       <hr>
       <div class="row">
         <div class="col-xs-6">
@@ -248,8 +262,13 @@
   <!-- SPORT CV -->
   <mat-step [stepControl]="sportCvFormGroup">
     <form [formGroup]="sportCvFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Sport CV</h2>
+      <br>
+      <p>
+        All of these fields are <strong>optional</strong>.
+        <br>
+        Filling out your Sport CV will improve your match when searching for clubs.
+      </p>
       <hr>
 
       <mat-label>Club info</mat-label>
@@ -312,8 +331,13 @@
   <!-- NATIONAL TEAM -->
   <mat-step [stepControl]="nationalTeamFormGroup">
     <form [formGroup]="nationalTeamFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">National Team</h2>
+      <br>
+      <p>
+        All of these fields are <strong>optional</strong>.
+        <br>
+        If you have played on the national team, it is recommended to fill it out. 
+      </p>
       <hr>
 
       <div class="row">
@@ -449,7 +473,12 @@
   <!-- PLAYER PRESENTATION -->
   <mat-step [stepControl]="playerPresentationFormGroup">
     <form [formGroup]="playerPresentationFormGroup">
-      <p>Upload a video file of your presentation to be displayed on your profile. This is <strong>optional</strong>.
+      <h2 class="stepHeadline">Player Presentation</h2>
+      <br>
+      <p>
+        Making a player presentation is important to give a first impression to the clubs looking for players.
+        <br>
+        It is <strong>optional</strong>, but highly recommended.
       </p>
       <hr>
 
@@ -501,7 +530,7 @@
   <!-- LAST STEP -->
   <mat-step>
     <div *ngIf="errorMessage == ''">
-      <h1 class="lastStepHeadline">
+      <h1 class="stepHeadline lastStepHeadline">
         Thank you!
       </h1>
       <p class="lastStepInfo">
