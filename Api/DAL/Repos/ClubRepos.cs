@@ -35,9 +35,9 @@ namespace Api.DAL.Repos {
                         int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
 
                         //Insert Club
-                        string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, AddressNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
+                        string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
                                         ZipcodeCity_ID, UserCredentials_ID) 
-                                        VALUES (@Name, @Email, @League, @Country, @StreetAddress, @AddressNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
+                                        VALUES (@Name, @Email, @League, @Country, @StreetAddress, @StreetNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
                                         @ZipcodeCity_ID, @UserCredentials_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -47,7 +47,7 @@ namespace Api.DAL.Repos {
                             entity.League,
                             entity.Country,
                             entity.StreetAddress,
-                            AddressNumber = entity.StreetNumber,
+                            entity.StreetNumber,
                             entity.Trainer,
                             entity.AssistantTrainer,
                             entity.Physiotherapist,
@@ -240,7 +240,7 @@ namespace Api.DAL.Repos {
                 //try {
                 club = conn.Query<Club, string, int, Club>("select c.*, ci.city, ci.zipcode from club c" +
                     " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.email = @email",
-                (clubinside, city, zipcode) => { clubinside.City = city; clubinside.Zipcode = zipcode; return clubinside; }, new { email }, splitOn: "city").Single();
+                (clubinside, city, zipcode) => { clubinside.City = city; clubinside.Zipcode = zipcode; return clubinside; }, new { email }, splitOn: "rowID").Single();
 
                 club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new {id = club.Id }).ToList();
 
