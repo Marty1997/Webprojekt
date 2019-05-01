@@ -2,6 +2,10 @@ mat-horizontal-stepper {
     width: 100%;
 }
 
+.stepHeadline {
+    text-align: center;
+}
+
 /* Fields */
 
 mat-form-field {

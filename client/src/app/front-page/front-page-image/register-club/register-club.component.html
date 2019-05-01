@@ -2,7 +2,13 @@
   <!-- REQUIRED CLUB INFO -->
   <mat-step [stepControl]="clubRequiredInfoFormGroup">
     <form [formGroup]="clubRequiredInfoFormGroup">
-      <p>All of these fields are <strong>required</strong>. Please make sure to fill them all out.</p>
+      <h2>Club information</h2>
+      <br>
+      <p>
+        All of these fields are <strong>required</strong>.
+        <br>
+        Please fill out the fields before you continue.
+      </p>
       <hr>
 
       <mat-label>Login credentials</mat-label>
@@ -99,11 +105,16 @@
   <!-- CLUB TRAINING SCHEDULE -->
   <mat-step [stepControl]="trainingScheduleFormGroup">
     <form [formGroup]="trainingScheduleFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Training Schedule</h2>
+      <p>
+        If you have specific training hours, please fill out the following fields.
+        <br>
+        This is <strong>optional</strong>, but recommended for at least handball training hours.
+      </p>
       <hr>
 
-      <mat-label>Regular Training Hours</mat-label><br>
+      <mat-label>Handball Training Hours</mat-label><br>
+      <mat-hint>Leave blank for rest days</mat-hint>
       <div class="row">
         <div class="col-xs-6">
           <br>
@@ -248,8 +259,11 @@
   <!-- CLUB SQUAD -->
   <mat-step [stepControl]="clubSquadFormGroup">
     <form [formGroup]="clubSquadFormGroup">
+      <h2 class="stepHeadline">Current Squad</h2>
       <p>
-        Add your current squad for this season. This is <strong>optional</strong>.
+        Add your squad for the current season. 
+        <br>
+        This is <strong>optional</strong>.
       </p>
       <hr>
 
@@ -311,10 +325,16 @@
     </form>
   </mat-step>
 
+
   <!-- CLUB NEXT YEAR SQUAD -->
   <mat-step [stepControl]="nextYearSquadFormGroup">
     <form [formGroup]="nextYearSquadFormGroup">
-      <p>Add your squad for the next season. This is <strong>optional</strong>.</p>
+      <h2 class="stepHeadline">Next Season Squad</h2>
+      <p>
+        Add your squad for the next season. 
+        <br>
+        This is <strong>optional</strong>.
+      </p>
       <hr>
 
       <mat-label>Add player to next year Squad</mat-label><br>
@@ -379,8 +399,13 @@
   <!-- OPEN POSITIONS -->
   <mat-step [stepControl]="openPositionsFormGroup">
     <form [formGroup]="openPositionsFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Open Positions</h2>
+      <br>
+      <p>
+        If you have any open positions make sure to check them below.
+        <br>
+        This is <strong>optional</strong>.
+      </p>
       <hr>
 
       <mat-label>Check available positions</mat-label><br><br>
@@ -389,7 +414,7 @@
           <mat-checkbox #goalkeeperOpen value="Goalkeeper">Goalkeeper</mat-checkbox><br>
           <mat-checkbox #leftWingOpen value="Left Wing">Left Wing</mat-checkbox><br>
           <mat-checkbox #leftBackOpen value="Left Back">Left Back</mat-checkbox><br>
-          <mat-checkbox #centreBackOpen value="Centre Back">Centre Back</mat-checkbox><br>
+          <mat-checkbox #centreBackOpen value="Playmaker">Playmaker</mat-checkbox><br>
         </div>
         <div class="col-xs-6">
           <mat-checkbox #pivotOpen value="Pivot">Pivot</mat-checkbox><br>
@@ -409,8 +434,10 @@
   <!-- CLUB STAFF -->
   <mat-step [stepControl]="clubStaffFormGroup">
     <form [formGroup]="clubStaffFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Staff</h2>
+      <p>
+        It is recommended to fill out your club staff, but is <strong>optional</strong>.
+      </p>
       <hr>
 
       <mat-label>Technical Staff</mat-label>
@@ -440,11 +467,15 @@
     </form>
   </mat-step>
 
+
   <!-- VALUES AND PREFERENCES -->
   <mat-step [stepControl]="valuesAndPreferencesFormGroup">
     <form [formGroup]="valuesAndPreferencesFormGroup">
-      <p>All of these fields are <strong>optional</strong>. Filling these fields out will greatly increase your view
-        rate.</p>
+      <h2 class="stepHeadline">Values and Preferences</h2>
+      <p>
+        Filling out your values and preferences is <strong>optional</strong>, but will improve your 
+        matches with players.
+      </p>
       <hr>
 
       <div class="row">
@@ -483,10 +514,16 @@
     </form>
   </mat-step>
 
+
   <!-- CLUB PICTURES -->
   <mat-step [stepControl]="clubPicturesFormGroup">
     <form [formGroup]="clubPicturesFormGroup">
-      <p>Add pictures of your club logo and training facilities. This is <strong>optional</strong>, but recommended.</p>
+      <h2 class="stepHeadline">Pictures</h2>
+      <p>
+        Please upload your club logo and pictures of your facilities.
+        <br>
+        This could be of your fitness, handball court or other relevant pictures.
+      </p>
       <hr>
 
       <div class="row">
@@ -530,10 +567,11 @@
     </form>
   </mat-step>
 
+  
   <!-- LAST STEP -->
   <mat-step>
     <div *ngIf="errorMessage === ''">
-      <h1 class="lastStepHeadline">
+      <h1 class="stepHeadline lastStepHeadline">
         Thank you!
       </h1>
       <p class="lastStepInfo">
