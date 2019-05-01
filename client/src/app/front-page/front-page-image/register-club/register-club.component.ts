@@ -295,16 +295,24 @@ export class RegisterClubComponent implements OnInit {
     this.club.streetNumber = this.clubRequiredInfoFormGroup.value.streetNumber;
     this.club.city = this.clubRequiredInfoFormGroup.value.city;
     this.club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
-    // training hours
+    // regular training hours
     if (
-      this.trainingScheduleFormGroup.value.regularMondayFromControl !== "" &&
+      this.trainingScheduleFormGroup.value.regularMondayFromControl !== "" ||
       this.trainingScheduleFormGroup.value.regularMondayToControl !== ""
     ) {
       this.regular.name = "Handball";
-      this.regular.mon =
-        this.trainingScheduleFormGroup.value.regularMondayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularMondayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularMondayFromControl !=
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularMondayToControl != "Rest"
+      ) {
+        this.regular.mon =
+          this.trainingScheduleFormGroup.value.regularMondayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularMondayToControl;
+      } else {
+        this.regular.mon = "Rest";
+      }
     } else {
       this.regular.mon = null;
     }
@@ -313,10 +321,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularTuesdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularTuesdayToControl !== ""
     ) {
-      this.regular.tue =
-        this.trainingScheduleFormGroup.value.regularTuesdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularTuesdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularTuesdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularTuesdayToControl !== "Rest"
+      ) {
+        this.regular.tue =
+          this.trainingScheduleFormGroup.value.regularTuesdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularTuesdayToControl;
+      } else {
+        this.regular.tue = "Rest";
+      }
     } else {
       this.regular.tue = null;
     }
@@ -325,10 +341,19 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularWednesdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularWednesdayToControl !== ""
     ) {
-      this.regular.wed =
-        this.trainingScheduleFormGroup.value.regularWednesdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularWednesdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularWednesdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularWednesdayToControl !==
+          "Rest"
+      ) {
+        this.regular.wed =
+          this.trainingScheduleFormGroup.value.regularWednesdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularWednesdayToControl;
+      } else {
+        this.regular.wed = "Rest";
+      }
     } else {
       this.regular.wed = null;
     }
@@ -337,10 +362,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularThursdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularThursdayToControl !== ""
     ) {
-      this.regular.thu =
-        this.trainingScheduleFormGroup.value.regularThursdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularThursdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularThursdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularThursdayToControl !== "Rest"
+      ) {
+        this.regular.thu =
+          this.trainingScheduleFormGroup.value.regularThursdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularThursdayToControl;
+      } else {
+        this.regular.thu = "Rest";
+      }
     } else {
       this.regular.thu = null;
     }
@@ -349,10 +382,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularFridayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularFridayToControl !== ""
     ) {
-      this.regular.fri =
-        this.trainingScheduleFormGroup.value.regularFridayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularFridayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularFridayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularFridayToControl !== "Rest"
+      ) {
+        this.regular.fri =
+          this.trainingScheduleFormGroup.value.regularFridayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularFridayToControl;
+      } else {
+        this.regular.fri = "Rest";
+      }
     } else {
       this.regular.fri = null;
     }
@@ -361,10 +402,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularSaturdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularSaturdayToControl !== ""
     ) {
-      this.regular.sat =
-        this.trainingScheduleFormGroup.value.regularSaturdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularSaturdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularSaturdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularSaturdayToControl !== "Rest"
+      ) {
+        this.regular.sat =
+          this.trainingScheduleFormGroup.value.regularSaturdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularSaturdayToControl;
+      } else {
+        this.regular.sat = "Rest";
+      }
     } else {
       this.regular.sat = null;
     }
@@ -373,26 +422,44 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.regularSundayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.regularSundayToControl !== ""
     ) {
-      this.regular.sun =
-        this.trainingScheduleFormGroup.value.regularSundayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.regularSundayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.regularSundayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.regularSundayToControl !== "Rest"
+      ) {
+        this.regular.sun =
+          this.trainingScheduleFormGroup.value.regularSundayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.regularSundayToControl;
+      } else {
+        this.regular.sun = "Rest";
+      }
     } else {
       this.regular.sun = null;
     }
-    if(this.regular.name === "Handball") {
+
+    if (this.regular.name === "Handball") {
       this.club.trainingHoursList.push(this.regular);
     }
 
+    // fitness training hours
     if (
       this.trainingScheduleFormGroup.value.fitnessMondayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessMondayToControl !== ""
     ) {
       this.fitness.name = "Fitness training";
-      this.fitness.mon =
-        this.trainingScheduleFormGroup.value.fitnessMondayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessMondayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessMondayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessMondayToControl !== "Rest"
+      ) {
+        this.fitness.mon =
+          this.trainingScheduleFormGroup.value.fitnessMondayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessMondayToControl;
+      } else {
+        this.fitness.mon = "Rest";
+      }
     } else {
       this.fitness.mon = null;
     }
@@ -401,10 +468,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== ""
     ) {
-      this.fitness.tue =
-        this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessTuesdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== "Rest"
+      ) {
+        this.fitness.tue =
+          this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessTuesdayToControl;
+      } else {
+        this.fitness.tue = "Rest";
+      }
     } else {
       this.fitness.tue = null;
     }
@@ -413,10 +488,19 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !== ""
     ) {
-      this.fitness.wed =
-        this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessWednesdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !==
+          "Rest"
+      ) {
+        this.fitness.wed =
+          this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessWednesdayToControl;
+      } else {
+        this.fitness.wed = "Rest";
+      }
     } else {
       this.fitness.wed = null;
     }
@@ -425,10 +509,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== ""
     ) {
-      this.fitness.thu =
-        this.trainingScheduleFormGroup.value.fitnessThursdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessThursdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== "Rest"
+      ) {
+        this.fitness.thu =
+          this.trainingScheduleFormGroup.value.fitnessThursdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessThursdayToControl;
+      } else {
+        this.fitness.thu = "Rest";
+      }
     } else {
       this.fitness.thu = null;
     }
@@ -437,10 +529,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessFridayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessFridayToControl !== ""
     ) {
-      this.fitness.fri =
-        this.trainingScheduleFormGroup.value.fitnessFridayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessFridayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessFridayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessFridayToControl !== "Rest"
+      ) {
+        this.fitness.fri =
+          this.trainingScheduleFormGroup.value.fitnessFridayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessFridayToControl;
+      } else {
+        this.fitness.fri = "Rest";
+      }
     } else {
       this.fitness.fri = null;
     }
@@ -449,10 +549,18 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== ""
     ) {
-      this.fitness.sat =
-        this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessSaturdayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== "Rest"
+      ) {
+        this.fitness.sat =
+          this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessSaturdayToControl;
+      } else {
+        this.fitness.sat = "Rest";
+      }
     } else {
       this.fitness.sat = null;
     }
@@ -461,17 +569,24 @@ export class RegisterClubComponent implements OnInit {
       this.trainingScheduleFormGroup.value.fitnessSundayFromControl !== "" &&
       this.trainingScheduleFormGroup.value.fitnessSundayToControl !== ""
     ) {
-      this.fitness.sun =
-        this.trainingScheduleFormGroup.value.fitnessSundayFromControl +
-        " - " +
-        this.trainingScheduleFormGroup.value.fitnessSundayToControl;
+      if (
+        this.trainingScheduleFormGroup.value.fitnessSundayFromControl !==
+          "Rest" &&
+        this.trainingScheduleFormGroup.value.fitnessSundayToControl !== "Rest"
+      ) {
+        this.fitness.sun =
+          this.trainingScheduleFormGroup.value.fitnessSundayFromControl +
+          " - " +
+          this.trainingScheduleFormGroup.value.fitnessSundayToControl;
+      } else {
+        this.fitness.sun = "Rest";
+      }
     } else {
       this.fitness.sun = null;
     }
-    if(this.fitness.name === "Fitness training") {
+    if (this.fitness.name === "Fitness training") {
       this.club.trainingHoursList.push(this.fitness);
     }
-    
 
     // squad
     this.club.currentSquadPlayersList = this.dataSource;
@@ -503,54 +618,54 @@ export class RegisterClubComponent implements OnInit {
     }
 
     // staff
-    if(this.clubStaffFormGroup.value.trainerControl !== "") {
+    if (this.clubStaffFormGroup.value.trainerControl !== "") {
       this.club.trainer = this.clubStaffFormGroup.value.trainerControl;
     } else {
       this.club.trainer = null;
     }
 
-    if(this.clubStaffFormGroup.value.assistantTrainerControl !== "") {
+    if (this.clubStaffFormGroup.value.assistantTrainerControl !== "") {
       this.club.assistantTrainer = this.clubStaffFormGroup.value.assistantTrainerControl;
     } else {
       this.club.assistantTrainer = null;
     }
-    
-    if(this.clubStaffFormGroup.value.physiotherapistControl !== "") {
+
+    if (this.clubStaffFormGroup.value.physiotherapistControl !== "") {
       this.club.physiotherapist = this.clubStaffFormGroup.value.physiotherapistControl;
     } else {
       this.club.physiotherapist = null;
     }
-    if(this.clubStaffFormGroup.value.assistantPhysiotherapistControl !== "") {
+    if (this.clubStaffFormGroup.value.assistantPhysiotherapistControl !== "") {
       this.club.assistantPhysiotherapist = this.clubStaffFormGroup.value.assistantPhysiotherapistControl;
     } else {
       this.club.assistantPhysiotherapist = null;
     }
-    if(this.clubStaffFormGroup.value.managerControl !== "") {
+    if (this.clubStaffFormGroup.value.managerControl !== "") {
       this.club.manager = this.clubStaffFormGroup.value.managerControl;
     } else {
       this.club.manager = null;
     }
-    
+
     // files
-    if(this.clubPicturesFormGroup.value.clubLogoControl !== "") {
+    if (this.clubPicturesFormGroup.value.clubLogoControl !== "") {
       this.club.logo = this.clubPicturesFormGroup.value.clubLogoControl;
     } else {
       this.club.logo = null;
     }
 
-    if(this.clubPicturesFormGroup.value.facilityPicturesControl !== "") {
+    if (this.clubPicturesFormGroup.value.facilityPicturesControl !== "") {
       this.club.facilityPictures = this.clubPicturesFormGroup.value.facilityPicturesControl;
     } else {
       this.club.facilityPictures = null;
     }
-    
+
     // values
-    if(this.valuesAndPreferencesFormGroup.value.valuesControl !== "") {
+    if (this.valuesAndPreferencesFormGroup.value.valuesControl !== "") {
       this.club.valueDescription = this.valuesAndPreferencesFormGroup.value.valuesControl;
     } else {
       this.club.valueDescription = null;
     }
-    
+
     if (this.firstValue.checked) {
       this.club.valuesList.push(this.firstValue.value);
     }
@@ -568,12 +683,12 @@ export class RegisterClubComponent implements OnInit {
     }
 
     // preferences
-    if(this.valuesAndPreferencesFormGroup.value.preferencesControl !== "") {
+    if (this.valuesAndPreferencesFormGroup.value.preferencesControl !== "") {
       this.club.preferenceDescription = this.valuesAndPreferencesFormGroup.value.preferencesControl;
     } else {
       this.club.preferenceDescription = null;
     }
-    
+
     if (this.firstPreference.checked) {
       this.club.valuesList.push(this.firstPreference.value);
     }

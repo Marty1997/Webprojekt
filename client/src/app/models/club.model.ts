@@ -42,9 +42,9 @@ export class Club {
         this.league = succes.league;
         this.country = succes.country;
         this.streetAddress = succes.streetAddress;
-        this.streetNumber
+        this.streetNumber = succes.streetNumber;
         this.city = succes.city; 
-        this.zipcode     
+        this.zipcode = succes.zipcode; 
         this.trainingHoursList = succes.trainingHoursList;
         this.currentSquadPlayersList = succes.currentSquadPlayersList;
         this.nextYearSquadPlayersList = succes.nextYearSquadPlayersList;

@@ -27,20 +27,18 @@ namespace Api.DAL.Repos {
                         //Return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
-                        var userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
-                        
-                        //Insert zipcodeCity
-                        string zipCodeSQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City)"; 
-                        _rowCountList.Add(conn.Execute(zipCodeSQL, new {
-                            Zipcode = entity.Zipcode,
-                            City = entity.City
-                        }, transaction: tran));
-                    
+                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
+
+                        //Return zipcodeCity ID
+                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                                        SELECT CAST(SCOPE_IDENTITY() as int)";
+                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+
                         //Insert Club
-                        string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, AddressNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
-                                        Zipcode, UserCredentials_ID) 
-                                        VALUES (@Name, @Email, @League, @Country, @StreetAddress, @AddressNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
-                                        @Zipcode, @UserCredentials_ID);
+                        string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
+                                        ZipcodeCity_ID, UserCredentials_ID) 
+                                        VALUES (@Name, @Email, @League, @Country, @StreetAddress, @StreetNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
+                                        @ZipcodeCity_ID, @UserCredentials_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         var club_ID = conn.Query<int>(clubSQL, new {
@@ -49,7 +47,7 @@ namespace Api.DAL.Repos {
                             entity.League,
                             entity.Country,
                             entity.StreetAddress,
-                            AddressNumber = entity.StreetNumber,
+                            entity.StreetNumber,
                             entity.Trainer,
                             entity.AssistantTrainer,
                             entity.Physiotherapist,
@@ -57,7 +55,7 @@ namespace Api.DAL.Repos {
                             entity.Manager,
                             entity.ValueDescription,
                             entity.PreferenceDescription,
-                            entity.Zipcode,
+                            ZipcodeCity_ID = zipcodeCity_ID,
                             UserCredentials_ID = userCredentials_ID
                         }, transaction: tran).Single();
                
@@ -240,9 +238,9 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
 
                 //try {
-                club = conn.Query<Club, string, int, Club>("select c.*, ci.city, ci.zipcode from club c" +
+                club = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
                     " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.email = @email",
-                (clubinside, city, zipcode) => { clubinside.City = city; clubinside.Zipcode = zipcode; return clubinside; }, new { email }, splitOn: "city").Single();
+                (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, new { email }, splitOn: "Zipcode,city").Single();
 
                 club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new {id = club.Id }).ToList();
 
