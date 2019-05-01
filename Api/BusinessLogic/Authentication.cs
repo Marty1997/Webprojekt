@@ -31,7 +31,7 @@ namespace Api.BusinessLogic {
             if(credentials != null && credentials.Club) {
                 if (account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
                     Club club = clubRepos.GetByEmail(email);
-                    club.Token = GenerateToken(club.Id);
+                    club.Token = GenerateToken(club.Id, "Club");
                     club.ErrorMessage = "Email =" + email + " " + "Password =" + password;
                     return club;
                 }
@@ -40,7 +40,7 @@ namespace Api.BusinessLogic {
                 if(credentials != null && !credentials.Club) {
                     if(account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
                         Player player = playerRepos.GetByEmail(email);
-                        player.Token = GenerateToken(player.Id);
+                        player.Token = GenerateToken(player.Id, "Player");
                         player.ErrorMessage = "Email =" + email + " " + "Password =" + password;
                         return player;
                     }
@@ -49,14 +49,16 @@ namespace Api.BusinessLogic {
             return "Failed to authenticate";
         }
 
-        private string GenerateToken(int id) {
+        private string GenerateToken(int id, string role) {
             var tokenHandler = new JwtSecurityTokenHandler();
             
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, id.ToString())
+                    new Claim(ClaimTypes.Name, id.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
+                    
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

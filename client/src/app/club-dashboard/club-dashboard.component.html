@@ -84,7 +84,8 @@
         <h2 style="text-align: center; font-family: 'Fresno'">Training</h2>
         <div id="trainingTable" class="table-responsive">
           <div style="margin-top: 9.5px"></div>
-          <table class="table Schedule">
+          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.trainingHoursList.length == 0"> No training was specified from the club</h3>
+          <table class="table Schedule" *ngIf="clubBinding.trainingHoursList.length > 0">
             <thead>
               <tr style="word-wrap:break-word;">
                 <th></th>
@@ -97,26 +98,26 @@
                 <th>Sun</th>
               </tr>
             </thead>
-            <tbody *ngFor="let traning of clubBinding.trainingHoursList">
-                 <tr *ngIf="traning.name == 'Handball'">
-                    <td>{{traning.name}}</td>
-                    <td>{{traning.mon}}</td>
-                    <td>{{traning.tue}}</td>
-                    <td>{{traning.wed}}</td>
-                    <td>{{traning.thu}}</td>
-                    <td>{{traning.fri}}</td>
-                    <td>{{traning.sat}}</td>
-                    <td>{{traning.sun}}</td>
-                </tr>
-                <tr *ngIf="traning.name == 'Fitness training'">
-                    <td>{{traning.name}}</td>
-                    <td>{{traning.mon}}</td>
-                    <td>{{traning.tue}}</td>
-                    <td>{{traning.wed}}</td>
-                    <td>{{traning.thu}}</td>
-                    <td>{{traning.fri}}</td>
-                    <td>{{traning.sat}}</td>
-                    <td>{{traning.sun}}</td>
+            <tbody *ngFor="let training of clubBinding.trainingHoursList">
+                 <tr *ngIf="training.name == 'Handball'">
+                    <td>Handball training</td>
+                    <td>{{training.mon}}</td>
+                    <td>{{training.tue}}</td>
+                    <td>{{training.wed}}</td>
+                    <td>{{training.thu}}</td>
+                    <td>{{training.fri}}</td>
+                    <td>{{training.sat}}</td>
+                    <td>{{training.sun}}</td>
+                 </tr>
+                <tr *ngIf="training.name == 'Fitness training'">
+                    <td>Fitness training</td>
+                    <td>{{training.mon}}</td>
+                    <td>{{training.tue}}</td>
+                    <td>{{training.wed}}</td>
+                    <td>{{training.thu}}</td>
+                    <td>{{training.fri}}</td>
+                    <td>{{training.sat}}</td>
+                    <td>{{training.sun}}</td>
                 </tr>
             </tbody>
           </table>
@@ -133,8 +134,8 @@
 
         <div style="width: 100%; height: 300px; text-align: center; align-content: center">
           <h2 style="font-family: 'Fresno'">Open positions in club</h2>
-          <p *ngIf="clubBinding.openPositionList.length == 0">No open positions specified</p>
-          <div *ngFor="let positions of clubBinding.openPositionList">
+          <p *ngIf="clubBinding.openPositionsList.length == 0">No open positions specified</p>
+          <div *ngFor="let positions of clubBinding.openPositionsList">
               <div style="width:100%;  margin-bottom: 10px;">{{positions}}</div>
           </div>
           <div class="row" style="margin-top:10px; text-align: center">
