@@ -261,12 +261,6 @@ namespace Api.DAL.Repos {
                 club.PreferenceList = conn.Query<string>("select p.name from Preference p" +
                     " inner join ClubPreference cp on cp.preference_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
 
-                if (club.Id < 1) {
-                        club.ErrorMessage = "The club does not exist";
-                    }
-                    else {
-                        club.ErrorMessage = "";
-                    }
                 //}
                 //catch (SqlException e) {
                 //    club.ErrorMessage = ErrorHandling.Exception(e);
