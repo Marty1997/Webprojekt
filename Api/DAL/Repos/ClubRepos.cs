@@ -27,20 +27,18 @@ namespace Api.DAL.Repos {
                         //Return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
-                        var userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
-                        
-                        //Insert zipcodeCity
-                        string zipCodeSQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City)"; 
-                        _rowCountList.Add(conn.Execute(zipCodeSQL, new {
-                            Zipcode = entity.Zipcode,
-                            City = entity.City
-                        }, transaction: tran));
-                    
+                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
+
+                        //Return zipcodeCity ID
+                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                                        SELECT CAST(SCOPE_IDENTITY() as int)";
+                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+
                         //Insert Club
                         string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, AddressNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
-                                        Zipcode, UserCredentials_ID) 
+                                        ZipcodeCity_ID, UserCredentials_ID) 
                                         VALUES (@Name, @Email, @League, @Country, @StreetAddress, @AddressNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
-                                        @Zipcode, @UserCredentials_ID);
+                                        @ZipcodeCity_ID, @UserCredentials_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         var club_ID = conn.Query<int>(clubSQL, new {
@@ -57,7 +55,7 @@ namespace Api.DAL.Repos {
                             entity.Manager,
                             entity.ValueDescription,
                             entity.PreferenceDescription,
-                            entity.Zipcode,
+                            ZipcodeCity_ID = zipcodeCity_ID,
                             UserCredentials_ID = userCredentials_ID
                         }, transaction: tran).Single();
                
