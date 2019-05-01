@@ -238,9 +238,9 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
 
                 //try {
-                club = conn.Query<Club, string, Club>("select c.*, ci.city from club c" +
-                    " inner join ZipcodeCity ci on c.zipcode = ci.zipcode where c.email = @email",
-                (clubinside, city) => { clubinside.City = city; return clubinside; }, new { email }, splitOn: "city").Single();
+                club = conn.Query<Club, string, int, Club>("select c.*, ci.city, ci.zipcode from club c" +
+                    " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.email = @email",
+                (clubinside, city, zipcode) => { clubinside.City = city; clubinside.Zipcode = zipcode; return clubinside; }, new { email }, splitOn: "city").Single();
 
                 club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new {id = club.Id }).ToList();
 
