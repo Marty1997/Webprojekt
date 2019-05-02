@@ -39,10 +39,10 @@ namespace Api.DAL.Entities {
         public string FormerClubs { get; set; }
         public string ErrorMessage { get; set; }
         public string Token { get; set; }
-        public bool IsPLayer { get; set; }
+        public bool IsPlayer { get; set; }
 
         public Player() {
-            IsPLayer = true;
+            IsPlayer = true;
             WeaknessList = new List<string>();
             StrengthList = new List<string>();
             NationalTeamList = new List<NationalTeam>();
