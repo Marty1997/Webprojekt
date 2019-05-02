@@ -20,6 +20,7 @@ export class loginService {
   constructor(private http: HttpClient, public router: Router) {
     this.isAuthenticated();
     this.clubInSession = new Club();
+    this.playerInSession = new Player();
   }
 
   //Helping method for loginService constructor to check if old 
@@ -90,14 +91,18 @@ export class loginService {
   setupPlayerLogin(succes: any) {
     this.typeOfLogin = "Player";
     this.token = succes.token;
-    this.playerInSession = succes.player;
+    this.playerInSession = this.playerInSession.buildPlayer(succes, this.playerInSession);
+
     localStorage.setItem("token", this.token);
   }
 
   setupClubLogin(succes: any) {
     this.typeOfLogin = "Club";
     this.token = succes.token;
-    this.clubInSession = this.clubInSession.buildPlayer(succes, this.clubInSession);
+   
+    this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
+  
+
     localStorage.setItem('token', this.token);
   }
 

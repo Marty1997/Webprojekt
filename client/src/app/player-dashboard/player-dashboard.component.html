@@ -11,34 +11,30 @@
   <div class="row">
     <div class="col-sm-2" style=" text-align: center;">
       <img src="../../assets/Images/player-icon.png"  height="175" width="175" />
-      <h2 style="word-wrap: break-word;">Rune Baun Andersen</h2>
+      <h2 style="word-wrap: break-word;">{{playerBinding.firstName}} {{playerBinding.lastName}}</h2>
 
     </div>
     <div class="col-sm-5" style="margin-top:16px;">
       <table class="tableFixed">
         <tr>
           <td>Date of birth:</td>
-          <td>12/12/1995</td>
+          <td>{{playerBinding.day}} / {{playerBinding.month}} / {{playerBinding.year}}</td>
         </tr>
         <tr>
           <td>Nationality:</td>
-          <td>Denmark</td>
+          <td>{{playerBinding.country}}</td>
         </tr>
         <tr>
-          <td>Position:</td>
-          <td>Left wing</td>
+          <td>Primary position:</td>
+          <td>{{playerBinding.primaryPosition}}</td>
         </tr>
+        <tr>
+            <td>Secondary position:</td>
+            <td>{{playerBinding.secondaryPosition}}</td>
+          </tr>
         <tr>
           <td>Contract status:</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td>Current wage:</td>
-          <td>250.000 DKK</td>
-        </tr>
-        <tr>
-          <td>Preferred wage:</td>
-          <td>300.000 DKK</td>
+          <td>{{playerBinding.contractStatus}}</td>
         </tr>
       </table>
     </div>
@@ -46,23 +42,23 @@
       <table class="tableFixed">
         <tr>
           <td>Height:</td>
-          <td>193 cm</td>
+          <td>{{playerBinding.height}}</td>
         </tr>
         <tr>
           <td>Weight:</td>
-          <td>100 kg</td>
+          <td>{{playerBinding.weight}}</td>
         </tr>
         <tr>
           <td>Bodyfat:</td>
-          <td>90 %</td>
+          <td>{{playerBinding.bodyfat}}</td>
         </tr>
         <tr>
           <td>Preferred hand:</td>
-          <td>Right</td>
+          <td>{{playerBinding.preferredHand}}</td>
         </tr>
         <tr>
           <td>Injury status:</td>
-          <td>Knee injury</td>
+          <td>{{playerBinding.injuryStatus}}</td>
         </tr>
       </table>
     </div>
@@ -74,72 +70,100 @@
       <table class="tableFixed">
         <tr>
           <td>Current Club</td>
-          <td>TTH Holstebro</td>
+          <td>{{playerBinding.currentClub}}</td>
         </tr>
         <tr>
-          <td>Position</td>
-          <td>Left wing</td>
+          <td>Primary position</td>
+          <td>{{playerBinding.currentClubPrimaryPosition}}</td>
+        </tr>
+        <tr>
+            <td>Secondary position</td>
+            <td>{{playerBinding.currentClubSecondaryPosition}}</td>
         </tr>
         <tr>
           <td>Accomplishment:</td>
-          <td>Nothing yet</td>
+          <td>{{playerBinding.accomplishments}}</td>
         </tr>
         <tr>
           <td>Statistics:</td>
-          <td>123/145 shot seasion 18/19 ælasdæl ,asæl, asdæl ,asdæl, asdæl ,asdæl ,asdæl, asædl, asæld,</td>
+          <td>{{playerBinding.statistic}}</td>
         </tr>
         <tr>
           <td>Former clubs</td>
-          <td>TM Tønder</td>
+          <td>{{playerBinding.formerClubs}}</td>
         </tr>
       </table>
       <h1 style="text-align: center; margin-top:50px; font-family: 'Fresno'">Strengths / Weaknesses</h1>
-      <table class="tableFixed">
-        <tr>
-          <td>Strengths</td>
-          <td>Slår gode prutter</td>
-        </tr>
-        <tr>
-          <td>Weaknesses</td>
-          <td>Men de lugter</td>
-        </tr>
-        <tr>
-          <td>Ratings/reference</td>
-          <td>10/10</td>
-        </tr>
-      </table>
+
+      <div class="row" style="margin-top:10px; text-align: center">
+       
+          <div style="margin-left: 10%; margin-right: 10%;">
+              <h5>{{playerBinding.strengthDescription}} {{playerBinding.weaknessDescription}}</h5>
+          </div>
+         
+          <div class="col-md-6">
+              <h4>Strength</h4>
+              <p *ngIf="playerBinding.strengthList.length == 0">Not specified</p>
+              <div *ngFor="let strength of playerBinding.strengthList">
+                  <p>{{strength}}</p>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <h4>Weaknesses</h4>
+              <p *ngIf="playerBinding.weaknessList.length == 0">Not specified</p>
+              <div *ngFor="let weakness of playerBinding.weaknessList">
+                  <p >{{weakness}}</p>
+              </div>
+          </div>
+        </div>
 
     </div>
     <div class="col-sm-6">
       <h1 style="text-align:center; margin-top:30px; font-family: 'Fresno'">National Team</h1>
       <div style="margin-top:10px;">
-          <accordion>
-            <accordion-group  [isOpen]="isFirstOpen">
-              <h5 accordion-heading >A team statistics </h5>
-              <p>Appearances: 12</p>
-              <p>Position: Left Wing</p>
-              <p>Statistics: 404 goals, 25 assist</p>
-            </accordion-group>
-            <accordion-group >
-              <h5 accordion-heading >B team statistics </h5>
-              <p>Appearances: N/A</p>
-              <p>Position: N/A</p>
-              <p>Statistics: N/A</p>
-            </accordion-group>
-            <accordion-group >
-                <h5 accordion-heading >U21 team statistics </h5>
-              <p>Appearances: 30</p>
-              <p>Position: Left Wing</p>
-              <p>Statistics: 10 goals, 1 assist</p>
-            </accordion-group>
-            <accordion-group >
-                <h5 accordion-heading >U18 team statistics </h5>
-              <p>Appearances: 300</p>
-              <p>Position: Left Wing</p>
-              <p>Statistics: 0 goals, 25 assist</p>
-            </accordion-group>
-          </accordion>
+          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="playerBinding.nationalTeamList.length == 0"> No national teams was specified from the player</h3>
+          <div *ngIf="playerBinding.nationalTeamList.length > 0">
+              <accordion *ngFor="let nationalTeam of playerBinding.nationalTeamList" >
+                  <accordion-group  [isOpen]="isFirstOpen" *ngIf="nationalTeam.name == 'A'">
+                    <h5 accordion-heading >A team statistics </h5>
+                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
+                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
+                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
+                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
+                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
+                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
+                  </accordion-group>
+                  <accordion-group *ngIf="nationalTeam.name == 'B'" >
+                    <h5 accordion-heading >B team statistics </h5>
+                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
+                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
+                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
+                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
+                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
+                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
+                  </accordion-group>
+                  <accordion-group *ngIf="nationalTeam.name == 'U21'">
+                    <h5 accordion-heading >U21 team statistics </h5>
+                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
+                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
+                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
+                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
+                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
+                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
+                  </accordion-group>
+                  <accordion-group *ngIf="nationalTeam.name == 'U18'" >
+                    <h5 accordion-heading >U18 team statistics </h5>
+                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
+                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
+                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
+                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
+                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
+                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
+                  </accordion-group>
+                </accordion>
           </div>
+          
+        </div>
     </div>
   </div>
   <div class="row" style="margin-bottom: 50px;">
