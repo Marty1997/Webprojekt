@@ -27,7 +27,6 @@ export class loginService {
   private tokenStillValid() {
     if(this.isAuthenticated()) {
       this.token = localStorage.getItem('token');
-      this.typeOfLogin = localStorage.getItem('typeOfLogin');
     }
     else {
       this.logout();
@@ -44,7 +43,6 @@ export class loginService {
     if (token) {
       decodeToken = decode(token);
       if (decodeToken.exp < now) {
-        console.log("Token udløbet")
         this.logout();
         return false;
       }
@@ -68,24 +66,23 @@ export class loginService {
     this.typeOfLogin = "Player";
     this.token = succes.token;
     this.playerInSession = this.playerInSession.buildPlayer(succes, this.playerInSession);
-    localStorage.setItem("typeOfLogin", this.typeOfLogin);
+
     localStorage.setItem("token", this.token);
   }
 
   setupClubLogin(succes: any) {
     this.typeOfLogin = "Club";
     this.token = succes.token;
-    console.log(succes);
+   
     this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
-    console.log(this.clubInSession);
-    localStorage.setItem('typeOfLogin', this.typeOfLogin);
+  
+
     localStorage.setItem('token', this.token);
   }
 
   logout() {
-    // remove token and type from local storage to log user out
+    // remove token from local storage to log user out
     localStorage.removeItem('token');
-    localStorage.removeItem('typeOfLogin');
     this.typeOfLogin = "";
     this.clubInSession = null;
     this.playerInSession = null;

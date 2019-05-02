@@ -178,19 +178,32 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
 
-                try {
-                    player = conn.QuerySingle<Player>("select * from Player where email = @email", new { email });
+                //try {
+                player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
+                    " inner join Position pp on pp.id = p.primaryPosition_ID" +
+                    " inner join Position sp on sp.id = p.secondaryPosition_ID" +
+                    " inner join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
+                    " inner join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email",
+                (playerinside, pp, sp, cp, cs) => {
+                    playerinside.PrimaryPosition = pp;
+                    playerinside.SecondaryPosition = sp;
+                    playerinside.CurrentClubPrimaryPosition = cp;
+                    playerinside.CurrentClubSecondaryPosition = cs;
+                    return playerinside;
+                }, new { email }, splitOn: "name,name,name,name").Single();
 
-                    if (player.Id < 1) {
-                        player.ErrorMessage = "The player does not exist";
-                    }
-                    else {
-                        player.ErrorMessage = "";
-                    }
-                }
-                catch (SqlException e) {
-                    player.ErrorMessage = ErrorHandling.Exception(e);
-                }
+                player.NationalTeamList = conn.Query<NationalTeam, string, NationalTeam>("select nt.*, p.name from NationalTeam nt " +
+                    " inner join Position p on p.id = nt.position_id where nt.player_id = @id", (nationalTeam, p) => { nationalTeam.Position = p; return nationalTeam; },
+                    new { id = player.Id }, splitOn:"name").ToList();
+
+                player.StrengthList = conn.Query<string>("select s.name from Strength s " +
+                     "inner join PlayerStrength ps on ps.strength_id = s.id where ps.player_id = @id", new { id = player.Id }).ToList();
+                player.WeaknessList = conn.Query<string>("select w.name from Weakness w " +
+                    "inner join PlayerWeakness pw on pw.weakness_id = w.id where pw.player_ID = @id", new { id = player.Id }).ToList();
+                //}
+                //catch (SqlException e) {
+                //    player.ErrorMessage = ErrorHandling.Exception(e);
+                //}
 
             }
             return player;
@@ -206,12 +219,18 @@ namespace Api.DAL.Repos {
             UserCredentials UC = new UserCredentials();
             using (var conn = Connection()) {
                 //try {
+                    //Select a club, if we find one we set UC.club to true, if not, we try to find a player, if we find one, we set uc.club to false 
                     id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
-                    if (id < 0) {
-                        id = conn.Query("select userCredentials_id from Player where email=@email", new { email }).Single();
+                    if(id != 0) {
+                        UC.Club = true;
+                    }
+                    else if (id == 0) {
+                        id = conn.Query<int>("select userCredentials_id from Player where email=@email", new { email }).FirstOrDefault();
                         UC.Club = false;
                     }
-                    if (id < 0) {
+
+                    //Checks if we found a player or a club. If found, we select their credentials from DB
+                    if (id == 0) {
                         return null;
                     }
                     else {
