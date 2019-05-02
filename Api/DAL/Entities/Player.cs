@@ -21,6 +21,8 @@ namespace Api.DAL.Entities {
         public int? Height { get; set; }
         public int? Weight { get; set; }
         public int? BodyFat { get; set; }
+        public string ContractStatus { get; set; }
+        public string InjuryStatus { get; set; }
         public string PrimaryPosition { get; set; }
         public string SecondaryPosition { get; set; }
         public string PreferredHand { get; set; }

@@ -198,10 +198,10 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                 //try {
                 player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
-                    " inner join Position pp on pp.id = p.primaryPosition_ID" +
-                    " inner join Position sp on sp.id = p.secondaryPosition_ID" +
-                    " inner join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                    " inner join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email",
+                    " left join Position pp on pp.id = p.primaryPosition_ID" +
+                    " left join Position sp on sp.id = p.secondaryPosition_ID" +
+                    " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
+                    " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email",
                 (playerinside, pp, sp, cp, cs) => {
                     playerinside.PrimaryPosition = pp;
                     playerinside.SecondaryPosition = sp;
