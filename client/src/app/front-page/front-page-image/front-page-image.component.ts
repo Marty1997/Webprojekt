@@ -62,7 +62,6 @@ clubRegistrationModal: BsModalRef;
     this.loginService.loginUser(form).subscribe(
       (succes:any) => {      
         this.closeAllModals();
-        console.log(succes);
         if(succes.isPlayer) {
           this.loginService.setupPlayerLogin(succes);
           this.router.navigate(['/player-dashboard'])
