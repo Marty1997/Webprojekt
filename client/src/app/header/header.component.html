@@ -1,0 +1,25 @@
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" (click)="toggleNavbarCollapse()">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a *ngIf="isClub" class="navbar-brand" [routerLink]="['/dashboard']">SportConnectors</a>
+            <a *ngIf="isPlayer" class="navbar-brand" [routerLink]="['/dashboard']">SportConnectors</a>
+        </div>
+
+        <div class="navbar-collapse collapse" [class.collapse]="navbarCollapse">
+            <ul style="float: right" class="nav navbar-nav">
+                <!-- use ngIf on li to switch from player/club -->
+                <li *ngIf="isPlayer"><a [routerLink]="['/profile']" (click)="toggleNavbarCollapse()">Profile</a></li>
+                <li *ngIf="isClub"><a [routerLink]="['/dashboard']" (click)="toggleNavbarCollapse()">Profile</a></li>
+                <li *ngIf="isPlayer"><a [routerLink]="['/profile/search']" (click)="toggleNavbarCollapse()">Search</a></li>
+                <li *ngIf="isClub"><a [routerLink]="['/dashboard/search']" (click)="toggleNavbarCollapse()">Search</a></li>
+                <li><a (click)="toggleNavbarCollapse()">Messages</a></li>
+                <li><a (click)="toggleNavbarCollapse()">Drop down <span class="caret"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

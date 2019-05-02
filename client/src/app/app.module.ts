@@ -33,6 +33,7 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AuthGuardService } from './services/authGuardService';
     RegisterClubComponent,
     TrainingHoursFromComponent,
     TrainingHoursToComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,7 +61,11 @@ import { AuthGuardService } from './services/authGuardService';
     FormsModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: FrontPageComponent, pathMatch: 'full' },
+      { path: '', component: FrontPageComponent},
+      { path: 'dashboard', component: ClubDashboardComponent},
+      { path: 'profile', component: PlayerDashboardComponent},
+      { path: 'dashboard/search', component: SearchForPlayersComponent},
+      { path: 'profile/search', component: SearchForClubsComponent},
       { path: 'club-dashboard', component: ClubDashboardComponent, /*canActivate: [AuthGuardService]*/ },
       { path: 'player-dashboard', component: PlayerDashboardComponent, /*canActivate: [AuthGuardService]*/ },
       { path: 'search-for-clubs', component: SearchForClubsComponent },
