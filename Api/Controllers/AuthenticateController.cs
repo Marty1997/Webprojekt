@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.BusinessLogic;
+using Api.DAL;
+using Api.DAL.Entities;
 using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -16,9 +18,13 @@ namespace Api.Controllers {
     [ApiController]
     public class AuthenticateController : ControllerBase {
         private readonly Authentication authentication;
+        private readonly IRepository<Player> playerRepos;
+        private readonly IRepository<Club> clubRepos;
 
-        public AuthenticateController(Authentication authentication) {
+        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos, IRepository<Club> clubRepos) {
             this.authentication = authentication;
+            this.playerRepos = playerRepos;
+            this.clubRepos = clubRepos;
         }
 
         [AllowAnonymous]
@@ -31,6 +37,21 @@ namespace Api.Controllers {
                 return StatusCode(400, "Failed to authenticate");
             }
             return Ok(user);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult RefreshUserWithValidToken([FromBody] RefreshUserRequest request) {
+
+            if (request.Role == "Player") {
+                Player player = playerRepos.GetById(request.ID);
+                return Ok(player);
+            }
+            else if (request.Role == "Club") {
+                Club club = clubRepos.GetById(request.ID);
+                return Ok(club);
+            }
+            return StatusCode(400, "Failed");
         }
     }
 }
