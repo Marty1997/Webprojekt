@@ -19,6 +19,7 @@ export class loginService {
   constructor(private http: HttpClient) {
     this.tokenStillValid();
     this.clubInSession = new Club();
+    this.playerInSession = new Player();
   }
 
   //Helping method for loginService constructor to check if old 
@@ -66,7 +67,7 @@ export class loginService {
   setupPlayerLogin(succes: any) {
     this.typeOfLogin = "Player";
     this.token = succes.token;
-    this.playerInSession = succes.player;
+    this.playerInSession = this.playerInSession.buildPlayer(succes, this.playerInSession);
     localStorage.setItem("typeOfLogin", this.typeOfLogin);
     localStorage.setItem("token", this.token);
   }
@@ -75,7 +76,7 @@ export class loginService {
     this.typeOfLogin = "Club";
     this.token = succes.token;
     console.log(succes);
-    this.clubInSession = this.clubInSession.buildPlayer(succes, this.clubInSession);
+    this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
     console.log(this.clubInSession);
     localStorage.setItem('typeOfLogin', this.typeOfLogin);
     localStorage.setItem('token', this.token);

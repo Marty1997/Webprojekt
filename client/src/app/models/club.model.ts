@@ -36,7 +36,7 @@ export class Club {
 
     constructor() {}
 
-    buildPlayer(succes:any, club: Club)  {
+    buildClub(succes:any, club: Club)  {
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;
