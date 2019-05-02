@@ -29,6 +29,8 @@ export class Player {
     accomplishments: string = "";
     statistic: string = "";
     formerClubs: string = "";
+    contractStatus: string = "";
+    injuryStatus: string = "";
     // national team
     nationalTeamList : NationalTeam [] = [];
     // picture/video
@@ -61,6 +63,8 @@ export class Player {
         this.accomplishments = succes.accomplishments;
         this.statistic = succes.statistic;
         this.formerClubs = succes.formerClubs;
+        this.contractStatus = succes.contractStatus;
+        this.injuryStatus = succes.injuryStatus;
         this.nationalTeamList = succes.nationalTeamList;
 
         return player;
