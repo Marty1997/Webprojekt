@@ -486,9 +486,14 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.preferredHand = null;
     }
     if(this.additionalInfoFormGroup.value.contractStatusControl !== '') {
-
+      this.player.contractStatus = this.additionalInfoFormGroup.value.contractStatusControl;
     } else {
-      
+      this.player.contractStatus = null;
+    }
+    if(this.additionalInfoFormGroup.value.injuryStatusControl !== '') {
+      this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatusControl;
+    } else {
+      this.player.injuryStatus = null;
     }
 
     // strengths
@@ -516,6 +521,8 @@ export class RegisterPlayerComponent implements OnInit {
     // weaknesses
     if (this.strengthWeaknessFormGroup.value.weaknesses !== "") {
       this.player.weaknessDescription = this.strengthWeaknessFormGroup.value.weaknesses;
+    } else {
+      this.player.weaknessDescription = null;
     }
     if (this.firstWeakness.checked) {
       this.player.weaknessList.push(this.firstWeakness.value);
