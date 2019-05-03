@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { SearchCriteria } from '../models/searchCriteria.model';
 
 @Component({
   selector: 'app-player-search-criteria',
@@ -9,18 +10,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class PlayerSearchCriteriaComponent implements OnInit {
 
   searchForm: FormGroup;
-
-  // search criterias
-  country: string;
-  league: string;
-  minimumAge: number;
-  maximumAge: number;
-  primaryPosition: string;
-  secondaryPosition: string;
-  injuryStatus: string;
-  handPreference: string;
-  minimumHeight: number;
-  maximumWeight: number;
+  searchCriteria: SearchCriteria = new SearchCriteria();
 
   // predefined options
   weightList: number[] = [
@@ -78,6 +68,7 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();
 
     // some call to the searchService
+    console.log(this.searchCriteria);
   }
 
   /*
@@ -86,63 +77,63 @@ export class PlayerSearchCriteriaComponent implements OnInit {
   */
   validateSearchCriteria() {
     if(this.searchForm.value.country != '') {
-      this.country = this.searchForm.value.country;
+      this.searchCriteria.country = this.searchForm.value.country;
     } else {
-      this.country = null;
+      this.searchCriteria.country = null;
     }  
     
     if(this.searchForm.value.league != '') {
-      this.league = this.searchForm.value.league;
+      this.searchCriteria.league = this.searchForm.value.league;
     } else {
-      this.league = null;
+      this.searchCriteria.league = null;
     }
 
-    if(this.searchForm.value.minimumAge != '') {
-      this.minimumAge = this.searchForm.value.minimumAge;
+    if(this.searchForm.value.mininumAge != '') {
+      this.searchCriteria.minimumAge = this.searchForm.value.mininumAge;
     } else {
-      this.minimumAge = null;
+      this.searchCriteria.minimumAge = null;
     }
 
     if(this.searchForm.value.maximumAge != '') {
-      this.maximumAge = this.searchForm.value.maximumAge;
+      this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
     } else {
-      this.maximumAge = null;
+      this.searchCriteria.maximumAge = null;
     }
 
     if(this.searchForm.value.primaryPosition != '') {
-      this.primaryPosition = this.searchForm.value.primaryPosition;
+      this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
     } else {
-      this.primaryPosition = null;
+      this.searchCriteria.primaryPosition = null;
     }
 
     if(this.searchForm.value.secondaryPosition != '') {
-      this.secondaryPosition = this.searchForm.value.secondaryPosition;
+      this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
     } else {
-      this.secondaryPosition = null;
+      this.searchCriteria.secondaryPosition = null;
     }
 
     if(this.searchForm.value.injuryStatus != '') {
-      this.injuryStatus = this.searchForm.value.injuryStatus;
+      this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
     } else {
-      this.injuryStatus = null;
+      this.searchCriteria.injuryStatus = null;
     }
 
     if(this.searchForm.value.handPreference != '') {
-      this.handPreference = this.searchForm.value.handPreference;
+      this.searchCriteria.handPreference = this.searchForm.value.handPreference;
     } else {
-      this.handPreference = null;
+      this.searchCriteria.handPreference = null;
     }
 
     if(this.searchForm.value.minimumHeight != '') {
-      this.minimumHeight = this.searchForm.value.minimumHeight;
+      this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
     } else {
-      this.minimumHeight = null;
+      this.searchCriteria.minimumHeight = null;
     }
 
     if(this.searchForm.value.maximumWeight != '') {
-      this.maximumWeight = this.searchForm.value.maximumWeight;
+      this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
     } else {
-      this.maximumWeight = null;
+      this.searchCriteria.maximumWeight = null;
     }
   }
   
