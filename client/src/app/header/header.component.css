@@ -5,3 +5,12 @@ nav {
 a:hover {
     cursor: pointer;
 }
+
+button {
+    color: #9d9d9d;
+    margin: auto;
+}
+
+button:hover {
+    color: white;
+}

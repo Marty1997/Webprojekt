@@ -12,13 +12,23 @@
 
         <div class="navbar-collapse collapse" [class.collapse]="navbarCollapse">
             <ul style="float: right" class="nav navbar-nav">
-                <!-- use ngIf on li to switch from player/club -->
-                <li *ngIf="isPlayer"><a [routerLink]="['/profile']" (click)="toggleNavbarCollapse()">Profile</a></li>
-                <li *ngIf="isClub"><a [routerLink]="['/dashboard']" (click)="toggleNavbarCollapse()">Profile</a></li>
-                <li *ngIf="isPlayer"><a [routerLink]="['/profile/search']" (click)="toggleNavbarCollapse()">Search</a></li>
-                <li *ngIf="isClub"><a [routerLink]="['/dashboard/search']" (click)="toggleNavbarCollapse()">Search</a></li>
+                <li *ngIf="isPlayer"><a [routerLink]="['/player-dashboard']" (click)="toggleNavbarCollapse()">Profile</a></li>
+                <li *ngIf="isClub"><a [routerLink]="['/club-dashboard']" (click)="toggleNavbarCollapse()">Profile</a></li>
+                <li *ngIf="isPlayer"><a [routerLink]="['/search-for-clubs']" (click)="toggleNavbarCollapse()">Search</a>
+                </li>
+                <li *ngIf="isClub"><a [routerLink]="['/search-for-players']" (click)="toggleNavbarCollapse()">Search</a>
+                </li>
                 <li><a (click)="toggleNavbarCollapse()">Messages</a></li>
-                <li><a (click)="toggleNavbarCollapse()">Drop down <span class="caret"></span></a></li>
+                <li>
+                    <a mat-button [matMenuTriggerFor]="menu">Account <span class="caret"></span></a>
+                    <mat-menu id="dropdownMenu" #menu="matMenu">
+                        <!-- add routerlinks -->
+                        <button mat-menu-item>Settings</button>
+                        <button mat-menu-item>How to Use</button>
+                        <button mat-menu-item>Contact Support</button>
+                        <button mat-menu-item>Logout</button>
+                    </mat-menu>
+                </li>
             </ul>
         </div>
     </div>
