@@ -128,10 +128,10 @@
               <h5 accordion-heading >A team statistics </h5>
               <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                 <div *ngIf="nationalTeam.name == 'A'"> 
-                    <p *ngIf="nationalTeam.statistic == ''">Statistic: Not specified</p>
-                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
-                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
-                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
+                    <p>Appearances: {{nationalTeam.appearances}}</p>
+                    <p>Position: {{nationalTeam.position}}</p>
+                    <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                    <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
                 </div>
                 <div *ngIf="nationalTeam.name != 'A'"> 
                     <p>Appearances: Not specified</p>
@@ -140,7 +140,54 @@
                 </div>
               </div>
             </accordion-group>
-            
+            <accordion-group>
+                <h5 accordion-heading >B team statistics </h5>
+                <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
+                  <div *ngIf="nationalTeam.name == 'B'"> 
+                      <p>Appearances: {{nationalTeam.appearances}}</p>
+                      <p>Position: {{nationalTeam.position}}</p>
+                      <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                      <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
+                  </div>
+                  <div *ngIf="nationalTeam.name != 'B'"> 
+                      <p>Appearances: Not specified</p>
+                      <p>Position: Not specified</p>
+                      <p>Statistic: Not specified</p>
+                  </div>
+                </div>
+              </accordion-group>
+              <accordion-group>
+                  <h5 accordion-heading >U21 team statistics </h5>
+                  <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
+                    <div *ngIf="nationalTeam.name == 'U21'"> 
+                        <p>Appearances: {{nationalTeam.appearances}}</p>
+                        <p>Position: {{nationalTeam.position}}</p>
+                        <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                        <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
+                    </div>
+                    <div *ngIf="nationalTeam.name != 'U21'"> 
+                        <p>Appearances: Not specified</p>
+                        <p>Position: Not specified</p>
+                        <p>Statistic: Not specified</p>
+                    </div>
+                  </div>
+                </accordion-group>
+                <accordion-group>
+                    <h5 accordion-heading >U18 team statistics </h5>
+                    <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
+                      <div *ngIf="nationalTeam.name == 'U18'"> 
+                          <p>Appearances: {{nationalTeam.appearances}}</p>
+                          <p>Position: {{nationalTeam.position}}</p>
+                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                          <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
+                      </div>
+                      <div *ngIf="nationalTeam.name != 'U18'"> 
+                          <p>Appearances: Not specified</p>
+                          <p>Position: Not specified</p>
+                          <p>Statistic: Not specified</p>
+                      </div>
+                    </div>
+                  </accordion-group>
           </accordion>
           </div>
           

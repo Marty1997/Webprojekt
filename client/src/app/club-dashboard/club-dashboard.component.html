@@ -134,15 +134,15 @@
 
         <div style="width: 100%; height: 300px; text-align: center; align-content: center">
           <h2 style="font-family: 'Fresno'">Open positions in club</h2>
-          <p *ngIf="clubBinding.openPositionsList.length == 0">No open positions specified</p>
+          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.openPositionsList.length == 0">No open positions specified</h3>
           <div *ngFor="let positions of clubBinding.openPositionsList">
               <div style="width:100%;  margin-bottom: 10px;">{{positions}}</div>
           </div>
+
           <div class="row" style="margin-top:10px; text-align: center">
             <h2 style="font-family: 'Fresno'">Values & Preferences</h2>
-            <!-- <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5> -->
             <div style="margin-left: 10%; margin-right: 10%;">
-              <h5>TTH Holstebro er en klub som værdsætter bla blalb lalalsl aklsaklasl kaslkaslk sakad assk dj je  kajsjd jsja jasjas ja  jask sj jaskj </h5>
+                <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5>
             </div>
            
             <div class="col-md-6">
