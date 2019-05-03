@@ -33,6 +33,7 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
+import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
@@ -53,6 +54,7 @@ import { HeaderComponent } from './header/header.component';
     RegisterClubComponent,
     TrainingHoursFromComponent,
     TrainingHoursToComponent,
+    ContactAdviserComponent,
     HeaderComponent,
   ],
   imports: [
@@ -61,7 +63,7 @@ import { HeaderComponent } from './header/header.component';
     FormsModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: FrontPageComponent},
+      { path: '', component: FrontPageComponent, pathMatch: 'full' },
       { path: 'club-dashboard', component: ClubDashboardComponent, /*canActivate: [AuthGuardService]*/ },
       { path: 'player-dashboard', component: PlayerDashboardComponent, /*canActivate: [AuthGuardService]*/ },
       { path: 'search-for-clubs', component: SearchForClubsComponent },

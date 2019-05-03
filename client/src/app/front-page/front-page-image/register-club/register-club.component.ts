@@ -593,28 +593,28 @@ export class RegisterClubComponent implements OnInit {
     this.club.nextYearSquadPlayersList = this.nextYearSquadSource;
     // open positions
     if (this.goalkeeperOpen.checked) {
-      this.club.openPositionList.push(this.goalkeeperOpen.value);
+      this.club.openPositionsList.push(this.goalkeeperOpen.value);
     }
     if (this.leftWingOpen.checked) {
-      this.club.openPositionList.push(this.leftWingOpen.value);
+      this.club.openPositionsList.push(this.leftWingOpen.value);
     }
     if (this.leftBackOpen.checked) {
-      this.club.openPositionList.push(this.leftBackOpen.value);
+      this.club.openPositionsList.push(this.leftBackOpen.value);
     }
     if (this.centreBackOpen.checked) {
-      this.club.openPositionList.push(this.centreBackOpen.value);
+      this.club.openPositionsList.push(this.centreBackOpen.value);
     }
     if (this.pivotOpen.checked) {
-      this.club.openPositionList.push(this.pivotOpen.value);
+      this.club.openPositionsList.push(this.pivotOpen.value);
     }
     if (this.rightBackOpen.checked) {
-      this.club.openPositionList.push(this.rightBackOpen.value);
+      this.club.openPositionsList.push(this.rightBackOpen.value);
     }
     if (this.rightWingOpen.checked) {
-      this.club.openPositionList.push(this.rightWingOpen.value);
+      this.club.openPositionsList.push(this.rightWingOpen.value);
     }
     if (this.defenceOpen.checked) {
-      this.club.openPositionList.push(this.defenceOpen.value);
+      this.club.openPositionsList.push(this.defenceOpen.value);
     }
 
     // staff
