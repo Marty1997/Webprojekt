@@ -123,44 +123,25 @@
       <div style="margin-top:10px;">
           <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="playerBinding.nationalTeamList.length == 0"> No national teams was specified from the player</h3>
           <div *ngIf="playerBinding.nationalTeamList.length > 0">
-              <accordion *ngFor="let nationalTeam of playerBinding.nationalTeamList" >
-                  <accordion-group  [isOpen]="isFirstOpen" *ngIf="nationalTeam.name == 'A'">
-                    <h5 accordion-heading >A team statistics </h5>
-                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
-                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
-                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
+            <accordion>
+            <accordion-group  [isOpen]="isFirstOpen">
+              <h5 accordion-heading >A team statistics </h5>
+              <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
+                <div *ngIf="nationalTeam.name == 'A'"> 
+                    <p *ngIf="nationalTeam.statistic == ''">Statistic: Not specified</p>
                     <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
                     <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
                     <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
-                  </accordion-group>
-                  <accordion-group *ngIf="nationalTeam.name == 'B'" >
-                    <h5 accordion-heading >B team statistics </h5>
-                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
-                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
-                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
-                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
-                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
-                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
-                  </accordion-group>
-                  <accordion-group *ngIf="nationalTeam.name == 'U21'">
-                    <h5 accordion-heading >U21 team statistics </h5>
-                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
-                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
-                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
-                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
-                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
-                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
-                  </accordion-group>
-                  <accordion-group *ngIf="nationalTeam.name == 'U18'" >
-                    <h5 accordion-heading >U18 team statistics </h5>
-                    <p *ngIf="nationalTeam.appearances == Null">Appearances: Not specified</p>
-                    <p *ngIf="nationalTeam.position == Null">Position: Not specified</p>
-                    <p *ngIf="nationalTeam.statistic == Null">Statistic: Not specified</p>
-                    <p *ngIf="nationalTeam.appearances != Null">Appearances: {{nationalTeam.appearances}}</p>
-                    <p *ngIf="nationalTeam.position != Null">Position: {{nationalTeam.position}}</p>
-                    <p *ngIf="nationalTeam.statistic != Null">Statistics: {{nationalTeam.statistic}}</p>
-                  </accordion-group>
-                </accordion>
+                </div>
+                <div *ngIf="nationalTeam.name != 'A'"> 
+                    <p>Appearances: Not specified</p>
+                    <p>Position: Not specified</p>
+                    <p>Statistic: Not specified</p>
+                </div>
+              </div>
+            </accordion-group>
+            
+          </accordion>
           </div>
           
         </div>
