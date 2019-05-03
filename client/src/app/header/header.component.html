@@ -6,21 +6,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a *ngIf="isClub" class="navbar-brand" [routerLink]="['/dashboard']">SportConnectors</a>
-            <a *ngIf="isPlayer" class="navbar-brand" [routerLink]="['/dashboard']">SportConnectors</a>
+            <a *ngIf="isClub" class="navbar-brand" [routerLink]="['/club-dashboard']">SportConnectors</a>
+            <a *ngIf="isPlayer" class="navbar-brand" [routerLink]="['/player-dashboard']">SportConnectors</a>
         </div>
 
         <div class="navbar-collapse collapse" [class.collapse]="navbarCollapse">
             <ul style="float: right" class="nav navbar-nav">
-                <li *ngIf="isPlayer"><a [routerLink]="['/player-dashboard']" (click)="toggleNavbarCollapse()">Profile</a></li>
-                <li *ngIf="isClub"><a [routerLink]="['/club-dashboard']" (click)="toggleNavbarCollapse()">Profile</a></li>
-                <li *ngIf="isPlayer"><a [routerLink]="['/search-for-clubs']" (click)="toggleNavbarCollapse()">Search</a>
+                <li *ngIf="isPlayer">
+                    <a [routerLink]="['/player-dashboard']" (click)="toggleNavbarCollapse()" class="headerLinks">Profile</a>
                 </li>
-                <li *ngIf="isClub"><a [routerLink]="['/search-for-players']" (click)="toggleNavbarCollapse()">Search</a>
+                <li *ngIf="isClub">
+                    <a [routerLink]="['/club-dashboard']" (click)="toggleNavbarCollapse()" class="headerLinks">Profile</a>
                 </li>
-                <li><a (click)="toggleNavbarCollapse()">Messages</a></li>
+                <li *ngIf="isPlayer">
+                    <a [routerLink]="['/search-for-clubs']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
+                </li>
+                <li *ngIf="isClub">
+                    <a [routerLink]="['/search-for-players']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
+                </li>
                 <li>
-                    <a mat-button [matMenuTriggerFor]="menu">Account <span class="caret"></span></a>
+                    <a (click)="toggleNavbarCollapse()" class="headerLinks">Messages</a></li>
+                <li>
+                    <a mat-button [matMenuTriggerFor]="menu" class="headerLinks">Account <span class="caret"></span></a>
                     <mat-menu id="dropdownMenu" #menu="matMenu">
                         <!-- add routerlinks -->
                         <button mat-menu-item>Settings</button>

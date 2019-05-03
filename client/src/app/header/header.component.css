@@ -2,13 +2,17 @@ nav {
     background-color: #2A344F;
 }
 
+button {
+    color: #9d9d9d;
+    margin: auto;
+}
+
 a:hover {
     cursor: pointer;
 }
 
-button {
-    color: #9d9d9d;
-    margin: auto;
+.headerLinks:hover {
+    color: white;
 }
 
 button:hover {
@@ -21,13 +25,13 @@ button:hover {
     font-size: 17px;
     font-weight: bold;
     font-family: 'fresno';
-  }
+}
   
-  /* Left side of navbar style */ 
-  .navbar-brand {
+/* Left side of navbar style */ 
+.navbar-brand {
     font-weight: bolder;
     color: #c9d4df;
     font-size: 23px;
     font-family: 'Fresno';
     font-style: italic;
-  }
+}
