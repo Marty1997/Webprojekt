@@ -35,6 +35,7 @@ import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 import { HeaderComponent } from './header/header.component';
+import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-search-criteria.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { HeaderComponent } from './header/header.component';
     TrainingHoursToComponent,
     ContactAdviserComponent,
     HeaderComponent,
+    PlayerSearchCriteriaComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
