@@ -352,7 +352,9 @@ export class RegisterPlayerComponent implements OnInit {
       bodyfat: this.bodyfatControl,
       primaryPosition: [""],
       secondaryPosition: [""],
-      preferredHand: [""]
+      preferredHand: [""],
+      contractStatusControl: [''],
+      injuryStatusControl: ['']
     });
     this.strengthWeaknessFormGroup = this._formBuilder.group({
       strengths: [""],
@@ -482,6 +484,11 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.preferredHand = this.additionalInfoFormGroup.value.preferredHand;
     } else {
       this.player.preferredHand = null;
+    }
+    if(this.additionalInfoFormGroup.value.contractStatusControl !== '') {
+
+    } else {
+      
     }
 
     // strengths

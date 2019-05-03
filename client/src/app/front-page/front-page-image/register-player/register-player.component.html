@@ -191,12 +191,24 @@
       <br>
       <mat-label>Preferred hand</mat-label>
       <br>
-      <mat-form-field>
+      <mat-form-field class="doubleSizeField">
         <mat-select placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
           <mat-option value="Right">Right Hand</mat-option>
           <mat-option value="Left">Left Hand</mat-option>
           <mat-option value="Both">Both Hands</mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Contract Status</mat-label>
+      <mat-form-field class="doubleSizeField">
+        <input matInput placeholder="Contract Status" formControlName="contractStatusControl" [errorStateMatcher]='validate'>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Injury Status</mat-label>
+      <mat-form-field class="doubleSizeField">
+        <input matInput placeholder="Injury Status" formControlName="injuryStatusControl" [errorStateMatcher]='validate'>
       </mat-form-field>
 
       <br>
