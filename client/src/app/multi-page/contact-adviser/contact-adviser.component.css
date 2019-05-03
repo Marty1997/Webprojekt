@@ -1,0 +1,229 @@
+table{
+  width: 100%;
+}
+
+input {
+  width: 70%
+}
+
+#labelwidth {
+    width: 20%;
+    padding: 10px 2.5px 5px 0px;
+}
+
+#inputwidth {
+    width: 80%;
+    padding: 5px 0px 5px 0px;
+}
+
+.glyphicon {
+    color: #ffffff;
+    font-size: 200%
+}
+
+#ee{
+  font-size: 7.5px;
+  color:red;
+  word-wrap: break-word;
+}
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.openContactAdviserBtn {
+    background-color: #45a29e;
+    color: #ffffff;
+    padding: 15px 13px 10px 13px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 60px;
+    z-index: 16;
+  }
+  
+  /* The popup chat - hidden by default */
+  .chat-popup {
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 2px solid #f1f1f1;
+    z-index: 16;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    /* max-width: 300px; */
+    padding: 10px;
+    background-color: white;
+  }
+  
+  /* Full-width textarea */
+  .form-container textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    background: #f1f1f1;
+    height: 200px;
+  }
+  
+  /* When the textarea gets focus, do something */
+  .form-container textarea:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* Set a style for the submit/send button */
+  .form-container .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  
+  /* Add a red background color to the cancel button */
+  .form-container .cancel {
+    background-color: red;
+  }
+  
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+
+/* @media only screen 
+and (max-width : 1024px)  {
+  .openContactAdviserBtn {
+    width: 11%;
+    font-size: 60%;
+    padding: 3% 1% 2% 1%;
+  }
+} */
+
+/* @media (max-width: 415px) and (min-width: 300px) {
+  .openContactAdviserBtn {
+    width: 11%;
+    font-size: 60%;
+    padding: 3% 1% 2% 1%;
+  }
+} */
+
+@media only screen  
+and (max-width : 415px) 
+and (orientation : portrait) {
+  .openContactAdviserBtn {
+    width: 11%;
+    font-size: 60%;
+    padding: 3% 1% 2% 1%;
+  }
+}
+
+@media only screen 
+and (min-width : 568px) 
+and (max-width : 824px)
+and (orientation : landscape) {
+  .openContactAdviserBtn {
+    width: 8%;
+    font-size: 70%;
+    padding: 2% 1% 1.5% 1%;
+  }
+}
+
+@media  screen 
+and (min-width : 200px) 
+and (max-width : 415px) 
+and (min-height: 568px) 
+and (max-height: 824px) 
+and (orientation : portrait) {
+  .chat-popup {
+    height: 100%;
+    width: 100%;
+    right: 0;
+  }
+
+  .form-container {
+    height: 100%;
+  }
+
+  .form-container textarea {
+    min-height: 227px;
+  }
+}
+
+@media only screen 
+and (min-height : 200px) 
+and (max-height : 415px)
+and (min-width : 568px) 
+and (max-width : 824px) 
+and (orientation : landscape) {
+  .chat-popup {
+    height: 100%;
+    width: 100%;
+    right: 0;
+  }
+  
+  .form-container{
+    height: 100%;
+  }
+  
+  input {
+    width: 35%
+  }
+
+  #labelwidth {
+    width: 10%;
+  }
+
+  #inputwidth {
+    width: 90%;
+  }
+
+  .form-container textarea{
+    height: 100px;
+  }
+
+  .form-container .btn{
+    width: 50%;
+  }
+}
+
+@media only screen 
+and (min-height : 200px) 
+and (max-height : 320px)
+/* and (min-width : 568px)  */
+and (max-width : 568px) 
+and (orientation : landscape) {
+  .chat-popup {
+    height: 100%;
+    width: 100%;
+    right: 0;
+  }
+  
+  .form-container{
+    height: 100%;
+  }
+  
+  input {
+    width: 35%
+  }
+
+  #labelwidth {
+    width: 10%;
+  }
+
+  #inputwidth {
+    width: 90%;
+  }
+
+  .form-container textarea{
+    height: 70px;
+  }
+
+  .form-container .btn{
+    width: 50%;
+  }
+}

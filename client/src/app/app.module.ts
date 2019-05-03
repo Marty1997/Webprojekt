@@ -34,6 +34,7 @@ import { TrainingHoursToComponent } from './front-page/front-page-image/register
 import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
+import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { TokenInterceptor } from './services/TokenInterceptor';
     RegisterClubComponent,
     TrainingHoursFromComponent,
     TrainingHoursToComponent,
+    ContactAdviserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

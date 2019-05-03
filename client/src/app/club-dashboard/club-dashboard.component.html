@@ -22,7 +22,6 @@
     <div class="col-md-4">
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
-        
         <mat-tab-group class="custom-tabs" mat-align-tabs="center">
           <mat-tab label="Current Year" > 
               <div>
@@ -166,30 +165,6 @@
         </div>
       </div>
     </div>
-    
-    <button class="openContactAdvisorBtn" onclick="openChatAdvisor()">Contact Advisor</button>
-    
-    <div class="" id="myForm">
-      <form class="form-container">
-        <h1>Chat</h1>
-    
-        <label for="msg"><b>Message</b></label>
-        <textarea placeholder="Type message.." name="msg" required></textarea>
-    
-        <button type="submit" class="btn">Send</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-      </form>
-    </div>
-  
-
+    <app-contact-adviser></app-contact-adviser>
 </section>
 <div style="height: 15px;"></div>
-<!-- <script>
-  function openForm() {
-    document.getElementById("myForm").style.display = "block";
-  }
-    
-  function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-  }
-</script> -->
