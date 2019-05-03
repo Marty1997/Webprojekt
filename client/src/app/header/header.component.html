@@ -26,7 +26,8 @@
                         <button mat-menu-item>Settings</button>
                         <button mat-menu-item>How to Use</button>
                         <button mat-menu-item>Contact Support</button>
-                        <button mat-menu-item>Logout</button>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="logout()" [routerLink]="['/']">Logout</button>
                     </mat-menu>
                 </li>
             </ul>

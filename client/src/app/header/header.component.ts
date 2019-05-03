@@ -28,6 +28,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  logout() {
+    this.loginService.logout();
+  }
+
   toggleNavbarCollapse() {
     this.navbarCollapse = !this.navbarCollapse;
   }
