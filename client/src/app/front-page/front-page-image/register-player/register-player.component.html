@@ -200,6 +200,17 @@
       </mat-form-field>
 
       <br>
+      <mat-label>League</mat-label>
+      <br>
+      <mat-form-field class="doubleSizeField">
+        <mat-select placeholder="Select League" formControlName="leagueControl" [errorStateMatcher]='validate'>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
       <mat-label>Contract Status</mat-label>
       <mat-form-field class="doubleSizeField">
         <input matInput placeholder="Contract Status" formControlName="contractStatusControl" [errorStateMatcher]='validate'>
