@@ -23,6 +23,10 @@ export class PlayerDashboardComponent implements OnInit {
       this.playerBinding = this.loginService.playerInSession;
       console.log(this.playerBinding);
 
+      if(this.playerBinding.league == null) {
+        this.playerBinding.league = "Not specified";
+      }
+
       if(this.playerBinding.primaryPosition == null) {
         this.playerBinding.primaryPosition = "Not specified";
       }
@@ -32,23 +36,14 @@ export class PlayerDashboardComponent implements OnInit {
       if(this.playerBinding.contractStatus == null) {
         this.playerBinding.contractStatus = "Not specified";
       }
-      if(this.playerBinding.height == null) {
-        this.playerBinding.height = "Not specified";
-      }
-      if(this.playerBinding.weight == null) {
-        this.playerBinding.weight = "Not specified";
-      }
-      if(this.playerBinding.bodyfat == null) {
-        this.playerBinding.bodyfat = "Not specified";
-      }
       if(this.playerBinding.preferredHand == null) {
         this.playerBinding.preferredHand = "Not specified";
       }
-      if(this.playerBinding.injuryStatus  == null) {
-        this.playerBinding.injuryStatus  = "Not specified";
+      if(this.playerBinding.injuryStatus == null) {
+        this.playerBinding.injuryStatus = "Not specified";
       }
-      if(this.playerBinding.currentClub  == null) {
-        this.playerBinding.currentClub  = "Not specified";
+      if(this.playerBinding.currentClub == null) {
+        this.playerBinding.currentClub = "Not specified";
       }
       if(this.playerBinding.currentClubPrimaryPosition  == null) {
         this.playerBinding.currentClubPrimaryPosition  = "Not specified";

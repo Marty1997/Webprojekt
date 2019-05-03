@@ -25,6 +25,10 @@
           <td>{{playerBinding.country}}</td>
         </tr>
         <tr>
+            <td>League:</td>
+            <td>{{playerBinding.league}}</td>
+          </tr>  
+        <tr>
           <td>Primary position:</td>
           <td>{{playerBinding.primaryPosition}}</td>
         </tr>
@@ -42,15 +46,18 @@
       <table class="tableFixed">
         <tr>
           <td>Height:</td>
-          <td>{{playerBinding.height}}</td>
+          <td *ngIf="playerBinding.height == null" >Not specified</td>
+          <td *ngIf="playerBinding.height != null" >{{playerBinding.height}}</td>
         </tr>
         <tr>
           <td>Weight:</td>
-          <td>{{playerBinding.weight}}</td>
+          <td *ngIf="playerBinding.weight == null" >Not specified</td>
+          <td *ngIf="playerBinding.weight != null" >{{playerBinding.weight}}</td>
         </tr>
         <tr>
           <td>Bodyfat:</td>
-          <td>{{playerBinding.bodyfat}}</td>
+          <td *ngIf="playerBinding.bodyfat == null" >Not specified</td>
+          <td *ngIf="playerBinding.bodyfat != null" >{{playerBinding.bodyfat}}</td>
         </tr>
         <tr>
           <td>Preferred hand:</td>
@@ -120,8 +127,7 @@
     </div>
     <div class="col-sm-6">
       <h1 style="text-align:center; margin-top:30px; font-family: 'Fresno'">National Team</h1>
-      <div style="margin-top:10px;">
-          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="playerBinding.nationalTeamList.length == 0"> No national teams was specified from the player</h3>
+      <div style="margin-top:10px;">      
           <div *ngIf="playerBinding.nationalTeamList.length > 0">
             <accordion>
             <accordion-group  [isOpen]="isFirstOpen">
@@ -140,7 +146,7 @@
                 </div>
               </div>
             </accordion-group>
-            <accordion-group>
+            <accordion-group [isOpen]="BTeamOpen">
                 <h5 accordion-heading >B team statistics </h5>
                 <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                   <div *ngIf="nationalTeam.name == 'B'"> 
