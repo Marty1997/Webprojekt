@@ -61,8 +61,8 @@ import { TokenInterceptor } from './services/TokenInterceptor';
     TooltipModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: FrontPageComponent, pathMatch: 'full' },
-      { path: 'club-dashboard', component: ClubDashboardComponent, /*canActivate: [AuthGuardService]*/ },
-      { path: 'player-dashboard', component: PlayerDashboardComponent, /*canActivate: [AuthGuardService]*/ },
+      { path: 'club-dashboard', component: ClubDashboardComponent, canActivate: [AuthGuardService] },
+      { path: 'player-dashboard', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
       { path: 'search-for-clubs', component: SearchForClubsComponent },
       { path: 'search-for-players', component: SearchForPlayersComponent },
     ]),

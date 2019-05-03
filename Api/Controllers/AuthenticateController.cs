@@ -39,6 +39,7 @@ namespace Api.Controllers {
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
         public IActionResult RefreshUserWithValidToken([FromBody] RefreshUserRequest request) {

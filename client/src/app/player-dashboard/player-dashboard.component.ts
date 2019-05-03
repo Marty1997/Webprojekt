@@ -18,8 +18,11 @@ export class PlayerDashboardComponent implements OnInit {
   constructor(private loginService: loginService) { }
 
   ngOnInit() {
-
     if(this.loginService.typeOfLogin == "Player") {
+      if(this.loginService.refreshValue) {
+        this.loginService.LoginUserIfValidTokenOnRefresh(this.loginService.getDecodeToken());
+        this.loginService.refreshValue = false;
+      }
       this.playerBinding = this.loginService.playerInSession;
       console.log(this.playerBinding);
     }
@@ -27,6 +30,7 @@ export class PlayerDashboardComponent implements OnInit {
       //find spilleren som klubben vil se og put i playerBinding variablen
     }
     else {
+      console.log("Den her");
       this.loginService.logout();
     }
   }

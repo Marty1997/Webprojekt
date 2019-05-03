@@ -20,11 +20,6 @@ clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
   constructor(private modalService: BsModalService, private loginService: loginService,
     private router: Router) { }
- 
-
-  
-  
-
   
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'customModal'});
@@ -58,7 +53,6 @@ clubRegistrationModal: BsModalRef;
   }
 
   loginUser(form: NgForm) {
-    
     this.loginService.loginUser(form).subscribe(
       (succes:any) => {      
         this.closeAllModals();
@@ -95,6 +89,11 @@ clubRegistrationModal: BsModalRef;
 
 
   ngOnInit() {
+    if(this.loginService.typeOfLogin == "Player") {
+      this.router.navigate(['player-dashboard'])
+    }
+    else if(this.loginService.typeOfLogin == "Club") {
+      this.router.navigate(['club-dashboard'])
+    }
   }
-    
-  }
+}
