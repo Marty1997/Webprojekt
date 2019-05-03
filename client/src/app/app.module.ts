@@ -28,7 +28,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
-import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-ad
     PlayerDashboardComponent,
     ClubDashboardComponent,
     RegisterPlayerComponent,
-    ContactAdviserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
