@@ -1,0 +1,28 @@
+h1 {
+    font-family: 'fresno';
+}
+
+#content {
+    text-align: center;
+    margin-top: 60px;
+}
+
+#buttonGroup {
+    margin-top: 50px;
+}
+
+p {
+    width: 50%;
+    display: inline-block;
+}
+
+mat-form-field,
+button {
+    width: 50%;
+    margin: 0 2%;
+}
+
+.halfSizeField {
+    width: 24.75%;
+    margin: 0 0.25%;
+}

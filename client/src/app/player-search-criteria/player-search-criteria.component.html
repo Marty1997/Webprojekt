@@ -1,2 +1,89 @@
+<!-- Search Criterias
+    
+    Country
+    League
+    Age
+    Primary Position
+    Secondary Position
+    Strengths
+    Weaknesses
+    Preferred Hand
+    Height
+    Weight
+    Bodyfat
+-->
 <app-header></app-header>
+<div id="content" class="well custom-container forPlayerClubBackgroundColor">
+    <h1>Search Criterias</h1>
+    <hr>
+    <p class="lead">
+        Fill out the criteria below to start searching for a player. The more fields you fulfill
+        the more accurate the search will be.
+    </p>
+    <div class="row">
+        <div class="col-xs-12">
+            <form [formGroup]="searchForm">
+                <mat-form-field>
+                    <mat-select placeholder="Country" formControlName="country">
+                        <mat-option *ngFor="let country of countryList" value="country">{{country}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-select placeholder="League" formControlName="league">
+                        <mat-option *ngFor="let league of leagueList" value="league">{{league}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Minimum Age" formControlName="mininumAge">
+                        <mat-option value="None">No age limit</mat-option>
+                        <mat-option *ngFor="let age of ageList" value="age">{{age}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Maximum Age" formControlName="maximumAge">
+                        <mat-option value="None">No age limit</mat-option>
+                        <mat-option *ngFor="let age of ageList" value="age">{{age}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Primary Position" formControlName="primaryPosition">
+                        <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Secondary Position" formControlName="secondaryPosition">
+                        <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <!-- insert strengths/weaknesses checkboxes here -->
 
+                <mat-form-field>
+                    <mat-select placeholder="Injury Status" formControlName="injuryStatus">
+                        <mat-option *ngFor="let injuryStatus of injuryStatusList" value="injuryStatus">{{injuryStatus}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-select placeholder="Hand Preference" formControlName="handPreference">
+                        <mat-option *ngFor="let hand of handPreferenceList" value="hand">{{hand}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Minimum Height" formControlName="minimumHeight">
+                        <mat-option value="None">No height limit</mat-option>
+                        <mat-option *ngFor="let height of heightList" value="height">{{height}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Maximum Weight" formControlName="maximumWeight">
+                        <mat-option value="None">No weight limit</mat-option>
+                        <mat-option *ngFor="let weight of weightList" value="weight">{{weight}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+        <div id="buttonGroup" class="col-xs-12">
+            <button class="btn btn-primary" [routerLink]="['/search-for-players']" (click)="searchForPlayers()" >Search</button>
+        </div>
+    </div>
+</div>
