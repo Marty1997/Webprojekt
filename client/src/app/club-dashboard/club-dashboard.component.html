@@ -22,7 +22,6 @@
     <div class="col-md-4">
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
-        
         <mat-tab-group class="custom-tabs" mat-align-tabs="center">
           <mat-tab label="Current Year" > 
               <div>
@@ -142,7 +141,9 @@
             <h2 style="font-family: 'Fresno'">Values & Preferences</h2>
             <!-- <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5> -->
             <div style="margin-left: 10%; margin-right: 10%;">
-              <h5>TTH Holstebro er en klub som værdsætter bla blalb lalalsl aklsaklasl kaslkaslk sakad assk dj je  kajsjd jsja jasjas ja  jask sj jaskj </h5>
+              <h5>TTH Holstebro strive to develop and improve players from a young age,
+                in order for them to be prepared for when the time comes to play on A-teams, and in big leagues all around the world.<br>
+                We believe we have the right team, tools and facilities for our players to flourish.</h5>
             </div>
            
             <div class="col-md-6">
@@ -166,30 +167,6 @@
         </div>
       </div>
     </div>
-    
-    <button class="openContactAdvisorBtn" onclick="openChatAdvisor()">Contact Advisor</button>
-    
-    <div class="" id="myForm">
-      <form class="form-container">
-        <h1>Chat</h1>
-    
-        <label for="msg"><b>Message</b></label>
-        <textarea placeholder="Type message.." name="msg" required></textarea>
-    
-        <button type="submit" class="btn">Send</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-      </form>
-    </div>
-  
-
+    <app-contact-adviser></app-contact-adviser>
 </section>
 <div style="height: 15px;"></div>
-<!-- <script>
-  function openForm() {
-    document.getElementById("myForm").style.display = "block";
-  }
-    
-  function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-  }
-</script> -->
