@@ -353,6 +353,7 @@ export class RegisterPlayerComponent implements OnInit {
       primaryPosition: [""],
       secondaryPosition: [""],
       preferredHand: [""],
+      leagueControl: [''],
       contractStatusControl: [''],
       injuryStatusControl: ['']
     });
@@ -484,6 +485,11 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.preferredHand = this.additionalInfoFormGroup.value.preferredHand;
     } else {
       this.player.preferredHand = null;
+    }
+    if(this.additionalInfoFormGroup.value.leagueControl !== "") {
+      this.player.league = this.additionalInfoFormGroup.value.leagueControl;
+    } else {
+      this.player.league = null;
     }
     if(this.additionalInfoFormGroup.value.contractStatusControl !== '') {
       this.player.contractStatus = this.additionalInfoFormGroup.value.contractStatusControl;
