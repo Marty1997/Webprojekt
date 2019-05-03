@@ -33,6 +33,7 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
+import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AuthGuardService } from './services/authGuardService';
     RegisterClubComponent,
     TrainingHoursFromComponent,
     TrainingHoursToComponent,
+    ContactAdviserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
