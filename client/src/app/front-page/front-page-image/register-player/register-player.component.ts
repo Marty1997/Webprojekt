@@ -138,9 +138,9 @@ export class RegisterPlayerComponent implements OnInit {
   /*
     Send confirmation email to player's email
   */
- sendConfirmationEmail(playerEmail: string) {
+  sendConfirmationEmail(playerEmail: string) {
     this.registerService.sendConfirmationEmail(playerEmail);
- }
+  }
 
   /* 
     Build player with form inputs

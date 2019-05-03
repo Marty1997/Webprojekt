@@ -12,14 +12,11 @@
     <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
       <img class="responsiveImage" src="../../assets/Images/club-icon.png" height="150" width="150" />
       <h3 style="word-wrap: break-word;">TTH Holstebro</h3>
-
       <h4>Description</h4>
-
     </div>
     <div class="col-md-4">
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
-        
         <mat-tab-group class="custom-tabs" mat-align-tabs="center">
           <mat-tab label="Current Year" > 
               <div>
@@ -130,9 +127,9 @@
 
         </div>
 
-        <div style="width: 100%; height: 300px">
+        <div style="width: 100%; height: 300px; overflow-y: auto">
           <h2 style="text-align:center; font-family: 'Fresno'">Values and preferences</h2>
-  
+
           <table class="tableValAndPrefs">
             <tr>
               <td colspan="2">We strive to develop and improve players from a young age,
@@ -149,37 +146,12 @@
             </tr>
             <tr>
               <td>Training Camp:</td>
-              <td>1-2 yearly </td>
+              <td>Annually</td>
             </tr>
           </table>
         </div>
       </div>
     </div>
-    
-    
-    <button class="openContactAdvisorBtn" onclick="openChatAdvisor()">Contact Advisor</button>
-    
-    <div class="" id="myForm">
-      <form class="form-container">
-        <h1>Chat</h1>
-    
-        <label for="msg"><b>Message</b></label>
-        <textarea placeholder="Type message.." name="msg" required></textarea>
-    
-        <button type="submit" class="btn">Send</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-      </form>
-    </div>
-  
-
+    <app-contact-adviser></app-contact-adviser>
 </section>
 <div style="height: 15px;"></div>
-<!-- <script>
-  function openForm() {
-    document.getElementById("myForm").style.display = "block";
-  }
-    
-  function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-  }
-</script> -->
