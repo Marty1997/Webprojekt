@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
@@ -33,6 +33,7 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
+import { TokenInterceptor } from './services/TokenInterceptor';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { AuthGuardService } from './services/authGuardService';
   providers: [
     ErrorStateMatcher,
     loginService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService
   ],
   bootstrap: [AppComponent]

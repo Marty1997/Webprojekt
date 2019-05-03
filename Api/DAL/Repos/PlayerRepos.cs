@@ -63,15 +63,15 @@ namespace Api.DAL.Repos {
 
                         //Insert player and return player_ID
                         string playerSQL = @"INSERT INTO Player (Firstname, Lastname, Email, Day, Month, Year, Country, Height, Weight, Bodyfat, PreferredHand, CurrentClub, Accomplishments, Statistic, StrengthDescription, 
-                                            WeaknessDescription, VideoPath, ImagePath, FormerClubs, PrimaryPosition_ID, SecondaryPosition_ID, CurrentClubPrimaryPosition_ID, CurrentClubSecondaryPosition_ID, UserCredentials_ID) 
+                                            WeaknessDescription, VideoPath, ImagePath, FormerClubs, ContractStatus, InjuryStatus, PrimaryPosition_ID, SecondaryPosition_ID, CurrentClubPrimaryPosition_ID, CurrentClubSecondaryPosition_ID, UserCredentials_ID) 
                                         VALUES (@Firstname, @Lastname, @Email, @Day, @Month, @Year, @Country, @Height, @Weight, @Bodyfat, @PreferredHand, @CurrentClub, @Accomplishments, @Statistic,
                                             @StrengthDescription, @WeaknessDescription,
-                                            @VideoPath, @ImagePath, @FormerClubs, @PrimaryPosition_ID, @SecondaryPosition_ID, @CurrentClubPrimaryPosition_ID, @CurrentClubSecondaryPosition_ID, @UserCredentials_ID);
+                                            @VideoPath, @ImagePath, @FormerClubs, @ContractStatus, @InjuryStatus, @PrimaryPosition_ID, @SecondaryPosition_ID, @CurrentClubPrimaryPosition_ID, @CurrentClubSecondaryPosition_ID, @UserCredentials_ID);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         int player_ID = conn.Query<int>(playerSQL, new { Firstname = entity.FirstName, Lastname = entity.LastName, entity.Email, entity.Day, entity.Month, entity.Year, entity.Country, entity.Height, entity.Weight,
                                                       entity.BodyFat, entity.PreferredHand, entity.CurrentClub, entity.Accomplishments, entity.Statistic, entity.StrengthDescription, entity.WeaknessDescription,
-                                                      entity.VideoPath, entity.ImagePath, entity.FormerClubs,
+                                                      entity.VideoPath, entity.ImagePath, entity.FormerClubs, entity.ContractStatus, entity.InjuryStatus,
                                                       PrimaryPosition_ID = primaryPosition_ID, SecondaryPosition_ID = secondaryPosition_ID, CurrentClubPrimaryPosition_ID = currentClubPrimaryPosition_ID,
                                                         CurrentClubSecondaryPosition_ID = currentClubSecondaryPosition_ID, UserCredentials_ID = userCredentials_ID}, transaction: tran).Single();
 
@@ -173,57 +173,93 @@ namespace Api.DAL.Repos {
         }
 
         public Player GetByEmail(string email) {
-
             Player player = new Player();
-
             using (var conn = Connection()) {
+                //try {
+                player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
+                    " left join Position pp on pp.id = p.primaryPosition_ID" +
+                    " left join Position sp on sp.id = p.secondaryPosition_ID" +
+                    " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
+                    " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email",
+                (playerinside, pp, sp, cp, cs) => {
+                    playerinside.PrimaryPosition = pp;
+                    playerinside.SecondaryPosition = sp;
+                    playerinside.CurrentClubPrimaryPosition = cp;
+                    playerinside.CurrentClubSecondaryPosition = cs;
+                    return playerinside;
+                }, new { email }, splitOn: "name,name,name,name").Single();
 
-                try {
-                    player = conn.QuerySingle<Player>("select * from Player where email = @email", new { email });
-
-                    if (player.Id < 1) {
-                        player.ErrorMessage = "The player does not exist";
-                    }
-                    else {
-                        player.ErrorMessage = "";
-                    }
-                }
-                catch (SqlException e) {
-                    player.ErrorMessage = ErrorHandling.Exception(e);
-                }
-
+                player = GetPlayerNationalTeams(player, conn);
+                player = GetPlayerStrengthList(player, conn);
+                player = GetPlayerWeaknessList(player, conn);
+                //}
+                //catch (SqlException e) {
+                //    player.ErrorMessage = ErrorHandling.Exception(e);
+                //}
             }
             return player;
         }
-        
+
         public Player GetById(int id) {
-            throw new NotImplementedException();
+            Player player = new Player();
+
+            using (var conn = Connection()) {
+                //try {
+                player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
+                    " inner join Position pp on pp.id = p.primaryPosition_ID" +
+                    " inner join Position sp on sp.id = p.secondaryPosition_ID" +
+                    " inner join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
+                    " inner join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.id = @id",
+                (playerinside, pp, sp, cp, cs) => {
+                    playerinside.PrimaryPosition = pp;
+                    playerinside.SecondaryPosition = sp;
+                    playerinside.CurrentClubPrimaryPosition = cp;
+                    playerinside.CurrentClubSecondaryPosition = cs;
+                    return playerinside;
+                }, new { id }, splitOn: "name,name,name,name").Single();
+
+                player = GetPlayerNationalTeams(player, conn);
+                player = GetPlayerStrengthList(player, conn);
+                player = GetPlayerWeaknessList(player, conn);
+                //}
+                //catch (SqlException e) {
+                //    player.ErrorMessage = ErrorHandling.Exception(e);
+                //}
+
+            }
+            return player;
         }
 
         public UserCredentials getCredentialsByEmail(string email) {
 
             int id = 0;
-            UserCredentials UC = new UserCredentials();
+            bool club = false;
             using (var conn = Connection()) {
                 //try {
-                    id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
-                    if (id < 0) {
-                        id = conn.Query("select userCredentials_id from Player where email=@email", new { email }).Single();
-                        UC.Club = false;
-                    }
-                    if (id < 0) {
-                        return null;
-                    }
-                    else {
-                    UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).FirstOrDefault();
-                        return UC;
-                    }
+                //Select a club, if we find one we set UC.club to true, if not, we try to find a player, if we find one, we set uc.club to false 
+                id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
+                if (id != 0) {
+                    club = true;
+                }
+                else if (id == 0) {
+                    id = conn.Query<int>("select userCredentials_id from Player where email=@email", new { email }).FirstOrDefault();
+                }
+
+                //Checks if we found a player or a club. If found, we select their credentials from DB
+                if (id == 0) {
+                    return null;
+                }
+                else {
+                    UserCredentials UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).FirstOrDefault();
+                    UC.Club = club;
+                    return UC;
+                }
                 //}
                 //catch (SqlException e) {
                 //    return null;
                 //}
             }
-           
+
         }
 
         public void Insert(Player entity) {
@@ -236,6 +272,28 @@ namespace Api.DAL.Repos {
 
         public bool Update(Player entity) {
             throw new NotImplementedException();
+        }
+
+        // Helping method to build only NationalTeams on your player
+        private Player GetPlayerNationalTeams(Player player, IDbConnection conn) {
+            player.NationalTeamList = conn.Query<NationalTeam, string, NationalTeam>("select nt.*, p.name from NationalTeam nt " +
+                    " inner join Position p on p.id = nt.position_id where nt.player_id = @id", (nationalTeam, p) => { nationalTeam.Position = p; return nationalTeam; },
+                    new { id = player.Id }, splitOn: "name").ToList();
+            return player;
+        }
+
+        // Helping method to build only Strengths on your player
+        private Player GetPlayerStrengthList(Player player, IDbConnection conn) {
+            player.StrengthList = conn.Query<string>("select s.name from Strength s " +
+                 "inner join PlayerStrength ps on ps.strength_id = s.id where ps.player_id = @id", new { id = player.Id }).ToList();
+            return player;
+        }
+
+        // Helping method to build only Weakness on your player
+        private Player GetPlayerWeaknessList(Player player, IDbConnection conn) {
+            player.WeaknessList = conn.Query<string>("select w.name from Weakness w " +
+                 "inner join PlayerWeakness pw on pw.weakness_id = w.id where pw.player_ID = @id", new { id = player.Id }).ToList();
+            return player;
         }
     }
 }

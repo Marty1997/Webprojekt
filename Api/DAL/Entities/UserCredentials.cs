@@ -11,7 +11,6 @@ namespace Api.DAL.Entities {
         public bool Club { get; set; }
 
         public UserCredentials() {
-            Club = true;
         }
     }
 }

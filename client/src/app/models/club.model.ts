@@ -15,7 +15,7 @@ export class Club {
     trainingHoursList : TrainingHours[] = [];
     currentSquadPlayersList : SquadPlayer[] = [];
     nextYearSquadPlayersList : SquadPlayer[] = [];
-    openPositionList : string[] = [];
+    openPositionsList : string[] = [];
 
     // staff
     trainer: string = "";
@@ -36,7 +36,7 @@ export class Club {
 
     constructor() {}
 
-    buildPlayer(succes:any, club: Club)  {
+    buildClub(succes:any, club: Club)  {
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;
@@ -48,7 +48,7 @@ export class Club {
         this.trainingHoursList = succes.trainingHoursList;
         this.currentSquadPlayersList = succes.currentSquadPlayersList;
         this.nextYearSquadPlayersList = succes.nextYearSquadPlayersList;
-        this.openPositionList = succes.openPositionsList;
+        this.openPositionsList = succes.openPositionsList;
 
         // staff
         this.trainer = succes.trainer;
