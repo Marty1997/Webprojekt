@@ -7,9 +7,10 @@ export class Player {
     firstName: string = "";
     lastName: string = "";
     country: string = "";
-    day: string = "";
-    month: string = "";
-    year: string = "";
+    league: string = "";
+    day: number;
+    month: number;
+    year: number;
     // additional info
     height: number;
     weight: number;
@@ -44,6 +45,7 @@ export class Player {
         this.firstName = succes.firstName;
         this.lastName = succes.lastName;
         this.country = succes.country;
+        this.league = succes.league;
         this.day = succes.day;
         this.month = succes.month;
         this.year = succes.year;

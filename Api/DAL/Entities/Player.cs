@@ -15,9 +15,10 @@ namespace Api.DAL.Entities {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Country { get; set; }
-        public string Day { get; set; }
-        public string Month { get; set; }
-        public string Year { get; set; }
+        public string League { get; set; }
+        public int Day { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
         public int? Height { get; set; }
         public int? Weight { get; set; }
         public int? BodyFat { get; set; }

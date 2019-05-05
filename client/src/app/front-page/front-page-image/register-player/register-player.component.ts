@@ -352,7 +352,10 @@ export class RegisterPlayerComponent implements OnInit {
       bodyfat: this.bodyfatControl,
       primaryPosition: [""],
       secondaryPosition: [""],
-      preferredHand: [""]
+      preferredHand: [""],
+      leagueControl: [''],
+      contractStatusControl: [''],
+      injuryStatusControl: ['']
     });
     this.strengthWeaknessFormGroup = this._formBuilder.group({
       strengths: [""],
@@ -483,6 +486,21 @@ export class RegisterPlayerComponent implements OnInit {
     } else {
       this.player.preferredHand = null;
     }
+    if(this.additionalInfoFormGroup.value.leagueControl !== "") {
+      this.player.league = this.additionalInfoFormGroup.value.leagueControl;
+    } else {
+      this.player.league = null;
+    }
+    if(this.additionalInfoFormGroup.value.contractStatusControl !== '') {
+      this.player.contractStatus = this.additionalInfoFormGroup.value.contractStatusControl;
+    } else {
+      this.player.contractStatus = null;
+    }
+    if(this.additionalInfoFormGroup.value.injuryStatusControl !== '') {
+      this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatusControl;
+    } else {
+      this.player.injuryStatus = null;
+    }
 
     // strengths
     if (this.strengthWeaknessFormGroup.value.strengths !== "") {
@@ -509,6 +527,8 @@ export class RegisterPlayerComponent implements OnInit {
     // weaknesses
     if (this.strengthWeaknessFormGroup.value.weaknesses !== "") {
       this.player.weaknessDescription = this.strengthWeaknessFormGroup.value.weaknesses;
+    } else {
+      this.player.weaknessDescription = null;
     }
     if (this.firstWeakness.checked) {
       this.player.weaknessList.push(this.firstWeakness.value);

@@ -44,9 +44,9 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="League" [formControl]="leagueControl" [errorStateMatcher]="validate">
-          <mat-option value="firstLeague">First league name</mat-option>
-          <mat-option value="secondLeague">Second league name</mat-option>
-          <mat-option value="thirdLeague">Third league name</mat-option>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
         </mat-select>
         <mat-error *ngIf="leagueControl?.hasError('required')">
           League is <strong>required</strong>
