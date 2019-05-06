@@ -351,6 +351,12 @@
       <br>
       <mat-label>Other info</mat-label>
       <br>
+      <mat-form-field class="doubleSizeField">
+        <mat-select placeholder="Active Searching" formControlName="isActiveSearching" [errorStateMatcher]="validate">
+          <mat-option value="currentlySearching">Currently Searching</mat-option>
+          <mat-option value="notSearching">Not Searching</mat-option>
+        </mat-select>
+      </mat-form-field><br>
       <mat-form-field class="threeFieldsOnSameRow">
         <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
           matAutosizeMaxRows="10" formControlName="accomplishments" [errorStateMatcher]='validate'></textarea>
