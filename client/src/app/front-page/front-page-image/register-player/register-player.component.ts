@@ -608,7 +608,7 @@ export class RegisterPlayerComponent implements OnInit {
     } else if(this.sportCvFormGroup.value.isActiveSearching === 'notSearching') {
       this.player.isAvailable = false;
     } else {
-      this.player.isAvailable = null;
+      this.player.isAvailable = true;
     }
     if (this.sportCvFormGroup.value.accomplishments !== "") {
       this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;

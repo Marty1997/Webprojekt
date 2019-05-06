@@ -39,9 +39,9 @@ namespace Api.DAL.Entities {
         public string ImagePath { get; set; }
         public string FormerClubs { get; set; }
         public string ContractStatus { get; set; }
-        public DateTime ContractExpired { get; set; }
+        public DateTime? ContractExpired { get; set; }
         public string InjuryStatus { get; set; }
-        public DateTime InjuryExpired { get; set; }
+        public DateTime? InjuryExpired { get; set; }
         public string InjuryDescription { get; set; }
         public bool IsAvailable { get; set; }
         public string ErrorMessage { get; set; }
