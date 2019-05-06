@@ -92,7 +92,8 @@ namespace Api {
             else {
                 app.UseHsts();
             }
-app.UseCors(AllowOrigin);
+            app.UseCors(AllowOrigin);
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
             

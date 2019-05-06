@@ -2,6 +2,7 @@ import {NationalTeam} from '../models/nationalTeam.model'
 
 export class Player {
     // required info
+    isAvailable: boolean;
     password: string = "";
     email: string = "";
     firstName: string = "";
@@ -31,7 +32,10 @@ export class Player {
     statistic: string = "";
     formerClubs: string = "";
     contractStatus: string = "";
+    contractExpired: Date;
     injuryStatus: string = "";
+    injuryExpired: Date;
+    injuryDescription: string = "";
     // national team
     nationalTeamList : NationalTeam [] = [];
     // picture/video
@@ -41,6 +45,10 @@ export class Player {
     constructor() {}
 
     buildPlayer(succes:any, player: Player)  {
+        this.contractExpired = succes.contractExpired;
+        this.injuryStatus = succes.injuryStatus;
+        this.injuryDescription = succes.injuryDescription;
+        this.isAvailable = succes.isAvailable;
         this.email = succes.email;
         this.firstName = succes.firstName;
         this.lastName = succes.lastName;
