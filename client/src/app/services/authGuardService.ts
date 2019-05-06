@@ -8,6 +8,7 @@ export class AuthGuardService implements CanActivate {
   constructor(public loginService: loginService, public router: Router) {}
 
     canActivate(): boolean {
+      console.log("Authguard");
       if (!this.loginService.tokenStillValid()) {
         this.router.navigate(['/']);
         return false;

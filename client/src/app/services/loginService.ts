@@ -6,18 +6,18 @@ import { Club } from '../models/club.model';
 import { Player } from '../models/player.model';
 import { Router } from "@angular/router";
 import decode from "jwt-decode";
-import { getToken } from '@angular/router/src/utils/preactivation';
 
 
 @Injectable()
 
 export class loginService {
   typeOfLogin: string;
-  token: string;
+  refreshValue: boolean = false;
   clubInSession: Club;
   playerInSession: Player;
 
   constructor(private http: HttpClient, public router: Router) {
+    console.log("Constructor");
     this.isAuthenticated();
     this.clubInSession = new Club();
     this.playerInSession = new Player();
@@ -27,7 +27,15 @@ export class loginService {
   //token from login is still valid when visiting the site
   public isAuthenticated() {
     if(this.tokenStillValid()) {
-        this.LoginUserIfValidTokenOnRefresh();
+      var info = this.getDecodeToken();
+      this.typeOfLogin = info.role;
+      this.refreshValue = true;
+      if(info.role == "Player") {
+        this.router.navigate(['player-dashboard'])
+      }
+      else {
+        this.router.navigate(['club-dashboard'])
+      }
     }
     else {
       this.logout();
@@ -37,13 +45,10 @@ export class loginService {
   //Check if token exists and is expired 
   public tokenStillValid(): boolean {
     const token = this.getToken();
-    // Check whether the token is expired and return true or false
-    if (token) {   
-      console.log("Still valid inde i token");
+    if (token != null) {   
       const now = Date.now() / 1000;
       let decodeToken = decode(token);
       if (decodeToken.exp < now) {
-        console.log("Token udløbet")
         this.logout()
         return false;
       }
@@ -52,24 +57,15 @@ export class loginService {
     return false;
   }
 
-  LoginUserIfValidTokenOnRefresh() { 
-    this.token = this.getToken();
-    let decodeToken = decode(this.token);
-    var info = {
-      role: decodeToken.role,
-      id: decodeToken.unique_name
-    };
+  public LoginUserIfValidTokenOnRefresh(info) { 
     let url = "https://localhost:44310/api/authenticate/RefreshUserWithValidToken/";
-    this.http.post(url, info).subscribe(
+    return this.http.post(url, info).subscribe(
       (succes:any) => {      
-        console.log(succes);
         if(succes.isPlayer) {
           this.setupPlayerLogin(succes);
-          this.router.navigate(['/player-dashboard'])
         }
         else if(succes.isClub) {
           this.setupClubLogin(succes);
-          this.router.navigate(['/club-dashboard'])
         }
       },
       error => {
@@ -90,20 +86,20 @@ export class loginService {
 
   setupPlayerLogin(succes: any) {
     this.typeOfLogin = "Player";
-    this.token = succes.token;
+    const token = this.getToken();
+    if(token == null) {
+      localStorage.setItem("token", succes.token);
+    }
     this.playerInSession = this.playerInSession.buildPlayer(succes, this.playerInSession);
-
-    localStorage.setItem("token", this.token);
   }
 
   setupClubLogin(succes: any) {
     this.typeOfLogin = "Club";
-    this.token = succes.token;
-   
+    const token = this.getToken();
+    if(token == null) {
+      localStorage.setItem('token', succes.token);
+    }
     this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
-  
-
-    localStorage.setItem('token', this.token);
   }
 
   logout() {
@@ -115,9 +111,20 @@ export class loginService {
     this.playerInSession = null;
   }
 
-  getToken(): string {
+  getToken() {
     return localStorage.getItem('token');
   }
 
+  getDecodeToken() {
+    const token = this.getToken();
+    if(token != null) {
+      let decodeToken = decode(token);
+      var info = {
+      role: decodeToken.role,
+      id: decodeToken.unique_name
+    };
+    return info;
+    }
 
+  }
 }

@@ -30,8 +30,8 @@
       <form name="form" (ngSubmit)="f.form.valid && loginUser(f)" #f="ngForm" novalidate>
         <div class="inner-addon left-addon">
           <i class="glyphicon glyphicon-envelope"></i>
-          <input type="text" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
-            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+          <input type="email" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required />
         </div>
 
         <div style="text-align: center; color:red; height:20px;">
@@ -72,7 +72,7 @@
         <div class="inner-addon left-addon">
           <i class="glyphicon glyphicon-envelope"></i>
           <input type="text" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
-            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+            [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required />
         </div>
         <div style="text-align: center; color:red; height:20px;">
           <div *ngIf="f.submitted && email.invalid">
