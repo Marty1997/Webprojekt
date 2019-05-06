@@ -70,7 +70,7 @@ namespace Api.DAL.Repos {
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         int player_ID = conn.Query<int>(playerSQL, new { Firstname = entity.FirstName, Lastname = entity.LastName, entity.Email, entity.Day, entity.Month, entity.Year, entity.Country, entity.League, entity.Height, entity.Weight,
-                                                      entity.BodyFat, entity.PreferredHand, entity.CurrentClub, entity.Accomplishments, entity.Statistic, entity.StrengthDescription, entity.WeaknessDescription,
+                                                      entity.Bodyfat, entity.PreferredHand, entity.CurrentClub, entity.Accomplishments, entity.Statistic, entity.StrengthDescription, entity.WeaknessDescription,
                                                       entity.VideoPath, entity.ImagePath, entity.FormerClubs, entity.ContractStatus, entity.ContractExpired, entity.InjuryStatus, entity.InjuryExpired, entity.InjuryDescription, entity.IsAvailable,
                                                       PrimaryPosition_ID = primaryPosition_ID, SecondaryPosition_ID = secondaryPosition_ID, CurrentClubPrimaryPosition_ID = currentClubPrimaryPosition_ID,
                                                         CurrentClubSecondaryPosition_ID = currentClubSecondaryPosition_ID, UserCredentials_ID = userCredentials_ID}, transaction: tran).Single();
