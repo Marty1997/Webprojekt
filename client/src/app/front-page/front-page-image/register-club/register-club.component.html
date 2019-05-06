@@ -402,27 +402,48 @@
       <h2 class="stepHeadline">Open Positions</h2>
       <br>
       <p>
-        If you have any open positions make sure to check them below.
+        If you have any open positions for this season or the next, make sure to add them down below.
         <br>
-        This is <strong>optional</strong>.
+        This is <strong>optional</strong>, but highly recommended to optimize the search results, when looking for a player.
       </p>
       <hr>
 
-      <mat-label>Check available positions</mat-label><br><br>
-      <div class="row">
-        <div class="col-xs-6">
-          <mat-checkbox #goalkeeperOpen value="Goalkeeper">Goalkeeper</mat-checkbox><br>
-          <mat-checkbox #leftWingOpen value="Left Wing">Left Wing</mat-checkbox><br>
-          <mat-checkbox #leftBackOpen value="Left Back">Left Back</mat-checkbox><br>
-          <mat-checkbox #centreBackOpen value="Playmaker">Playmaker</mat-checkbox><br>
-        </div>
-        <div class="col-xs-6">
-          <mat-checkbox #pivotOpen value="Pivot">Pivot</mat-checkbox><br>
-          <mat-checkbox #rightBackOpen value="Right Back">Right Back</mat-checkbox><br>
-          <mat-checkbox #rightWingOpen value="Right Wing">Right Wing</mat-checkbox><br>
-          <mat-checkbox #defenceOpen value="Defence">Defence</mat-checkbox><br>
-        </div>
-      </div>
+      <mat-label>Open positions</mat-label><br>
+      <mat-hint>Add open positions below</mat-hint><br>
+      <mat-form-field>
+        <mat-select placeholder="Position" formControlName="openPositionName" [errorStateMatcher]="validate">
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Playmaker">Playmaker</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="League" formControlName="openPositionLeague" [errorStateMatcher]='validate'>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Season">
+          <mat-option value="Current Season">Current Season</mat-option>
+          <mat-option value="Next Season">Next Season</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Contract Status">
+          <mat-option value="">None</mat-option>
+          <mat-option value="Active">Active</mat-option>
+          <mat-option value="Open for Offers">Open for Offers</mat-option>
+          <mat-option value="Contract Expired">Contract Expired</mat-option>
+        </mat-select>
+      </mat-form-field>
+
 
       <br>
       <hr><br>
