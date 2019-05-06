@@ -273,7 +273,7 @@ namespace Api.DAL.Repos {
                 club = GetClubTraningHourList(club, conn);
                 club = GetClubCurrentSquadList(club, conn);
                 club = GetClubNextYearSquadList(club, conn);
-                club = GetOpenPositionList(club, conn);
+                club = GetJobPosition(club, conn);
                 club = GetClubValueList(club, conn);
                 club = GetClubPreferenceList(club, conn);
 
@@ -296,7 +296,7 @@ namespace Api.DAL.Repos {
                 club = GetClubTraningHourList(club, conn);
                 club = GetClubCurrentSquadList(club, conn);
                 club = GetClubNextYearSquadList(club, conn);
-                club = GetOpenPositionList(club, conn);
+                club = GetJobPosition(club, conn);
                 club = GetClubValueList(club, conn);
                 club = GetClubPreferenceList(club, conn);
 

@@ -17,6 +17,8 @@
       <h4>{{clubBinding.league}}</h4>
       <h4>{{clubBinding.zipcode}} {{clubBinding.city}}</h4>
       <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4> 
+      <h4 *ngIf="clubBinding.isAvailable">Currently looking for players</h4>
+      <h4 *ngIf="!clubBinding.isAvailable">Not looking to recruit players</h4>
 
     </div>
     <div class="col-md-4">
@@ -133,10 +135,22 @@
 
         <div style="width: 100%; height: 300px; text-align: center; align-content: center">
           <h2 style="font-family: 'Fresno'">Open positions in club</h2>
-          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.openPositionsList.length == 0">No open positions specified</h3>
-          <div *ngFor="let positions of clubBinding.openPositionsList">
-              <div style="width:100%;  margin-bottom: 10px;">{{positions}}</div>
-          </div>
+          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.jobPositionsList.length == 0">No open positions specified</h3>
+          <accordion *ngFor="let jobPosition of clubBinding.jobPositionsList">
+            <accordion-group>
+              <h5 accordion-heading>{{jobPosition.position}}</h5>
+              <p>{{jobPosition.leauge}}</p>
+              <p>{{jobPosition.preferredHand}}</p>
+              <p>{{jobPosition.height}}</p>
+              <p>{{jobPosition.minAge}}</p>
+              <p>{{jobPosition.maxAge}}</p>
+              <p>{{jobPosition.season}}</p>
+              <p>{{jobPosition.contractStatus}}</p>
+              <div *ngFor="let strength of jobPosition.strengthsList">
+                <p>{{strength}}</p>
+              </div>
+            </accordion-group>
+          </accordion>
 
           <div class="row" style="margin-top:10px; text-align: center">
             <h2 style="font-family: 'Fresno'">Values & Preferences</h2>
