@@ -642,8 +642,7 @@ export class RegisterPlayerComponent implements OnInit {
     }
     if (
       this.nationalTeamFormGroup.value.bTeamAppearances !== "" &&
-      this.nationalTeamFormGroup.value.bTeamPosition !== "" &&
-      this.nationalTeamFormGroup.value.bTeamStatistics !== ""
+      this.nationalTeamFormGroup.value.bTeamPosition !== ""
     ) {
       this.nationalTeamB.name = "B";
       this.nationalTeamB.appearances = this.nationalTeamFormGroup.value.bTeamAppearances;
@@ -653,8 +652,7 @@ export class RegisterPlayerComponent implements OnInit {
     }
     if (
       this.nationalTeamFormGroup.value.u21TeamAppearances !== "" &&
-      this.nationalTeamFormGroup.value.u21TeamPosition !== "" &&
-      this.nationalTeamFormGroup.value.u21TeamStatistics !== ""
+      this.nationalTeamFormGroup.value.u21TeamPosition !== "" 
     ) {
       this.nationalTeamU21.name = "U21";
       this.nationalTeamU21.appearances = this.nationalTeamFormGroup.value.u21TeamAppearances;
@@ -664,8 +662,7 @@ export class RegisterPlayerComponent implements OnInit {
     }
     if (
       this.nationalTeamFormGroup.value.u18TeamAppearances !== "" &&
-      this.nationalTeamFormGroup.value.u18TeamPosition !== "" &&
-      this.nationalTeamFormGroup.value.u18TeamStatistics !== ""
+      this.nationalTeamFormGroup.value.u18TeamPosition !== "" 
     ) {
       this.nationalTeamU18.name = "U18";
       this.nationalTeamU18.appearances = this.nationalTeamFormGroup.value.u18TeamAppearances;
