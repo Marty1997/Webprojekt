@@ -84,7 +84,6 @@
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Training</h2>
         <div id="trainingTable" class="table-responsive">
-          <div style="margin-top: 9.5px"></div>
           <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.trainingHoursList.length == 0"> No training was specified from the club</h3>
           <table class="table Schedule" *ngIf="clubBinding.trainingHoursList.length > 0">
             <thead>
@@ -125,7 +124,7 @@
           <div style="margin-top: 9px"></div>
         
         </div>
-
+          <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
           <carousel [interval]="myInterval" >
            <slide *ngFor="let slide of slides; let index=index">
               <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
@@ -139,13 +138,48 @@
           <accordion *ngFor="let jobPosition of clubBinding.jobPositionsList">
             <accordion-group>
               <h5 accordion-heading>{{jobPosition.position}}</h5>
-              <p>{{jobPosition.league}}</p>
-              <p>{{jobPosition.preferredHand}}</p>
-              <p>{{jobPosition.height}}</p>
-              <p>{{jobPosition.minAge}}</p>
-              <p>{{jobPosition.maxAge}}</p>
-              <p>{{jobPosition.season}}</p>
-              <p>{{jobPosition.contractStatus}}</p>
+              <h6 style="font-weight: bold; margin-top: 0px; margin-bottom: 20px;">Club specified current values for their next {{jobPosition.position}}</h6>
+              <div style=" float: left; width: 50%;">
+                <p style="font-weight: bold">League</p>
+                 <p *ngIf="jobPosition.league != null">{{jobPosition.league}}</p>
+                 <p *ngIf="jobPosition.league == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                <p style="font-weight: bold">For Season</p>
+                 <p *ngIf="jobPosition.season != null">{{jobPosition.season}}</p>
+                 <p *ngIf="jobPosition.season == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                <p  style="font-weight: bold">Contract status</p>
+                <p *ngIf="jobPosition.contractStatus != null">{{jobPosition.contractStatus}}</p>
+                <p *ngIf="jobPosition.contractStatus == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                 <p style="font-weight: bold">Preferred hand</p>
+                 <p *ngIf="jobPosition.preferredHand != null">{{jobPosition.preferredHand}}</p>
+                 <p *ngIf="jobPosition.preferredHand == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                <p style="font-weight: bold">Minimum age</p>
+                <p *ngIf="jobPosition.minAge != null">{{jobPosition.minAge}}</p>
+                <p *ngIf="jobPosition.minAge == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                <p style="font-weight: bold">Maximum age</p>
+                <p *ngIf="jobPosition.maxAge != null">{{jobPosition.maxAge}}</p>
+                <p *ngIf="jobPosition.maxAge == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                <p style="font-weight: bold">Minimum height</p>
+                <p *ngIf="jobPosition.height != null">{{jobPosition.height}}</p>
+                <p *ngIf="jobPosition.height == null">Not specified</p>
+              </div>
+              <div style=" float: left; width: 50%;">
+                <p style="font-weight: bold">Preferred Player Strengths</p>
+                <p *ngFor="let strength of jobPosition.strengthsList">{{strength}}</p>
+                <p *ngIf="jobPosition.strengthsList.length == 0">Not specified</p>
+              </div>
+
               <div *ngFor="let strength of jobPosition.strengthsList">
                 <p>{{strength}}</p>
               </div>
