@@ -26,6 +26,9 @@ export class PlayerDashboardComponent implements OnInit {
       this.playerBinding = this.loginService.playerInSession;
       console.log(this.playerBinding);
 
+      if(this.playerBinding.league == null) {
+        this.playerBinding.league = "Not specified";
+      }
       if(this.playerBinding.primaryPosition == null) {
         this.playerBinding.primaryPosition = "Not specified";
       }
