@@ -374,6 +374,7 @@ export class RegisterPlayerComponent implements OnInit {
       preferredHand: [""],
       leagueControl: [''],
       contractStatusControl: [''],
+      contractExpired: [''],
       injuryStatus: [''],
       injuryRecoveryDate: [''],
       injuryDescription: ['']
@@ -387,6 +388,7 @@ export class RegisterPlayerComponent implements OnInit {
       currentClub: [""],
       currentPrimaryPosition: [""],
       currentSecondaryPosition: [""],
+      isActiveSearching: [''],
       accomplishments: [""],
       statistics: [""],
       formerClubs: [""]
@@ -521,7 +523,7 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.contractStatus = null;
     }
     if(this.additionalInfoFormGroup.value.contractExpired !== '') {
-      this.player.contractExpired = this.additionalInfoFormGroup.value.contractExpired;
+      this.player.contractExpired = this.additionalInfoFormGroup.value.contractExpired._d;
     } else {
       this.player.contractExpired = null;
     }
@@ -531,14 +533,14 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.injuryStatus = null;
     }
     if(this.additionalInfoFormGroup.value.injuryRecoveryDate !== '') {
-      // this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate._i;
+      this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate._d;
     } else {
-      // this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate;
+      this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate;
     }
     if(this.additionalInfoFormGroup.value.injuryDescription !== '') {
-      // this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;
+      this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;
     } else {
-      // this.player.injuryDescription = null;
+      this.player.injuryDescription = null;
     }
 
     // strengths
@@ -600,6 +602,13 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.currentClubSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
     } else {
       this.player.currentClubSecondaryPosition = null;
+    }
+    if(this.sportCvFormGroup.value.isActiveSearching === 'currentlySearching') {
+      this.player.isAvailable = true;
+    } else if(this.sportCvFormGroup.value.isActiveSearching === 'notSearching') {
+      this.player.isAvailable = false;
+    } else {
+      this.player.isAvailable = null;
     }
     if (this.sportCvFormGroup.value.accomplishments !== "") {
       this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;

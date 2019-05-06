@@ -13,6 +13,7 @@ import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { Club } from "../../../models/club.model";
 import { SquadPlayer } from "../../../models/squadPlayer.model";
 import { TrainingHours } from "../../../models/trainingHours.model";
+import { JobPosition } from 'src/app/models/jobPosition';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -55,14 +56,17 @@ export class RegisterClubComponent implements OnInit {
   fitness: TrainingHours = new TrainingHours();
 
   // open positions
-  @ViewChild("goalkeeperOpen") goalkeeperOpen: MatCheckbox;
-  @ViewChild("leftWingOpen") leftWingOpen: MatCheckbox;
-  @ViewChild("leftBackOpen") leftBackOpen: MatCheckbox;
-  @ViewChild("centreBackOpen") centreBackOpen: MatCheckbox;
-  @ViewChild("pivotOpen") pivotOpen: MatCheckbox;
-  @ViewChild("rightBackOpen") rightBackOpen: MatCheckbox;
-  @ViewChild("rightWingOpen") rightWingOpen: MatCheckbox;
-  @ViewChild("defenceOpen") defenceOpen: MatCheckbox;
+  openPositionColumns: string[] = ['Position', 'League', 'Hand', 'Height', 'Age', 'Season', 'Contract', 'Strengths'];
+  openPositionData: JobPosition[] = [];
+  openPositionSource = this.openPositionData;
+  @Input() openPositionName: string;
+  @Input() openPositionLeague: string;
+  @Input() openPositionHand: string;
+  @Input() openPositionHeight: number;
+  @Input() openPositionAge: number;
+  @Input() openPositionSeason: string;
+  @Input() openPositionContract: string;
+  jobPosition: JobPosition = new JobPosition();
 
   // values&preferences
   @ViewChild("firstValue") firstValue: MatCheckbox;
@@ -252,6 +256,10 @@ export class RegisterClubComponent implements OnInit {
       this.nextYearSquadFormGroup.get("shirtNumberControl").setValue("");
       console.log(this.nextYearSquadSource);
     }
+  }
+
+  onAddJobPosition() {
+
   }
 
   onClubLogoSelected(event) {
@@ -592,30 +600,7 @@ export class RegisterClubComponent implements OnInit {
     this.club.currentSquadPlayersList = this.dataSource;
     this.club.nextYearSquadPlayersList = this.nextYearSquadSource;
     // open positions
-    if (this.goalkeeperOpen.checked) {
-      this.club.openPositionsList.push(this.goalkeeperOpen.value);
-    }
-    if (this.leftWingOpen.checked) {
-      this.club.openPositionsList.push(this.leftWingOpen.value);
-    }
-    if (this.leftBackOpen.checked) {
-      this.club.openPositionsList.push(this.leftBackOpen.value);
-    }
-    if (this.centreBackOpen.checked) {
-      this.club.openPositionsList.push(this.centreBackOpen.value);
-    }
-    if (this.pivotOpen.checked) {
-      this.club.openPositionsList.push(this.pivotOpen.value);
-    }
-    if (this.rightBackOpen.checked) {
-      this.club.openPositionsList.push(this.rightBackOpen.value);
-    }
-    if (this.rightWingOpen.checked) {
-      this.club.openPositionsList.push(this.rightWingOpen.value);
-    }
-    if (this.defenceOpen.checked) {
-      this.club.openPositionsList.push(this.defenceOpen.value);
-    }
+    this.club.jobPositionsList = this.openPositionSource;
 
     // staff
     if (this.clubStaffFormGroup.value.trainerControl !== "") {
