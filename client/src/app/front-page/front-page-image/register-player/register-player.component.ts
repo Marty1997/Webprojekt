@@ -84,6 +84,9 @@ export class RegisterPlayerComponent implements OnInit {
   profilePicture: File = null;
   presentationVideo: File = null;
   countryList: string[] = [
+    "Denmark",
+    "Norway",
+    "Sweden",
     "Afghanistan",
     "Albania",
     "Algeria",
