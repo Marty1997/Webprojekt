@@ -211,15 +211,37 @@
       </mat-form-field>
 
       <br>
-      <mat-label>Contract Status</mat-label>
-      <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Contract Status" formControlName="contractStatusControl" [errorStateMatcher]='validate'>
+      <mat-label>Contract Status</mat-label><br>
+      <mat-form-field>
+        <mat-select matInput placeholder="Contract Status" formControlName="contractStatusControl" [errorStateMatcher]='validate'>
+          <mat-option value="Active">Active</mat-option>
+          <mat-option value="Open for Offers">Open for Offers</mat-option>
+          <mat-option value="In Negotiation">In Negotiation</mat-option>
+          <mat-option value="Contract Expired">Contract Expired</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="contractPicker" formControlName="contractExpired" placeholder="Contract Expiration">
+        <mat-datepicker-toggle matSuffix [for]="contractPicker"></mat-datepicker-toggle>
+        <mat-datepicker #contractPicker></mat-datepicker>
       </mat-form-field>
 
+
       <br>
-      <mat-label>Injury Status</mat-label>
-      <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Injury Status" formControlName="injuryStatusControl" [errorStateMatcher]='validate'>
+      <mat-label>Injury</mat-label><br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <mat-select placeholder="Status" formControlName="injuryStatus" [errorStateMatcher]="validate">
+          <mat-option value="injured">Injured</mat-option>
+          <mat-option value="healthy">Healthy</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput placeholder="Injury" formControlName="injuryDescription" [errorStateMatcher]='validate'>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput [matDatepicker]="picker" formControlName="injuryRecoveryDate" placeholder="Expected Recovery Date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <br>

@@ -11,7 +11,8 @@ import {
 } from "@angular/forms";
 import { registerService } from "src/app/services/registerService";
 import { uploadFilesService } from "src/app/services/uploadFilesService";
-import { ErrorStateMatcher, MatCheckbox } from "@angular/material";
+import { ErrorStateMatcher, MatCheckbox, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Player } from "../../../models/player.model";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
 
@@ -30,11 +31,28 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
+/* Date format for the datepicker */
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
 @Component({
   selector: "app-register-player",
   templateUrl: "./register-player.component.html",
   styleUrls: ["./register-player.component.css"],
-  providers: [registerService, uploadFilesService]
+  providers: [
+    registerService, 
+    uploadFilesService, 
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]}]
 })
 export class RegisterPlayerComponent implements OnInit {
   @Input() modalRef: any;
@@ -62,6 +80,7 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamFormGroup: FormGroup;
   playerPresentationFormGroup: FormGroup;
   hide = true; // password visibility
+  dateTest: Date;
   profilePicture: File = null;
   presentationVideo: File = null;
   countryList: string[] = [
@@ -355,7 +374,9 @@ export class RegisterPlayerComponent implements OnInit {
       preferredHand: [""],
       leagueControl: [''],
       contractStatusControl: [''],
-      injuryStatusControl: ['']
+      injuryStatus: [''],
+      injuryRecoveryDate: [''],
+      injuryDescription: ['']
     });
     this.strengthWeaknessFormGroup = this._formBuilder.group({
       strengths: [""],
@@ -433,7 +454,10 @@ export class RegisterPlayerComponent implements OnInit {
     } else {
       this.errorMessage = "Something went wrong with the registration.";
     }
+    this.dateTest = this.additionalInfoFormGroup.value.injuryRecoveryDate._d;
+    console.log('date test:' + this.dateTest);
     console.log(this.player);
+    console.log(this.additionalInfoFormGroup.value.injuryRecoveryDate);
   }
 
   /*
@@ -496,10 +520,25 @@ export class RegisterPlayerComponent implements OnInit {
     } else {
       this.player.contractStatus = null;
     }
-    if(this.additionalInfoFormGroup.value.injuryStatusControl !== '') {
-      this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatusControl;
+    if(this.additionalInfoFormGroup.value.contractExpired !== '') {
+      this.player.contractExpired = this.additionalInfoFormGroup.value.contractExpired;
+    } else {
+      this.player.contractExpired = null;
+    }
+    if(this.additionalInfoFormGroup.value.injuryStatus !== '') {
+      this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatus;
     } else {
       this.player.injuryStatus = null;
+    }
+    if(this.additionalInfoFormGroup.value.injuryRecoveryDate !== '') {
+      // this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate._i;
+    } else {
+      // this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate;
+    }
+    if(this.additionalInfoFormGroup.value.injuryDescription !== '') {
+      // this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;
+    } else {
+      // this.player.injuryDescription = null;
     }
 
     // strengths
