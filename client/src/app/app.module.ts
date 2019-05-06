@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher } from '@angular/material';
+import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatDatepickerModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -35,6 +35,7 @@ import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,7 @@ import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-ad
     AccordionModule.forRoot(),
     CdkStepperModule,
       MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
-    MatPaginatorModule, MatCheckboxModule, MatTableModule,
+    MatPaginatorModule, MatCheckboxModule, MatTableModule, MatDatepickerModule, MatMomentDateModule,
     MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
