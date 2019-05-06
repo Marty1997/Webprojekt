@@ -282,7 +282,7 @@ export class RegisterClubComponent implements OnInit {
   onAddJobPosition() {
     if (this.openPositionsFormGroup.value.openPositionName !== "") {
       this.jobPosition = new JobPosition();
-      this.jobPosition.leauge = this.openPositionsFormGroup.value.openPositionLeague;
+      this.jobPosition.league = this.openPositionsFormGroup.value.openPositionLeague;
       this.jobPosition.preferredHand = this.openPositionsFormGroup.value.openPositionHand;
       this.jobPosition.height = this.openPositionsFormGroup.value.openPositionHeight;
       this.jobPosition.maxAge = this.openPositionsFormGroup.value.openPositionMaxAge;

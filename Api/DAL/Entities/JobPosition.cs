@@ -9,8 +9,8 @@ namespace Api.DAL.Entities {
         public string League { get; set; }
         public string PreferredHand { get; set; }
         public string Height { get; set; }
-        public int MinAge { get; set; }
-        public int MaxAge { get; set; }
+        public int? MinAge { get; set; }
+        public int? MaxAge { get; set; }
         public string Season { get; set; }
         public string ContractStatus { get; set; }
         public string Position { get; set; }
