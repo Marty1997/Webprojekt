@@ -1,32 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { SearchCriteria } from '../models/searchCriteria.model';
+import { MatCheckbox } from '@angular/material';
+import { searchService } from '../services/searchService';
 
 @Component({
   selector: 'app-player-search-criteria',
   templateUrl: './player-search-criteria.component.html',
-  styleUrls: ['./player-search-criteria.component.css']
+  styleUrls: ['./player-search-criteria.component.css'],
+  providers: [searchService]
 })
 export class PlayerSearchCriteriaComponent implements OnInit {
 
   searchForm: FormGroup;
   searchCriteria: SearchCriteria = new SearchCriteria();
+  @ViewChild('str1') str1: MatCheckbox;
+  @ViewChild('str2') str2: MatCheckbox;
+  @ViewChild('str3') str3: MatCheckbox;
+  @ViewChild('str4') str4: MatCheckbox;
+  @ViewChild('str5') str5: MatCheckbox;
 
   // predefined options
+  contractStatusList: string[] = ['Active', 'Open for Offers', 'In Negotiation', 'Contract Expired'];
   weightList: number[] = [
     50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,
     87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,123,124,125,126,127,
-    128,129,130,131,132,133,134,135,136,137,138,139,140];
+    128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,
+    156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,
+    184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200
+  ];
   heightList: number[] = [
     150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,
-    178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200];
-  strenghtsList: string[] = ['All','str1', 'str2', 'str3', 'str4', 'str5', 'str6', 'str7', 'str8'];
-  weaknessesList: string[] = ['All', 'weak1', 'weak2', 'weak3', 'weak4', 'weak5', 'weak6', 'weak7', 'weak8'];
+    178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,
+    206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230];
   injuryStatusList: string[] = ['Both', 'Injured', 'Healthy']
   handPreferenceList: string[] = ['None', 'Left Hand', 'Right Hand', 'Both Hands'];
   positionList: string[] = ['None', 'Left Wing', 'Left Back', 'Playmaker', 'Pivot', 'Right Back', 'Right Wing', 'Defence'];
   leagueList: string[] = ['All Leagues', 'First League', 'Second League', 'Third League'];
-  ageList: number[] = [18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];
+  ageList: number[] = [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,
+    47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70];
   countryList: string[] = [
     'All Countries',
     "Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria",
@@ -51,11 +63,11 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     "United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"
   ];
 
-  constructor(private _formbuilder: FormBuilder) {}
+  constructor(private _formbuilder: FormBuilder, private searchService: searchService) {}
 
   ngOnInit() {
     this.searchForm = this._formbuilder.group({
-      country: [''], league: [''], mininumAge: [''], maximumAge: [''],
+      country: [''], league: [''], contractStatus: [''], mininumAge: [''], maximumAge: [''],
       primaryPosition: [''], secondaryPosition: [''], injuryStatus: [''],
       handPreference: [''], minimumHeight: [''], maximumWeight: ['']
     });
@@ -68,6 +80,7 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();
 
     // some call to the searchService
+    this.searchService.searchForPlayers(this.searchCriteria);
     console.log(this.searchCriteria);
   }
 
@@ -86,6 +99,12 @@ export class PlayerSearchCriteriaComponent implements OnInit {
       this.searchCriteria.league = this.searchForm.value.league;
     } else {
       this.searchCriteria.league = null;
+    }
+
+    if(this.searchForm.value.contractStatus != '') {
+      this.searchCriteria.contractStatus = this.searchForm.value.contractStatus;
+    } else {
+      this.searchCriteria.contractStatus = null;
     }
 
     if(this.searchForm.value.mininumAge != '') {
@@ -111,6 +130,12 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     } else {
       this.searchCriteria.secondaryPosition = null;
     }
+
+    if(this.str1.checked) {this.searchCriteria.strengthsList.push(this.str1.value)}
+    if(this.str2.checked) {this.searchCriteria.strengthsList.push(this.str2.value)}
+    if(this.str3.checked) {this.searchCriteria.strengthsList.push(this.str3.value)}
+    if(this.str4.checked) {this.searchCriteria.strengthsList.push(this.str4.value)}
+    if(this.str5.checked) {this.searchCriteria.strengthsList.push(this.str5.value)}
 
     if(this.searchForm.value.injuryStatus != '') {
       this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;

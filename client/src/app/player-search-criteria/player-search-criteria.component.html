@@ -1,17 +1,3 @@
-<!-- Search Criterias
-    
-    Country
-    League
-    Age
-    Primary Position
-    Secondary Position
-    Strengths
-    Weaknesses
-    Preferred Hand
-    Height
-    Weight
-    Bodyfat
--->
 <app-header></app-header>
 <div id="content" class="well custom-container forPlayerClubBackgroundColor">
     <h1>Search Criterias</h1>
@@ -25,65 +11,76 @@
             <form [formGroup]="searchForm">
                 <mat-form-field>
                     <mat-select placeholder="Country" formControlName="country">
-                        <mat-option *ngFor="let country of countryList" value="country">{{country}}</mat-option>
+                        <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field>
                     <mat-select placeholder="League" formControlName="league">
-                        <mat-option *ngFor="let league of leagueList" value="league">{{league}}</mat-option>
+                        <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-select placeholder="Contract Status" formControlName="contractStatus">
+                        <mat-option *ngFor="let contractStatus of contractStatusList" [value]="contractStatus.valueOf()">{{contractStatus}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Minimum Age" formControlName="mininumAge">
                         <mat-option value="None">No age limit</mat-option>
-                        <mat-option *ngFor="let age of ageList" value="age">{{age}}</mat-option>
+                        <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Maximum Age" formControlName="maximumAge">
                         <mat-option value="None">No age limit</mat-option>
-                        <mat-option *ngFor="let age of ageList" value="age">{{age}}</mat-option>
+                        <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Primary Position" formControlName="primaryPosition">
-                        <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Secondary Position" formControlName="secondaryPosition">
-                        <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
-                <!-- insert strengths/weaknesses checkboxes here -->
+
+                <mat-checkbox #str1 value="str1">Strength 1</mat-checkbox>
+                <mat-checkbox #str2 value="str2">Strength 2</mat-checkbox>
+                <mat-checkbox #str3 value="str3">Strength 3</mat-checkbox>
+                <mat-checkbox #str4 value="str4">Strength 4</mat-checkbox>
+                <mat-checkbox #str5 value="str5">Strength 5</mat-checkbox><br>
 
                 <mat-form-field>
                     <mat-select placeholder="Injury Status" formControlName="injuryStatus">
-                        <mat-option *ngFor="let injuryStatus of injuryStatusList" value="injuryStatus">{{injuryStatus}}
+                        <mat-option *ngFor="let injuryStatus of injuryStatusList" [value]="injuryStatus.valueOf()">{{injuryStatus}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field>
                     <mat-select placeholder="Hand Preference" formControlName="handPreference">
-                        <mat-option *ngFor="let hand of handPreferenceList" value="hand">{{hand}}</mat-option>
+                        <mat-option *ngFor="let hand of handPreferenceList" [value]="hand.valueOf()">{{hand}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Minimum Height" formControlName="minimumHeight">
                         <mat-option value="None">No height limit</mat-option>
-                        <mat-option *ngFor="let height of heightList" value="height">{{height}}</mat-option>
+                        <mat-option *ngFor="let height of heightList" [value]="height.valueOf()">{{height}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Maximum Weight" formControlName="maximumWeight">
                         <mat-option value="None">No weight limit</mat-option>
-                        <mat-option *ngFor="let weight of weightList" value="weight">{{weight}}</mat-option>
+                        <mat-option *ngFor="let weight of weightList" [value]="weight.valueOf()">{{weight}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </form>
         </div>
         <div id="buttonGroup" class="col-xs-12">
-            <button class="btn btn-primary" [routerLink]="['/search-for-players']" (click)="searchForPlayers()" >Search</button>
+            <button class="btn btn-primary" [routerLink]="['/search-for-players']"
+                (click)="searchForPlayers()">Search</button>
         </div>
     </div>
 </div>
