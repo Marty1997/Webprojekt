@@ -1,5 +1,5 @@
 export class JobPosition {
-    leauge: string = "";
+    league: string = "";
     preferredHand: string = "";
     height: string ="";
     maxAge: number;

@@ -5,40 +5,54 @@
         <div class="col-md-2" style="text-align: center; margin-top: 15px;">
             <a class="editProfileButton">Edit Profile</a>
         </div>
-        <div class="col-md-10"></div>
+        <div class="col-md-10">
+        </div>
       </div>
 
   <div class="row">
     <div class="col-sm-2" style=" text-align: center;">
       <img src="../../assets/Images/player-icon.png"  height="175" width="175" />
       <h2 style="word-wrap: break-word;">{{playerBinding.firstName}} {{playerBinding.lastName}}</h2>
-
+      <h4 *ngIf="playerBinding.isAvailable == false" style="color: red; font-weight: bold; margin-top: 20px;">Currently not searching for clubs</h4>
+      <h4 *ngIf="playerBinding.isAvailable == true" style="color: green; font-weight: bold; margin-top: 20px">Searching for clubs</h4>
+      
     </div>
     <div class="col-sm-5" style="margin-top:16px;">
       <table class="tableFixed">
         <tr>
+          <!-- required -->
           <td>Date of birth:</td>
           <td>{{playerBinding.day}} / {{playerBinding.month}} / {{playerBinding.year}}</td>
         </tr>
         <tr>
+          <!-- required -->
           <td>Nationality:</td>
           <td>{{playerBinding.country}}</td>
         </tr>
         <tr>
             <td>League:</td>
-            <td>{{playerBinding.league}}</td>
+            <td *ngIf="playerBinding.league == null" >Not specified</td>
+            <td *ngIf="playerBinding.league != null" >{{playerBinding.league}}</td>
           </tr>  
         <tr>
           <td>Primary position:</td>
-          <td>{{playerBinding.primaryPosition}}</td>
+          <td *ngIf="playerBinding.primaryPosition == null">Not specified</td>
+          <td *ngIf="playerBinding.primaryPosition != null">{{playerBinding.primaryPosition}}</td>
         </tr>
         <tr>
             <td>Secondary position:</td>
-            <td>{{playerBinding.secondaryPosition}}</td>
+            <td *ngIf="playerBinding.secondaryPosition == null">Not specified</td>
+            <td *ngIf="playerBinding.secondaryPosition != null">{{playerBinding.secondaryPosition}}</td>
           </tr>
         <tr>
           <td>Contract status:</td>
-          <td>{{playerBinding.contractStatus}}</td>
+          <td *ngIf="playerBinding.contractStatus == null">Not specified</td>
+          <td *ngIf="playerBinding.contractStatus != null">{{playerBinding.contractStatus}}</td>
+        </tr>
+        <tr>
+          <td>Contract expired:</td>
+          <td *ngIf="playerBinding.contractExpired == null">Not specified</td>
+          <td *ngIf="playerBinding.contractExpired != null">{{playerBinding.contractExpired}}</td>
         </tr>
       </table>
     </div>
@@ -61,11 +75,23 @@
         </tr>
         <tr>
           <td>Preferred hand:</td>
-          <td>{{playerBinding.preferredHand}}</td>
+          <td *ngIf="playerBinding.preferredHand == null">Not specified</td>
+          <td *ngIf="playerBinding.preferredHand != null">{{playerBinding.preferredHand}}</td>
         </tr>
         <tr>
           <td>Injury status:</td>
-          <td>{{playerBinding.injuryStatus}}</td>
+          <td *ngIf="playerBinding.injuryStatus == null">Not specified</td>
+          <td *ngIf="playerBinding.injuryStatus != null">{{playerBinding.injuryStatus}}</td>
+        </tr>
+        <tr>
+          <td>Injury expired:</td>
+          <td *ngIf="playerBinding.injuryExpired == null">Not specified</td>
+          <td *ngIf="playerBinding.injuryExpired != null">{{playerBinding.injuryExpired}}</td>
+        </tr>
+        <tr>
+          <td>Injury description:</td>
+          <td *ngIf="playerBinding.injuryDescription == null">Not specified</td>
+          <td *ngIf="playerBinding.injuryDescription != null">{{playerBinding.injuryDescription}}</td>
         </tr>
       </table>
     </div>
@@ -77,27 +103,33 @@
       <table class="tableFixed">
         <tr>
           <td>Current Club</td>
-          <td>{{playerBinding.currentClub}}</td>
+          <td *ngIf="playerBinding.currentClub == null">Not specified</td>
+          <td *ngIf="playerBinding.currentClub != null">{{playerBinding.currentClub}}</td>
         </tr>
         <tr>
           <td>Primary position</td>
-          <td>{{playerBinding.currentClubPrimaryPosition}}</td>
+          <td *ngIf="playerBinding.currentClubPrimaryPosition == null">Not specified</td>
+          <td *ngIf="playerBinding.currentClubPrimaryPosition != null">{{playerBinding.currentClubPrimaryPosition}}</td>
         </tr>
         <tr>
             <td>Secondary position</td>
-            <td>{{playerBinding.currentClubSecondaryPosition}}</td>
+            <td *ngIf="playerBinding.currentClubSecondaryPosition == null">Not specified</td>
+            <td *ngIf="playerBinding.currentClubSecondaryPosition != null">{{playerBinding.currentClubSecondaryPosition}}</td>
         </tr>
         <tr>
           <td>Accomplishment:</td>
-          <td>{{playerBinding.accomplishments}}</td>
+          <td *ngIf="playerBinding.accomplishments == null">Not specified</td>
+          <td *ngIf="playerBinding.accomplishments != null">{{playerBinding.accomplishments}}</td>
         </tr>
         <tr>
           <td>Statistics:</td>
-          <td>{{playerBinding.statistic}}</td>
+          <td *ngIf="playerBinding.statistic == null">Not specified</td>
+          <td *ngIf="playerBinding.statistic != null">{{playerBinding.statistic}}</td>
         </tr>
         <tr>
           <td>Former clubs</td>
-          <td>{{playerBinding.formerClubs}}</td>
+          <td *ngIf="playerBinding.formerClubs == null">Not specified</td>
+          <td *ngIf="playerBinding.formerClubs != null">{{playerBinding.formerClubs}}</td>
         </tr>
       </table>
       <h1 style="text-align: center; margin-top:50px; font-family: 'Fresno'">Strengths / Weaknesses</h1>
@@ -163,29 +195,19 @@
                         <div *ngIf="nationalTeam.name == 'A'">
                           <p>Appearances: {{nationalTeam.appearances}}</p>
                           <p>Position: {{nationalTeam.position}}</p>
-                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p> 
                           <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
-                        </div>
-                        <div *ngIf="nationalTeam.name != 'A'">
-                          <p>Appearances: Not specified</p>
-                          <p>Position: Not specified</p>
-                          <p>Statistic: Not specified</p>
                         </div>
                       </div>
                     </accordion-group>
-                    <accordion-group [isOpen]="BTeamOpen">
+                    <accordion-group>
                       <h5 accordion-heading>B team statistics </h5>
                       <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                         <div *ngIf="nationalTeam.name == 'B'">
                           <p>Appearances: {{nationalTeam.appearances}}</p>
                           <p>Position: {{nationalTeam.position}}</p>
-                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p> 
                           <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
-                        </div>
-                        <div *ngIf="nationalTeam.name != 'B'">
-                          <p>Appearances: Not specified</p>
-                          <p>Position: Not specified</p>
-                          <p>Statistic: Not specified</p>
                         </div>
                       </div>
                     </accordion-group>
@@ -195,13 +217,8 @@
                         <div *ngIf="nationalTeam.name == 'U21'">
                           <p>Appearances: {{nationalTeam.appearances}}</p>
                           <p>Position: {{nationalTeam.position}}</p>
-                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p> 
                           <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
-                        </div>
-                        <div *ngIf="nationalTeam.name != 'U21'">
-                          <p>Appearances: Not specified</p>
-                          <p>Position: Not specified</p>
-                          <p>Statistic: Not specified</p>
                         </div>
                       </div>
                     </accordion-group>
@@ -211,23 +228,17 @@
                         <div *ngIf="nationalTeam.name == 'U18'">
                           <p>Appearances: {{nationalTeam.appearances}}</p>
                           <p>Position: {{nationalTeam.position}}</p>
-                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p>
+                          <p *ngIf="nationalTeam.statistic != ''">Statistics: {{nationalTeam.statistic}}</p> 
                           <p *ngIf="nationalTeam.statistic == ''">Statistics: Not specified</p>
-                        </div>
-                        <div *ngIf="nationalTeam.name != 'U18'">
-                          <p>Appearances: Not specified</p>
-                          <p>Position: Not specified</p>
-                          <p>Statistic: Not specified</p>
                         </div>
                       </div>
                     </accordion-group>
               </div>
-
             </accordion>
         </div>
     </div>
   </div>
-  <div class="row" style="margin-bottom: 50px;">
+  <div class="row" style="margin-bottom: 50px; padding-bottom: 50px;">
     <div class="col-md-3"></div>
     <div class="col-md-6">
       <h1 style="text-align:center; font-family: 'Fresno'">Player presentation</h1>

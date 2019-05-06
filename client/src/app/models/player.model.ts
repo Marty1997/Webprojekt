@@ -46,6 +46,7 @@ export class Player {
 
     buildPlayer(succes:any, player: Player)  {
         this.contractExpired = succes.contractExpired;
+        this.injuryExpired = succes.injuryExpired;
         this.injuryStatus = succes.injuryStatus;
         this.injuryDescription = succes.injuryDescription;
         this.isAvailable = succes.isAvailable;

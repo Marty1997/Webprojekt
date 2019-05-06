@@ -350,9 +350,9 @@ namespace Api.DAL.Repos {
 
         //Helping method to build club open position list
         private Club GetJobPosition(Club club, IDbConnection conn) {
-            club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp, p.name from JobPosition jp " +
+            club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp.*, p.name from JobPosition jp " +
                 "inner join Position p on p.id = jp.position_ID where jp.club_ID = @id",
-                (jobPosition, position) => { jobPosition.Position = position; return jobPosition; }, new { id = club.Id }).ToList();
+                (jobPosition, position) => { jobPosition.Position = position; return jobPosition; }, new { id = club.Id }, splitOn: "name").ToList();
 
             foreach (JobPosition item in club.JobPositionsList) {
                 item.StrengthsList = conn.Query<string>("select s.name from Strength s " +
