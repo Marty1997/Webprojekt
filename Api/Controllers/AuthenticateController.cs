@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Api.Controllers {
     [Authorize]
@@ -30,7 +32,7 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Authenticate([FromBody] LoginRequest loginRequest) {
-
+        
             var user = authentication.Validate(loginRequest.Email, loginRequest.Password);
  
             if (user.ToString() == "Failed to authenticate") {
