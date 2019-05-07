@@ -38,6 +38,10 @@ h1 {
   background-color: #e8eaec;
 }
 
+.customModal {
+  width:300px;
+}
+
 body {
   background-color: #000115;
   font-family: 'Roboto';
