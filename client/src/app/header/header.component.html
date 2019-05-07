@@ -31,8 +31,8 @@
                     <mat-menu id="dropdownMenu" #menu="matMenu">
                         <!-- add routerlinks -->
                         <button mat-menu-item>Settings</button>
-                        <button mat-menu-item *ngIf="isClub" [routerLink]="['/club-guide']">How to Use</button>
-                        <button mat-menu-item *ngIf="isPlayer" [routerLink]="['/player-guide']">How to Use</button>
+                        <button mat-menu-item *ngIf="isClub" [routerLink]="['/club-how-to']">How to Use</button>
+                        <button mat-menu-item *ngIf="isPlayer" [routerLink]="['/player-how-to']">How to Use</button>
                         <button mat-menu-item>Contact Support</button>
                         <mat-divider></mat-divider>
                         <button mat-menu-item (click)="logout()" [routerLink]="['/']">Logout</button>

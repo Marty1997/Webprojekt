@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { loginService } from 'src/app/services/loginService';
 
 @Component({
   selector: 'app-for-players',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForPlayersComponent implements OnInit {
   isContentOpen: boolean = false;
-  constructor() { }
+  isPlayer: boolean;
+  constructor(private loginService: loginService) { }
 
   ngOnInit() {
+    if(this.loginService.typeOfLogin == 'Player') {
+      this.isPlayer = true;
+    }
   }
-
 }

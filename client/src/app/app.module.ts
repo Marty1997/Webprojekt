@@ -74,6 +74,8 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
       { path: 'search-for-players', component: SearchForPlayersComponent, canActivate: [AuthGuardService] },
       { path: 'player-search-criteria', component: PlayerSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'player-profile/:id', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
+      { path: 'club-how-to', component: ForClubsComponent },
+      { path: 'player-how-to', component: ForPlayersComponent }
     ]),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
