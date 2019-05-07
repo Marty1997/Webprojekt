@@ -89,16 +89,20 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     inputs are being used
   */
   validateSearchCriteria() {
-    if(this.searchForm.value.country != '' || this.searchForm.value.country != 'All Countries') {
-      this.searchCriteria.country = this.searchForm.value.country;
-    } else {
-      this.searchCriteria.country = null;
-    }  
+    if(this.searchForm.value.country != '') {
+      if(this.searchForm.value.country != 'All Countries') {
+        this.searchCriteria.country = this.searchForm.value.country;
+      } else {
+        this.searchCriteria.country = null;
+      }  
+    } 
     
-    if(this.searchForm.value.league != '' || this.searchForm.value.league != 'All Leagues') {
-      this.searchCriteria.league = this.searchForm.value.league;
-    } else {
-      this.searchCriteria.league = null;
+    if(this.searchForm.value.league != '') {
+      if(this.searchForm.value.league != 'All Leagues') {
+        this.searchCriteria.league = this.searchForm.value.league;
+      } else {
+        this.searchCriteria.league = null;
+      }
     }
 
     if(this.searchForm.value.contractStatus != '') {
@@ -107,28 +111,36 @@ export class PlayerSearchCriteriaComponent implements OnInit {
       this.searchCriteria.contractStatus = null;
     }
 
-    if(this.searchForm.value.mininumAge != '' || this.searchForm.value.minimumAge != 'None') {
-      this.searchCriteria.minimumAge = this.searchForm.value.mininumAge;
-    } else {
-      this.searchCriteria.minimumAge = null;
+    if(this.searchForm.value.mininumAge != '') {
+      if(this.searchForm.value.minimumAge != 'None') {
+        this.searchCriteria.minimumAge = this.searchForm.value.mininumAge;
+      } else {
+        this.searchCriteria.minimumAge = null;
+      }
     }
 
-    if(this.searchForm.value.maximumAge != '' || this.searchForm.value.maximumAge != 'None') {
-      this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
-    } else {
-      this.searchCriteria.maximumAge = null;
+    if(this.searchForm.value.maximumAge != '') {
+      if(this.searchForm.value.maximumAge != 'None') {
+        this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
+      } else {
+        this.searchCriteria.maximumAge = null;
+      }
     }
 
-    if(this.searchForm.value.primaryPosition != '' || this.searchForm.value.primaryPosition != 'None') {
-      this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
-    } else {
-      this.searchCriteria.primaryPosition = null;
+    if(this.searchForm.value.primaryPosition != '') {
+      if(this.searchForm.value.primaryPosition != 'None') {
+        this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
+      } else {
+        this.searchCriteria.primaryPosition = null;
+      }
     }
 
-    if(this.searchForm.value.secondaryPosition != '' || this.searchForm.value.secondaryPosition != 'None') {
-      this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
-    } else {
-      this.searchCriteria.secondaryPosition = null;
+    if(this.searchForm.value.secondaryPosition != '') {
+      if(this.searchForm.value.secondaryPosition != 'None') {
+        this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
+      } else {
+        this.searchCriteria.secondaryPosition = null;
+      }
     }
 
     if(this.str1.checked) {this.searchCriteria.strengthsList.push(this.str1.value)}
@@ -137,28 +149,36 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     if(this.str4.checked) {this.searchCriteria.strengthsList.push(this.str4.value)}
     if(this.str5.checked) {this.searchCriteria.strengthsList.push(this.str5.value)}
 
-    if(this.searchForm.value.injuryStatus != '' || this.searchForm.value.injuryStatus != 'Both') {
-      this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
-    } else {
-      this.searchCriteria.injuryStatus = null;
+    if(this.searchForm.value.injuryStatus != '') {
+      if(this.searchForm.value.injuryStatus != 'Both') {
+        this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
+      } else {
+        this.searchCriteria.injuryStatus = null;
+      }
     }
 
-    if(this.searchForm.value.handPreference != '' || this.searchForm.value.handPreference != 'None') {
-      this.searchCriteria.handPreference = this.searchForm.value.handPreference;
-    } else {
-      this.searchCriteria.handPreference = null;
+    if(this.searchForm.value.handPreference != '') {
+      if(this.searchForm.value.handPreference != 'None') {
+        this.searchCriteria.handPreference = this.searchForm.value.handPreference;
+      } else {
+        this.searchCriteria.handPreference = null;
+      }
     }
 
-    if(this.searchForm.value.minimumHeight != '' || this.searchForm.value.minimumHeight != 'None') {
-      this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
-    } else {
-      this.searchCriteria.minimumHeight = null;
+    if(this.searchForm.value.minimumHeight != '') {
+      if(this.searchForm.value.minimumHeight != 'None') {
+        this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
+      } else {
+        this.searchCriteria.minimumHeight = null;
+      }
     }
 
-    if(this.searchForm.value.maximumWeight != '' || this.searchForm.value.maximumWeight != 'None') {
-      this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
-    } else {
-      this.searchCriteria.maximumWeight = null;
+    if(this.searchForm.value.maximumWeight != '') {
+      if(this.searchForm.value.maximumWeight != 'None') {
+        this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
+      } else {
+        this.searchCriteria.maximumWeight = null;
+      }
     }
   }
   
