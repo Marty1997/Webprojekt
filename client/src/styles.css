@@ -45,6 +45,10 @@ h1 {
   padding-bottom: 20px;
 }
 
+.customModal {
+  width:300px;
+}
+
 body {
   background-color: #000115;
   font-family: 'Roboto';

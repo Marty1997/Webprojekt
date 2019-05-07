@@ -31,7 +31,6 @@ export class ClubDashboardComponent implements OnInit {
         this.loginService.refreshValue = false;
       }
         this.clubBinding = this.loginService.clubInSession;
-        console.log(this.clubBinding)
         this.clubBinding.trainingHoursList.forEach((elm) => {
           if(elm.mon == null) {
              elm.mon = "-"
@@ -70,7 +69,6 @@ export class ClubDashboardComponent implements OnInit {
         if(this.clubBinding.manager == null) {
           this.clubBinding.manager = "Not specified";
         }
-        console.log(this.clubBinding)
     }
     else if(this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen

@@ -17,8 +17,8 @@
       <h4>{{clubBinding.league}}</h4>
       <h4>{{clubBinding.zipcode}} {{clubBinding.city}}</h4>
       <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4> 
-      <h4 *ngIf="clubBinding.isAvailable">Currently looking for players</h4>
-      <h4 *ngIf="!clubBinding.isAvailable">Not looking to recruit players</h4>
+      <h4 *ngIf="!clubBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking to recruit players</h4>
+      <h4 *ngIf="clubBinding.isAvailable" style="color: green; font-weight: bold; margin-top: 20px">Currently looking for players</h4>
 
     </div>
     <div class="col-md-4">
@@ -26,30 +26,126 @@
         <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
         <mat-tab-group class="custom-tabs" mat-align-tabs="center">
           <mat-tab label="Current Year" > 
-              <div>
-                  <img class="responsiveImage" src="../../assets/Images/squadImage.png"/>
-                  <div class="squad goalKeeper">#1 Niklas Landin Jakobsen <br> #3 Jannick Green</div>
-                  <div class="squad left-back">#24 Mikkel Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad center-back">#25 Daniel Narcisse <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad right-back">#5 Nedim Remili <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad pivot">#7 Rene Toft Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad left-wing">#22 Guðjón Valur Sigurðsson <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad right-wing">#19 Luc Abolo <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad defence">#34 Magnus Mortensen <br> #5 Anders Tranbjerg</div>
+            <div>
+              <img class="responsiveImage" src="../../assets/Images/squadImage.png"/>
+              <div class="squad goalKeeper">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Goalkeeper'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
                 </div>
+              </div>
+              <div class="squad left-back">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Left back'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad playmaker">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Playmaker'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad right-back">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Right back'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad pivot">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Pivot'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad right-wing">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Right wing'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad left-wing">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Left wing'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad defence">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Defence'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+            </div>
           </mat-tab>
           <mat-tab label="Next Year"> 
-              <div>
-                  <img class="responsiveImage" src="../../assets/Images/squadImage.png"/>
-                  <div class="squad goalKeeper">#1 Niklas Landin Jakobsen <br> #3 Jannick Green</div>
-                  <div class="squad left-back">#24 Mikkel Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad center-back">#25 Daniel Narcisse <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad right-back">#5 Nedim Remili <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad pivot">#7 Rene Toft Hansen <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad left-wing">#22 Guðjón Valur Sigurðsson <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad right-wing">#19 Luc Abolo <br> #6 Johan Olsen <br> #2 Jakob Jakobsen</div>
-                  <div class="squad defence">#34 Magnus Mortensen <br> #5 Anders Tranbjerg</div>
+            <div>
+              <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
+              <div class="squad goalKeeper">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Goalkeeper'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
                 </div>
+              </div>
+              <div class="squad left-back">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Left back'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad playmaker">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Playmaker'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad right-back">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Right back'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad pivot">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Pivot'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad right-wing">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Right wing'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad left-wing">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Left wing'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+              <div class="squad defence">
+                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                  <div *ngIf="squadPlayer.position == 'Defence'">
+                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                  </div>
+                </div>
+              </div>
+            </div>
           </mat-tab>
         </mat-tab-group>
         
@@ -59,23 +155,28 @@
         <table class="tableFixed">
           <tr>
             <td>Trainer:</td>
-            <td>{{clubBinding.trainer}}</td>
+            <td *ngIf="clubBinding.trainer == null">Not specified</td>
+            <td *ngIf="clubBinding.trainer != null">{{clubBinding.trainer}}</td>
           </tr>
           <tr>
             <td>Assistant Trainer:</td>
-            <td>{{clubBinding.assistantTrainer}}</td>
+            <td *ngIf="clubBinding.assistantTrainer == null">Not specified</td>
+            <td *ngIf="clubBinding.assistantTrainer != null">{{clubBinding.assistantTrainer}}</td>
           </tr>
           <tr>
             <td>Physiotherapist:</td>
-            <td>{{clubBinding.physiotherapist }}</td>
+            <td *ngIf="clubBinding.physiotherapist == null">Not specified</td>
+            <td *ngIf="clubBinding.physiotherapist != null">{{clubBinding.physiotherapist }}</td>
           </tr>
           <tr>
             <td>Assistant Physiotherapist:</td>
-            <td>{{clubBinding.assistantPhysiotherapist}}</td>
+            <td *ngIf="clubBinding.assistantPhysiotherapist == null">Not specified</td>
+            <td *ngIf="clubBinding.assistantPhysiotherapist != null">{{clubBinding.assistantPhysiotherapist}}</td>
           </tr>
           <tr>
             <td>Team Manager:</td>
-            <td>{{clubBinding.manager}}</td>
+            <td *ngIf="clubBinding.teamManager == null">Not specified</td>
+            <td *ngIf="clubBinding.teamManager != null">{{clubBinding.manager}}</td>
           </tr>
         </table>
       </div>
