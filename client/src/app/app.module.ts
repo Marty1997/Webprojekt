@@ -71,6 +71,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
       { path: 'search-for-clubs', component: SearchForClubsComponent },
       { path: 'search-for-players', component: SearchForPlayersComponent },
       { path: 'player-search-criteria', component: PlayerSearchCriteriaComponent },
+      { path: 'player-profile/:id', component: PlayerDashboardComponent },
     ]),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
@@ -86,7 +87,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
   providers: [
     ErrorStateMatcher,
     loginService,
-    AuthGuardService
+    AuthGuardService,
   ],
   bootstrap: [AppComponent]
 })

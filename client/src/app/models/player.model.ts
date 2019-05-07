@@ -2,6 +2,7 @@ import {NationalTeam} from '../models/nationalTeam.model'
 
 export class Player {
     // required info
+    id: number;
     password: string;
     email: string;
     firstName: string;
