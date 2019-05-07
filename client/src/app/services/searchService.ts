@@ -4,6 +4,7 @@ import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 import { SearchCriteria } from '../models/searchCriteria.model';
 import { ClubSearchCriteria } from '../models/clubSearchCriteria.model';
+import { JobPosition } from '../models/jobPosition';
 
 @Injectable()
 export class searchService {
@@ -14,6 +15,12 @@ export class searchService {
 
   p1: Player = new Player();
   p2: Player = new Player();
+  c1: Club = new Club();
+  c2: Club = new Club();
+  jobPos: JobPosition = new JobPosition();
+  jobPos2: JobPosition = new JobPosition();
+  jobPos3: JobPosition = new JobPosition();
+  jobPos4: JobPosition = new JobPosition();
 
   constructor(private http: HttpClient) {
     this.player = new Player();
@@ -50,6 +57,34 @@ export class searchService {
     this.p2.preferredHand = 'Both Hands';
     // this.p2.injuryStatus = 'Injured';
     this.searchForPlayersResult.push(this.p2);
+
+    this.jobPos.position = "Left Wing";
+    this.jobPos2.position = "Left Back";
+    this.jobPos3.position = "Playmaker";
+    this.jobPos4.position = "Pivot";
+
+    this.c1.id = 1;
+    this.c1.country = "Denmark";
+    this.c1.league = "First League";
+    this.c1.trainer = "Rasmus Hansen";
+    this.c1.jobPositionsList.push(this.jobPos);
+    this.c1.jobPositionsList.push(this.jobPos2);
+    this.c1.jobPositionsList.push(this.jobPos3);
+    this.c1.jobPositionsList.push(this.jobPos4);
+    this.searchForClubsResult.push(this.c1);
+
+    this.c2.id = 2;
+    this.c2.country = "Sweden";
+    this.c2.league = "Third League";
+    this.c2.trainer = "Jävla Fitta";
+    this.c2.jobPositionsList.push(this.jobPos);
+    this.c2.jobPositionsList.push(this.jobPos2);
+    this.c2.jobPositionsList.push(this.jobPos3);
+    this.c2.jobPositionsList.push(this.jobPos4);
+    this.c2.jobPositionsList.push(this.jobPos2);
+    this.c2.jobPositionsList.push(this.jobPos3);
+    this.c2.jobPositionsList.push(this.jobPos4);
+    this.searchForClubsResult.push(this.c2);
   }
 
   searchForPlayers(searchCriteria: SearchCriteria) {
