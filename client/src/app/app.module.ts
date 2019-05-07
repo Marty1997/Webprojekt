@@ -68,6 +68,8 @@ import { HeaderComponent } from './header/header.component';
       { path: 'player-dashboard', component: PlayerDashboardComponent, /*canActivate: [AuthGuardService]*/ },
       { path: 'search-for-clubs', component: SearchForClubsComponent },
       { path: 'search-for-players', component: SearchForPlayersComponent },
+      { path: 'club-guide', component: ForClubsComponent },
+      { path: 'player-guide', component: ForPlayersComponent },
     ]),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
