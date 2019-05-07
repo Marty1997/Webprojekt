@@ -67,7 +67,7 @@ export class PlayerSearchCriteriaComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this._formbuilder.group({
-      country: [''], league: [''], contractStatus: [''], mininumAge: [''], maximumAge: [''],
+      country: [''], league: [''], contractStatus: [''], minimumAge: [''], maximumAge: [''],
       primaryPosition: [''], secondaryPosition: [''], injuryStatus: [''],
       handPreference: [''], minimumHeight: [''], maximumWeight: ['']
     });
@@ -111,9 +111,9 @@ export class PlayerSearchCriteriaComponent implements OnInit {
       this.searchCriteria.contractStatus = null;
     }
 
-    if(this.searchForm.value.mininumAge != '') {
+    if(this.searchForm.value.minimumAge != '') {
       if(this.searchForm.value.minimumAge != 'None') {
-        this.searchCriteria.minimumAge = this.searchForm.value.mininumAge;
+        this.searchCriteria.minimumAge = this.searchForm.value.minimumAge;
       } else {
         this.searchCriteria.minimumAge = null;
       }
