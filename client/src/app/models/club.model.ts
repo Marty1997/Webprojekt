@@ -1,9 +1,11 @@
 import { TrainingHours } from '../models/trainingHours.model'
 import { SquadPlayer } from '../models/squadPlayer.model'
+import { JobPosition } from './jobPosition';
 
 export class Club {
     // required info
     password: string
+    isAvailable: boolean;
     name: string = "";
     email: string = "";
     league: string = "";
@@ -15,7 +17,7 @@ export class Club {
     trainingHoursList : TrainingHours[] = [];
     currentSquadPlayersList : SquadPlayer[] = [];
     nextYearSquadPlayersList : SquadPlayer[] = [];
-    openPositionsList : string[] = [];
+    jobPositionsList : JobPosition[] = [];
 
     // staff
     trainer: string = "";
@@ -36,7 +38,8 @@ export class Club {
 
     constructor() {}
 
-    buildPlayer(succes:any, club: Club)  {
+    buildClub(succes:any, club: Club)  {
+        this.isAvailable = succes.isAvailable;
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;
@@ -48,7 +51,7 @@ export class Club {
         this.trainingHoursList = succes.trainingHoursList;
         this.currentSquadPlayersList = succes.currentSquadPlayersList;
         this.nextYearSquadPlayersList = succes.nextYearSquadPlayersList;
-        this.openPositionsList = succes.openPositionsList;
+        this.jobPositionsList = succes.jobPositionsList;
 
         // staff
         this.trainer = succes.trainer;

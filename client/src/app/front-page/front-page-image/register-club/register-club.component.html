@@ -44,9 +44,9 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="League" [formControl]="leagueControl" [errorStateMatcher]="validate">
-          <mat-option value="firstLeague">First league name</mat-option>
-          <mat-option value="secondLeague">Second league name</mat-option>
-          <mat-option value="thirdLeague">Third league name</mat-option>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
         </mat-select>
         <mat-error *ngIf="leagueControl?.hasError('required')">
           League is <strong>required</strong>
@@ -402,27 +402,139 @@
       <h2 class="stepHeadline">Open Positions</h2>
       <br>
       <p>
-        If you have any open positions make sure to check them below.
+        If you have any open positions for this season or the next, make sure to add them down below.
         <br>
-        This is <strong>optional</strong>.
+        This is <strong>optional</strong>, but highly recommended to optimize the search results, when looking for a player.
       </p>
       <hr>
 
-      <mat-label>Check available positions</mat-label><br><br>
-      <div class="row">
-        <div class="col-xs-6">
-          <mat-checkbox #goalkeeperOpen value="Goalkeeper">Goalkeeper</mat-checkbox><br>
-          <mat-checkbox #leftWingOpen value="Left Wing">Left Wing</mat-checkbox><br>
-          <mat-checkbox #leftBackOpen value="Left Back">Left Back</mat-checkbox><br>
-          <mat-checkbox #centreBackOpen value="Playmaker">Playmaker</mat-checkbox><br>
-        </div>
-        <div class="col-xs-6">
-          <mat-checkbox #pivotOpen value="Pivot">Pivot</mat-checkbox><br>
-          <mat-checkbox #rightBackOpen value="Right Back">Right Back</mat-checkbox><br>
-          <mat-checkbox #rightWingOpen value="Right Wing">Right Wing</mat-checkbox><br>
-          <mat-checkbox #defenceOpen value="Defence">Defence</mat-checkbox><br>
-        </div>
-      </div>
+      <mat-label>Open positions</mat-label><br>
+      <mat-hint>Fill out at least the position to add an open position</mat-hint><br>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Position" formControlName="openPositionName" [errorStateMatcher]="validate">
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Playmaker">Playmaker</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="League" formControlName="openPositionLeague" [errorStateMatcher]='validate'>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Season" formControlName="openPositionSeason" [errorStateMatcher]="validate">
+          <mat-option value="Current year">Current Season</mat-option>
+          <mat-option value="Next year">Next Season</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Contract Status" formControlName="openPositionContract" [errorStateMatcher]='validate'>
+          <mat-option value="None">None</mat-option>
+          <mat-option value="Active">Active</mat-option>
+          <mat-option value="Open for Offers">Open for Offers</mat-option>
+          <mat-option value="Contract Expired">Contract Expired</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="fourFieldsOnSameRow">
+        <input matInput placeholder="Minimum Age" formControlName="openPositionMinAge" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Age must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <input matInput placeholder="Maximum Age" formControlName="openPositionMaxAge" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Age must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <input matInput placeholder="Height" formControlName="openPositionHeight" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Height must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Hand Preference" formControlName="openPositionHand" [errorStateMatcher]='validate'>
+          <mat-option value="None">No Preference</mat-option>
+          <mat-option value="Right">Right Hand</mat-option>
+          <mat-option value="Left">Left Hand</mat-option>
+          <mat-option value="Both">Both Hands</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-checkbox #openPositionStr1 value="str1">Strength #1</mat-checkbox>
+      <mat-checkbox #openPositionStr2 value="str2">Strength #2</mat-checkbox>
+      <mat-checkbox #openPositionStr3 value="str3">Strength #3</mat-checkbox>
+      <mat-checkbox #openPositionStr4 value="str4">Strength #4</mat-checkbox>
+      <mat-checkbox #openPositionStr5 value="str5">Strength #5</mat-checkbox>
+
+      <br><br>
+      <button class="btn btn-success" (click)="onAddJobPosition()">Add</button><br><br><br>
+
+      <mat-label>Open positions</mat-label><br>
+      <mat-hint>Add open positions above</mat-hint>
+      <table mat-table [dataSource]="openPositionSource" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="Position">
+          <th mat-header-cell *matHeaderCellDef> Position </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.position}} </td>
+        </ng-container>
+
+        <!-- League Column -->
+        <ng-container matColumnDef="League">
+          <th mat-header-cell *matHeaderCellDef> League </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.leauge}} </td>
+        </ng-container>
+
+        <!-- Hand Column -->
+        <ng-container matColumnDef="Hand">
+          <th mat-header-cell *matHeaderCellDef> Hand </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.preferredHand}} </td>
+        </ng-container>
+
+        <!-- Height Column -->
+        <ng-container matColumnDef="Height">
+          <th mat-header-cell *matHeaderCellDef> Height </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.height}} </td>
+        </ng-container>
+
+        <!-- Age Column -->
+        <ng-container matColumnDef="Age">
+          <th mat-header-cell *matHeaderCellDef> Age </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
+        </ng-container>
+
+        <!-- Season Column -->
+        <ng-container matColumnDef="Season">
+          <th mat-header-cell *matHeaderCellDef> Season </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.season}}</td>
+        </ng-container>
+
+        <!-- Contract Column -->
+        <ng-container matColumnDef="Contract">
+          <th mat-header-cell *matHeaderCellDef> Contract </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.contractStatus}} </td>
+        </ng-container>
+
+        <!-- Strengths Column -->
+        <ng-container matColumnDef="Strengths">
+          <th mat-header-cell *matHeaderCellDef> Strengths </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.strengthsList.length}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="openPositionColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: openPositionColumns;"></tr>
+      </table>
 
       <br>
       <hr><br>

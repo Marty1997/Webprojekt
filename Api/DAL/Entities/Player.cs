@@ -15,12 +15,13 @@ namespace Api.DAL.Entities {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Country { get; set; }
-        public string Day { get; set; }
-        public string Month { get; set; }
-        public string Year { get; set; }
+        public string League { get; set; }
+        public int Day { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
         public int? Height { get; set; }
         public int? Weight { get; set; }
-        public int? BodyFat { get; set; }
+        public int? Bodyfat { get; set; }
         public string PrimaryPosition { get; set; }
         public string SecondaryPosition { get; set; }
         public string PreferredHand { get; set; }
@@ -37,12 +38,18 @@ namespace Api.DAL.Entities {
         public string VideoPath { get; set; }
         public string ImagePath { get; set; }
         public string FormerClubs { get; set; }
+        public string ContractStatus { get; set; }
+        public DateTime? ContractExpired { get; set; }
+        public string InjuryStatus { get; set; }
+        public DateTime? InjuryExpired { get; set; }
+        public string InjuryDescription { get; set; }
+        public bool IsAvailable { get; set; }
         public string ErrorMessage { get; set; }
         public string Token { get; set; }
-        public bool IsPLayer { get; set; }
+        public bool IsPlayer { get; set; }
 
         public Player() {
-            IsPLayer = true;
+            IsPlayer = true;
             WeaknessList = new List<string>();
             StrengthList = new List<string>();
             NationalTeamList = new List<NationalTeam>();

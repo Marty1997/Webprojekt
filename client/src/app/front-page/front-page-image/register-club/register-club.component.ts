@@ -13,6 +13,7 @@ import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { Club } from "../../../models/club.model";
 import { SquadPlayer } from "../../../models/squadPlayer.model";
 import { TrainingHours } from "../../../models/trainingHours.model";
+import { JobPosition } from "src/app/models/jobPosition";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -55,14 +56,31 @@ export class RegisterClubComponent implements OnInit {
   fitness: TrainingHours = new TrainingHours();
 
   // open positions
-  @ViewChild("goalkeeperOpen") goalkeeperOpen: MatCheckbox;
-  @ViewChild("leftWingOpen") leftWingOpen: MatCheckbox;
-  @ViewChild("leftBackOpen") leftBackOpen: MatCheckbox;
-  @ViewChild("centreBackOpen") centreBackOpen: MatCheckbox;
-  @ViewChild("pivotOpen") pivotOpen: MatCheckbox;
-  @ViewChild("rightBackOpen") rightBackOpen: MatCheckbox;
-  @ViewChild("rightWingOpen") rightWingOpen: MatCheckbox;
-  @ViewChild("defenceOpen") defenceOpen: MatCheckbox;
+  openPositionColumns: string[] = [
+    "Position",
+    "League",
+    "Hand",
+    "Height",
+    "Age",
+    "Season",
+    "Contract",
+    "Strengths"
+  ];
+  openPositionData: JobPosition[] = [];
+  openPositionSource = this.openPositionData;
+  @Input() openPositionName: string;
+  @Input() openPositionLeague: string;
+  @Input() openPositionHand: string;
+  @Input() openPositionHeight: number;
+  @Input() openPositionAge: number;
+  @Input() openPositionSeason: string;
+  @Input() openPositionContract: string;
+  jobPosition: JobPosition = new JobPosition();
+  @ViewChild("openPositionStr1") openPositionStr1: MatCheckbox;
+  @ViewChild("openPositionStr2") openPositionStr2: MatCheckbox;
+  @ViewChild("openPositionStr3") openPositionStr3: MatCheckbox;
+  @ViewChild("openPositionStr4") openPositionStr4: MatCheckbox;
+  @ViewChild("openPositionStr5") openPositionStr5: MatCheckbox;
 
   // values&preferences
   @ViewChild("firstValue") firstValue: MatCheckbox;
@@ -176,7 +194,16 @@ export class RegisterClubComponent implements OnInit {
       playerPositionControl: [""],
       shirtNumberControl: this.numbersOnlyControl
     });
-    this.openPositionsFormGroup = this._formBuilder.group({});
+    this.openPositionsFormGroup = this._formBuilder.group({
+      openPositionName: [""],
+      openPositionLeague: [""],
+      openPositionSeason: [""],
+      openPositionContract: [""],
+      openPositionMinAge: [""],
+      openPositionMaxAge: [""],
+      openPositionHeight: [""],
+      openPositionHand: [""]
+    });
     this.clubStaffFormGroup = this._formBuilder.group({
       trainerControl: [""],
       assistantTrainerControl: [""],
@@ -220,7 +247,6 @@ export class RegisterClubComponent implements OnInit {
       this.clubSquadFormGroup.get("playerNameControl").setValue("");
       this.clubSquadFormGroup.get("playerPositionControl").setValue("");
       this.clubSquadFormGroup.get("shirtNumberControl").setValue("");
-      console.log(this.dataSource);
     }
   }
 
@@ -250,7 +276,54 @@ export class RegisterClubComponent implements OnInit {
       this.nextYearSquadFormGroup.get("playerNameControl").setValue("");
       this.nextYearSquadFormGroup.get("playerPositionControl").setValue("");
       this.nextYearSquadFormGroup.get("shirtNumberControl").setValue("");
-      console.log(this.nextYearSquadSource);
+    }
+  }
+
+  onAddJobPosition() {
+    if (this.openPositionsFormGroup.value.openPositionName !== "") {
+      this.jobPosition = new JobPosition();
+      this.jobPosition.league = this.openPositionsFormGroup.value.openPositionLeague;
+      this.jobPosition.preferredHand = this.openPositionsFormGroup.value.openPositionHand;
+      this.jobPosition.height = this.openPositionsFormGroup.value.openPositionHeight;
+      this.jobPosition.maxAge = this.openPositionsFormGroup.value.openPositionMaxAge;
+      this.jobPosition.minAge = this.openPositionsFormGroup.value.openPositionMinAge;
+      this.jobPosition.season = this.openPositionsFormGroup.value.openPositionSeason;
+      this.jobPosition.contractStatus = this.openPositionsFormGroup.value.openPositionContract;
+      this.jobPosition.position = this.openPositionsFormGroup.value.openPositionName;
+
+      if (this.openPositionStr1.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionStr1.value);
+      }
+      if (this.openPositionStr2.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionStr2.value);
+      }
+      if (this.openPositionStr3.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionStr3.value);
+      }
+      if (this.openPositionStr4.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionStr4.value);
+      }
+      if (this.openPositionStr5.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionStr5.value);
+      }
+
+      this.openPositionSource.push(this.jobPosition); // add the new model object to the dataSource
+      this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+
+      // reset input fields
+      this.openPositionsFormGroup.get("openPositionLeague").setValue("");
+      this.openPositionsFormGroup.get("openPositionHand").setValue("");
+      this.openPositionsFormGroup.get("openPositionHeight").setValue("");
+      this.openPositionsFormGroup.get("openPositionMaxAge").setValue("");
+      this.openPositionsFormGroup.get("openPositionMinAge").setValue("");
+      this.openPositionsFormGroup.get("openPositionSeason").setValue("");
+      this.openPositionsFormGroup.get("openPositionContract").setValue("");
+      this.openPositionsFormGroup.get("openPositionName").setValue("");
+      this.openPositionStr1.toggle();
+      this.openPositionStr2.toggle();
+      this.openPositionStr3.toggle();
+      this.openPositionStr4.toggle();
+      this.openPositionStr5.toggle();
     }
   }
 
@@ -592,30 +665,7 @@ export class RegisterClubComponent implements OnInit {
     this.club.currentSquadPlayersList = this.dataSource;
     this.club.nextYearSquadPlayersList = this.nextYearSquadSource;
     // open positions
-    if (this.goalkeeperOpen.checked) {
-      this.club.openPositionsList.push(this.goalkeeperOpen.value);
-    }
-    if (this.leftWingOpen.checked) {
-      this.club.openPositionsList.push(this.leftWingOpen.value);
-    }
-    if (this.leftBackOpen.checked) {
-      this.club.openPositionsList.push(this.leftBackOpen.value);
-    }
-    if (this.centreBackOpen.checked) {
-      this.club.openPositionsList.push(this.centreBackOpen.value);
-    }
-    if (this.pivotOpen.checked) {
-      this.club.openPositionsList.push(this.pivotOpen.value);
-    }
-    if (this.rightBackOpen.checked) {
-      this.club.openPositionsList.push(this.rightBackOpen.value);
-    }
-    if (this.rightWingOpen.checked) {
-      this.club.openPositionsList.push(this.rightWingOpen.value);
-    }
-    if (this.defenceOpen.checked) {
-      this.club.openPositionsList.push(this.defenceOpen.value);
-    }
+    this.club.jobPositionsList = this.openPositionSource;
 
     // staff
     if (this.clubStaffFormGroup.value.trainerControl !== "") {

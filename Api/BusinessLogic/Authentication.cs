@@ -32,7 +32,6 @@ namespace Api.BusinessLogic {
                 if (account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
                     Club club = clubRepos.GetByEmail(email);
                     club.Token = GenerateToken(club.Id, "Club");
-                    club.ErrorMessage = "Email =" + email + " " + "Password =" + password;
                     return club;
                 }
             }
@@ -41,7 +40,6 @@ namespace Api.BusinessLogic {
                     if(account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
                         Player player = playerRepos.GetByEmail(email);
                         player.Token = GenerateToken(player.Id, "Player");
-                        player.ErrorMessage = "Email =" + email + " " + "Password =" + password;
                         return player;
                     }
                 }

@@ -4,7 +4,7 @@ import { HttpClient} from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { Club } from '../models/club.model';
 import { Player } from '../models/player.model';
-
+import { Router } from "@angular/router";
 import decode from "jwt-decode";
 
 
@@ -12,44 +12,66 @@ import decode from "jwt-decode";
 
 export class loginService {
   typeOfLogin: string;
-  token: string;
+  refreshValue: boolean = false;
   clubInSession: Club;
   playerInSession: Player;
 
-  constructor(private http: HttpClient) {
-    this.tokenStillValid();
+  constructor(private http: HttpClient, public router: Router) {
+    console.log("Constructor");
+    this.isAuthenticated();
     this.clubInSession = new Club();
+    this.playerInSession = new Player();
   }
 
   //Helping method for loginService constructor to check if old 
   //token from login is still valid when visiting the site
-  private tokenStillValid() {
-    if(this.isAuthenticated()) {
-      this.token = localStorage.getItem('token');
-      this.typeOfLogin = localStorage.getItem('typeOfLogin');
+  public isAuthenticated() {
+    if(this.tokenStillValid()) {
+      var info = this.getDecodeToken();
+      this.typeOfLogin = info.role;
+      this.refreshValue = true;
+      if(info.role == "Player") {
+        this.router.navigate(['player-dashboard'])
+      }
+      else {
+        this.router.navigate(['club-dashboard'])
+      }
     }
     else {
       this.logout();
     }
   }
 
-  //Check if token is expired
-  public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    const now = Date.now() / 1000;
-    let decodeToken;
-    // Check whether the token is expired and return
-    // true or false
-    if (token) {
-      decodeToken = decode(token);
+  //Check if token exists and is expired 
+  public tokenStillValid(): boolean {
+    const token = this.getToken();
+    if (token != null) {   
+      const now = Date.now() / 1000;
+      let decodeToken = decode(token);
       if (decodeToken.exp < now) {
-        console.log("Token udløbet")
-        this.logout();
+        this.logout()
         return false;
       }
       return true;
     }
     return false;
+  }
+
+  public LoginUserIfValidTokenOnRefresh(info) { 
+    let url = "https://localhost:44310/api/authenticate/RefreshUserWithValidToken/";
+    return this.http.post(url, info).subscribe(
+      (succes:any) => {      
+        if(succes.isPlayer) {
+          this.setupPlayerLogin(succes);
+        }
+        else if(succes.isClub) {
+          this.setupClubLogin(succes);
+        }
+      },
+      error => {
+        console.log("LoginUserIfValidTokenOnRefresh failed");
+          this.logout();
+      })
   }
 
   revocerPassword(email: string) {
@@ -59,35 +81,50 @@ export class loginService {
 
   loginUser(form: NgForm) {
     let url = "https://localhost:44310/api/authenticate/";
-    console.log(form.value);
      return this.http.post(url, form.value);
   }
 
   setupPlayerLogin(succes: any) {
     this.typeOfLogin = "Player";
-    this.token = succes.token;
-    this.playerInSession = succes.player;
-    localStorage.setItem("typeOfLogin", this.typeOfLogin);
-    localStorage.setItem("token", this.token);
+    const token = this.getToken();
+    if(token == null) {
+      localStorage.setItem("token", succes.token);
+    }
+    this.playerInSession = this.playerInSession.buildPlayer(succes, this.playerInSession);
   }
 
   setupClubLogin(succes: any) {
     this.typeOfLogin = "Club";
-    this.token = succes.token;
-    console.log(succes);
-    this.clubInSession = this.clubInSession.buildPlayer(succes, this.clubInSession);
-    console.log(this.clubInSession);
-    localStorage.setItem('typeOfLogin', this.typeOfLogin);
-    localStorage.setItem('token', this.token);
+    const token = this.getToken();
+    if(token == null) {
+      localStorage.setItem('token', succes.token);
+    }
+    this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
   }
 
   logout() {
-    // remove token and type from local storage to log user out
+    // remove token from local storage to log user out
+    console.log("Logget ud"),
     localStorage.removeItem('token');
-    localStorage.removeItem('typeOfLogin');
     this.typeOfLogin = "";
     this.clubInSession = null;
     this.playerInSession = null;
-}
+  }
 
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
+  getDecodeToken() {
+    const token = this.getToken();
+    if(token != null) {
+      let decodeToken = decode(token);
+      var info = {
+      role: decodeToken.role,
+      id: decodeToken.unique_name
+    };
+    return info;
+    }
+
+  }
 }
