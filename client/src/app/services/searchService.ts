@@ -3,17 +3,21 @@ import { HttpClient } from "@angular/common/http";
 import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 import { SearchCriteria } from '../models/searchCriteria.model';
-import { loginService } from './loginService';
+import { ClubSearchCriteria } from '../models/clubSearchCriteria.model';
 
 @Injectable()
 export class searchService {
   searchForPlayersResult: Player[] = [];
   player: Player;
+  searchForClubsResult: Club[] = [];
+  club: Club;
+
   p1: Player = new Player();
   p2: Player = new Player();
 
   constructor(private http: HttpClient) {
     this.player = new Player();
+    // p1 & p2 er test objekter indtil backend bliver lavet
     this.p1.id = 6;
     this.p1.firstName = 'Rune';
     this.p1.lastName = 'G'
@@ -45,7 +49,6 @@ export class searchService {
     this.p2.bodyfat = 22;
     this.p2.preferredHand = 'Both Hands';
     // this.p2.injuryStatus = 'Injured';
-
     this.searchForPlayersResult.push(this.p2);
   }
 
@@ -74,6 +77,34 @@ export class searchService {
       (error) => {
         console.log(error);
       }
-    )
+    );
+  }
+
+  searchForClubs(searchCriteria: ClubSearchCriteria) {
+    let url = "web api metode";
+    return this.http.post(url, searchCriteria).subscribe(
+      (success) => {
+        console.log(success);
+        // this.searchForClubsResult = success;
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  }
+
+  getClubById(club: Club) {
+    let url = "https://localhost:44310/api/Club/GetById/";
+    return this.http.post(url, club).subscribe(
+      (success) => {
+        console.log(success);
+        this.club = this.club.buildClub(success, club);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

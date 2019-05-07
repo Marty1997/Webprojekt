@@ -38,6 +38,7 @@ import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-ad
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { HeaderComponent } from './header/header.component';
 import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-search-criteria.component';
+import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
     ContactAdviserComponent,
     HeaderComponent,
     PlayerSearchCriteriaComponent,
+    ClubSearchCriteriaComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,6 +76,8 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
       { path: 'search-for-players', component: SearchForPlayersComponent, canActivate: [AuthGuardService] },
       { path: 'player-search-criteria', component: PlayerSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'player-profile/:id', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
+      { path: 'club-search-criteria', component: ClubSearchCriteriaComponent, canActivate: [AuthGuardService] },
+      { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService] },
       { path: 'club-how-to', component: ForClubsComponent },
       { path: 'player-how-to', component: ForPlayersComponent }
     ]),

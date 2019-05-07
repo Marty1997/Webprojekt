@@ -19,7 +19,7 @@
                     <a [routerLink]="['/club-dashboard']" (click)="toggleNavbarCollapse()" class="headerLinks">Profile</a>
                 </li>
                 <li *ngIf="isPlayer">
-                    <a [routerLink]="['/search-for-clubs']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
+                    <a [routerLink]="['/club-search-criteria']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
                 </li>
                 <li *ngIf="isClub">
                     <a [routerLink]="['/player-search-criteria']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
