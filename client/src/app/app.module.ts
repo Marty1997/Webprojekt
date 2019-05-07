@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule } from '@angular/material';
+import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -33,7 +33,9 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { AuthGuardService } from './services/authGuardService';
+import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { HeaderComponent } from './header/header.component';
 import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-search-criteria.component';
 
@@ -66,8 +68,8 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
     TooltipModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: FrontPageComponent, pathMatch: 'full' },
-      { path: 'club-dashboard', component: ClubDashboardComponent, /*canActivate: [AuthGuardService]*/ },
-      { path: 'player-dashboard', component: PlayerDashboardComponent, /*canActivate: [AuthGuardService]*/ },
+      { path: 'club-dashboard', component: ClubDashboardComponent, canActivate: [AuthGuardService] },
+      { path: 'player-dashboard', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
       { path: 'search-for-clubs', component: SearchForClubsComponent },
       { path: 'search-for-players', component: SearchForPlayersComponent },
       { path: 'player-search-criteria', component: PlayerSearchCriteriaComponent },
@@ -78,7 +80,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
     AccordionModule.forRoot(),
     CdkStepperModule,
       MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
-    MatPaginatorModule, MatCheckboxModule, MatTableModule, MatMenuModule, MatDividerModule,
+      MatPaginatorModule, MatCheckboxModule, MatTableModule, MatDatepickerModule, MatMomentDateModule, MatMenuModule, MatDividerModule,
     MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -87,7 +89,8 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
   providers: [
     ErrorStateMatcher,
     loginService,
-    AuthGuardService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

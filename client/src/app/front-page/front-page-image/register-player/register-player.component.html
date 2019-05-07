@@ -191,12 +191,57 @@
       <br>
       <mat-label>Preferred hand</mat-label>
       <br>
-      <mat-form-field>
+      <mat-form-field class="doubleSizeField">
         <mat-select placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
           <mat-option value="Right">Right Hand</mat-option>
           <mat-option value="Left">Left Hand</mat-option>
           <mat-option value="Both">Both Hands</mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-label>League</mat-label>
+      <br>
+      <mat-form-field class="doubleSizeField">
+        <mat-select placeholder="Select League" formControlName="leagueControl" [errorStateMatcher]='validate'>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-label>Contract Status</mat-label><br>
+      <mat-form-field>
+        <mat-select matInput placeholder="Contract Status" formControlName="contractStatusControl" [errorStateMatcher]='validate'>
+          <mat-option value="Active">Active</mat-option>
+          <mat-option value="Open for Offers">Open for Offers</mat-option>
+          <mat-option value="In Negotiation">In Negotiation</mat-option>
+          <mat-option value="Contract Expired">Contract Expired</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="contractPicker" formControlName="contractExpired" placeholder="Contract Expiration">
+        <mat-datepicker-toggle matSuffix [for]="contractPicker"></mat-datepicker-toggle>
+        <mat-datepicker #contractPicker></mat-datepicker>
+      </mat-form-field>
+
+
+      <br>
+      <mat-label>Injury</mat-label><br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <mat-select placeholder="Status" formControlName="injuryStatus" [errorStateMatcher]="validate">
+          <mat-option value="Injured">Injured</mat-option>
+          <mat-option value="Healthy">Healthy</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput placeholder="Injury" formControlName="injuryDescription" [errorStateMatcher]='validate'>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input matInput [matDatepicker]="picker" formControlName="injuryRecoveryDate" placeholder="Expected Recovery Date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <br>
@@ -306,6 +351,12 @@
       <br>
       <mat-label>Other info</mat-label>
       <br>
+      <mat-form-field class="doubleSizeField">
+        <mat-select placeholder="Active Searching" formControlName="isActiveSearching" [errorStateMatcher]="validate">
+          <mat-option value="currentlySearching">Currently Searching</mat-option>
+          <mat-option value="notSearching">Not Searching</mat-option>
+        </mat-select>
+      </mat-form-field><br>
       <mat-form-field class="threeFieldsOnSameRow">
         <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
           matAutosizeMaxRows="10" formControlName="accomplishments" [errorStateMatcher]='validate'></textarea>
