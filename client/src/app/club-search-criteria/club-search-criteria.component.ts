@@ -13,8 +13,8 @@ import { MatCheckbox } from "@angular/material";
 export class ClubSearchCriteriaComponent implements OnInit {
   searchForm: FormGroup;
   searchCriteria: ClubSearchCriteria = new ClubSearchCriteria();
-  countryList: string[] = ["Denmark", "Sweden", "Norway"];
-  leagueList: string[] = ["First League", "Second League", "Third League"];
+  countryList: string[] = ["All Countries", "Denmark", "Sweden", "Norway"];
+  leagueList: string[] = ["All Leagues", "First League", "Second League", "Third League"];
   positionList: string[] = [
     "None",
     "Left Wing",
@@ -62,27 +62,35 @@ export class ClubSearchCriteriaComponent implements OnInit {
 
   validateSearchCriteria() {
     if (this.searchForm.value.country != "") {
-      this.searchCriteria.country = this.searchForm.value.country;
-    } else {
-      this.searchCriteria.country = null;
+      if(this.searchForm.value.country != "All Countries") {
+        this.searchCriteria.country = this.searchForm.value.country;
+      } else {
+        this.searchCriteria.country = null;
+      }
     }
 
     if (this.searchForm.value.league != "") {
-      this.searchCriteria.league = this.searchForm.value.league;
-    } else {
-      this.searchCriteria.league = null;
+      if(this.searchForm.value.league != "All Leagues") {
+        this.searchCriteria.league = this.searchForm.value.league;
+      } else {
+        this.searchCriteria.league = null;
+      }
     }
 
     if (this.searchForm.value.position != "") {
-      this.searchCriteria.position = this.searchForm.value.position;
-    } else {
-      this.searchCriteria.position = null;
+      if(this.searchForm.value.position != "None") {
+        this.searchCriteria.position = this.searchForm.value.position;
+      } else {
+        this.searchCriteria.position = null;
+      }
     }
 
     if (this.searchForm.value.season != "") {
-      this.searchCriteria.season = this.searchForm.value.season;
-    } else {
-      this.searchCriteria.season = null;
+      if(this.searchForm.value.season != "None") {
+        this.searchCriteria.season = this.searchForm.value.season;
+      } else {
+        this.searchCriteria.season = null;
+      }
     }
 
     // values
