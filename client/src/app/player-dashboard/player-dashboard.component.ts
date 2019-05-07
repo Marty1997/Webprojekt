@@ -21,7 +21,5 @@ export class PlayerDashboardComponent implements OnInit {
         this.player = p;
       }
     });
-    console.log('Dashboard Players:' + this.players);
-    console.log('Dashboard Player:' + this.player);
   }
 }
