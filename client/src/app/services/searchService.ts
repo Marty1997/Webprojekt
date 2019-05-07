@@ -3,15 +3,18 @@ import { HttpClient } from "@angular/common/http";
 import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 import { SearchCriteria } from '../models/searchCriteria.model';
+import { loginService } from './loginService';
 
 @Injectable()
 export class searchService {
   searchForPlayersResult: Player[] = [];
+  player: Player;
   p1: Player = new Player();
   p2: Player = new Player();
 
   constructor(private http: HttpClient) {
-    this.p1.id = 1;
+    this.player = new Player();
+    this.p1.id = 6;
     this.p1.firstName = 'Rune';
     this.p1.lastName = 'G'
     this.p1.day = 24;
@@ -59,5 +62,18 @@ export class searchService {
         return false;
       }
     );
+  }
+
+  getPlayerById(player: Player) {
+    let url = "https://localhost:44310/api/Player/GetById/";
+    return this.http.post(url, player).subscribe(
+      (success) => {
+        console.log(success);
+        this.player = this.player.buildPlayer(success, player);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 }

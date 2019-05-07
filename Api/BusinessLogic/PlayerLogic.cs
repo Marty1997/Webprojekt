@@ -45,5 +45,9 @@ namespace Api.BusinessLogic {
 
             
         }
+
+        public Player GetById(int id) {
+            return _playerRepos.GetById(id);
+        }
     }
 }

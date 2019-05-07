@@ -38,7 +38,8 @@ export class PlayerDashboardComponent implements OnInit {
       this.isPlayer = false;
       this.players.forEach((p: Player) => {
         if (p.id == this.route.snapshot.params.id) {
-          this.playerBinding = p;
+          this.searchService.getPlayerById(p); //fetch player data
+          this.playerBinding = this.searchService.player;
         }
       });
     }
