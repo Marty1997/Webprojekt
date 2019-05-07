@@ -8,10 +8,10 @@
         linje så kunderne kan læse et mega fedt slogan på denne linje</h2>
       <div class="row" style="margin-top: 60px;">
         <div class="col-sm-6 col-md-6">
-          <a class="frontPageButton" (click)="openModal(loginModal)">Login</a>
+          <a class="frontPageButton" (click)="openModalLogin(loginModal)">Login</a>
         </div>
         <div class="col-sm-6 col-md-6">
-          <a class="frontPageButton " (click)="openModal(chooseRegistrationModal)">Register</a>
+          <a class="frontPageButton " (click)="openModalRegister(chooseRegistrationModal)">Register</a>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
   <!-- LOGIN -->
   <ng-template #loginModal>
     <div id="loginBox" class="box">
-        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="loginModal.hide()">
             <span aria-hidden="true">&times;</span>
           </button>
       <h1 >Login</h1>

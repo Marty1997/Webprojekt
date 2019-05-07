@@ -11,25 +11,22 @@ import { Router } from "@angular/router";
   providers: []
 })
 export class FrontPageImageComponent implements OnInit {
-  modalRef: BsModalRef | null;
-  modalRef2: BsModalRef | null;
+  chooseRegisterModal: BsModalRef | null;
+  loginModal: BsModalRef | null;
   modalRefRecoverPassword: BsModalRef;
   wrongEmailOrPassword : boolean = false;
   recoverPasswordResult : string = "Email has been sent";
-clubRegistrationModal: BsModalRef;
+  clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
   constructor(private modalService: BsModalService, private loginService: loginService,
     private router: Router) { }
   
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'customModal'});
-    this.wrongEmailOrPassword = false;
+  openModalRegister(template: TemplateRef<any>) {
+    this.chooseRegisterModal = this.modalService.show(template);
   }
 
-  openSecondModalNested(template: TemplateRef<any>) {
-    this.modalRef2 = this.modalService.show(template, {class: 'customModal'});
-    this.modalRef.hide();
-    this.modalRef = null;
+  openModalLogin(template: TemplateRef<any>) {
+    this.loginModal = this.modalService.show(template, {class: 'customModal'});
   }
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
@@ -44,8 +41,8 @@ clubRegistrationModal: BsModalRef;
   }
 
   closeAllModals() {
-    this.modalRef.hide();
-    this.modalRef = null;
+    this.loginModal.hide();
+    this.loginModal = null;
     if(this.modalRefRecoverPassword != null) {
       this.modalRefRecoverPassword.hide();
       this.modalRefRecoverPassword = null;
@@ -77,14 +74,14 @@ clubRegistrationModal: BsModalRef;
 
   openPlayerRegistrationModal(template: TemplateRef<any>) {
     this.playerRegistrationModal = this.modalService.show(template);
-    this.modalRef.hide();
-    this.modalRef = null;
+    this.chooseRegisterModal.hide();
+    this.chooseRegisterModal = null;
   }
 
   openClubRegistrationModal(template: TemplateRef<any>) {
     this.clubRegistrationModal = this.modalService.show(template);
-    this.modalRef.hide();
-    this.modalRef = null;
+    this.chooseRegisterModal.hide();
+    this.chooseRegisterModal = null;
   }
 
 
