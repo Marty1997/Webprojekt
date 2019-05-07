@@ -1,6 +1,7 @@
 ﻿using Api.DAL;
 using Api.DAL.Entities;
 using Api.DAL.Repos;
+using Api.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,11 @@ namespace Api.BusinessLogic {
 
         public Player GetById(int id) {
             return _playerRepos.GetById(id);
+        }
+
+        public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
+
+            return null;
         }
     }
 }

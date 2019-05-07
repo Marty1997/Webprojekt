@@ -50,7 +50,7 @@ export class searchService {
   }
 
   searchForPlayers(searchCriteria: SearchCriteria) {
-    let url = "web api metode";
+    let url = "https://localhost:44310/api/Player/SearchPlayers/";
     return this.http.post(url, searchCriteria).subscribe(
       (success) => {
         console.log(success);
