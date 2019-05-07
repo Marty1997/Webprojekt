@@ -67,7 +67,6 @@ namespace Api.Controllers
             return Ok(player);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
         public IActionResult GetById([FromBody] Player entity) {
