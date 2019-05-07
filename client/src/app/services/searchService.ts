@@ -24,6 +24,7 @@ export class searchService {
 
   constructor(private http: HttpClient) {
     this.player = new Player();
+    this.club = new Club();
     // p1 & p2 er test objekter indtil backend bliver lavet
     this.p1.id = 6;
     this.p1.firstName = 'Rune';
