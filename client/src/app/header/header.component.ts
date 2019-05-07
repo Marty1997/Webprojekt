@@ -6,8 +6,7 @@ import { Club } from '../models/club.model';
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"],
-  providers: [loginService]
+  styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit {
   navbarCollapse: boolean = true;

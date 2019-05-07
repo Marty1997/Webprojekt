@@ -14,9 +14,9 @@ export class searchService {
     this.p1.id = 1;
     this.p1.firstName = 'Rune';
     this.p1.lastName = 'G'
-    this.p1.day = '24';
-    this.p1.month = '07';
-    this.p1.year = '1995';
+    this.p1.day = 24;
+    this.p1.month = 0o7;
+    this.p1.year = 1995;
     this.p1.country = 'Denmark';
     this.p1.primaryPosition = 'Left Wing';
     // this.p1.contractStatus = 'Open for Offers';
@@ -31,9 +31,9 @@ export class searchService {
     this.p2.id = 2;
     this.p2.firstName = 'Rune';
     this.p2.lastName = 'G'
-    this.p2.day = '24';
-    this.p2.month = '07';
-    this.p2.year = '1995';
+    this.p2.day = 24;
+    this.p2.month = 0o7;
+    this.p2.year = 1995;
     this.p2.country = 'Denmark';
     this.p2.primaryPosition = 'Left Wing';
     // this.p2.contractStatus = 'Open for Offers';

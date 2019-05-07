@@ -10,21 +10,21 @@ import { searchService } from '../services/searchService';
   selector: 'app-player-dashboard',
   templateUrl: './player-dashboard.component.html',
   styleUrls: ['./player-dashboard.component.css'],
-  encapsulation: ViewEncapsulation.None
-
+  encapsulation: ViewEncapsulation.None,
   providers: [searchService]
 })
 export class PlayerDashboardComponent implements OnInit {
 
+  isPlayer: boolean;
   playerBinding: Player;
+  players: Player[] = this.searchService.searchForPlayersResult;
 
   isFirstOpen = true;
     constructor(private route: ActivatedRoute, private searchService: searchService, private loginService: loginService) { }
-  players: Player[] = this.searchService.searchForPlayersResult;
-  player: Player = new Player();
 
   ngOnInit() {
     if(this.loginService.typeOfLogin == "Player") {
+      this.isPlayer = true;
       if(this.loginService.refreshValue) {
         this.loginService.LoginUserIfValidTokenOnRefresh(this.loginService.getDecodeToken());
         this.loginService.refreshValue = false;
@@ -35,15 +35,16 @@ export class PlayerDashboardComponent implements OnInit {
     }
     else if(this.loginService.typeOfLogin == "Club") {
       //find spilleren som klubben vil se og put i playerBinding variablen
+      this.isPlayer = false;
+      this.players.forEach((p: Player) => {
+        if (p.id == this.route.snapshot.params.id) {
+          this.playerBinding = p;
+        }
+      });
     }
     else {
       console.log("Den her");
       this.loginService.logout();
     }
-    this.players.forEach((p: Player) => {
-      if (p.id == this.route.snapshot.params.id) {
-        this.player = p;
-      }
-    });
   }
 }
