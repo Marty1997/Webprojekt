@@ -23,194 +23,225 @@ namespace Api.DAL.Repos {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     //try {
-                        
-                        //Return usercredentials ID
-                        string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
+
+                    //Return usercredentials ID
+                    string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
+                    int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
 
-                        //Return zipcodeCity ID
-                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                    //Return zipcodeCity ID
+                    string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+                    int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
 
-                        //Insert Club
-                        string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
+                    //Insert Club
+                    string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
                                         ZipcodeCity_ID, UserCredentials_ID) 
                                         VALUES (@Name, @Email, @League, @Country, @StreetAddress, @StreetNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
                                         @ZipcodeCity_ID, @UserCredentials_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                        var club_ID = conn.Query<int>(clubSQL, new {
-                            Name = entity.Name,
-                            Email = entity.Email,
-                            entity.League,
-                            entity.Country,
-                            entity.StreetAddress,
-                            entity.StreetNumber,
-                            entity.Trainer,
-                            entity.AssistantTrainer,
-                            entity.Physiotherapist,
-                            entity.AssistantPhysiotherapist,
-                            entity.Manager,
-                            entity.ValueDescription,
-                            entity.PreferenceDescription,
-                            ZipcodeCity_ID = zipcodeCity_ID,
-                            UserCredentials_ID = userCredentials_ID
-                        }, transaction: tran).Single();
-               
-                        //Club values
-                        if (entity.ValuesList.Count > 0) {
-                            foreach (string value in entity.ValuesList) {
+                    var club_ID = conn.Query<int>(clubSQL, new {
+                        Name = entity.Name,
+                        Email = entity.Email,
+                        entity.League,
+                        entity.Country,
+                        entity.StreetAddress,
+                        entity.StreetNumber,
+                        entity.Trainer,
+                        entity.AssistantTrainer,
+                        entity.Physiotherapist,
+                        entity.AssistantPhysiotherapist,
+                        entity.Manager,
+                        entity.ValueDescription,
+                        entity.PreferenceDescription,
+                        ZipcodeCity_ID = zipcodeCity_ID,
+                        UserCredentials_ID = userCredentials_ID
+                    }, transaction: tran).Single();
 
-                                //Return value ID
-                                string valuesSQL = @"Select id from Value where name = @Name";
-                                int value_ID = conn.Query<int>(valuesSQL, new { Name = value }, transaction: tran).FirstOrDefault();
+                    //Club values
+                    if (entity.ValuesList.Count > 0) {
+                        foreach (string value in entity.ValuesList) {
 
-                                if (value_ID != 0) {
+                            //Return value ID
+                            string valuesSQL = @"Select id from Value where name = @Name";
+                            int value_ID = conn.Query<int>(valuesSQL, new { Name = value }, transaction: tran).FirstOrDefault();
 
-                                    //Insert ClubValue
-                                    string clubValueSQL = @"INSERT INTO ClubValue (Club_ID, Value_ID) 
+                            if (value_ID != 0) {
+
+                                //Insert ClubValue
+                                string clubValueSQL = @"INSERT INTO ClubValue (Club_ID, Value_ID) 
                                         VALUES (@Club_ID, @Value_ID)";
 
-                                    _rowCountList.Add(conn.Execute(clubValueSQL, new {
-                                        Club_ID = club_ID,
-                                        Value_ID = value_ID
-                                    }, transaction: tran));
-                                }
+                                _rowCountList.Add(conn.Execute(clubValueSQL, new {
+                                    Club_ID = club_ID,
+                                    Value_ID = value_ID
+                                }, transaction: tran));
                             }
                         }
+                    }
 
-                        //Club preferences
-                        if (entity.PreferenceList.Count > 0) {
-                            foreach (string preference in entity.PreferenceList) {
+                    //Club preferences
+                    if (entity.PreferenceList.Count > 0) {
+                        foreach (string preference in entity.PreferenceList) {
 
-                                //Return preference ID
-                                string preferenceSQL = @"Select id from Preference where name = @Name";
-                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
+                            //Return preference ID
+                            string preferenceSQL = @"Select id from Preference where name = @Name";
+                            int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
 
-                                if (preference_ID != 0) {
+                            if (preference_ID != 0) {
 
-                                    //Insert ClubPreference
-                                    string clubPreferenceSQL = @"INSERT INTO ClubPreference (Club_ID, Preference_ID) 
+                                //Insert ClubPreference
+                                string clubPreferenceSQL = @"INSERT INTO ClubPreference (Club_ID, Preference_ID) 
                                         VALUES (@Club_ID, @Preference_ID)";
 
-                                    _rowCountList.Add(conn.Execute(clubPreferenceSQL, new {
-                                        Club_ID = club_ID,
-                                        Preference_ID = preference_ID
-                                    }, transaction: tran));
-                                }
-                            }
-                        }
-
-
-                        //Current Squad Players
-                        if (entity.CurrentSquadPlayersList.Count > 0) {
-                            foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
-
-                                //Return squad player position ID
-
-                                string squadPlayerPositionSQL = @"Select id from position where name = @Position";
-
-                                int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.Position }, transaction: tran).FirstOrDefault();
-
-                                if (squadPlayerPosition_ID != 0) {
-
-                                    //Insert Squad Player
-                                    string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
-                                        VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
-
-                                    _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                        ShirtNumber = csp.ShirtNumber,
-                                        Season = csp.Season,
-                                        Name = csp.Name,
-                                        Club_ID = club_ID,
-                                        Position_ID = squadPlayerPosition_ID
-                                    }, transaction: tran));
-                                }
-                            }
-                        }
-
-                        //Next Year Squad Players
-                        if (entity.NextYearSquadPlayersList.Count > 0) {
-                            foreach (SquadPlayer nysp in entity.NextYearSquadPlayersList) {
-
-                                //Return squad player position ID
-
-                                string squadPlayerPositionSQL = @"Select id from position where name = @Position";
-
-                                int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.Position }, transaction: tran).FirstOrDefault();
-
-                                if (squadPlayerPosition_ID != 0) {
-
-                                    //Insert Squad Player
-                                    string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
-                                        VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
-
-                                    _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                        ShirtNumber = nysp.ShirtNumber,
-                                        Season = nysp.Season,
-                                        Name = nysp.Name,
-                                        Club_ID = club_ID,
-                                        Position_ID = squadPlayerPosition_ID
-                                    }, transaction: tran));
-                                }
-                            }
-                        }
-
-                        //Open positions
-                        if (entity.OpenPositionsList.Count > 0) {
-                            foreach (string openPosition in entity.OpenPositionsList) {
-
-                                //Return open position ID
-                                string openPositionSQL = @"Select id from Position where name = @Name";
-                                int openPosition_ID = conn.Query<int>(openPositionSQL, new { Name = openPosition }, transaction: tran).FirstOrDefault();
-
-                                if (openPosition_ID != 0) {
-
-                                    //Insert ClubPosition
-                                    string clubPositionSQL = @"INSERT INTO ClubPosition (Club_ID, Position_ID) 
-                                        VALUES (@Club_ID, @Position_ID)";
-
-                                    _rowCountList.Add(conn.Execute(clubPositionSQL, new {
+                                _rowCountList.Add(conn.Execute(clubPreferenceSQL, new {
                                     Club_ID = club_ID,
-                                    Position_ID = openPosition_ID
-                                    }, transaction: tran));
-                                }
+                                    Preference_ID = preference_ID
+                                }, transaction: tran));
                             }
                         }
-                        
+                    }
 
-                        //Training hours
-                        foreach (TrainingHours traininghours in entity.TrainingHoursList) {
 
-                            //Insert Training hours
-                            string trainingHoursSQL = @"INSERT INTO TrainingHours (Name, Mon, Tue, Wed, Thu, Fri, Sat, Sun, Club_ID) 
+                    //Current Squad Players
+                    if (entity.CurrentSquadPlayersList.Count > 0) {
+                        foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
+
+                            //Return squad player position ID
+
+                            string squadPlayerPositionSQL = @"Select id from position where name = @Position";
+
+                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.Position }, transaction: tran).FirstOrDefault();
+
+                            if (squadPlayerPosition_ID != 0) {
+
+                                //Insert Squad Player
+                                string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
+                                        VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
+
+                                _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                    ShirtNumber = csp.ShirtNumber,
+                                    Season = csp.Season,
+                                    Name = csp.Name,
+                                    Club_ID = club_ID,
+                                    Position_ID = squadPlayerPosition_ID
+                                }, transaction: tran));
+                            }
+                        }
+                    }
+
+                    //Next Year Squad Players
+                    if (entity.NextYearSquadPlayersList.Count > 0) {
+                        foreach (SquadPlayer nysp in entity.NextYearSquadPlayersList) {
+
+                            //Return squad player position ID
+
+                            string squadPlayerPositionSQL = @"Select id from position where name = @Position";
+
+                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.Position }, transaction: tran).FirstOrDefault();
+
+                            if (squadPlayerPosition_ID != 0) {
+
+                                //Insert Squad Player
+                                string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
+                                        VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
+
+                                _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                    ShirtNumber = nysp.ShirtNumber,
+                                    Season = nysp.Season,
+                                    Name = nysp.Name,
+                                    Club_ID = club_ID,
+                                    Position_ID = squadPlayerPosition_ID
+                                }, transaction: tran));
+                            }
+                        }
+                    }
+
+                    //Job position
+                    if (entity.JobPositionsList.Count > 0) {
+                        foreach (JobPosition jp in entity.JobPositionsList) {
+
+                            var jobPosition_ID = 0;
+                            //Return jobPosition position ID
+                            string positionSQL = @"Select id from position where name = @Position";
+                            int position_ID = conn.Query<int>(positionSQL, new { Position = jp.Position }, transaction: tran).FirstOrDefault();
+
+                            if (position_ID != 0) {
+
+                                //Insert JobPosition
+                                string jobPositionSQL = @"INSERT INTO JobPosition (League, PreferredHand, Height, MinAge, MaxAge, Season, ContractStatus, Club_ID, Position_ID) 
+                                        VALUES (@League, @PreferredHand, @Height, @MinAge, @MaxAge, @Season, @ContractStatus, @Club_ID, @Position_ID);
+                                            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                                jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
+                                    League = jp.League,
+                                    PreferredHand = jp.PreferredHand,
+                                    Height = jp.Height,
+                                    MinAge = jp.MinAge,
+                                    MaxAge = jp.MaxAge,
+                                    Season = jp.Season,
+                                    ContractStatus = jp.ContractStatus,
+                                    Club_ID = club_ID,
+                                    Position_ID = position_ID
+                                }, transaction: tran).Single();
+                            }
+
+                            if (jp.StrengthsList.Count > 0) {
+                                foreach (string strength in jp.StrengthsList) {
+
+                                    //Return strength ID
+                                    string strengthSQL = @"Select id from Strength where name = @Name";
+                                    int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
+
+                                    if (strength_ID != 0) {
+
+                                        //Insert JobPositionStrength
+                                        string jobPositionStrengthSQL = @"INSERT INTO JobPositionStrength (JobPosition_ID, Strength_ID) 
+                                        VALUES (@JobPosition_ID, @Strength_ID)";
+
+                                        _rowCountList.Add(conn.Execute(jobPositionStrengthSQL, new {
+                                            JobPosition_ID = jobPosition_ID,
+                                            Strength_ID = strength_ID
+                                        }, transaction: tran));
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                    
+                    //Training hours
+                    foreach (TrainingHours traininghours in entity.TrainingHoursList) {
+
+                        //Insert Training hours
+                        string trainingHoursSQL = @"INSERT INTO TrainingHours (Name, Mon, Tue, Wed, Thu, Fri, Sat, Sun, Club_ID) 
                                         VALUES (@Name, @Mon, @Tue, @Wed, @Thu, @Fri, @Sat, @Sun, @Club_ID)";
 
-                            _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
-                                Name = traininghours.Name,
-                                Mon = traininghours.Mon,
-                                Tue = traininghours.Tue,
-                                Wed = traininghours.Wed,
-                                Thu = traininghours.Thu,
-                                Fri = traininghours.Fri,
-                                Sat = traininghours.Sat,
-                                Sun = traininghours.Sun,
-                                Club_ID = club_ID
-                            }, transaction: tran));
-                        }
+                        _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
+                            Name = traininghours.Name,
+                            Mon = traininghours.Mon,
+                            Tue = traininghours.Tue,
+                            Wed = traininghours.Wed,
+                            Thu = traininghours.Thu,
+                            Fri = traininghours.Fri,
+                            Sat = traininghours.Sat,
+                            Sun = traininghours.Sun,
+                            Club_ID = club_ID
+                        }, transaction: tran));
+                    }
 
 
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            c.ErrorMessage = "The club was not registred";
-                            tran.Rollback();
-                        }
-                        else {
-                            c.ErrorMessage = "";
-                            tran.Commit();
-                        }
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        c.ErrorMessage = "The club was not registred";
+                        tran.Rollback();
+                    }
+                    else {
+                        c.ErrorMessage = "";
+                        tran.Commit();
+                    }
                     //}
                     //catch (SqlException e) {
 
@@ -232,53 +263,52 @@ namespace Api.DAL.Repos {
         }
 
         public Club GetByEmail(string email) {
-
             Club club = new Club();
-
             using (var conn = Connection()) {
-
                 //try {
                 club = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
                     " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.email = @email",
                 (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, new { email }, splitOn: "Zipcode,city").Single();
 
-                club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new {id = club.Id }).ToList();
+                club = GetClubTraningHourList(club, conn);
+                club = GetClubCurrentSquadList(club, conn);
+                club = GetClubNextYearSquadList(club, conn);
+                club = GetJobPosition(club, conn);
+                club = GetClubValueList(club, conn);
+                club = GetClubPreferenceList(club, conn);
 
-                club.CurrentSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
-                    " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Current year'",
-                (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id}, splitOn:"name").ToList();
-
-                club.NextYearSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
-                     " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Next year'",
-                (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
-
-                club.OpenPositionsList = conn.Query<string>("select p.name from Position p " +
-                    "inner join ClubPosition cp on cp.position_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
-
-                club.ValuesList = conn.Query<string>("select v.name from Value v " +
-                    "inner join ClubValue cv on cv.value_id = v.id where cv.club_ID = @id", new { id = club.Id }).ToList();
-
-                club.PreferenceList = conn.Query<string>("select p.name from Preference p" +
-                    " inner join ClubPreference cp on cp.preference_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
-
-                if (club.Id < 1) {
-                        club.ErrorMessage = "The club does not exist";
-                    }
-                    else {
-                        club.ErrorMessage = "";
-                    }
                 //}
                 //catch (SqlException e) {
                 //    club.ErrorMessage = ErrorHandling.Exception(e);
                 //}
-
             }
             return club;
         }
 
         public Club GetById(int id) {
-            throw new NotImplementedException();
+            Club club = new Club();
+            using (var conn = Connection()) {
+                //try {
+                club = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
+                    " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.id = @id",
+                (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, new { id }, splitOn: "Zipcode,city").Single();
+
+                club = GetClubTraningHourList(club, conn);
+                club = GetClubCurrentSquadList(club, conn);
+                club = GetClubNextYearSquadList(club, conn);
+                club = GetJobPosition(club, conn);
+                club = GetClubValueList(club, conn);
+                club = GetClubPreferenceList(club, conn);
+
+                //}
+                //catch (SqlException e) {
+                //    club.ErrorMessage = ErrorHandling.Exception(e);
+                //}
+            }
+            return club;
         }
+
+
 
         public UserCredentials getCredentialsByEmail(string email) {
             throw new NotImplementedException();
@@ -294,6 +324,55 @@ namespace Api.DAL.Repos {
 
         public bool Update(Club entity) {
             throw new NotImplementedException();
+        }
+
+        //Helping method to build club traininghours
+        private Club GetClubTraningHourList(Club club, IDbConnection conn) {
+            club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
+            return club;
+        }
+
+        //Helping method to build club current squad list
+        private Club GetClubCurrentSquadList(Club club, IDbConnection conn) {
+            club.CurrentSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
+                    " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Current year'",
+            (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
+            return club;
+        }
+
+        //Helping method to build club next year squad list
+        private Club GetClubNextYearSquadList(Club club, IDbConnection conn) {
+            club.NextYearSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
+                     " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Next year'",
+                (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
+            return club;
+        }
+
+        //Helping method to build club open position list
+        private Club GetJobPosition(Club club, IDbConnection conn) {
+            club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp.*, p.name from JobPosition jp " +
+                "inner join Position p on p.id = jp.position_ID where jp.club_ID = @id",
+                (jobPosition, position) => { jobPosition.Position = position; return jobPosition; }, new { id = club.Id }, splitOn: "name").ToList();
+
+            foreach (JobPosition item in club.JobPositionsList) {
+                item.StrengthsList = conn.Query<string>("select s.name from Strength s " +
+                    "inner join JobPositionStrength jps on jps.strength_id = s.id where jps.jobposition_ID = @newid", new { newid = item.ID }).ToList();
+            }
+            return club;
+        }
+
+        //Helping method to build club value list
+        private Club GetClubValueList(Club club, IDbConnection conn) {
+            club.ValuesList = conn.Query<string>("select v.name from Value v " +
+                 "inner join ClubValue cv on cv.value_id = v.id where cv.club_ID = @id", new { id = club.Id }).ToList();
+            return club;
+        }
+
+        //Helping method to build club strength list
+        private Club GetClubPreferenceList(Club club, IDbConnection conn) {
+            club.PreferenceList = conn.Query<string>("select p.name from Preference p" +
+                " inner join ClubPreference cp on cp.preference_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
+            return club;
         }
     }
 }

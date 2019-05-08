@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
     public class Club {
-        [JsonIgnore]
         public int Id { get; set; }
         [JsonIgnore]
         public UserCredentials UserCredentials { get; set; }
         public string Password { get; set; }
         public string ErrorMessage { get; set; }
+        public bool IsAvailable { get; set; }
         public string  Token { get; set; }
         public bool IsClub { get; set; }
         public string Name { get; set; }
@@ -35,7 +35,7 @@ namespace Api.DAL.Entities {
         public List<SquadPlayer> NextYearSquadPlayersList { get; set; }
         public List<string> ValuesList { get; set; }
         public List<string> PreferenceList { get; set; }
-        public List<string> OpenPositionsList { get; set; }
+        public List<JobPosition> JobPositionsList { get; set; }
 
         //// files
         //logo: File;
@@ -48,7 +48,7 @@ namespace Api.DAL.Entities {
             NextYearSquadPlayersList = new List<SquadPlayer>();
             ValuesList = new List<string>();
             PreferenceList = new List<string>();
-            OpenPositionsList = new List<string>();
+            JobPositionsList = new List<JobPosition>();
             IsClub = true;
         }
     }

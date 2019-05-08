@@ -17,6 +17,12 @@
   box-shadow: none;
 }
 
+.mat-menu-panel {
+  background-color: #2A344F;
+}
+
+
+
 .colorLightBlue{
   color: #66FCF1
 }
@@ -36,6 +42,11 @@ h1 {
 
 .forPlayerClubBackgroundColor {
   background-color: #e8eaec;
+  padding-bottom: 20px;
+}
+
+.customModal {
+  width:300px;
 }
 
 body {
@@ -50,6 +61,7 @@ body {
 accordion-group h5 {
   color: #c5c6c7;
 }
+
 .custom-container {
   padding-right: 15px;
   padding-left: 15px;
@@ -112,7 +124,7 @@ accordion-group h5 {
   }
 
   .modal-dialog {
-    margin-top: 150px;
+    margin-top: 60px;
     /* border: 10px solid black; */
   }
 
