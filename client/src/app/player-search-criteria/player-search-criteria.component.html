@@ -19,6 +19,21 @@
                         <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Primary Position" formControlName="primaryPosition">
+                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Secondary Position" formControlName="secondaryPosition">
+                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <br>
+                <p class="lead extraCriteriaText">
+                    You can add extra criteria below for an even more precise search result.
+                </p>
+                <br>
                 <mat-form-field>
                     <mat-select placeholder="Contract Status" formControlName="contractStatus">
                         <mat-option *ngFor="let contractStatus of contractStatusList" [value]="contractStatus.valueOf()">{{contractStatus}}</mat-option>
@@ -34,16 +49,6 @@
                     <mat-select placeholder="Maximum Age" formControlName="maximumAge">
                         <mat-option value="None">No age limit</mat-option>
                         <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
-                    </mat-select>
-                </mat-form-field><br>
-                <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Primary Position" formControlName="primaryPosition">
-                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Secondary Position" formControlName="secondaryPosition">
-                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
 
