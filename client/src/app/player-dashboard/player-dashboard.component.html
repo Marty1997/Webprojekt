@@ -56,7 +56,7 @@
         <tr>
           <td>Contract expired:</td>
           <td *ngIf="playerBinding.contractExpired == null">Not specified</td>
-          <td *ngIf="playerBinding.contractExpired != null">{{playerBinding.contractExpired}}</td>
+          <td *ngIf="playerBinding.contractExpired != null">{{contractExpiredDate}}</td>
         </tr>
       </table>
     </div>
@@ -90,7 +90,7 @@
         <tr>
           <td>Injury expired:</td>
           <td *ngIf="playerBinding.injuryExpired == null">Not specified</td>
-          <td *ngIf="playerBinding.injuryExpired != null">{{playerBinding.injuryExpired}}</td>
+          <td *ngIf="playerBinding.injuryExpired != null">{{injuryExpiredDate}}</td>
         </tr>
         <tr>
           <td>Injury description:</td>

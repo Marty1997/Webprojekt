@@ -33,7 +33,7 @@ export class Player {
     statistic: string = "";
     formerClubs: string = "";
     contractStatus: string = "";
-    contractExpired: Date;
+    contractExpired: Date = new Date();
     injuryStatus: string = "";
     injuryExpired: Date;
     injuryDescription: string = "";
