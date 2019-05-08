@@ -34,10 +34,10 @@ export class Player {
   formerClubs: string = "";
   contractStatus: string = "";
   contractExpired: Date = new Date();
-  contractExpiredDate: string;
+  contractExpiredDate: string = "";
   injuryStatus: string = "";
   injuryExpired: Date;
-  injuryExpiredDate: string;
+  injuryExpiredDate: string = "";
   injuryDescription: string = "";
   // national team
   nationalTeamList: NationalTeam[] = [];
@@ -45,24 +45,7 @@ export class Player {
   profilePicture: File;
   videoPresentation: File;
 
-  constructor() {
-    if (this.contractExpired != null) {
-      this.contractExpiredDate =
-        this.contractExpired.getDate().toString() +
-        "/" +
-        this.contractExpired.getMonth().toString() +
-        "/" +
-        this.contractExpired.getFullYear().toString();
-    }
-    if (this.injuryExpired != null) {
-      this.injuryExpiredDate =
-        this.injuryExpired.getDate().toString() +
-        "/" +
-        this.injuryExpired.getMonth().toString() +
-        "/" +
-        this.injuryExpired.getFullYear().toString();
-    }
-  }
+  constructor() {}
 
   buildPlayer(succes: any, player: Player) {
     this.contractExpired = succes.contractExpired;
@@ -98,6 +81,29 @@ export class Player {
     this.injuryStatus = succes.injuryStatus;
     this.nationalTeamList = succes.nationalTeamList;
 
+    this.convertDates(succes);
+
     return player;
+  }
+
+  convertDates(success: any) {
+    if (this.contractExpired != null) {
+      this.contractExpired = new Date(success.contractExpired);
+      this.contractExpiredDate =
+        this.contractExpired.getDate() +
+        "/" +
+        (this.contractExpired.getMonth() + 1) +
+        "/" +
+        this.contractExpired.getFullYear();
+    }
+    if (this.injuryExpired != null) {
+      this.injuryExpired = new Date(success.injuryExpired);
+      this.injuryExpiredDate =
+        this.injuryExpired.getDate() +
+        "/" +
+        (this.injuryExpired.getMonth() + 1) +
+        "/" +
+        this.injuryExpired.getFullYear();
+    }
   }
 }
