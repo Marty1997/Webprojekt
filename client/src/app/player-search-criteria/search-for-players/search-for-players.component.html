@@ -18,14 +18,18 @@
           </tr>
           <tr>
             <td>Position:</td>
-            <td>{{player.primaryPosition}}</td>
+            <td *ngIf="player.primaryPosition == null">Not specified</td>
+            <td *ngIf="player.primaryPosition != null">{{player.primaryPosition}}</td>
           </tr>
           <tr>
             <td>Contract status:</td>
-            <td>{{player.contractStatus}}</td>
+            <td *ngIf="player.contractStatus == null">Not specified</td>
+            <td *ngIf="player.contractStatus != null">{{player.contractStatus}}</td>
           </tr>
           <tr>
             <td>Contract expires:</td>
+            <!-- <td *ngIf="player.contractExpired == null">Not specified</td>
+            <td *ngIf="player.contractExpired != null">{{player.contractExpired}}</td> -->
             <td>{{player.contractExpired}}</td>
           </tr>
         </table>
@@ -55,7 +59,7 @@
         </table>
       </div>
       <div class="col-md-3">
-        <div class="circle">90%</div>
+        <div class="circle">{{player.searchPercentage}}%</div>
       </div>
     </a>
   </div>

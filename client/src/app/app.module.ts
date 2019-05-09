@@ -32,6 +32,7 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
@@ -91,6 +92,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
   providers: [
     ErrorStateMatcher,
     loginService,
+    searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService
   ],

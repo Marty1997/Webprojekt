@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-player-search-criteria',
   templateUrl: './player-search-criteria.component.html',
   styleUrls: ['./player-search-criteria.component.css'],
-  providers: [searchService]
+  providers: []
 })
 export class PlayerSearchCriteriaComponent implements OnInit {
   p: Player = new Player();
