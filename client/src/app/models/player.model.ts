@@ -45,7 +45,26 @@ export class Player {
   profilePicture: File;
   videoPresentation: File;
 
-  constructor() {}
+  constructor() {
+    if (this.contractExpired != null) {
+      this.contractExpired = new Date(this.contractExpired);
+      this.contractExpiredDate =
+        this.contractExpired.getDate() +
+        "/" +
+        (this.contractExpired.getMonth() + 1) +
+        "/" +
+        this.contractExpired.getFullYear();
+    }
+    if (this.injuryExpired != null) {
+      this.injuryExpired = new Date(this.injuryExpired);
+      this.injuryExpiredDate =
+        this.injuryExpired.getDate() +
+        "/" +
+        (this.injuryExpired.getMonth() + 1) +
+        "/" +
+        this.injuryExpired.getFullYear();
+    }
+  }
 
   buildPlayer(succes: any, player: Player) {
     this.contractExpired = succes.contractExpired;
@@ -81,14 +100,13 @@ export class Player {
     this.injuryStatus = succes.injuryStatus;
     this.nationalTeamList = succes.nationalTeamList;
 
-    this.convertDates(succes);
-
+    this.convertDates;
     return player;
   }
 
-  convertDates(success: any) {
+  public convertDates() {
     if (this.contractExpired != null) {
-      this.contractExpired = new Date(success.contractExpired);
+      this.contractExpired = new Date(this.contractExpired);
       this.contractExpiredDate =
         this.contractExpired.getDate() +
         "/" +
@@ -97,7 +115,7 @@ export class Player {
         this.contractExpired.getFullYear();
     }
     if (this.injuryExpired != null) {
-      this.injuryExpired = new Date(success.injuryExpired);
+      this.injuryExpired = new Date(this.injuryExpired);
       this.injuryExpiredDate =
         this.injuryExpired.getDate() +
         "/" +
