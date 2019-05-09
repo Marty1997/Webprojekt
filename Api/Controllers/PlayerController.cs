@@ -44,7 +44,15 @@ namespace Api.Controllers
         [HttpPost]
         [Route("[action]")]
         public IActionResult SearchPlayers([FromBody] SearchCriteriaForPlayer request) {
+            var firsTime = DateTime.Now;
             List<Player> list = _playerLogic.HandleSearchAlgorithm(request);
+            var afterTime = DateTime.Now;
+
+            List<DateTime> lol = new List<DateTime>();
+            lol.Add(firsTime);
+            lol.Add(afterTime);
+
+            
             return Ok(list);
         }
     }

@@ -29,7 +29,7 @@ export class searchService {
     this.p1.preferredHand = 'Both Hands';
     // this.p1.injuryStatus = 'Injured';
 
-    this.searchForPlayersResult.push(this.p1);
+    //this.searchForPlayersResult.push(this.p1);
 
     this.p2.id = 2;
     this.p2.firstName = 'Rune';
@@ -46,22 +46,13 @@ export class searchService {
     this.p2.preferredHand = 'Both Hands';
     // this.p2.injuryStatus = 'Injured';
 
-    this.searchForPlayersResult.push(this.p2);
+    //this.searchForPlayersResult.push(this.p2);
   }
 
   searchForPlayers(searchCriteria: SearchCriteria) {
     let url = "https://localhost:44310/api/Player/SearchPlayers/";
-    return this.http.post(url, searchCriteria).subscribe(
-      (success) => {
-        console.log(success);
-        // this.searchForPlayersResult = success;
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    console.log(searchCriteria);
+    return this.http.post(url, searchCriteria);
   }
 
   getPlayerById(player: Player) {

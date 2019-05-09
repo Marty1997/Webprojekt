@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { SearchCriteria } from '../models/searchCriteria.model';
 import { MatCheckbox } from '@angular/material';
 import { searchService } from '../services/searchService';
+import { Player } from '../models/player.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-search-criteria',
@@ -11,7 +13,7 @@ import { searchService } from '../services/searchService';
   providers: [searchService]
 })
 export class PlayerSearchCriteriaComponent implements OnInit {
-
+  p: Player = new Player();
   searchForm: FormGroup;
   searchCriteria: SearchCriteria = new SearchCriteria();
   @ViewChild('str1') str1: MatCheckbox;
@@ -63,7 +65,8 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     "United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"
   ];
 
-  constructor(private _formbuilder: FormBuilder, private searchService: searchService) {}
+  constructor(private _formbuilder: FormBuilder, private searchService: searchService,
+    private router: Router) {}
 
   ngOnInit() {
     this.searchForm = this._formbuilder.group({
@@ -80,7 +83,24 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();
 
     // some call to the searchService
-    this.searchService.searchForPlayers(this.searchCriteria);
+    this.searchService.searchForPlayers(this.searchCriteria).subscribe(
+      (success: any) => {
+        // const data = JSON.stringify(success);
+        // this.searchService.searchForPlayersResult = data;
+        console.log(success);
+        success.forEach(element => {
+          this.p = element;
+          console.log(this.p);
+          
+          this.searchService.searchForPlayersResult.push(this.p);
+        });
+        console.log(this.searchService.searchForPlayersResult);
+        this.router.navigate(['/search-for-players'])
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     console.log(this.searchCriteria);
   }
 

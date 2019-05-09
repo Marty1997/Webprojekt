@@ -63,9 +63,11 @@ export class loginService {
       (succes:any) => {      
         if(succes.isPlayer) {
           this.setupPlayerLogin(succes);
+
         }
         else if(succes.isClub) {
           this.setupClubLogin(succes);
+          
         }
       },
       error => {

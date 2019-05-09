@@ -20,7 +20,7 @@ import { ForClubsComponent } from './multi-page/for-clubs/for-clubs.component';
 import { AboutUsComponent } from './front-page/about-us/about-us.component';
 import { FrontPageImageComponent } from './front-page/front-page-image/front-page-image.component';
 import { FrontPageComponent } from './front-page/front-page.component';
-import { SearchForPlayersComponent } from './search-for-players/search-for-players.component';
+import { SearchForPlayersComponent } from './player-search-criteria/search-for-players/search-for-players.component';
 import { SearchForClubsComponent } from './search-for-clubs/search-for-clubs.component';
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './club-dashboard/club-dashboard.component';
