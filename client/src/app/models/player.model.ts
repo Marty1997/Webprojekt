@@ -33,11 +33,11 @@ export class Player {
   statistic: string = "";
   formerClubs: string = "";
   contractStatus: string = "";
-  contractExpired: Date = new Date();
-  contractExpiredDate: string = "";
+  contractExpired: string = ""
+  contractExpiredDate: Date = new Date();
   injuryStatus: string = "";
-  injuryExpired: Date;
-  injuryExpiredDate: string = "";
+  injuryExpired: string = "";
+  injuryExpiredDate: Date = new Date();
   injuryDescription: string = "";
   // national team
   nationalTeamList: NationalTeam[] = [];
@@ -81,29 +81,6 @@ export class Player {
     this.injuryStatus = succes.injuryStatus;
     this.nationalTeamList = succes.nationalTeamList;
 
-    this.convertDates(succes);
-
     return player;
-  }
-
-  convertDates(success: any) {
-    if (this.contractExpired != null) {
-      this.contractExpired = new Date(success.contractExpired);
-      this.contractExpiredDate =
-        this.contractExpired.getDate() +
-        "/" +
-        (this.contractExpired.getMonth() + 1) +
-        "/" +
-        this.contractExpired.getFullYear();
-    }
-    if (this.injuryExpired != null) {
-      this.injuryExpired = new Date(success.injuryExpired);
-      this.injuryExpiredDate =
-        this.injuryExpired.getDate() +
-        "/" +
-        (this.injuryExpired.getMonth() + 1) +
-        "/" +
-        this.injuryExpired.getFullYear();
-    }
   }
 }
