@@ -51,5 +51,9 @@ namespace Api.DAL.Entities {
             JobPositionsList = new List<JobPosition>();
             IsClub = true;
         }
+
+        public int CalculatePercentage(int amountOfMatches, int amountOfCriterias) {
+            return amountOfMatches / amountOfCriterias * 100;
+        }
     }
 }

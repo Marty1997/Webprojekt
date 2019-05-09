@@ -176,6 +176,7 @@ namespace Api.BusinessLogic {
         //}
 
         //Mere logik her med playerList*/
+
         public List<Club> HandleClubSearchAlgorithm(ClubSearchCriteria criterias) {
             string sql = "";
             List<Club> clubs = new List<Club>();
@@ -207,6 +208,63 @@ namespace Api.BusinessLogic {
             }
 
             return null;
+        }
+
+        /* 
+            Helping method used to calculate match percentage
+            If criteria is not null, amountOfCriterias + 1
+            If criteria match with club, amountofMayches + 1
+        */
+        private List<Club> CalculateCriteriaMatchPercentage(List<Club> clubs, ClubSearchCriteria criterias) {
+            int amountOfCriterias = 0; // how many criterias is selected
+            int amountOfMatches = 0; // how many criterias matches with club
+            foreach (Club club in clubs) {
+                if(criterias.Country != null) {
+                    amountOfCriterias++;
+                    if(criterias.Country == club.Country) {
+                        amountOfMatches++;
+                    }
+                }
+                if(criterias.League != null) {
+                    amountOfCriterias++;
+                    if(criterias.League == club.League) {
+                        amountOfMatches++;
+                    }
+                }
+                if(club.JobPositionsList.Count > 0) {
+                    foreach (JobPosition jobPosition in club.JobPositionsList) {
+                        amountOfCriterias++;
+                        if(criterias.Position == jobPosition.Position) {
+                            amountOfMatches++;
+                        }
+                        if(criterias.Season == jobPosition.Season) {
+                            amountOfMatches++;
+                        }
+                    }
+                }
+                if(criterias.PreferencesList.Count > 0) {
+                    foreach (string criteriaPreference in criterias.PreferencesList) {
+                        amountOfCriterias++;
+                        foreach (string clubPrefernce in club.PreferenceList) {
+                            if(criteriaPreference == clubPrefernce) {
+                                amountOfMatches++;
+                            }
+                        }
+                    }
+                }
+                if(criterias.ValuesList.Count > 0) {
+                    foreach (string criteriaValue in criterias.ValuesList) {
+                        amountOfCriterias++;
+                        foreach (string clubValue in club.ValuesList) {
+                            if(criteriaValue == clubValue) {
+                                amountOfMatches++;
+                            }
+                        }
+                    }
+                }
+                club.CalculatePercentage(amountOfMatches, amountOfCriterias);
+            }
+            return clubs;
         }
     }
 }
