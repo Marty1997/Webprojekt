@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
     public class Club {
-        [JsonIgnore]
         public int Id { get; set; }
         [JsonIgnore]
         public UserCredentials UserCredentials { get; set; }

@@ -1,81 +1,94 @@
-import { Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { loginService } from 'src/app/services/loginService';
-import { Club } from '../models/club.model';
+import { loginService } from "src/app/services/loginService";
+import { Club } from "../models/club.model";
+import { searchService } from "../services/searchService";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-club-dashboard',
-  templateUrl: './club-dashboard.component.html',
-  styleUrls: ['./club-dashboard.component.css'],
+  selector: "app-club-dashboard",
+  templateUrl: "./club-dashboard.component.html",
+  styleUrls: ["./club-dashboard.component.css"],
+  providers: [searchService],
   encapsulation: ViewEncapsulation.None
 })
 export class ClubDashboardComponent implements OnInit {
-
   clubBinding: Club;
+  isClub: boolean;
+  clubs: Club[] = this.searchService.searchForClubsResult;
 
   myInterval = 3000;
   slides = [
-    {image: 'assets/Images/Håndboldbane.jpg'},
-    {image: 'assets/Images/omklædning.jpg'},
-    {image: 'assets/Images/Styrke.jpg'}
+    { image: "assets/Images/Håndboldbane.jpg" },
+    { image: "assets/Images/omklædning.jpg" },
+    { image: "assets/Images/Styrke.jpg" }
   ];
 
-  constructor(private loginService: loginService) {
-
-   }
+  constructor(
+    private route: ActivatedRoute,
+    private loginService: loginService,
+    private searchService: searchService
+  ) {}
 
   ngOnInit() {
-    if(this.loginService.typeOfLogin == "Club") {
-      if(this.loginService.refreshValue) {
-        this.loginService.LoginUserIfValidTokenOnRefresh(this.loginService.getDecodeToken());
+    if (this.loginService.typeOfLogin == "Club") {
+      this.isClub = true;
+      if (this.loginService.refreshValue) {
+        this.loginService.LoginUserIfValidTokenOnRefresh(
+          this.loginService.getDecodeToken()
+        );
         this.loginService.refreshValue = false;
       }
-        this.clubBinding = this.loginService.clubInSession;
-        this.clubBinding.trainingHoursList.forEach((elm) => {
-          if(elm.mon == null) {
-             elm.mon = "-"
-          }
-          if(elm.tue == null) {
-            elm.tue = "-"
-          }
-          if(elm.wed == null) {
-            elm.wed = "-"
-          }
-          if(elm.thu == null) {
-            elm.thu = "-"
-          }
-          if(elm.fri == null) {
-            elm.fri = "-"
-          }
-          if(elm.sat == null) {
-            elm.sat = "-"
-          }
-          if(elm.sun == null) {
-            elm.sun = "-"
-          }
-        }); 
-        if(this.clubBinding.trainer == null) {
-          this.clubBinding.trainer = "Not specified";
+      this.clubBinding = this.loginService.clubInSession;
+      this.clubBinding.trainingHoursList.forEach(elm => {
+        if (elm.mon == null) {
+          elm.mon = "-";
         }
-        if(this.clubBinding.assistantTrainer == null) {
-          this.clubBinding.assistantTrainer = "Not specified";
+        if (elm.tue == null) {
+          elm.tue = "-";
         }
-        if(this.clubBinding.physiotherapist == null) {
-          this.clubBinding.physiotherapist = "Not specified";
+        if (elm.wed == null) {
+          elm.wed = "-";
         }
-        if(this.clubBinding.assistantPhysiotherapist == null) {
-          this.clubBinding.assistantPhysiotherapist = "Not specified";
+        if (elm.thu == null) {
+          elm.thu = "-";
         }
-        if(this.clubBinding.manager == null) {
-          this.clubBinding.manager = "Not specified";
+        if (elm.fri == null) {
+          elm.fri = "-";
         }
-    }
-    else if(this.loginService.typeOfLogin == "Player") {
+        if (elm.sat == null) {
+          elm.sat = "-";
+        }
+        if (elm.sun == null) {
+          elm.sun = "-";
+        }
+      });
+      if (this.clubBinding.trainer == null) {
+        this.clubBinding.trainer = "Not specified";
+      }
+      if (this.clubBinding.assistantTrainer == null) {
+        this.clubBinding.assistantTrainer = "Not specified";
+      }
+      if (this.clubBinding.physiotherapist == null) {
+        this.clubBinding.physiotherapist = "Not specified";
+      }
+      if (this.clubBinding.assistantPhysiotherapist == null) {
+        this.clubBinding.assistantPhysiotherapist = "Not specified";
+      }
+      if (this.clubBinding.manager == null) {
+        this.clubBinding.manager = "Not specified";
+      }
+    } else if (this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen
-    }
-    else {
+      this.isClub = false;
+      this.clubs.forEach((c: Club) => {
+        if (c.id == this.route.snapshot.params.id) {
+          this.searchService.getClubById(c); //fetch club data
+          this.clubBinding = this.searchService.club;
+        }
+      });
+    } else {
       this.loginService.logout();
     }
   }
-
 }

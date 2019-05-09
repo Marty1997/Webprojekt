@@ -3,31 +3,36 @@
 <section class="custom-container forPlayerClubBackgroundColor" style="margin-top: 50px;">
   <div class="row">
     <div class="col-md-2" style="text-align: center; margin-top: 15px;">
-        <a class="editProfileButton">Edit Profile</a>
+      <a class="editProfileButton" *ngIf="isClub">Edit Profile</a>
     </div>
-    <div class="col-md-10"></div>
+    <div class="col-md-8" style="text-align: center; margin-top: 15px;">
+      <a class="contactClubButton" *ngIf="!isClub">Contact Club</a>
+    </div>
+    <div class="col-md-2"></div>
   </div>
 
   <div class="row">
     <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
       <img class="responsiveImage" src="../../assets/Images/club-icon.png" height="150" width="150" />
-      <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3> 
+      <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3>
 
       <h4>{{clubBinding.country}}</h4>
       <h4>{{clubBinding.league}}</h4>
       <h4>{{clubBinding.zipcode}} {{clubBinding.city}}</h4>
-      <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4> 
-      <h4 *ngIf="!clubBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking to recruit players</h4>
-      <h4 *ngIf="clubBinding.isAvailable" style="color: green; font-weight: bold; margin-top: 20px">Currently looking for players</h4>
+      <h4>{{clubBinding.streetAddress}} {{clubBinding.streetNumber}}</h4>
+      <h4 *ngIf="!clubBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking to
+        recruit players</h4>
+      <h4 *ngIf="clubBinding.isAvailable" style="color: green; font-weight: bold; margin-top: 20px">Currently looking
+        for players</h4>
 
     </div>
     <div class="col-md-4">
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
         <mat-tab-group class="custom-tabs" mat-align-tabs="center">
-          <mat-tab label="Current Year" > 
+          <mat-tab label="Current Year">
             <div>
-              <img class="responsiveImage" src="../../assets/Images/squadImage.png"/>
+              <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
               <div class="squad goalKeeper">
                 <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
                   <div *ngIf="squadPlayer.position == 'Goalkeeper'">
@@ -86,7 +91,7 @@
               </div>
             </div>
           </mat-tab>
-          <mat-tab label="Next Year"> 
+          <mat-tab label="Next Year">
             <div>
               <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
               <div class="squad goalKeeper">
@@ -148,7 +153,7 @@
             </div>
           </mat-tab>
         </mat-tab-group>
-        
+
       </div>
       <div style="width: 100%;">
         <h2 style="text-align:center; font-family: 'Fresno'">Technical staff</h2>
@@ -185,7 +190,8 @@
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Training</h2>
         <div id="trainingTable" class="table-responsive">
-          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.trainingHoursList.length == 0"> No training was specified from the club</h3>
+          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px"
+            *ngIf="clubBinding.trainingHoursList.length == 0"> No training was specified from the club</h3>
           <table class="table Schedule" *ngIf="clubBinding.trainingHoursList.length > 0">
             <thead>
               <tr style="word-wrap:break-word;">
@@ -200,120 +206,122 @@
               </tr>
             </thead>
             <tbody *ngFor="let training of clubBinding.trainingHoursList">
-                 <tr *ngIf="training.name == 'Handball'">
-                    <td>Handball training</td>
-                    <td>{{training.mon}}</td>
-                    <td>{{training.tue}}</td>
-                    <td>{{training.wed}}</td>
-                    <td>{{training.thu}}</td>
-                    <td>{{training.fri}}</td>
-                    <td>{{training.sat}}</td>
-                    <td>{{training.sun}}</td>
-                 </tr>
-                <tr *ngIf="training.name == 'Fitness training'">
-                    <td>Fitness training</td>
-                    <td>{{training.mon}}</td>
-                    <td>{{training.tue}}</td>
-                    <td>{{training.wed}}</td>
-                    <td>{{training.thu}}</td>
-                    <td>{{training.fri}}</td>
-                    <td>{{training.sat}}</td>
-                    <td>{{training.sun}}</td>
-                </tr>
+              <tr *ngIf="training.name == 'Handball'">
+                <td>Handball training</td>
+                <td>{{training.mon}}</td>
+                <td>{{training.tue}}</td>
+                <td>{{training.wed}}</td>
+                <td>{{training.thu}}</td>
+                <td>{{training.fri}}</td>
+                <td>{{training.sat}}</td>
+                <td>{{training.sun}}</td>
+              </tr>
+              <tr *ngIf="training.name == 'Fitness training'">
+                <td>Fitness training</td>
+                <td>{{training.mon}}</td>
+                <td>{{training.tue}}</td>
+                <td>{{training.wed}}</td>
+                <td>{{training.thu}}</td>
+                <td>{{training.fri}}</td>
+                <td>{{training.sat}}</td>
+                <td>{{training.sun}}</td>
+              </tr>
             </tbody>
           </table>
           <div style="margin-top: 9px"></div>
-        
+
         </div>
-          <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
-          <carousel [interval]="myInterval" >
-           <slide *ngFor="let slide of slides; let index=index">
-              <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
-           </slide>
-          </carousel>
-        </div>
+        <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
+        <carousel [interval]="myInterval">
+          <slide *ngFor="let slide of slides; let index=index">
+            <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
+          </slide>
+        </carousel>
+      </div>
 
-        <div style="width: 100%; text-align: center; align-content: center">
-          <h2 style="font-family: 'Fresno'">Open positions in club</h2>
-          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.jobPositionsList.length == 0">No open positions specified</h3>
-          <accordion *ngFor="let jobPosition of clubBinding.jobPositionsList">
-            <accordion-group>
-              <h5 accordion-heading>{{jobPosition.position}}</h5>
-              <h6 style="font-weight: bold; margin-top: 0px; margin-bottom: 20px;">Club specified current values for their next {{jobPosition.position}}</h6>
-              <div style=" float: left; width: 50%;">
-                <p style="font-weight: bold">League</p>
-                 <p *ngIf="jobPosition.league != null">{{jobPosition.league}}</p>
-                 <p *ngIf="jobPosition.league == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                <p style="font-weight: bold">For Season</p>
-                 <p *ngIf="jobPosition.season != null">{{jobPosition.season}}</p>
-                 <p *ngIf="jobPosition.season == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                <p  style="font-weight: bold">Contract status</p>
-                <p *ngIf="jobPosition.contractStatus != null">{{jobPosition.contractStatus}}</p>
-                <p *ngIf="jobPosition.contractStatus == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                 <p style="font-weight: bold">Preferred hand</p>
-                 <p *ngIf="jobPosition.preferredHand != null">{{jobPosition.preferredHand}}</p>
-                 <p *ngIf="jobPosition.preferredHand == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                <p style="font-weight: bold">Minimum age</p>
-                <p *ngIf="jobPosition.minAge != null">{{jobPosition.minAge}}</p>
-                <p *ngIf="jobPosition.minAge == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                <p style="font-weight: bold">Maximum age</p>
-                <p *ngIf="jobPosition.maxAge != null">{{jobPosition.maxAge}}</p>
-                <p *ngIf="jobPosition.maxAge == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                <p style="font-weight: bold">Minimum height</p>
-                <p *ngIf="jobPosition.height != null">{{jobPosition.height}}</p>
-                <p *ngIf="jobPosition.height == null">Not specified</p>
-              </div>
-              <div style=" float: left; width: 50%;">
-                <p style="font-weight: bold">Preferred Player Strengths</p>
-                <p *ngFor="let strength of jobPosition.strengthsList">{{strength}}</p>
-                <p *ngIf="jobPosition.strengthsList.length == 0">Not specified</p>
-              </div>
-
-              <div *ngFor="let strength of jobPosition.strengthsList">
-                <p>{{strength}}</p>
-              </div>
-            </accordion-group>
-          </accordion>
-
-          <div class="row" style="margin-top:10px; text-align: center">
-            <h2 style="font-family: 'Fresno'">Values & Preferences</h2>
-            <div style="margin-left: 10%; margin-right: 10%;">
-                <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5>
+      <div style="width: 100%; text-align: center; align-content: center">
+        <h2 style="font-family: 'Fresno'">Open positions in club</h2>
+        <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px"
+          *ngIf="clubBinding.jobPositionsList.length == 0">No open positions specified</h3>
+        <accordion *ngFor="let jobPosition of clubBinding.jobPositionsList">
+          <accordion-group>
+            <h5 accordion-heading>{{jobPosition.position}}</h5>
+            <h6 style="font-weight: bold; margin-top: 0px; margin-bottom: 20px;">Club specified current values for their
+              next {{jobPosition.position}}</h6>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">League</p>
+              <p *ngIf="jobPosition.league != null">{{jobPosition.league}}</p>
+              <p *ngIf="jobPosition.league == null">Not specified</p>
             </div>
-           
-            <div class="col-md-6">
-                <h4>Values</h4>
-                <p *ngIf="clubBinding.valuesList.length == 0">Not specified</p>
-                <div *ngFor="let values of clubBinding.valuesList">
-                    <p>{{values}}</p>
-                </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">For Season</p>
+              <p *ngIf="jobPosition.season != null">{{jobPosition.season}}</p>
+              <p *ngIf="jobPosition.season == null">Not specified</p>
             </div>
-            <div class="col-md-6">
-                <h4>Preferences</h4>
-                <p *ngIf="clubBinding.preferenceList.length == 0">Not specified</p>
-                <div *ngFor="let pref of clubBinding.preferenceList">
-                    <p >{{pref}}</p>
-                </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">Contract status</p>
+              <p *ngIf="jobPosition.contractStatus != null">{{jobPosition.contractStatus}}</p>
+              <p *ngIf="jobPosition.contractStatus == null">Not specified</p>
+            </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">Preferred hand</p>
+              <p *ngIf="jobPosition.preferredHand != null">{{jobPosition.preferredHand}}</p>
+              <p *ngIf="jobPosition.preferredHand == null">Not specified</p>
+            </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">Minimum age</p>
+              <p *ngIf="jobPosition.minAge != null">{{jobPosition.minAge}}</p>
+              <p *ngIf="jobPosition.minAge == null">Not specified</p>
+            </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">Maximum age</p>
+              <p *ngIf="jobPosition.maxAge != null">{{jobPosition.maxAge}}</p>
+              <p *ngIf="jobPosition.maxAge == null">Not specified</p>
+            </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">Minimum height</p>
+              <p *ngIf="jobPosition.height != null">{{jobPosition.height}}</p>
+              <p *ngIf="jobPosition.height == null">Not specified</p>
+            </div>
+            <div style=" float: left; width: 50%;">
+              <p style="font-weight: bold">Preferred Player Strengths</p>
+              <p *ngFor="let strength of jobPosition.strengthsList">{{strength}}</p>
+              <p *ngIf="jobPosition.strengthsList.length == 0">Not specified</p>
+            </div>
+
+            <div *ngFor="let strength of jobPosition.strengthsList">
+              <p>{{strength}}</p>
+            </div>
+          </accordion-group>
+        </accordion>
+
+        <div class="row" style="margin-top:10px; text-align: center">
+          <h2 style="font-family: 'Fresno'">Values & Preferences</h2>
+          <div style="margin-left: 10%; margin-right: 10%;">
+            <h5>{{clubBinding.valueDescription}} {{clubBinding.preferenceDescription}}</h5>
+          </div>
+
+          <div class="col-md-6">
+            <h4>Values</h4>
+            <p *ngIf="clubBinding.valuesList.length == 0">Not specified</p>
+            <div *ngFor="let values of clubBinding.valuesList">
+              <p>{{values}}</p>
             </div>
           </div>
-          
-       
-
+          <div class="col-md-6">
+            <h4>Preferences</h4>
+            <p *ngIf="clubBinding.preferenceList.length == 0">Not specified</p>
+            <div *ngFor="let pref of clubBinding.preferenceList">
+              <p>{{pref}}</p>
+            </div>
+          </div>
         </div>
+
+
+
       </div>
     </div>
-    <app-contact-adviser></app-contact-adviser>
+  </div>
+  <app-contact-adviser></app-contact-adviser>
 </section>
 <div style="height: 15px;"></div>

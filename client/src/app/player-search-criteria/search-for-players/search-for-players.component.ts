@@ -16,7 +16,6 @@ export class SearchForPlayersComponent implements OnInit {
   ngOnInit() {
     console.log(this.searchService.searchForPlayersResult);
     this.playerList = this.searchService.searchForPlayersResult;
-    console.log('Search-for-players list: ' + this.playerList);
   }
 
 }

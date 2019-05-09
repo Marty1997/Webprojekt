@@ -109,8 +109,8 @@ export class loginService {
     console.log("Logget ud"),
     localStorage.removeItem('token');
     this.typeOfLogin = "";
-    this.clubInSession = null;
-    this.playerInSession = null;
+    this.clubInSession = new Club();
+    this.playerInSession = new Player();
   }
 
   getToken() {

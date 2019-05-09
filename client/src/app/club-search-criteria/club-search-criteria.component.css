@@ -2,17 +2,9 @@ h1 {
     font-family: 'fresno';
 }
 
-#content {
+.custom-container {
     text-align: center;
     margin-top: 50px;
-}
-
-.lead {
-    font-weight: 450;
-}
-
-.extraCriteriaText {
-    font-size: 99%;
 }
 
 #buttonGroup {

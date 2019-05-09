@@ -3,7 +3,7 @@
   text-align: center;
   background: #000;
   background-color: #fff;
-  border: 2px solid blue;
+  border: 2px solid #2A344F;
   height: 150px;
   font-size: 50px;
   border-radius: 50%;
@@ -14,6 +14,6 @@
 }
 
 .searchRows {
-  border: double;
+  border: 2px solid #2A344F;
   margin: 10px 10px 20px 10px;
 }
