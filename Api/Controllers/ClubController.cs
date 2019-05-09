@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.BusinessLogic;
 using Api.DAL.Entities;
+using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +38,12 @@ namespace Api.Controllers {
             Club club = _clubLogic.GetById(entity.Id);
 
             return Ok(club);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult SearchForClubs([FromBody] ClubSearchCriteria clubSearchCriteria) {
+            return  Ok(_clubLogic.HandleClubSearchAlgorithm(clubSearchCriteria));
         }
     }
 }

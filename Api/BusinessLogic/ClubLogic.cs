@@ -1,6 +1,7 @@
 ﻿using Api.DAL;
 using Api.DAL.Entities;
 using Api.DAL.Repos;
+using Api.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,11 @@ namespace Api.BusinessLogic {
 
         public Club GetById(int id) {
             return _clubRepos.GetById(id);
+        }
+
+        public List<Club> HandleClubSearchAlgorithm(ClubSearchCriteria clubSearchCriteria) {
+
+            return null;
         }
     }
 }
