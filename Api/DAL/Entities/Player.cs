@@ -48,12 +48,18 @@ namespace Api.DAL.Entities {
         public string ErrorMessage { get; set; }
         public string Token { get; set; }
         public bool IsPlayer { get; set; }
+        public int SearchPercentage { get; set; }
 
         public Player() {
             IsPlayer = true;
             WeaknessList = new List<string>();
             StrengthList = new List<string>();
             NationalTeamList = new List<NationalTeam>();
+            SearchPercentage = 100;
+        }
+
+        public void CalculatePercentage(int criteriaMatch, int selectedCriteria) {
+            this.SearchPercentage = criteriaMatch * 100 / selectedCriteria;
         }
     }
 }

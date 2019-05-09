@@ -3,15 +3,17 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { SearchCriteria } from '../models/searchCriteria.model';
 import { MatCheckbox } from '@angular/material';
 import { searchService } from '../services/searchService';
+import { Player } from '../models/player.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-search-criteria',
   templateUrl: './player-search-criteria.component.html',
   styleUrls: ['./player-search-criteria.component.css'],
-  providers: [searchService]
+  providers: []
 })
 export class PlayerSearchCriteriaComponent implements OnInit {
-
+  p: Player = new Player();
   searchForm: FormGroup;
   searchCriteria: SearchCriteria = new SearchCriteria();
   @ViewChild('speedy') speedy: MatCheckbox;
@@ -68,11 +70,12 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     "United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"
   ];
 
-  constructor(private _formbuilder: FormBuilder, private searchService: searchService) {}
+  constructor(private _formbuilder: FormBuilder, private searchService: searchService,
+    private router: Router) {}
 
   ngOnInit() {
     this.searchForm = this._formbuilder.group({
-      country: [''], league: [''], contractStatus: [''], mininumAge: [''], maximumAge: [''],
+      country: [''], league: [''], contractStatus: [''], minimumAge: [''], maximumAge: [''],
       primaryPosition: [''], secondaryPosition: [''], injuryStatus: [''],
       handPreference: [''], minimumHeight: [''], maximumWeight: ['']
     });
@@ -85,7 +88,24 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();
 
     // some call to the searchService
-    this.searchService.searchForPlayers(this.searchCriteria);
+    this.searchService.searchForPlayers(this.searchCriteria).subscribe(
+      (success: any) => {
+        // const data = JSON.stringify(success);
+        // this.searchService.searchForPlayersResult = data;
+        console.log(success);
+        success.forEach(element => {
+          this.p = element;
+          console.log(this.p);
+          
+          this.searchService.searchForPlayersResult.push(this.p);
+        });
+        console.log(this.searchService.searchForPlayersResult);
+        this.router.navigate(['/search-for-players'])
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     console.log(this.searchCriteria);
   }
 
@@ -95,15 +115,19 @@ export class PlayerSearchCriteriaComponent implements OnInit {
   */
   validateSearchCriteria() {
     if(this.searchForm.value.country != '') {
-      this.searchCriteria.country = this.searchForm.value.country;
-    } else {
-      this.searchCriteria.country = null;
-    }  
+      if(this.searchForm.value.country != 'All Countries') {
+        this.searchCriteria.country = this.searchForm.value.country;
+      } else {
+        this.searchCriteria.country = null;
+      }  
+    } 
     
     if(this.searchForm.value.league != '') {
-      this.searchCriteria.league = this.searchForm.value.league;
-    } else {
-      this.searchCriteria.league = null;
+      if(this.searchForm.value.league != 'All Leagues') {
+        this.searchCriteria.league = this.searchForm.value.league;
+      } else {
+        this.searchCriteria.league = null;
+      }
     }
 
     if(this.searchForm.value.contractStatus != '') {
@@ -112,28 +136,36 @@ export class PlayerSearchCriteriaComponent implements OnInit {
       this.searchCriteria.contractStatus = null;
     }
 
-    if(this.searchForm.value.mininumAge != '') {
-      this.searchCriteria.minimumAge = this.searchForm.value.mininumAge;
-    } else {
-      this.searchCriteria.minimumAge = null;
+    if(this.searchForm.value.minimumAge != '') {
+      if(this.searchForm.value.minimumAge != 'None') {
+        this.searchCriteria.minimumAge = this.searchForm.value.minimumAge;
+      } else {
+        this.searchCriteria.minimumAge = null;
+      }
     }
 
     if(this.searchForm.value.maximumAge != '') {
-      this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
-    } else {
-      this.searchCriteria.maximumAge = null;
+      if(this.searchForm.value.maximumAge != 'None') {
+        this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
+      } else {
+        this.searchCriteria.maximumAge = null;
+      }
     }
 
     if(this.searchForm.value.primaryPosition != '') {
-      this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
-    } else {
-      this.searchCriteria.primaryPosition = null;
+      if(this.searchForm.value.primaryPosition != 'None') {
+        this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
+      } else {
+        this.searchCriteria.primaryPosition = null;
+      }
     }
 
     if(this.searchForm.value.secondaryPosition != '') {
-      this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
-    } else {
-      this.searchCriteria.secondaryPosition = null;
+      if(this.searchForm.value.secondaryPosition != 'None') {
+        this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
+      } else {
+        this.searchCriteria.secondaryPosition = null;
+      }
     }
 
     if(this.speedy.checked) {this.searchCriteria.strengthsList.push(this.speedy.value)}
@@ -148,27 +180,35 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     if(this.longRangeShooter.checked) {this.searchCriteria.strengthsList.push(this.longRangeShooter.value)}
 
     if(this.searchForm.value.injuryStatus != '') {
-      this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
-    } else {
-      this.searchCriteria.injuryStatus = null;
+      if(this.searchForm.value.injuryStatus != 'Both') {
+        this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
+      } else {
+        this.searchCriteria.injuryStatus = null;
+      }
     }
 
     if(this.searchForm.value.handPreference != '') {
-      this.searchCriteria.handPreference = this.searchForm.value.handPreference;
-    } else {
-      this.searchCriteria.handPreference = null;
+      if(this.searchForm.value.handPreference != 'None') {
+        this.searchCriteria.handPreference = this.searchForm.value.handPreference;
+      } else {
+        this.searchCriteria.handPreference = null;
+      }
     }
 
     if(this.searchForm.value.minimumHeight != '') {
-      this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
-    } else {
-      this.searchCriteria.minimumHeight = null;
+      if(this.searchForm.value.minimumHeight != 'None') {
+        this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
+      } else {
+        this.searchCriteria.minimumHeight = null;
+      }
     }
 
     if(this.searchForm.value.maximumWeight != '') {
-      this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
-    } else {
-      this.searchCriteria.maximumWeight = null;
+      if(this.searchForm.value.maximumWeight != 'None') {
+        this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
+      } else {
+        this.searchCriteria.maximumWeight = null;
+      }
     }
   }
   

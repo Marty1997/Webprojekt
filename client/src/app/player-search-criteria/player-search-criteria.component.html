@@ -11,8 +11,7 @@
             <form [formGroup]="searchForm">
                 <mat-form-field>
                     <mat-select placeholder="Country" formControlName="country">
-                        <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}
-                        </mat-option>
+                        <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field>
@@ -20,6 +19,21 @@
                         <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Primary Position" formControlName="primaryPosition">
+                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Secondary Position" formControlName="secondaryPosition">
+                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <br>
+                <p class="lead extraCriteriaText">
+                    You can add extra criteria below for an even more precise search result.
+                </p>
+                <br>
                 <mat-form-field>
                     <mat-select placeholder="Contract Status" formControlName="contractStatus">
                         <mat-option *ngFor="let contractStatus of contractStatusList"
@@ -27,7 +41,7 @@
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Minimum Age" formControlName="mininumAge">
+                    <mat-select placeholder="Minimum Age" formControlName="minimumAge">
                         <mat-option value="None">No age limit</mat-option>
                         <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
                     </mat-select>
@@ -38,18 +52,8 @@
                         <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
-                <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Primary Position" formControlName="primaryPosition">
-                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Secondary Position" formControlName="secondaryPosition">
-                        <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field><br>
+               
+               
                 <div class="row">
                     <div class="col-xs-12">
                         <mat-checkbox #speedy value="Speedy">Speedy</mat-checkbox>
@@ -79,8 +83,7 @@
                 </mat-form-field><br>
                 <mat-form-field>
                     <mat-select placeholder="Hand Preference" formControlName="handPreference">
-                        <mat-option *ngFor="let hand of handPreferenceList" [value]="hand.valueOf()">{{hand}}
-                        </mat-option>
+                        <mat-option *ngFor="let hand of handPreferenceList" [value]="hand.valueOf()">{{hand}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
                 <mat-form-field class="halfSizeField">
@@ -98,7 +101,7 @@
             </form>
         </div>
         <div id="buttonGroup" class="col-xs-12">
-            <button class="btn btn-primary" [routerLink]="['/search-for-players']"
+            <button class="btn btn-primary"
                 (click)="searchForPlayers()">Search</button>
         </div>
     </div>

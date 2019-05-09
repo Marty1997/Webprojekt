@@ -169,8 +169,31 @@ namespace Api.DAL.Repos {
         }
 
         public IEnumerable<Player> GetAll() {
-            throw new NotImplementedException();
+            List<Player> playerList = new List<Player>();
+            using (var conn = Connection()) {
+                //try {
+
+                playerList = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
+                " left join Position pp on pp.id = p.primaryPosition_ID" +
+                " left join Position sp on sp.id = p.secondaryPosition_ID" +
+                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
+                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where isAvailable = 1",
+                (playerinside, pp, sp, cp, cs) => {
+                    playerinside.PrimaryPosition = pp;
+                    playerinside.SecondaryPosition = sp;
+                    playerinside.CurrentClubPrimaryPosition = cp;
+                    playerinside.CurrentClubSecondaryPosition = cs;
+                    return playerinside;
+                }, splitOn: "name,name,name,name").ToList();
+                return playerList;
+                //}
+                //catch(SqlException e) {
+
+                //}
+            }
         }
+
+
 
         public Player GetByEmail(string email) {
             Player player = new Player();
@@ -189,9 +212,9 @@ namespace Api.DAL.Repos {
                     return playerinside;
                 }, new { email }, splitOn: "name,name,name,name").Single();
 
-                player = GetPlayerNationalTeams(player, conn);
-                player = GetPlayerStrengthList(player, conn);
-                player = GetPlayerWeaknessList(player, conn);
+                player.NationalTeamList = GetPlayerNationalTeams(player, conn);
+                player.StrengthList = GetPlayerStrengthList(player, conn);
+                player.WeaknessList = GetPlayerWeaknessList(player, conn);
                 //}
                 //catch (SqlException e) {
                 //    player.ErrorMessage = ErrorHandling.Exception(e);
@@ -218,9 +241,9 @@ namespace Api.DAL.Repos {
                     return playerinside;
                 }, new { id }, splitOn: "name,name,name,name").Single();
 
-                player = GetPlayerNationalTeams(player, conn);
-                player = GetPlayerStrengthList(player, conn);
-                player = GetPlayerWeaknessList(player, conn);
+                player.NationalTeamList = GetPlayerNationalTeams(player, conn);
+                player.StrengthList = GetPlayerStrengthList(player, conn);
+                player.WeaknessList = GetPlayerWeaknessList(player, conn);
                 //}
                 //catch (SqlException e) {
                 //    player.ErrorMessage = ErrorHandling.Exception(e);
@@ -228,6 +251,26 @@ namespace Api.DAL.Repos {
 
             }
             return player;
+        }
+
+        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
+            List<Player> playerList = new List<Player>();
+            using (var conn = Connection()) {
+                //try {
+                    playerList = conn.Query<Player, string, string, Player>("select p.*, pp.name, sp.name from player p" +
+                    " left join Position pp on pp.id = p.primaryPosition_ID" +
+                    " left join Position sp on sp.id = p.secondaryPosition_ID where " + sqlStatement,
+                    (playerinside, pp, sp) => {
+                    playerinside.PrimaryPosition = pp;
+                    playerinside.SecondaryPosition = sp;
+                    return playerinside;
+                    }, splitOn: "name,name").ToList();
+                //}
+                //catch(SqlException e) {
+
+                //}
+            }
+            return playerList;
         }
 
         public UserCredentials getCredentialsByEmail(string email) {
@@ -275,25 +318,25 @@ namespace Api.DAL.Repos {
         }
 
         // Helping method to build only NationalTeams on your player
-        private Player GetPlayerNationalTeams(Player player, IDbConnection conn) {
+        private List<NationalTeam> GetPlayerNationalTeams(Player player, IDbConnection conn) {
             player.NationalTeamList = conn.Query<NationalTeam, string, NationalTeam>("select nt.*, p.name from NationalTeam nt " +
                     " inner join Position p on p.id = nt.position_id where nt.player_id = @id", (nationalTeam, p) => { nationalTeam.Position = p; return nationalTeam; },
                     new { id = player.Id }, splitOn: "name").ToList();
-            return player;
+            return player.NationalTeamList;
         }
 
         // Helping method to build only Strengths on your player
-        private Player GetPlayerStrengthList(Player player, IDbConnection conn) {
+        private List<string> GetPlayerStrengthList(Player player, IDbConnection conn) {
             player.StrengthList = conn.Query<string>("select s.name from Strength s " +
                  "inner join PlayerStrength ps on ps.strength_id = s.id where ps.player_id = @id", new { id = player.Id }).ToList();
-            return player;
+            return player.StrengthList;
         }
 
         // Helping method to build only Weakness on your player
-        private Player GetPlayerWeaknessList(Player player, IDbConnection conn) {
+        private List<string> GetPlayerWeaknessList(Player player, IDbConnection conn) {
             player.WeaknessList = conn.Query<string>("select w.name from Weakness w " +
                  "inner join PlayerWeakness pw on pw.weakness_id = w.id where pw.player_ID = @id", new { id = player.Id }).ToList();
-            return player;
+            return player.WeaknessList;
         }
     }
 }

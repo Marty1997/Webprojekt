@@ -20,7 +20,7 @@ import { ForClubsComponent } from './multi-page/for-clubs/for-clubs.component';
 import { AboutUsComponent } from './front-page/about-us/about-us.component';
 import { FrontPageImageComponent } from './front-page/front-page-image/front-page-image.component';
 import { FrontPageComponent } from './front-page/front-page.component';
-import { SearchForPlayersComponent } from './search-for-players/search-for-players.component';
+import { SearchForPlayersComponent } from './player-search-criteria/search-for-players/search-for-players.component';
 import { SearchForClubsComponent } from './search-for-clubs/search-for-clubs.component';
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './club-dashboard/club-dashboard.component';
@@ -32,6 +32,7 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
@@ -95,6 +96,7 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
   providers: [
     ErrorStateMatcher,
     loginService,
+    searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService
   ],

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.BusinessLogic;
 using Api.DAL.Entities;
+using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,21 @@ namespace Api.Controllers
             Player player = _playerLogic.GetById(entity.Id);
 
             return Ok(player);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult SearchPlayers([FromBody] SearchCriteriaForPlayer request) {
+            var firsTime = DateTime.Now;
+            List<Player> list = _playerLogic.HandleSearchAlgorithm(request);
+            var afterTime = DateTime.Now;
+
+            List<DateTime> lol = new List<DateTime>();
+            lol.Add(firsTime);
+            lol.Add(afterTime);
+
+            
+            return Ok(list);
         }
     }
 }

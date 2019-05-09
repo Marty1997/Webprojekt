@@ -36,6 +36,7 @@ namespace Api.DAL.Entities {
         public List<string> ValuesList { get; set; }
         public List<string> PreferenceList { get; set; }
         public List<JobPosition> JobPositionsList { get; set; }
+        public int SearchPercentage { get; set; }
 
         //// files
         //logo: File;
@@ -52,8 +53,8 @@ namespace Api.DAL.Entities {
             IsClub = true;
         }
 
-        public int CalculatePercentage(int amountOfMatches, int amountOfCriterias) {
-            return amountOfMatches / amountOfCriterias * 100;
+        public void CalculatePercentage(int criteriaMatch, int selectedCriteria) {
+            this.SearchPercentage = criteriaMatch / selectedCriteria * 100;
         }
     }
 }
