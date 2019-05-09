@@ -16,11 +16,16 @@ export class PlayerSearchCriteriaComponent implements OnInit {
   p: Player = new Player();
   searchForm: FormGroup;
   searchCriteria: SearchCriteria = new SearchCriteria();
-  @ViewChild('str1') str1: MatCheckbox;
-  @ViewChild('str2') str2: MatCheckbox;
-  @ViewChild('str3') str3: MatCheckbox;
-  @ViewChild('str4') str4: MatCheckbox;
-  @ViewChild('str5') str5: MatCheckbox;
+  @ViewChild('speedy') speedy: MatCheckbox;
+  @ViewChild('athletic') athletic: MatCheckbox;
+  @ViewChild('greatShape') greatShape: MatCheckbox;
+  @ViewChild('quickShots') quickShots: MatCheckbox;
+  @ViewChild('accurateShooter') accurateShooter: MatCheckbox;
+  @ViewChild('tactical') tactical: MatCheckbox;
+  @ViewChild('teamPlayer') teamPlayer: MatCheckbox;
+  @ViewChild('social') social: MatCheckbox;
+  @ViewChild('winAtAllCosts') winAtAllCosts: MatCheckbox;
+  @ViewChild('longRangeShooter') longRangeShooter: MatCheckbox;
 
   // predefined options
   contractStatusList: string[] = ['Active', 'Open for Offers', 'In Negotiation', 'Contract Expired'];
@@ -163,11 +168,16 @@ export class PlayerSearchCriteriaComponent implements OnInit {
       }
     }
 
-    if(this.str1.checked) {this.searchCriteria.strengthsList.push(this.str1.value)}
-    if(this.str2.checked) {this.searchCriteria.strengthsList.push(this.str2.value)}
-    if(this.str3.checked) {this.searchCriteria.strengthsList.push(this.str3.value)}
-    if(this.str4.checked) {this.searchCriteria.strengthsList.push(this.str4.value)}
-    if(this.str5.checked) {this.searchCriteria.strengthsList.push(this.str5.value)}
+    if(this.speedy.checked) {this.searchCriteria.strengthsList.push(this.speedy.value)}
+    if(this.athletic.checked) {this.searchCriteria.strengthsList.push(this.athletic.value)}
+    if(this.greatShape.checked) {this.searchCriteria.strengthsList.push(this.greatShape.value)}
+    if(this.quickShots.checked) {this.searchCriteria.strengthsList.push(this.quickShots.value)}
+    if(this.accurateShooter.checked) {this.searchCriteria.strengthsList.push(this.accurateShooter.value)}
+    if(this.tactical.checked) {this.searchCriteria.strengthsList.push(this.tactical.value)}
+    if(this.teamPlayer.checked) {this.searchCriteria.strengthsList.push(this.teamPlayer.value)}
+    if(this.social.checked) {this.searchCriteria.strengthsList.push(this.social.value)}
+    if(this.winAtAllCosts.checked) {this.searchCriteria.strengthsList.push(this.winAtAllCosts.value)}
+    if(this.longRangeShooter.checked) {this.searchCriteria.strengthsList.push(this.longRangeShooter.value)}
 
     if(this.searchForm.value.injuryStatus != '') {
       if(this.searchForm.value.injuryStatus != 'Both') {

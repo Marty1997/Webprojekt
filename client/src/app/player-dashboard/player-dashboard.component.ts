@@ -16,8 +16,6 @@ import { searchService } from "../services/searchService";
 export class PlayerDashboardComponent implements OnInit {
   isPlayer: boolean;
   playerBinding: Player;
-  contractExpiredDate: string;
-  injuryExpiredDate: string;
   players: Player[] = this.searchService.searchForPlayersResult;
 
   isFirstOpen = true;
@@ -45,27 +43,11 @@ export class PlayerDashboardComponent implements OnInit {
         if (p.id == this.route.snapshot.params.id) {
           this.searchService.getPlayerById(p); //fetch player data
           this.playerBinding = this.searchService.player;
-          this.convertDates();
         }
       });
     } else {
       console.log("Den her");
       this.loginService.logout();
     }
-  }
-
-  convertDates() {
-    this.contractExpiredDate =
-      this.playerBinding.contractExpired.getDate().toString() +
-      "/" +
-      this.playerBinding.contractExpired.getMonth().toString() +
-      "/" +
-      this.playerBinding.contractExpired.getFullYear().toString();
-    this.injuryExpiredDate =
-      this.playerBinding.injuryExpired.getDate().toString() +
-      "/" +
-      this.playerBinding.injuryExpired.getMonth().toString() +
-      "/" +
-      this.playerBinding.injuryExpired.getFullYear().toString();
   }
 }

@@ -593,31 +593,31 @@
       <div class="row">
         <div class="col-xs-6">
           <mat-label>Values</mat-label><br>
-          <mat-checkbox #firstValue value="val1">Value #1</mat-checkbox><br>
-          <mat-checkbox #secondValue value="val2">Value #1</mat-checkbox><br>
-          <mat-checkbox #thirdValue value="val3">Value #1</mat-checkbox><br>
-          <mat-checkbox #fourthValue value="val4">Value #1</mat-checkbox><br>
-          <mat-checkbox #fifthValue value="val5">Value #1</mat-checkbox><br>
+          <mat-checkbox #hardWorking value="Hard working">Hard Working</mat-checkbox><br>
+          <mat-checkbox #socialCohesion value="Social cohesion">Social Cohesion</mat-checkbox><br>
+          <mat-checkbox #winningMentality value="Winning mentality">Winning Mentality</mat-checkbox><br>
           <br><br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" formControlName="valuesControl" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
         </div>
         <div class="col-xs-6">
           <mat-label>Preferences</mat-label><br>
-          <mat-checkbox #firstPreference value="pref1">Preference #1</mat-checkbox><br>
-          <mat-checkbox #secondPreference value="pref2">Preference #1</mat-checkbox><br>
-          <mat-checkbox #thirdPreference value="pref3">Preference #1</mat-checkbox><br>
-          <mat-checkbox #fourthPreference value="pref4">Preference #1</mat-checkbox><br>
-          <mat-checkbox #fifthPreference value="pref5">Preference #1</mat-checkbox><br>
+          <mat-checkbox #talentDevelopmentClub value="Talent development club">Talent Development Club</mat-checkbox><br>
+          <mat-checkbox #strivesForTitles value="Strives for titles">Strives for Titles</mat-checkbox><br>
+          <mat-checkbox #resultOriented value="Result oriented">Result Oriented</mat-checkbox><br>
+          <mat-checkbox #processOriented value="Process oriented">Process Oriented</mat-checkbox><br>
           <br><br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" formControlName="preferencesControl" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
         </div>
       </div>
+      <div class="row">
+        <mat-form-field>
+          <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="valuesControl" [errorStateMatcher]='validate'></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" formControlName="preferencesControl" [errorStateMatcher]='validate'></textarea>
+        </mat-form-field>
+      </div>
+
 
       <br>
       <hr><br>
