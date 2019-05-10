@@ -96,7 +96,6 @@ export class PlayerSearchCriteriaComponent implements OnInit {
           this.p = element;
           this.searchService.searchForPlayersResult.push(this.p);
         });
-        console.log(this.searchService.searchForPlayersResult);
         this.router.navigate(['/search-for-players'])
       },
       (error) => {

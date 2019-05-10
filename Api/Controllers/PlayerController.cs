@@ -33,9 +33,11 @@ namespace Api.Controllers
             return Ok(player);
         }
 
-        [Route("[action]")]
-        public IActionResult GetById([FromBody] Player entity) {
-            Player player = _playerLogic.GetById(entity.Id);
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("[action/{id}]")]
+        public IActionResult GetById(int id) {
+            Player player = _playerLogic.GetById(id);
 
             return Ok(player);
         }

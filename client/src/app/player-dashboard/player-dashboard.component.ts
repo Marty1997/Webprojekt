@@ -11,7 +11,7 @@ import { searchService } from "../services/searchService";
   templateUrl: "./player-dashboard.component.html",
   styleUrls: ["./player-dashboard.component.css"],
   encapsulation: ViewEncapsulation.None,
-  providers: [searchService]
+  providers: []
 })
 export class PlayerDashboardComponent implements OnInit {
   isPlayer: boolean;
@@ -34,7 +34,6 @@ export class PlayerDashboardComponent implements OnInit {
         this.loginService.refreshValue = false;
       }
       this.playerBinding = this.loginService.playerInSession;
-      console.log(this.playerBinding);
     } else if (this.loginService.typeOfLogin == "Club") {
       //find spilleren som klubben vil se og put i playerBinding variablen
         this.playerBinding = this.searchService.player;
