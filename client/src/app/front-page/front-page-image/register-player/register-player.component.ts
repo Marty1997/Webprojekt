@@ -461,6 +461,7 @@ export class RegisterPlayerComponent implements OnInit {
   */
   registerPlayer() {
     this.onUpload();
+
     if (this.registerService.registerPlayer(this.buildPlayer())) {
       this.sendConfirmationEmail(this.emailControl.value);
     } else {
@@ -533,9 +534,15 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.contractStatus = null;
     }
     if(this.additionalInfoFormGroup.value.contractExpired !== '') {
-      this.player.contractExpired = this.additionalInfoFormGroup.value.contractExpired._d;
+      this.player.contractExpiredDate = new Date(this.additionalInfoFormGroup.value.contractExpired._d);
+      this.player.contractExpired = 
+        this.player.contractExpiredDate.getDate() + 
+        "/" +
+        (this.player.contractExpiredDate.getMonth() + 1) +
+        "/" +
+        this.player.contractExpiredDate.getFullYear();
     } else {
-      this.player.contractExpired = null;
+      this.player.contractExpiredDate = null;
     }
     if(this.additionalInfoFormGroup.value.injuryStatus !== '') {
       this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatus;
@@ -543,9 +550,15 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.injuryStatus = null;
     }
     if(this.additionalInfoFormGroup.value.injuryRecoveryDate !== '') {
-      this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate._d;
+      this.player.injuryExpiredDate = new Date(this.additionalInfoFormGroup.value.injuryRecoveryDate._d);
+      this.player.injuryExpired = 
+        this.player.injuryExpiredDate.getDate() +
+        "/" +
+        (this.player.injuryExpiredDate.getMonth() + 1) +
+        "/" +
+        this.player.injuryExpiredDate.getFullYear();
     } else {
-      this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate;
+      this.player.injuryExpiredDate = null;
     }
     if(this.additionalInfoFormGroup.value.injuryDescription !== '') {
       this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;

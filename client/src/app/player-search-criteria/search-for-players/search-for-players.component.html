@@ -1,7 +1,7 @@
 <app-header></app-header>
 <section class="well custom-container forPlayerClubBackgroundColor">
   <div class="row searchRows" *ngFor="let player of playerList">
-    <a [routerLink]="['/player-profile', player.id]" style="color: inherit;">
+    <a (click)="selectedPlayer(player.id)" style="color: inherit;">
       <div class="col-md-3 " style="text-align:center;">
         <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
         <h3 style="word-wrap: break-word;">{{player.firstName}} {{player.lastName}}</h3>
@@ -28,8 +28,8 @@
           </tr>
           <tr>
             <td>Contract expires:</td>
-            <!-- <td *ngIf="player.contractExpired == null">Not specified</td>
-            <td *ngIf="player.contractExpired != null">{{player.contractExpiredDate}}</td> -->
+            <td *ngIf="player.contractExpired == null">Not specified</td>
+            <td *ngIf="player.contractExpired != null">{{player.contractExpired}}</td>
           </tr>
         </table>
       </div>
@@ -37,23 +37,28 @@
         <table class="tableFixed">
           <tr>
             <td>Height:</td>
-            <td>{{player.height}}</td>
+            <td *ngIf="player.height == null">Not specified</td>
+            <td *ngIf="player.height != null">{{player.height}}</td>
           </tr>
           <tr>
             <td>Weight:</td>
-            <td>{{player.weight}}</td>
+            <td *ngIf="player.weight == null">Not specified</td>
+            <td *ngIf="player.weight != null">{{player.weight}}</td>
           </tr>
           <tr>
             <td>Bodyfat:</td>
-            <td>{{player.bodyfat}}</td>
+            <td *ngIf="player.bodyfat == null">Not specified</td>
+            <td *ngIf="player.bodyfat != null">{{player.bodyfat}}</td>
           </tr>
           <tr>
             <td>Preferred hand:</td>
-            <td>{{player.preferredHand}}</td>
+            <td *ngIf="player.preferredHand == null">Not specified</td>
+            <td *ngIf="player.preferredHand != null">{{player.preferredHand}}</td>
           </tr>
           <tr>
             <td>Injury status:</td>
-            <td>{{player.injuryStatus}}</td>
+            <td *ngIf="player.injuryStatus == null">Not specified</td>
+            <td *ngIf="player.injuryStatus != null">{{player.injuryStatus}}</td>
           </tr>
         </table>
       </div>

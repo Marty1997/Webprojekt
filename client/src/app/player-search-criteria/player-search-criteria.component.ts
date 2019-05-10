@@ -89,17 +89,13 @@ export class PlayerSearchCriteriaComponent implements OnInit {
 
     // some call to the searchService
     this.searchService.searchForPlayers(this.searchCriteria).subscribe(
-      (success: any) => {
+      (success: Player[]) => {
         // const data = JSON.stringify(success);
         // this.searchService.searchForPlayersResult = data;
-        console.log(success);
         success.forEach(element => {
           this.p = element;
-          console.log(this.p);
-          
           this.searchService.searchForPlayersResult.push(this.p);
         });
-        console.log(this.searchService.searchForPlayersResult);
         this.router.navigate(['/search-for-players'])
       },
       (error) => {

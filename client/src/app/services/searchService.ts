@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 import { SearchCriteria } from '../models/searchCriteria.model';
@@ -57,7 +57,7 @@ export class searchService {
     this.p2.bodyfat = 22;
     this.p2.preferredHand = 'Both Hands';
     // this.p2.injuryStatus = 'Injured';
-    this.searchForPlayersResult.push(this.p2);
+    //this.searchForPlayersResult.push(this.p2);
 
     this.jobPos.position = "Left Wing";
     this.jobPos2.position = "Left Back";
@@ -94,17 +94,10 @@ export class searchService {
     return this.http.post(url, searchCriteria);
   }
 
-  getPlayerById(player: Player) {
+  getPlayerById(id: number) {
+    const params = new HttpParams().set('id', id.toString());
     let url = "https://localhost:44310/api/Player/GetById/";
-    return this.http.post(url, player).subscribe(
-      (success) => {
-        console.log(success);
-        this.player = this.player.buildPlayer(success, player);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    return this.http.get(url, {params: params});
   }
 
   searchForClubs(searchCriteria: ClubSearchCriteria) {
