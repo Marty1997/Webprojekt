@@ -57,7 +57,7 @@ export class searchService {
     this.p2.bodyfat = 22;
     this.p2.preferredHand = 'Both Hands';
     // this.p2.injuryStatus = 'Injured';
-    this.searchForPlayersResult.push(this.p2);
+    //this.searchForPlayersResult.push(this.p2);
 
     this.jobPos.position = "Left Wing";
     this.jobPos2.position = "Left Back";
