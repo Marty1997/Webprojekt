@@ -13,7 +13,18 @@
 
   <div class="row">
     <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
-      <img class="responsiveImage" src="../../assets/Images/club-icon.png" height="150" width="150" />
+
+      <div *ngIf="clubBinding.imagePath == null">
+        <img class="responsiveImage" src="./../assets/Images/club-icon.png" height="150" width="150" />
+      </div>
+
+      <div *ngIf="clubBinding.imagePath != null">
+        <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
+      </div>
+
+      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;" multiple>
+      <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+
       <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3>
 
       <h4>{{clubBinding.country}}</h4>

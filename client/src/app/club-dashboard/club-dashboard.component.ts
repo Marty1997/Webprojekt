@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
+import { uploadFilesService} from "src/app/services/uploadFilesService";
 import { Club } from "../models/club.model";
 import { searchService } from "../services/searchService";
 import { ActivatedRoute } from "@angular/router";
+import { updateService } from "src/app/services/updateService";
 
 @Component({
   selector: "app-club-dashboard",
@@ -27,7 +29,9 @@ export class ClubDashboardComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private loginService: loginService,
-    private searchService: searchService
+    private searchService: searchService,
+    private uploadFilesService: uploadFilesService,
+    private updateService: updateService
   ) {}
 
   ngOnInit() {
@@ -90,5 +94,25 @@ export class ClubDashboardComponent implements OnInit {
     } else {
       this.loginService.logout();
     }
+  }
+
+  uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    else {
+      this.uploadFilesService.uploadFile(files).subscribe(res => {
+
+        this.uploadFilesService.createImgPath(JSON.stringify(res.body));
+        this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+
+        //Update club
+        this.updateClub(this.clubBinding);
+      });
+    }
+  }
+  
+  updateClub(c: Club) {
+    this.updateService.updateClub(c);
   }
 }

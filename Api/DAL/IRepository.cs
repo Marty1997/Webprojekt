@@ -13,7 +13,7 @@ namespace Api.DAL {
         TEntity GetById(int id);
         TEntity GetByEmail(string email);
         void Insert(TEntity entity);
-        bool Update(TEntity entity);
+        TEntity Update(TEntity entity);
         int Delete(int id);
         void Save();
         UserCredentials getCredentialsByEmail(string email);

@@ -40,8 +40,8 @@ export class Player {
     // national team
     nationalTeamList : NationalTeam [] = [];
     // picture/video
-    profilePicture: File;
-    videoPresentation: File;
+    imagePath: string;
+    videoPath: string;
 
     constructor() {}
 
@@ -78,6 +78,8 @@ export class Player {
         this.contractStatus = succes.contractStatus;
         this.injuryStatus = succes.injuryStatus;
         this.nationalTeamList = succes.nationalTeamList;
+        this.imagePath = succes.imagePath;
+        this.videoPath = succes.videoPath;
 
         return player;
     }

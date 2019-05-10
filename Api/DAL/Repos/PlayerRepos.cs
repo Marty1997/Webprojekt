@@ -270,7 +270,7 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        public bool Update(Player entity) {
+        public Player Update(Player entity) {
             throw new NotImplementedException();
         }
 

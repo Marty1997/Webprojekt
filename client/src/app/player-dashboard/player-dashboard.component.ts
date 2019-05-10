@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
-
+import { uploadFilesService } from "src/app/services/uploadFilesService";
+import { updateService } from "src/app/services/updateService";
 import { ActivatedRoute } from "@angular/router";
 import { Player } from "../models/player.model";
 import { searchService } from "../services/searchService";
@@ -24,7 +25,9 @@ export class PlayerDashboardComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private searchService: searchService,
-    private loginService: loginService
+    private loginService: loginService,
+    private uploadFilesService: uploadFilesService,
+    private updateService: updateService
   ) {}
 
   ngOnInit() {
@@ -53,6 +56,27 @@ export class PlayerDashboardComponent implements OnInit {
       this.loginService.logout();
     }
   }
+
+  uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    else {
+      this.uploadFilesService.uploadFile(files).subscribe(res => {
+
+        this.uploadFilesService.createImgPath(JSON.stringify(res.body));
+        this.playerBinding.imagePath = this.uploadFilesService.imagePath;
+
+        //Update player
+        this.updatePlayer(this.playerBinding);
+      });
+    }
+  }
+  
+  updatePlayer(p: Player) {
+    this.updateService.updatePlayer(p);
+  }
+
 
   convertDates() {
     this.contractExpiredDate =

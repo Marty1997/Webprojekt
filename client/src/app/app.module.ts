@@ -32,6 +32,8 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { updateService } from './services/updateService';
+import { uploadFilesService } from './services/uploadFilesService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
@@ -95,6 +97,8 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
   providers: [
     ErrorStateMatcher,
     loginService,
+    uploadFilesService,
+    updateService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService
   ],

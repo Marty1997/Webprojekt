@@ -322,9 +322,57 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        public bool Update(Club entity) {
-            throw new NotImplementedException();
+        public Club Update(Club entity) {
+
+            Club c = new Club();
+            for (int i = 0; i < 5; i++) {
+
+                using (var conn = Connection()) {
+                    
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                            //byte[] rowId = null;
+                            int rowCount = 0;
+
+
+                            //Return row ID
+                            string preferenceSQL = @"Select rowID from Club where email = @Email";
+                            byte[] row_ID = conn.Query<byte[]>(preferenceSQL, new { Email = entity.Email }, transaction: tran).Single();
+
+
+                            //Update club
+                            string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
+                                                                    AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
+                                                                    ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath, ZipcodeCity_ID = @ZipcodeCity_ID,
+                                                                    UserCredentials_ID = @UserCredentials_ID 
+                                                                 Where Email = @Email AND RowID = @RowID";
+                            rowCount = conn.Execute(updateClubSQL, new { Email = entity.Email, RowID = row_ID }, transaction: tran);
+
+
+
+                            //Check for 0 in rowcount list
+                            if (rowCount == 0) {
+                                c.ErrorMessage = "The club was not updated";
+                                tran.Rollback();
+                            }
+                            else {
+                                c.ErrorMessage = "";
+                                tran.Commit();
+                            }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
         }
+        
 
         //Helping method to build club traininghours
         private Club GetClubTraningHourList(Club club, IDbConnection conn) {
