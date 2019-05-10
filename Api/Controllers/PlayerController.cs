@@ -33,10 +33,9 @@ namespace Api.Controllers
             return Ok(player);
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("[action/{id}]")]
-        public IActionResult GetById(int id) {
+        [HttpGet("{id}")]
+        [Route("[action]")]
+        public IActionResult GetById([FromQuery]int id) {
             Player player = _playerLogic.GetById(id);
 
             return Ok(player);

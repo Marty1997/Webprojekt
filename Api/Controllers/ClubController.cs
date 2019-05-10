@@ -31,10 +31,10 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
-        [HttpPost]
+        [HttpGet("{id}")]
         [Route("[action]")]
-        public IActionResult GetById([FromBody] Club entity) {
-            Club club = _clubLogic.GetById(entity.Id);
+        public IActionResult GetById([FromQuery]int id) {
+            Club club = _clubLogic.GetById(id);
 
             return Ok(club);
         }
