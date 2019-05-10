@@ -29,6 +29,7 @@ namespace Api.DAL.Entities {
         public string Manager { get; set; }
         public string ValueDescription { get; set; }
         public string PreferenceDescription { get; set; }
+        public string ImagePath { get; set; }
 
         public List<TrainingHours> TrainingHoursList { get; set; }
         public List<SquadPlayer> CurrentSquadPlayersList { get; set; }

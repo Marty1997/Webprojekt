@@ -23,7 +23,7 @@
       </div>
 
       <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;" multiple>
-      <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+      <button type="button" class="btn btn-success" (click)="file.click()">Change profile picture</button>
 
       <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3>
 
@@ -40,131 +40,136 @@
     <div class="col-md-4">
       <div style="width: 100%;">
         <h2 style="text-align: center; font-family: 'Fresno'">Squad</h2>
-        <mat-tab-group class="custom-tabs" mat-align-tabs="center">
-          <mat-tab label="Current Year">
-            <div>
-              <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
-              <div class="squad goalKeeper">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Goalkeeper'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad left-back">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Left back'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad playmaker">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Playmaker'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad right-back">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Right back'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad pivot">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Pivot'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad right-wing">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Right wing'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad left-wing">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Left wing'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad defence">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Defence'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Next Year">
-            <div>
-              <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
-              <div class="squad goalKeeper">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Goalkeeper'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad left-back">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Left back'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad playmaker">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Playmaker'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad right-back">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Right back'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad pivot">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Pivot'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad right-wing">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Right wing'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad left-wing">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Left wing'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-              <div class="squad defence">
-                <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
-                  <div *ngIf="squadPlayer.position == 'Defence'">
-                    #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
 
+        <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px" *ngIf="clubBinding.currentSquadPlayersList.length == 0 
+                    && clubBinding.nextYearSquadPlayersList.length == 0">No squad was specified from the club</h3>
+
+        <div *ngIf="clubBinding.currentSquadPlayersList.length > 0 || clubBinding.nextYearSquadPlayersList.length > 0">
+          <mat-tab-group class="custom-tabs" mat-align-tabs="center">
+            <mat-tab label="Current Year">
+              <div>
+                <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
+                <div class="squad goalKeeper">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Goalkeeper'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad left-back">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Left back'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad playmaker">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Playmaker'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad right-back">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Right back'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad pivot">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Pivot'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad right-wing">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Right wing'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad left-wing">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Left wing'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad defence">
+                  <div *ngFor="let squadPlayer of clubBinding.currentSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Defence'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="Next Year">
+              <div>
+                <img class="responsiveImage" src="../../assets/Images/squadImage.png" />
+                <div class="squad goalKeeper">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Goalkeeper'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad left-back">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Left back'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad playmaker">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Playmaker'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad right-back">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Right back'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad pivot">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Pivot'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad right-wing">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Right wing'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad left-wing">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Left wing'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="squad defence">
+                  <div *ngFor="let squadPlayer of clubBinding.nextYearSquadPlayersList">
+                    <div *ngIf="squadPlayer.position == 'Defence'">
+                      #{{squadPlayer.shirtNumber}} {{squadPlayer.name}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
       </div>
       <div style="width: 100%;">
         <h2 style="text-align:center; font-family: 'Fresno'">Technical staff</h2>
@@ -248,6 +253,11 @@
             <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
           </slide>
         </carousel>
+
+        <div style="text-align: center">
+            <input type="file" #file placeholder="Choose file" (change)="uploadFiles(file.files)" style="display:none;" multiple>
+            <button type="button" class="btn btn-success" (click)="file.click()">Change facility images</button>
+        </div>
       </div>
 
       <div style="width: 100%; text-align: center; align-content: center">

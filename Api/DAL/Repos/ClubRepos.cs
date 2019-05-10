@@ -36,9 +36,9 @@ namespace Api.DAL.Repos {
 
                     //Insert Club
                     string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
-                                        ZipcodeCity_ID, UserCredentials_ID) 
+                                        IsAvailable, ZipcodeCity_ID, UserCredentials_ID) 
                                         VALUES (@Name, @Email, @League, @Country, @StreetAddress, @StreetNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
-                                        @ZipcodeCity_ID, @UserCredentials_ID);
+                                        @IsAvailable, @ZipcodeCity_ID, @UserCredentials_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     var club_ID = conn.Query<int>(clubSQL, new {
@@ -55,6 +55,7 @@ namespace Api.DAL.Repos {
                         entity.Manager,
                         entity.ValueDescription,
                         entity.PreferenceDescription,
+                        entity.IsAvailable,
                         ZipcodeCity_ID = zipcodeCity_ID,
                         UserCredentials_ID = userCredentials_ID
                     }, transaction: tran).Single();
@@ -342,13 +343,16 @@ namespace Api.DAL.Repos {
                             byte[] row_ID = conn.Query<byte[]>(preferenceSQL, new { Email = entity.Email }, transaction: tran).Single();
 
 
+                           
                             //Update club
                             string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
                                                                     AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
-                                                                    ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath, ZipcodeCity_ID = @ZipcodeCity_ID,
-                                                                    UserCredentials_ID = @UserCredentials_ID 
+                                                                    ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath
                                                                  Where Email = @Email AND RowID = @RowID";
-                            rowCount = conn.Execute(updateClubSQL, new { Email = entity.Email, RowID = row_ID }, transaction: tran);
+                            rowCount = conn.Execute(updateClubSQL, new { Name = entity.Name, League = entity.League, Country = entity.Country, StreetAddress = entity.StreetAddress, StreetNumber = entity.StreetNumber,
+                                                                            Trainer = entity.Trainer, AssistantTrainer = entity.AssistantTrainer, Physiotherapist = entity.Physiotherapist, AssistantPhysiotherapist = entity.AssistantPhysiotherapist,
+                                                                                Manager = entity.Manager, ValueDescription = entity.ValueDescription, PreferenceDescription = entity.PreferenceDescription, ImagePath = entity.ImagePath,
+                                                                                   Email = entity.Email, RowID = row_ID }, transaction: tran);
 
 
 

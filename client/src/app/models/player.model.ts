@@ -42,8 +42,8 @@ export class Player {
   // national team
   nationalTeamList: NationalTeam[] = [];
   // picture/video
-  profilePicture: File;
-  videoPresentation: File;
+  imagePath: string;
+  videoPath: string;
 
   constructor() {}
 

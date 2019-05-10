@@ -18,9 +18,10 @@ namespace Api.Controllers {
     [ApiController]
     public class UploadController : ControllerBase {
         
-        [AllowAnonymous]
+      
         [HttpPost, DisableRequestSizeLimit]
-        public IActionResult Upload() {
+        [Route("[action]")]
+        public IActionResult UploadFile() {
             try {
                 var file = Request.Form.Files[0];
                 var folderName = Path.Combine("Resources", "Images");
@@ -46,38 +47,40 @@ namespace Api.Controllers {
             }
         }
 
-        //public IActionResult Upload()
-        //{
-        //    try
-        //    {
-        //        var files = Request.Form.Files;
-        //        var folderName = Path.Combine("StaticFiles", "Images");
-        //        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("[action]")]
+        public IActionResult UploadFiles() {
+            try {
 
-        //        if (files.Any(f => f.Length == 0))
-        //        {
-        //            return BadRequest();
-        //        }
+                List<string> pathList = new List<string>();
 
-        //        foreach (var file in files)
-        //        {
-        //            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-        //            var fullPath = Path.Combine(pathToSave, fileName);
-        //            var dbPath = Path.Combine(folderName, fileName);
+                var files = Request.Form.Files;
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
-        //            using (var stream = new FileStream(fullPath, FileMode.Create))
-        //            {
-        //                file.CopyTo(stream);
-        //            }
-        //        }
+                if (files.Any(f => f.Length == 0)) {
+                    return BadRequest();
+                }
 
-        //        return Ok("All the files are successfully uploaded.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, "Internal server error");
-        //    }
-        //}
+                foreach (var file in files) {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+
+                    pathList.Add(dbPath);
+
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create)) {
+                        file.CopyTo(stream);
+                    }
+                }
+
+                return Ok(pathList);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
 

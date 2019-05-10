@@ -13,7 +13,18 @@
 
   <div class="row">
     <div class="col-sm-2" style=" text-align: center;">
-      <img src="../../assets/Images/player-icon.png" height="175" width="175" />
+
+      <div *ngIf="playerBinding.imagePath == null">
+        <img class="responsiveImage" src="../../assets/Images/player-icon.png" height="150" width="150" />
+      </div>
+
+      <div *ngIf="playerBinding.imagePath != null">
+        <img class="responsiveImage" src="{{playerBinding.imagePath}}" height="150" width="150" />
+      </div>
+
+      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;" multiple>
+      <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+
       <h2 style="word-wrap: break-word;">{{playerBinding.firstName}} {{playerBinding.lastName}}</h2>
       <h4 *ngIf="!playerBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking to
         recruit players</h4>

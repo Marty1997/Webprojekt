@@ -101,6 +101,8 @@ export class ClubDashboardComponent implements OnInit {
       return;
     }
     else {
+      let folder: string = "Images";
+
       this.uploadFilesService.uploadFile(files).subscribe(res => {
 
         this.uploadFilesService.createImgPath(JSON.stringify(res.body));
@@ -109,6 +111,32 @@ export class ClubDashboardComponent implements OnInit {
         //Update club
         this.updateClub(this.clubBinding);
       });
+    }
+  }
+
+  uploadFiles = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    else {
+      let folder: string = "Images";
+
+      this.uploadFilesService.uploadFiles(files).subscribe( 
+        (res: any) => {
+          res.forEach(element => {
+            console.log(element);
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+        
+        // this.uploadFilesService.createImgPath(JSON.stringify(res.body));
+        // this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+
+        // //Update club
+        // this.updateClub(this.clubBinding);
     }
   }
   

@@ -32,6 +32,7 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
+        [Route("[action]")]
         public IActionResult Update([FromBody] Club entity) {
 
             var club = _clubLogic.Update(entity);
