@@ -108,18 +108,9 @@ export class searchService {
   }
 
   searchForClubs(searchCriteria: ClubSearchCriteria) {
-    let url = "web api metode";
-    return this.http.post(url, searchCriteria).subscribe(
-      (success) => {
-        console.log(success);
-        // this.searchForClubsResult = success;
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    let url = "https://localhost:44310/api/Player/SearchForClubs/";
+    console.log(searchCriteria);
+    return this.http.post(url, searchCriteria);
   }
 
   getClubById(club: Club) {

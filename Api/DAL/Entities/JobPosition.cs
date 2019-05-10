@@ -8,7 +8,7 @@ namespace Api.DAL.Entities {
         public int ID { get; set; }
         public string League { get; set; }
         public string PreferredHand { get; set; }
-        public string Height { get; set; }
+        public int? Height { get; set; }
         public int? MinAge { get; set; }
         public int? MaxAge { get; set; }
         public string Season { get; set; }

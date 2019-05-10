@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Club } from '../models/club.model';
-import { searchService } from '../services/searchService';
+import { Club } from '../../models/club.model';
+import { searchService } from '../../services/searchService';
 
 @Component({
   selector: 'app-search-for-clubs',
