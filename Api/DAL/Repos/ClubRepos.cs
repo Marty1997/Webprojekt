@@ -422,5 +422,9 @@ namespace Api.DAL.Repos {
                 " inner join ClubPreference cp on cp.preference_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
             return club;
         }
+
+        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -83,16 +83,13 @@ export class RegisterClubComponent implements OnInit {
   @ViewChild("openPositionStr5") openPositionStr5: MatCheckbox;
 
   // values&preferences
-  @ViewChild("firstValue") firstValue: MatCheckbox;
-  @ViewChild("secondValue") secondValue: MatCheckbox;
-  @ViewChild("thirdValue") thirdValue: MatCheckbox;
-  @ViewChild("fourthValue") fourthValue: MatCheckbox;
-  @ViewChild("fifthValue") fifthValue: MatCheckbox;
-  @ViewChild("firstPreference") firstPreference: MatCheckbox;
-  @ViewChild("secondPreference") secondPreference: MatCheckbox;
-  @ViewChild("thirdPreference") thirdPreference: MatCheckbox;
-  @ViewChild("fourthPreference") fourthPreference: MatCheckbox;
-  @ViewChild("fifthPreference") fifthPreference: MatCheckbox;
+  @ViewChild("hardWorking") hardWorking: MatCheckbox;
+  @ViewChild("socialCohesion") socialCohesion: MatCheckbox;
+  @ViewChild("winningMentality") winningMentality: MatCheckbox;
+  @ViewChild("talentDevelopmentClub") talentDevelopmentClub: MatCheckbox;
+  @ViewChild("strivesForTitles") strivesForTitles: MatCheckbox;
+  @ViewChild("resultOriented") resultOriented: MatCheckbox;
+  @ViewChild("processOriented") processOriented: MatCheckbox;
 
   // squad table
   displayedColumns: string[] = ["shirtNumber", "name", "position"];
@@ -716,20 +713,14 @@ export class RegisterClubComponent implements OnInit {
       this.club.valueDescription = null;
     }
 
-    if (this.firstValue.checked) {
-      this.club.valuesList.push(this.firstValue.value);
+    if (this.hardWorking.checked) {
+      this.club.valuesList.push(this.hardWorking.value);
     }
-    if (this.secondValue.checked) {
-      this.club.valuesList.push(this.secondValue.value);
+    if (this.socialCohesion.checked) {
+      this.club.valuesList.push(this.socialCohesion.value);
     }
-    if (this.thirdValue.checked) {
-      this.club.valuesList.push(this.thirdValue.value);
-    }
-    if (this.fourthValue.checked) {
-      this.club.valuesList.push(this.fourthValue.value);
-    }
-    if (this.fifthValue.checked) {
-      this.club.valuesList.push(this.fifthValue.value);
+    if (this.winningMentality.checked) {
+      this.club.valuesList.push(this.winningMentality.value);
     }
 
     // preferences
@@ -739,20 +730,17 @@ export class RegisterClubComponent implements OnInit {
       this.club.preferenceDescription = null;
     }
 
-    if (this.firstPreference.checked) {
-      this.club.valuesList.push(this.firstPreference.value);
+    if (this.talentDevelopmentClub.checked) {
+      this.club.preferenceList.push(this.talentDevelopmentClub.value);
     }
-    if (this.secondPreference.checked) {
-      this.club.valuesList.push(this.secondPreference.value);
+    if (this.strivesForTitles.checked) {
+      this.club.preferenceList.push(this.strivesForTitles.value);
     }
-    if (this.thirdPreference.checked) {
-      this.club.valuesList.push(this.thirdPreference.value);
+    if (this.resultOriented.checked) {
+      this.club.preferenceList.push(this.resultOriented.value);
     }
-    if (this.fourthPreference.checked) {
-      this.club.valuesList.push(this.fourthPreference.value);
-    }
-    if (this.fifthPreference.checked) {
-      this.club.valuesList.push(this.fifthPreference.value);
+    if (this.processOriented.checked) {
+      this.club.preferenceList.push(this.processOriented.value);
     }
 
     return this.club;

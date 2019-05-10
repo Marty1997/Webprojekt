@@ -1,49 +1,51 @@
-import {NationalTeam} from '../models/nationalTeam.model'
+import { NationalTeam } from "../models/nationalTeam.model";
 
 export class Player {
-    // required info
-    id: number;
-    isAvailable: boolean;
-    password: string = "";
-    email: string = "";
-    firstName: string = "";
-    lastName: string = "";
-    country: string = "";
-    league: string = "";
-    day: number;
-    month: number;
-    year: number;
-    // additional info
-    height: number;
-    weight: number;
-    bodyfat: number;
-    primaryPosition: string = "";
-    secondaryPosition: string = "";
-    preferredHand: string = "";
-    // strengths/weaknesses
-    strengthDescription: string = "";
-    weaknessDescription: string = "";
-    strengthList : string [] = [];
-    weaknessList : string [] = [];
-    // sport cv
-    currentClub: string = "";
-    currentClubPrimaryPosition: string = "";
-    currentClubSecondaryPosition: string = "";
-    accomplishments: string = "";
-    statistic: string = "";
-    formerClubs: string = "";
-    contractStatus: string = "";
-    contractExpired: Date = new Date();
-    injuryStatus: string = "";
-    injuryExpired: Date;
-    injuryDescription: string = "";
-    // national team
-    nationalTeamList : NationalTeam [] = [];
-    // picture/video
-    imagePath: string;
-    videoPath: string;
+  // required info
+  id: number;
+  isAvailable: boolean;
+  password: string = "";
+  email: string = "";
+  firstName: string = "";
+  lastName: string = "";
+  country: string = "";
+  league: string = "";
+  day: number;
+  month: number;
+  year: number;
+  // additional info
+  height: number;
+  weight: number;
+  bodyfat: number;
+  primaryPosition: string = "";
+  secondaryPosition: string = "";
+  preferredHand: string = "";
+  // strengths/weaknesses
+  strengthDescription: string = "";
+  weaknessDescription: string = "";
+  strengthList: string[] = [];
+  weaknessList: string[] = [];
+  // sport cv
+  currentClub: string = "";
+  currentClubPrimaryPosition: string = "";
+  currentClubSecondaryPosition: string = "";
+  accomplishments: string = "";
+  statistic: string = "";
+  formerClubs: string = "";
+  contractStatus: string = "";
+  contractExpired: string = ""
+  contractExpiredDate: Date = new Date();
+  injuryStatus: string = "";
+  injuryExpired: string = "";
+  injuryExpiredDate: Date = new Date();
+  injuryDescription: string = "";
+  // national team
+  nationalTeamList: NationalTeam[] = [];
+  // picture/video
+  profilePicture: File;
+  videoPresentation: File;
 
-    constructor() {}
+  constructor() {}
 
     buildPlayer(succes:any, player: Player)  {
         this.contractExpired = succes.contractExpired;
@@ -81,6 +83,6 @@ export class Player {
         this.imagePath = succes.imagePath;
         this.videoPath = succes.videoPath;
 
-        return player;
-    }
+    return player;
+  }
 }

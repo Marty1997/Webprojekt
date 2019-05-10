@@ -19,23 +19,6 @@
                         <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
-                <mat-form-field>
-                    <mat-select placeholder="Contract Status" formControlName="contractStatus">
-                        <mat-option *ngFor="let contractStatus of contractStatusList" [value]="contractStatus.valueOf()">{{contractStatus}}</mat-option>
-                    </mat-select>
-                </mat-form-field><br>
-                <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Minimum Age" formControlName="mininumAge">
-                        <mat-option value="None">No age limit</mat-option>
-                        <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field class="halfSizeField">
-                    <mat-select placeholder="Maximum Age" formControlName="maximumAge">
-                        <mat-option value="None">No age limit</mat-option>
-                        <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
-                    </mat-select>
-                </mat-form-field><br>
                 <mat-form-field class="halfSizeField">
                     <mat-select placeholder="Primary Position" formControlName="primaryPosition">
                         <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
@@ -46,16 +29,55 @@
                         <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
                     </mat-select>
                 </mat-form-field><br>
-
-                <mat-checkbox #str1 value="str1">Strength 1</mat-checkbox>
-                <mat-checkbox #str2 value="str2">Strength 2</mat-checkbox>
-                <mat-checkbox #str3 value="str3">Strength 3</mat-checkbox>
-                <mat-checkbox #str4 value="str4">Strength 4</mat-checkbox>
-                <mat-checkbox #str5 value="str5">Strength 5</mat-checkbox><br>
+                <br>
+                <p class="lead extraCriteriaText">
+                    You can add extra criteria below for an even more precise search result.
+                </p>
+                <br>
+                <mat-form-field>
+                    <mat-select placeholder="Contract Status" formControlName="contractStatus">
+                        <mat-option *ngFor="let contractStatus of contractStatusList"
+                            [value]="contractStatus.valueOf()">{{contractStatus}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Minimum Age" formControlName="minimumAge">
+                        <mat-option value="None">No age limit</mat-option>
+                        <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="halfSizeField">
+                    <mat-select placeholder="Maximum Age" formControlName="maximumAge">
+                        <mat-option value="None">No age limit</mat-option>
+                        <mat-option *ngFor="let age of ageList" [value]="age.valueOf()">{{age}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+               
+               
+                <div class="row">
+                    <div class="col-xs-12">
+                        <mat-checkbox #speedy value="Speedy">Speedy</mat-checkbox>
+                        <mat-checkbox #athletic value="Athletic">Athletic</mat-checkbox>
+                        <mat-checkbox #greatShape value="Great shape">Great Shape</mat-checkbox>
+                        <mat-checkbox #quickShots value="Quick shots">Quick Shots</mat-checkbox>
+                        <mat-checkbox #accurateShooter value="Accurate shooter">Accurate Shooter</mat-checkbox>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <mat-checkbox #tactical value="Tactical">Tactical</mat-checkbox>
+                        <mat-checkbox #teamPlayer value="Teamplayer">Team Player</mat-checkbox>
+                        <mat-checkbox #social value="Social">Social</mat-checkbox>
+                        <mat-checkbox #winAtAllCosts value="Win at all costs">Win at All Costs</mat-checkbox>
+                        <mat-checkbox #longRangeShooter value="Long range shooter">Long Range Shooter</mat-checkbox>
+                    </div>
+                </div>
 
                 <mat-form-field>
                     <mat-select placeholder="Injury Status" formControlName="injuryStatus">
-                        <mat-option *ngFor="let injuryStatus of injuryStatusList" [value]="injuryStatus.valueOf()">{{injuryStatus}}
+                        <mat-option *ngFor="let injuryStatus of injuryStatusList" [value]="injuryStatus.valueOf()">
+                            {{injuryStatus}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field><br>
@@ -79,7 +101,7 @@
             </form>
         </div>
         <div id="buttonGroup" class="col-xs-12">
-            <button class="btn btn-primary" [routerLink]="['/search-for-players']"
+            <button class="btn btn-primary"
                 (click)="searchForPlayers()">Search</button>
         </div>
     </div>

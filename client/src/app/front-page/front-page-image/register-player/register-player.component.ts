@@ -62,16 +62,23 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamU21: NationalTeam = new NationalTeam();
   nationalTeamU18: NationalTeam = new NationalTeam();
 
-  @ViewChild("firstStrength") private firstStrength: MatCheckbox;
-  @ViewChild("secondStrength") private secondStrength: MatCheckbox;
-  @ViewChild("thirdStrength") private thirdStrength: MatCheckbox;
-  @ViewChild("fourthStrength") private fourthStrength: MatCheckbox;
-  @ViewChild("fifthStrength") private fifthStrength: MatCheckbox;
-  @ViewChild("firstWeakness") private firstWeakness: MatCheckbox;
-  @ViewChild("secondWeakness") private secondWeakness: MatCheckbox;
-  @ViewChild("thirdWeakness") private thirdWeakness: MatCheckbox;
-  @ViewChild("fourthWeakness") private fourthWeakness: MatCheckbox;
-  @ViewChild("fifthWeakness") private fifthWeakness: MatCheckbox;
+  // strengths
+  @ViewChild("speedy") private speedy: MatCheckbox;
+  @ViewChild("athletic") private athletic: MatCheckbox;
+  @ViewChild("greatShape") private greatShape: MatCheckbox;
+  @ViewChild("quickShots") private quickShots: MatCheckbox;
+  @ViewChild("accurateShooter") private accurateShooter: MatCheckbox;
+  @ViewChild("tactical") private tactical: MatCheckbox;
+  @ViewChild("teamPlayer") private teamPlayer: MatCheckbox;
+  @ViewChild("social") private social: MatCheckbox;
+  @ViewChild("winAtAllCosts") private winAtAllCosts: MatCheckbox;
+  @ViewChild("longRangeShooter") private longRangeShooter: MatCheckbox;
+
+  // weaknesses
+  @ViewChild("slowMoving") private slowMoving: MatCheckbox;
+  @ViewChild("badEndurance") private badEndurance: MatCheckbox;
+  @ViewChild("historyOfInjuries") private historyOfInjuries: MatCheckbox;
+  @ViewChild("badDefencePlayer") private badDefencePlayer: MatCheckbox;
 
   personalInfoFormGroup: FormGroup;
   additionalInfoFormGroup: FormGroup;
@@ -454,6 +461,7 @@ export class RegisterPlayerComponent implements OnInit {
   */
   registerPlayer() {
     this.onUpload();
+
     if (this.registerService.registerPlayer(this.buildPlayer())) {
       this.sendConfirmationEmail(this.emailControl.value);
     } else {
@@ -526,9 +534,15 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.contractStatus = null;
     }
     if(this.additionalInfoFormGroup.value.contractExpired !== '') {
-      this.player.contractExpired = this.additionalInfoFormGroup.value.contractExpired._d;
+      this.player.contractExpiredDate = new Date(this.additionalInfoFormGroup.value.contractExpired._d);
+      this.player.contractExpired = 
+        this.player.contractExpiredDate.getDate() + 
+        "/" +
+        (this.player.contractExpiredDate.getMonth() + 1) +
+        "/" +
+        this.player.contractExpiredDate.getFullYear();
     } else {
-      this.player.contractExpired = null;
+      this.player.contractExpiredDate = null;
     }
     if(this.additionalInfoFormGroup.value.injuryStatus !== '') {
       this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatus;
@@ -536,9 +550,15 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.injuryStatus = null;
     }
     if(this.additionalInfoFormGroup.value.injuryRecoveryDate !== '') {
-      this.player.injuryExpired = this.additionalInfoFormGroup.value.injuryRecoveryDate._d;
+      this.player.injuryExpiredDate = new Date(this.additionalInfoFormGroup.value.injuryRecoveryDate._d);
+      this.player.injuryExpired = 
+        this.player.injuryExpiredDate.getDate() +
+        "/" +
+        (this.player.injuryExpiredDate.getMonth() + 1) +
+        "/" +
+        this.player.injuryExpiredDate.getFullYear();
     } else {
-      this.player.injuryExpired = null;
+      this.player.injuryExpiredDate = null;
     }
     if(this.additionalInfoFormGroup.value.injuryDescription !== '') {
       this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;
@@ -552,20 +572,35 @@ export class RegisterPlayerComponent implements OnInit {
     } else {
       this.player.strengthDescription = null;
     }
-    if (this.firstStrength.checked) {
-      this.player.strengthList.push(this.firstStrength.value);
+    if (this.speedy.checked) {
+      this.player.strengthList.push(this.speedy.value);
     }
-    if (this.secondStrength.checked) {
-      this.player.strengthList.push(this.secondStrength.value);
+    if (this.athletic.checked) {
+      this.player.strengthList.push(this.athletic.value);
     }
-    if (this.thirdStrength.checked) {
-      this.player.strengthList.push(this.thirdStrength.value);
+    if (this.greatShape.checked) {
+      this.player.strengthList.push(this.greatShape.value);
     }
-    if (this.fourthStrength.checked) {
-      this.player.strengthList.push(this.fourthStrength.value);
+    if (this.quickShots.checked) {
+      this.player.strengthList.push(this.quickShots.value);
     }
-    if (this.fifthStrength.checked) {
-      this.player.strengthList.push(this.fifthStrength.value);
+    if (this.accurateShooter.checked) {
+      this.player.strengthList.push(this.accurateShooter.value);
+    }
+    if (this.tactical.checked) {
+      this.player.strengthList.push(this.tactical.value);
+    }
+    if (this.teamPlayer.checked) {
+      this.player.strengthList.push(this.teamPlayer.value);
+    }
+    if (this.social.checked) {
+      this.player.strengthList.push(this.social.value);
+    }
+    if (this.winAtAllCosts.checked) {
+      this.player.strengthList.push(this.winAtAllCosts.value);
+    }
+    if (this.longRangeShooter.checked) {
+      this.player.strengthList.push(this.longRangeShooter.value);
     }
 
     // weaknesses
@@ -574,20 +609,17 @@ export class RegisterPlayerComponent implements OnInit {
     } else {
       this.player.weaknessDescription = null;
     }
-    if (this.firstWeakness.checked) {
-      this.player.weaknessList.push(this.firstWeakness.value);
+    if (this.slowMoving.checked) {
+      this.player.weaknessList.push(this.slowMoving.value);
     }
-    if (this.secondWeakness.checked) {
-      this.player.weaknessList.push(this.secondWeakness.value);
+    if (this.badEndurance.checked) {
+      this.player.weaknessList.push(this.badEndurance.value);
     }
-    if (this.thirdWeakness.checked) {
-      this.player.weaknessList.push(this.thirdWeakness.value);
+    if (this.badDefencePlayer.checked) {
+      this.player.weaknessList.push(this.badDefencePlayer.value);
     }
-    if (this.fourthWeakness.checked) {
-      this.player.weaknessList.push(this.fourthWeakness.value);
-    }
-    if (this.fifthWeakness.checked) {
-      this.player.weaknessList.push(this.fifthWeakness.value);
+    if (this.historyOfInjuries.checked) {
+      this.player.weaknessList.push(this.historyOfInjuries.value);
     }
 
     // sport cv

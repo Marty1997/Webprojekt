@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { Player } from '../models/player.model';
-import { searchService } from '../services/searchService';
+import { Player } from '../../models/player.model';
+import { searchService } from '../../services/searchService';
 
 @Component({
   selector: 'app-search-for-players',
   templateUrl: './search-for-players.component.html',
   styleUrls: ['./search-for-players.component.css'],
-  providers: [searchService]
+  providers: []
 })
 export class SearchForPlayersComponent implements OnInit {
-
+  players: Player[] = this.searchService.searchForPlayersResult;
   playerList: Player[] = [];
   constructor(private searchService: searchService) {}
 
   ngOnInit() {
+    console.log(this.searchService.searchForPlayersResult);
     this.playerList = this.searchService.searchForPlayersResult;
   }
 
+  // selectedPlayer(id: number) {
+  //   this.searchService.getPlayerById(p); //fetch player data
+  // }
 }

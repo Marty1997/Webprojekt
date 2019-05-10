@@ -6,7 +6,7 @@
         <h2 class="stepHeadline">Personal Information</h2>
         <br>
         <p>
-          All of these fields are <strong>required</strong>. 
+          All of these fields are <strong>required</strong>.
           <br>
           Please fill out your personal information before you continue.</p>
         <hr>
@@ -38,15 +38,13 @@
         <mat-label>Your full name</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="First Name" [formControl]="firstNameControl"
-            [errorStateMatcher]='validate'>
+          <input matInput placeholder="First Name" [formControl]="firstNameControl" [errorStateMatcher]='validate'>
           <mat-error *ngIf="firstNameControl?.hasError('required')">
             First name is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Last Name" [formControl]="lastNameControl"
-            [errorStateMatcher]='validate'>
+          <input matInput placeholder="Last Name" [formControl]="lastNameControl" [errorStateMatcher]='validate'>
           <mat-error *ngIf="lastNameControl?.hasError('required')">
             Last name is <strong>required</strong>
           </mat-error>
@@ -55,15 +53,15 @@
         <mat-label>Country info</mat-label>
         <br>
         <mat-form-field class="doubleSizeField">
-            <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
-              <mat-option *ngFor="let country of countryList" [value]="country">
-                {{country}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="countryControl?.hasError('required')">
-              Country is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+            <mat-option *ngFor="let country of countryList" [value]="country">
+              {{country}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="countryControl?.hasError('required')">
+            Country is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
         <br>
         <mat-label>Date of birth</mat-label>
@@ -101,8 +99,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Year (YYYY)" [formControl]="yearControl"
-            [errorStateMatcher]='validate'>
+          <input matInput placeholder="Year (YYYY)" [formControl]="yearControl" [errorStateMatcher]='validate'>
           <mat-error
             *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
             Year must be a number
@@ -130,30 +127,28 @@
       <h2 class="stepHeadline">Additional Information</h2>
       <br>
       <p>
-        All of these fields are <strong>optional</strong>. 
+        All of these fields are <strong>optional</strong>.
         <br>
-        It is recommended filling out as much information as possible for better search results, when a club is looking for a player.</p>
+        It is recommended filling out as much information as possible for better search results, when a club is looking
+        for a player.</p>
       <hr>
 
       <mat-label>Measurements</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Height in cm" [formControl]="heightControl"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Height in cm" [formControl]="heightControl" [errorStateMatcher]='validate'>
         <mat-error *ngIf="heightControl?.hasError('pattern')">
           Height must be a number
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Weight in kg" [formControl]="weightControl"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Weight in kg" [formControl]="weightControl" [errorStateMatcher]='validate'>
         <mat-error *ngIf="weightControl?.hasError('pattern')">
           Weight must be a number
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Bodyfat in %" [formControl]="bodyfatControl"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Bodyfat in %" [formControl]="bodyfatControl" [errorStateMatcher]='validate'>
         <mat-error *ngIf="bodyfatControl?.hasError('pattern')">
           Body fat must be a number
         </mat-error>
@@ -213,7 +208,8 @@
       <br>
       <mat-label>Contract Status</mat-label><br>
       <mat-form-field>
-        <mat-select matInput placeholder="Contract Status" formControlName="contractStatusControl" [errorStateMatcher]='validate'>
+        <mat-select matInput placeholder="Contract Status" formControlName="contractStatusControl"
+          [errorStateMatcher]='validate'>
           <mat-option value="Active">Active</mat-option>
           <mat-option value="Open for Offers">Open for Offers</mat-option>
           <mat-option value="In Negotiation">In Negotiation</mat-option>
@@ -221,7 +217,8 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [matDatepicker]="contractPicker" formControlName="contractExpired" placeholder="Contract Expiration">
+        <input matInput [matDatepicker]="contractPicker" formControlName="contractExpired"
+          placeholder="Contract Expiration">
         <mat-datepicker-toggle matSuffix [for]="contractPicker"></mat-datepicker-toggle>
         <mat-datepicker #contractPicker></mat-datepicker>
       </mat-form-field>
@@ -239,7 +236,8 @@
         <input matInput placeholder="Injury" formControlName="injuryDescription" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput [matDatepicker]="picker" formControlName="injuryRecoveryDate" placeholder="Expected Recovery Date">
+        <input matInput [matDatepicker]="picker" formControlName="injuryRecoveryDate"
+          placeholder="Expected Recovery Date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -268,31 +266,39 @@
         <div class="col-xs-6">
           <mat-label>Strengths</mat-label><br>
           <mat-hint>Choose your strengths</mat-hint><br><br>
-          <mat-checkbox #firstStrength value="str1">Strength #1</mat-checkbox><br>
-          <mat-checkbox #secondStrength value="str2">Strength #2</mat-checkbox><br>
-          <mat-checkbox #thirdStrength value="str3">Strength #3</mat-checkbox><br>
-          <mat-checkbox #fourthStrength value="str4">Strength #4</mat-checkbox><br>
-          <mat-checkbox #fifthStrength value="str5">Strength #5</mat-checkbox><br>
+          <mat-checkbox #speedy value="Speedy">Speedy</mat-checkbox><br>
+          <mat-checkbox #athletic value="Athletic">Athletic</mat-checkbox><br>
+          <mat-checkbox #greatShape value="Great shape">Great Shape</mat-checkbox><br>
+          <mat-checkbox #quickShots value="Quick shots">Quick Shots</mat-checkbox><br>
+          <mat-checkbox #accurateShooter value="Accurate shooter">Accurate Shooter</mat-checkbox><br>
+          <mat-checkbox #tactical value="Tactical">Tactical</mat-checkbox><br>
+          <mat-checkbox #teamPlayer value="Teamplayer">Team Player</mat-checkbox><br>
+          <mat-checkbox #social value="Social">Social</mat-checkbox><br>
+          <mat-checkbox #winAtAllCosts value="Win at all costs">Win at All Costs</mat-checkbox><br>
+          <mat-checkbox #longRangeShooter value="Long range shooter">Long Range Shooter</mat-checkbox><br>
           <br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Describe your strengths in depth..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" formControlName="strengths" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
         </div>
         <div class="col-xs-6">
           <mat-label>Weaknesses</mat-label><br>
           <mat-hint>Choose your weaknesses</mat-hint><br><br>
-          <mat-checkbox #firstWeakness value="weak1">Weakness #1</mat-checkbox><br>
-          <mat-checkbox #secondWeakness value="weak2">Weakness #2</mat-checkbox><br>
-          <mat-checkbox #thirdWeakness value="weak3">Weakness #3</mat-checkbox><br>
-          <mat-checkbox #fourthWeakness value="weak4">Weakness #4</mat-checkbox><br>
-          <mat-checkbox #fifthWeakness value="weak5">Weakness #5</mat-checkbox><br>
+          <mat-checkbox #slowMoving value="Slow moving">Slow Moving</mat-checkbox><br>
+          <mat-checkbox #badEndurance value="Bad endurance">Bad Endurance</mat-checkbox><br>
+          <mat-checkbox #historyOfInjuries value="History of injuries">History of Injuries</mat-checkbox><br>
+          <mat-checkbox #badDefencePlayer value="Bad defence player">Bad Defence Player</mat-checkbox><br>
           <br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Describe your weaknesses in depth..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" formControlName="weaknesses" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
         </div>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <textarea matInput placeholder="Describe your strengths in depth..." matTextareaAutosize
+            matAutosizeMinRows="10" matAutosizeMaxRows="10" formControlName="strengths"
+            [errorStateMatcher]='validate'></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Describe your weaknesses in depth..." matTextareaAutosize
+            matAutosizeMinRows="10" matAutosizeMaxRows="10" formControlName="weaknesses"
+            [errorStateMatcher]='validate'></textarea>
+        </mat-form-field>
       </div>
 
       <br>
@@ -319,11 +325,11 @@
       <mat-label>Club info</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Current club" formControlName="currentClub"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Current club" formControlName="currentClub" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Current position" formControlName="currentPrimaryPosition" [errorStateMatcher]='validate'>
+        <mat-select placeholder="Current position" formControlName="currentPrimaryPosition"
+          [errorStateMatcher]='validate'>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
           <mat-option value="Left back">Left back</mat-option>
@@ -335,7 +341,8 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Current secondary position" formControlName="currentSecondaryPosition" [errorStateMatcher]='validate'>
+        <mat-select placeholder="Current secondary position" formControlName="currentSecondaryPosition"
+          [errorStateMatcher]='validate'>
           <mat-option value="None">None</mat-option>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
@@ -387,7 +394,7 @@
       <p>
         All of these fields are <strong>optional</strong>.
         <br>
-        If you have played on the national team, it is recommended to fill it out. 
+        If you have played on the national team, it is recommended to fill it out.
       </p>
       <hr>
 
@@ -397,8 +404,7 @@
           <mat-hint>Fill out at least appearances and position</mat-hint>
           <br>
           <mat-form-field>
-            <input matInput placeholder="Appearances" formControlName="aTeamAppearances"
-              [errorStateMatcher]='validate'>
+            <input matInput placeholder="Appearances" formControlName="aTeamAppearances" [errorStateMatcher]='validate'>
             <mat-error *ngIf="aTeamNumberControl?.hasError('pattern')">
               Appearances must be a number
             </mat-error>
@@ -429,9 +435,9 @@
           <mat-form-field>
             <input matInput placeholder="Appearances" formControlName="u21TeamAppearances"
               [errorStateMatcher]='validate'>
-              <mat-error *ngIf="u21NumberControl?.hasError('pattern')">
-                Appearances must be a number
-              </mat-error>
+            <mat-error *ngIf="u21NumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Position" formControlName="u21TeamPosition" [errorStateMatcher]='validate'>
@@ -457,8 +463,7 @@
           <mat-hint>Fill out at least appearances and position</mat-hint>
           <br>
           <mat-form-field>
-            <input matInput placeholder="Appearances" formControlName="bTeamAppearances"
-              [errorStateMatcher]='validate'>
+            <input matInput placeholder="Appearances" formControlName="bTeamAppearances" [errorStateMatcher]='validate'>
             <mat-error *ngIf="bTeamNumberControl?.hasError('pattern')">
               Appearances must be a number
             </mat-error>
@@ -538,8 +543,9 @@
           <mat-label>Upload profile picture</mat-label>
           <br>
           <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #profilePicture formControlName="profilePictureControl" (change)="onProfilePictureFileSelected($event)"
-              placeholder="Upload picture" accept="image/*"></ngx-mat-file-input>
+            <ngx-mat-file-input #profilePicture formControlName="profilePictureControl"
+              (change)="onProfilePictureFileSelected($event)" placeholder="Upload picture" accept="image/*">
+            </ngx-mat-file-input>
             <button mat-icon-button matSuffix *ngIf="!profilePicture.empty" (click)="profilePicture.clear($event)">
               <mat-icon>clear</mat-icon>
             </button>
