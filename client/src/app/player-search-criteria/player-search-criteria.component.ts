@@ -86,12 +86,10 @@ export class PlayerSearchCriteriaComponent implements OnInit {
   */
   searchForPlayers() {
     this.validateSearchCriteria();
-
+    this.searchService.searchForPlayersResult = [];
     // some call to the searchService
     this.searchService.searchForPlayers(this.searchCriteria).subscribe(
       (success: Player[]) => {
-        // const data = JSON.stringify(success);
-        // this.searchService.searchForPlayersResult = data;
         success.forEach(element => {
           this.p = element;
           this.searchService.searchForPlayersResult.push(this.p);

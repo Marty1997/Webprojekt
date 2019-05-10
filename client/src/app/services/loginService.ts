@@ -63,11 +63,9 @@ export class loginService {
       (succes:any) => {      
         if(succes.isPlayer) {
           this.setupPlayerLogin(succes);
-
         }
         else if(succes.isClub) {
-          this.setupClubLogin(succes);
-          
+          this.setupClubLogin(succes);  
         }
       },
       error => {
@@ -102,6 +100,7 @@ export class loginService {
       localStorage.setItem('token', succes.token);
     }
     this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
+
   }
 
   logout() {
