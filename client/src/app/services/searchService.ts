@@ -94,17 +94,9 @@ export class searchService {
     return this.http.post(url, searchCriteria);
   }
 
-  getPlayerById(player: Player) {
-    let url = "https://localhost:44310/api/Player/GetById/";
-    return this.http.post(url, player).subscribe(
-      (success) => {
-        console.log(success);
-        this.player = this.player.buildPlayer(success, player);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  getPlayerById(id: number) {
+    let url = "https://localhost:44310/api/Player/GetById/" +id;
+    return this.http.get(url);
   }
 
   searchForClubs(searchCriteria: ClubSearchCriteria) {

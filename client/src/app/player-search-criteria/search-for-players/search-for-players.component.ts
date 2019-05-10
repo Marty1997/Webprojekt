@@ -9,7 +9,7 @@ import { searchService } from '../../services/searchService';
   providers: []
 })
 export class SearchForPlayersComponent implements OnInit {
-
+  players: Player[] = this.searchService.searchForPlayersResult;
   playerList: Player[] = [];
   constructor(private searchService: searchService) {}
 
@@ -18,4 +18,7 @@ export class SearchForPlayersComponent implements OnInit {
     this.playerList = this.searchService.searchForPlayersResult;
   }
 
+  // selectedPlayer(id: number) {
+  //   this.searchService.getPlayerById(p); //fetch player data
+  // }
 }
