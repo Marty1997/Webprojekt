@@ -42,8 +42,8 @@ namespace Api.Controllers {
 
         [HttpPost]
         [Route("[action]")]
-        public IActionResult SearchForClubs([FromBody] ClubSearchCriteria clubSearchCriteria, Player player) {
-            return  Ok(_clubLogic.HandleClubSearchAlgorithm(clubSearchCriteria, player));
+        public IActionResult SearchForClubs([FromBody] ClubSearchCriteria clubSearchCriteria, [FromBody]int id) {
+            return  Ok(_clubLogic.HandleClubSearchAlgorithm(clubSearchCriteria, id));
         }
     }
 }

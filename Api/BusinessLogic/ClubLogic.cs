@@ -11,11 +11,13 @@ namespace Api.BusinessLogic {
 
     public class ClubLogic {
         private readonly IRepository<Club> _clubRepos;
+        private readonly IRepository<Player> _playerRepos;
         private readonly Account _account;
         private readonly UserCredentialsLogic _userCredentialsLogic;
 
-        public ClubLogic(Account account, IRepository<Club> clubRepos, UserCredentialsLogic userCredentialsLogic) {
+        public ClubLogic(Account account, IRepository<Club> clubRepos, IRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
             _clubRepos = clubRepos;
+            _playerRepos = playerRepos;
             _account = account; ;
             _userCredentialsLogic = userCredentialsLogic;
         }
@@ -48,7 +50,7 @@ namespace Api.BusinessLogic {
             return _clubRepos.GetById(id);
         }
 
-        public List<Club> HandleClubSearchAlgorithm(ClubSearchCriteria criterias, Player player) {
+        public List<Club> HandleClubSearchAlgorithm(ClubSearchCriteria criterias, int id) {
             string sql = "";
             List<Club> clubs = new List<Club>();
 
@@ -98,7 +100,11 @@ namespace Api.BusinessLogic {
                 if(criterias.ValuesList.Count > 0) {
                     // wtf is going on
                 }
+
+                clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
             }
+            // Get player by id
+            Player player = _playerRepos.GetById(id);
             // Calculate match percentage, sort by match percentage and return the list
             clubs = CalculateCriteriaMatchPercentage(clubs, criterias, player);
             SortListByPercentage sort = new SortListByPercentage();

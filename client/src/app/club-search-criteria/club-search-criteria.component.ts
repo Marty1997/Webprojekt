@@ -3,6 +3,9 @@ import { searchService } from "../services/searchService";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { ClubSearchCriteria } from "../models/clubSearchCriteria.model";
 import { MatCheckbox } from "@angular/material";
+import { Club } from '../models/club.model';
+import { loginService } from '../services/loginService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-club-search-criteria",
@@ -13,6 +16,7 @@ import { MatCheckbox } from "@angular/material";
 export class ClubSearchCriteriaComponent implements OnInit {
   searchForm: FormGroup;
   searchCriteria: ClubSearchCriteria = new ClubSearchCriteria();
+  club: Club = new Club();
   countryList: string[] = ["All Countries", "Denmark", "Sweden", "Norway"];
   leagueList: string[] = ["All Leagues", "First League", "Second League", "Third League"];
   positionList: string[] = [
@@ -39,7 +43,9 @@ export class ClubSearchCriteriaComponent implements OnInit {
 
   constructor(
     private _formbuilder: FormBuilder,
-    private searchService: searchService
+    private searchService: searchService,
+    private loginService: loginService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -52,9 +58,20 @@ export class ClubSearchCriteriaComponent implements OnInit {
   }
 
   searchForClubs() {
-    this.validateSearchCriteria();
-    console.log(this.searchCriteria);
-    this.searchService.searchForClubs(this.searchCriteria);
+    this.validateSearchCriteria();    
+    this.searchService.searchForClubsResult = [];
+    this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
+      (success: Club[]) => {
+        success.forEach(element => {
+          this.club = element;
+          this.searchService.searchForClubsResult.push(this.club);
+        });
+        this.router.navigate(['/search-for-clubs']);
+      },
+      (error) => {
+        // redirect to error page
+      }
+    );
   }
 
   validateSearchCriteria() {

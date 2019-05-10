@@ -15,7 +15,6 @@ import { ActivatedRoute } from "@angular/router";
 export class ClubDashboardComponent implements OnInit {
   clubBinding: Club;
   isClub: boolean;
-  clubs: Club[] = this.searchService.searchForClubsResult;
 
   myInterval = 3000;
   slides = [
@@ -25,7 +24,6 @@ export class ClubDashboardComponent implements OnInit {
   ];
 
   constructor(
-    private route: ActivatedRoute,
     private loginService: loginService,
     private searchService: searchService
   ) {}
@@ -81,12 +79,7 @@ export class ClubDashboardComponent implements OnInit {
     } else if (this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen
       this.isClub = false;
-      this.clubs.forEach((c: Club) => {
-        if (c.id == this.route.snapshot.params.id) {
-          this.searchService.getClubById(c); //fetch club data
-          this.clubBinding = this.searchService.club;
-        }
-      });
+      this.clubBinding = this.searchService.club;
     } else {
       this.loginService.logout();
     }
