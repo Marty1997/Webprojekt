@@ -1,20 +1,17 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
 import { Club } from "../models/club.model";
 import { searchService } from "../services/searchService";
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-club-dashboard",
   templateUrl: "./club-dashboard.component.html",
   styleUrls: ["./club-dashboard.component.css"],
-  providers: [searchService],
   encapsulation: ViewEncapsulation.None
 })
 export class ClubDashboardComponent implements OnInit {
   clubBinding: Club;
-  isClub: boolean;
+  isClub: boolean = false;
 
   myInterval = 3000;
   slides = [
@@ -78,7 +75,6 @@ export class ClubDashboardComponent implements OnInit {
       }
     } else if (this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen
-      this.isClub = false;
       console.log(this.searchService.club);
       this.clubBinding = this.searchService.club;
       console.log(this.clubBinding);
