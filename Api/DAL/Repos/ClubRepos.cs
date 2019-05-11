@@ -300,6 +300,7 @@ namespace Api.DAL.Repos {
                 club = GetJobPosition(club, conn);
                 club = GetClubValueList(club, conn);
                 club = GetClubPreferenceList(club, conn);
+                club = GetClubFacilityImagesList(club, conn);
 
                 //}
                 //catch (SqlException e) {
@@ -328,14 +329,13 @@ namespace Api.DAL.Repos {
             Club c = new Club();
             for (int i = 0; i < 5; i++) {
 
+                List<int> _rowCountList = new List<int>();
+
                 using (var conn = Connection()) {
                     
 
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
-
-                            //byte[] rowId = null;
-                            int rowCount = 0;
                         
                             //Return row ID
                             string rowIDSQL = @"Select rowID from Club where email = @Email";
@@ -345,12 +345,11 @@ namespace Api.DAL.Repos {
                             string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
                                                                     AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
                                                                     ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath
-                                                                 Where Email = @Email AND RowID = @RowID;
-                                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+                                                                 Where Email = @Email AND RowID = @RowID";
 
-                        var club_ID = conn.Query<int>(updateClubSQL, new {
+
+                            _rowCountList.Add(conn.Execute(updateClubSQL, new {
                                 Name = entity.Name,
-                                Email = entity.Email,
                                 entity.League,
                                 entity.Country,
                                 entity.StreetAddress,
@@ -363,34 +362,43 @@ namespace Api.DAL.Repos {
                                 entity.ValueDescription,
                                 entity.PreferenceDescription,
                                 entity.ImagePath,
+                                Email = entity.Email,
                                 RowID = row_ID
-                            }, transaction: tran).Single();
-                            
+                            }, transaction: tran));
 
-                        
+                           
                             //Facility image
                             if (entity.FacilityImagesList.Count > 0) {
+
+                                //Return club ID
+                                string clubIDSQL = @"Select id from Club where email = @Email";
+                                int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
+
                                 foreach (string imagePath in entity.FacilityImagesList) {
 
-                                    //Insert facility image
-                                    string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+                                    if(club_ID != 0) {
+                                        //Insert facility image
+                                        string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
                                             VALUES (@ImagePath, @Club_ID)";
 
-                                    rowCount = conn.Execute(facilityImageSQL, new {
-                                        ImagePath = imagePath,
-                                        Club_ID = club_ID
-                                    }, transaction: tran);
+                                        _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                            ImagePath = imagePath,
+                                            Club_ID = club_ID
+                                        }, transaction: tran));
+                                    }
+
                                 }
                             }
 
                             //Check for 0 in rowcount list
-                            if (rowCount == 0) {
+                            if (_rowCountList.Contains(0)) {
                                 c.ErrorMessage = "The club was not updated";
                                 tran.Rollback();
                             }
                             else {
                                 c.ErrorMessage = "";
                                 tran.Commit();
+                                break;
                             }
                         //}
                         //catch (SqlException e) {
@@ -408,6 +416,12 @@ namespace Api.DAL.Repos {
         //Helping method to build club traininghours
         private Club GetClubTraningHourList(Club club, IDbConnection conn) {
             club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
+            return club;
+        }
+
+        //Helping method to build club facilityImages
+        private Club GetClubFacilityImagesList(Club club, IDbConnection conn) {
+            club.FacilityImagesList = conn.Query<string>("select imagePath from FacilityImage where club_ID = @id", new { id = club.Id }).ToList();
             return club;
         }
 

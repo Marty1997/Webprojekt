@@ -18,7 +18,11 @@ export class PlayerDashboardComponent implements OnInit {
   isPlayer: boolean;
   playerBinding: Player;
 
-  isFirstOpen = true;
+  isATeamOpen: boolean;
+  isBTeamOpen: boolean;
+  isU21TeamOpen: boolean;
+  isU18TeamOpen: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private searchService: searchService,
@@ -38,6 +42,26 @@ export class PlayerDashboardComponent implements OnInit {
       }
       this.playerBinding = this.loginService.playerInSession;
       console.log(this.playerBinding);
+
+      console.log(this.playerBinding.nationalTeamList);
+      
+      //Check nationalTeamList for teams
+      for(let nationalTeam of this.playerBinding.nationalTeamList) {
+        this.isBTeamOpen = true;
+        if(nationalTeam.name == "A") {
+          this.isATeamOpen = true;
+        }
+        if(nationalTeam.name == "B") {
+          this.isBTeamOpen = true;
+        }
+        if(nationalTeam.name == "U21") {
+          this.isU21TeamOpen = true;
+        }
+        if(nationalTeam.name == "U18") {
+          this.isU18TeamOpen = true;
+        }
+      }
+        
     } else if (this.loginService.typeOfLogin == "Club") {
       //find spilleren som klubben vil se og put i playerBinding variablen
         this.playerBinding = this.searchService.player;

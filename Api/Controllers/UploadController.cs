@@ -27,9 +27,11 @@ namespace Api.Controllers {
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
                 if (file.Length > 0) {
+                    var guid = Guid.NewGuid().ToString();
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine(folderName, fileName);
+                    var uniqueFileName = guid + fileName;
+                    var fullPath = Path.Combine(pathToSave, uniqueFileName);
+                    var dbPath = Path.Combine(folderName, uniqueFileName);
 
                     using (var stream = new FileStream(fullPath, FileMode.Create)) {
                         file.CopyTo(stream);

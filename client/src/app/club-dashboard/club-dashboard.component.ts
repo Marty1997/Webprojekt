@@ -116,7 +116,6 @@ export class ClubDashboardComponent implements OnInit {
       this.uploadFilesService.uploadFile(files).subscribe(res => {
 
         this.uploadFilesService.createImgPath(JSON.stringify(res.body));
-        console.log(this.uploadFilesService.imagePath);
 
         this.facilityImages.push(this.uploadFilesService.imagePath);
 

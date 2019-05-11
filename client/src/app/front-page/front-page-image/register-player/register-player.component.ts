@@ -542,7 +542,7 @@ export class RegisterPlayerComponent implements OnInit {
         "/" +
         this.player.contractExpiredDate.getFullYear();
     } else {
-      this.player.contractExpiredDate = null;
+      this.player.contractExpired = null;
     }
     if(this.additionalInfoFormGroup.value.injuryStatus !== '') {
       this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatus;
@@ -558,7 +558,7 @@ export class RegisterPlayerComponent implements OnInit {
         "/" +
         this.player.injuryExpiredDate.getFullYear();
     } else {
-      this.player.injuryExpiredDate = null;
+      this.player.injuryExpired = null;
     }
     if(this.additionalInfoFormGroup.value.injuryDescription !== '') {
       this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;
