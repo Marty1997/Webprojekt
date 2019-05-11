@@ -14,7 +14,7 @@
         <mat-label>Login credentials</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]='validate'>
+          <input id="playerEmail" matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]='validate'>
           <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
             Please enter a valid email address
           </mat-error>
@@ -23,7 +23,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+          <input id="playerPassword" matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
             [formControl]="passwordControl" [errorStateMatcher]='validate'>
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           <mat-error *ngIf="passwordControl?.hasError('minlength') && !passwordControl?.hasError('required')">
@@ -38,13 +38,13 @@
         <mat-label>Your full name</mat-label>
         <br>
         <mat-form-field>
-          <input matInput placeholder="First Name" [formControl]="firstNameControl" [errorStateMatcher]='validate'>
+          <input id="playerFirstName" matInput placeholder="First Name" [formControl]="firstNameControl" [errorStateMatcher]='validate'>
           <mat-error *ngIf="firstNameControl?.hasError('required')">
             First name is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Last Name" [formControl]="lastNameControl" [errorStateMatcher]='validate'>
+          <input id="playerLastName" matInput placeholder="Last Name" [formControl]="lastNameControl" [errorStateMatcher]='validate'>
           <mat-error *ngIf="lastNameControl?.hasError('required')">
             Last name is <strong>required</strong>
           </mat-error>
@@ -53,7 +53,7 @@
         <mat-label>Country info</mat-label>
         <br>
         <mat-form-field class="doubleSizeField">
-          <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+          <mat-select id="playerCountry" placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
             <mat-option *ngFor="let country of countryList" [value]="country">
               {{country}}
             </mat-option>
@@ -67,7 +67,7 @@
         <mat-label>Date of birth</mat-label>
         <br>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Day (DD)" [formControl]="dayControl" [errorStateMatcher]='validate'>
+          <input id="playerDay" matInput placeholder="Day (DD)" [formControl]="dayControl" [errorStateMatcher]='validate'>
           <mat-error
             *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
             Day of birth must be 2 characters
@@ -80,7 +80,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <mat-select placeholder="Select Month" [formControl]="monthControl" [errorStateMatcher]='validate'>
+          <mat-select id="playerMonth" placeholder="Select Month" [formControl]="monthControl" [errorStateMatcher]='validate'>
             <mat-option value="01">January</mat-option>
             <mat-option value="02">February</mat-option>
             <mat-option value="03">March</mat-option>
@@ -99,7 +99,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Year (YYYY)" [formControl]="yearControl" [errorStateMatcher]='validate'>
+          <input id="playerYear" matInput placeholder="Year (YYYY)" [formControl]="yearControl" [errorStateMatcher]='validate'>
           <mat-error
             *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
             Year must be a number
@@ -136,19 +136,19 @@
       <mat-label>Measurements</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Height in cm" [formControl]="heightControl" [errorStateMatcher]='validate'>
+        <input id="playerHeight" matInput placeholder="Height in cm" [formControl]="heightControl" [errorStateMatcher]='validate'>
         <mat-error *ngIf="heightControl?.hasError('pattern')">
           Height must be a number
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Weight in kg" [formControl]="weightControl" [errorStateMatcher]='validate'>
+        <input id="playerWeight" matInput placeholder="Weight in kg" [formControl]="weightControl" [errorStateMatcher]='validate'>
         <mat-error *ngIf="weightControl?.hasError('pattern')">
           Weight must be a number
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Bodyfat in %" [formControl]="bodyfatControl" [errorStateMatcher]='validate'>
+        <input id="playerBodyfat" matInput placeholder="Bodyfat in %" [formControl]="bodyfatControl" [errorStateMatcher]='validate'>
         <mat-error *ngIf="bodyfatControl?.hasError('pattern')">
           Body fat must be a number
         </mat-error>
@@ -158,7 +158,7 @@
       <mat-label>Positions</mat-label>
       <br>
       <mat-form-field>
-        <mat-select placeholder="Primary position" formControlName="primaryPosition" [errorStateMatcher]='validate'>
+        <mat-select id="playerPrimaryPosition" placeholder="Primary position" formControlName="primaryPosition" [errorStateMatcher]='validate'>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
           <mat-option value="Left back">Left back</mat-option>
@@ -170,7 +170,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="Secondary position" formControlName="secondaryPosition" [errorStateMatcher]='validate'>
+        <mat-select id="playerSecondaryPosition" placeholder="Secondary position" formControlName="secondaryPosition" [errorStateMatcher]='validate'>
           <mat-option value="None">None</mat-option>
           <mat-option value="Goalkeeper">Goalkeeper</mat-option>
           <mat-option value="Left wing">Left wing</mat-option>
@@ -187,7 +187,7 @@
       <mat-label>Preferred hand</mat-label>
       <br>
       <mat-form-field class="doubleSizeField">
-        <mat-select placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
+        <mat-select id="playerHandPreference" placeholder="Select Hand" formControlName="preferredHand" [errorStateMatcher]='validate'>
           <mat-option value="Right">Right Hand</mat-option>
           <mat-option value="Left">Left Hand</mat-option>
           <mat-option value="Both">Both Hands</mat-option>
@@ -198,7 +198,7 @@
       <mat-label>League</mat-label>
       <br>
       <mat-form-field class="doubleSizeField">
-        <mat-select placeholder="Select League" formControlName="leagueControl" [errorStateMatcher]='validate'>
+        <mat-select id="playerLeague" placeholder="Select League" formControlName="leagueControl" [errorStateMatcher]='validate'>
           <mat-option value="First League">First League</mat-option>
           <mat-option value="Second League">Second League</mat-option>
           <mat-option value="Third League">Third League</mat-option>
@@ -208,7 +208,7 @@
       <br>
       <mat-label>Contract Status</mat-label><br>
       <mat-form-field>
-        <mat-select matInput placeholder="Contract Status" formControlName="contractStatusControl"
+        <mat-select id="playerContractStatus" matInput placeholder="Contract Status" formControlName="contractStatusControl"
           [errorStateMatcher]='validate'>
           <mat-option value="Active">Active</mat-option>
           <mat-option value="Open for Offers">Open for Offers</mat-option>
@@ -217,7 +217,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [matDatepicker]="contractPicker" formControlName="contractExpired"
+        <input id="playerContractDate" matInput [matDatepicker]="contractPicker" formControlName="contractExpired"
           placeholder="Contract Expiration">
         <mat-datepicker-toggle matSuffix [for]="contractPicker"></mat-datepicker-toggle>
         <mat-datepicker #contractPicker></mat-datepicker>
@@ -227,16 +227,16 @@
       <br>
       <mat-label>Injury</mat-label><br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Status" formControlName="injuryStatus" [errorStateMatcher]="validate">
+        <mat-select id="playerInjuryStatus" placeholder="Status" formControlName="injuryStatus" [errorStateMatcher]="validate">
           <mat-option value="Injured">Injured</mat-option>
           <mat-option value="Healthy">Healthy</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Injury" formControlName="injuryDescription" [errorStateMatcher]='validate'>
+        <input id="playerInjuryDescription" matInput placeholder="Injury" formControlName="injuryDescription" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput [matDatepicker]="picker" formControlName="injuryRecoveryDate"
+        <input id="playerInjuryDate" matInput [matDatepicker]="picker" formControlName="injuryRecoveryDate"
           placeholder="Expected Recovery Date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
