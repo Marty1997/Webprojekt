@@ -337,7 +337,7 @@ export class RegisterClubComponent implements OnInit {
       this.uploadFilesService.uploadFile(this.clubLogo);
     }
     if (this.facilityPictures != null) {
-      this.uploadFilesService.uploadFiles(this.facilityPictures);
+      this.uploadFilesService.uploadFile(this.facilityPictures);
     }
   }
 
@@ -701,9 +701,9 @@ export class RegisterClubComponent implements OnInit {
     }
 
     if (this.clubPicturesFormGroup.value.facilityPicturesControl !== "") {
-      this.club.facilityPicturesList = this.clubPicturesFormGroup.value.facilityPicturesControl;
+      this.club.facilityImagesList = this.clubPicturesFormGroup.value.facilityPicturesControl;
     } else {
-      this.club.facilityPicturesList = null;
+      this.club.facilityImagesList = null;
     }
 
     // values

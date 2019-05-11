@@ -22,8 +22,10 @@
         <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
       </div>
 
-      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;" multiple>
-      <button type="button" class="btn btn-success" (click)="file.click()">Change profile picture</button>
+      <input type="file" #profilePicture (change)="uploadFile(profilePicture.files)" style="display:none;" multiple>
+      <button type="button" class="btn btn-success" (click)="profilePicture.click()">Upload Image</button>
+
+      <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()">
 
       <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3>
 
@@ -249,14 +251,14 @@
         </div>
         <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
         <carousel [interval]="myInterval">
-          <slide *ngFor="let slide of slides; let index=index">
-            <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
+          <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
+            <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
           </slide>
         </carousel>
 
         <div style="text-align: center">
-            <input type="file" #file placeholder="Choose file" (change)="uploadFiles(file.files)" style="display:none;" multiple>
-            <button type="button" class="btn btn-success" (click)="file.click()">Change facility images</button>
+            <input type="file" #slideImage placeholder="Choose file" (change)="uploadFiles(slideImage.files)" style="display:none;" multiple>
+            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
         </div>
       </div>
 

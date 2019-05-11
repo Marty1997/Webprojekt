@@ -336,25 +336,52 @@ namespace Api.DAL.Repos {
 
                             //byte[] rowId = null;
                             int rowCount = 0;
-
-
+                        
                             //Return row ID
-                            string preferenceSQL = @"Select rowID from Club where email = @Email";
-                            byte[] row_ID = conn.Query<byte[]>(preferenceSQL, new { Email = entity.Email }, transaction: tran).Single();
+                            string rowIDSQL = @"Select rowID from Club where email = @Email";
+                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
 
-
-                           
                             //Update club
                             string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
                                                                     AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
                                                                     ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath
-                                                                 Where Email = @Email AND RowID = @RowID";
-                            rowCount = conn.Execute(updateClubSQL, new { Name = entity.Name, League = entity.League, Country = entity.Country, StreetAddress = entity.StreetAddress, StreetNumber = entity.StreetNumber,
-                                                                            Trainer = entity.Trainer, AssistantTrainer = entity.AssistantTrainer, Physiotherapist = entity.Physiotherapist, AssistantPhysiotherapist = entity.AssistantPhysiotherapist,
-                                                                                Manager = entity.Manager, ValueDescription = entity.ValueDescription, PreferenceDescription = entity.PreferenceDescription, ImagePath = entity.ImagePath,
-                                                                                   Email = entity.Email, RowID = row_ID }, transaction: tran);
+                                                                 Where Email = @Email AND RowID = @RowID;
+                                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
+                        var club_ID = conn.Query<int>(updateClubSQL, new {
+                                Name = entity.Name,
+                                Email = entity.Email,
+                                entity.League,
+                                entity.Country,
+                                entity.StreetAddress,
+                                entity.StreetNumber,
+                                entity.Trainer,
+                                entity.AssistantTrainer,
+                                entity.Physiotherapist,
+                                entity.AssistantPhysiotherapist,
+                                entity.Manager,
+                                entity.ValueDescription,
+                                entity.PreferenceDescription,
+                                entity.ImagePath,
+                                RowID = row_ID
+                            }, transaction: tran).Single();
+                            
 
+                        
+                            //Facility image
+                            if (entity.FacilityImagesList.Count > 0) {
+                                foreach (string imagePath in entity.FacilityImagesList) {
+
+                                    //Insert facility image
+                                    string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+                                            VALUES (@ImagePath, @Club_ID)";
+
+                                    rowCount = conn.Execute(facilityImageSQL, new {
+                                        ImagePath = imagePath,
+                                        Club_ID = club_ID
+                                    }, transaction: tran);
+                                }
+                            }
 
                             //Check for 0 in rowcount list
                             if (rowCount == 0) {

@@ -29,7 +29,7 @@ export class Club {
 
     // files
     imagePath: string = "";
-    facilityPicturesList: string[] = [];
+    facilityImagesList: string[] = [];
     
     // values/preferences
     valueDescription: string = "";
@@ -69,7 +69,7 @@ export class Club {
 
         // files
         this.imagePath = succes.imagePath;
-        this.facilityPicturesList = succes.facilityPicturesList;
+        this.facilityImagesList = succes.facilityImagesList;
 
         return club;
     }

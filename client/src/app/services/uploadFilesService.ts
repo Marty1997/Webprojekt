@@ -12,22 +12,10 @@ export class uploadFilesService {
 
   uploadFile = (files) => {
 
-    let url = "https://localhost:44310/api/Upload/UploadFile";
+    let url = "https://localhost:44310/api/Upload";
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-
-    return this.http.post(url, formData, {reportProgress: true, observe: 'response'})
-  }
-
-  uploadFiles = (files) => {
-    
-    let url = "https://localhost:44310/api/Upload/UploadFiles";
-    let filesToUpload : File[] = files;
-    const formData = new FormData();
-    Array.from(filesToUpload).map((file, index) => {
-      return formData.append('file'+index, file, file.name);
-    });
 
     return this.http.post(url, formData, {reportProgress: true, observe: 'response'})
   }

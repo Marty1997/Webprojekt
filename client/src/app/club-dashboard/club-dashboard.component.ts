@@ -18,13 +18,9 @@ export class ClubDashboardComponent implements OnInit {
   clubBinding: Club;
   isClub: boolean;
   clubs: Club[] = this.searchService.searchForClubsResult;
+  facilityImages: string[] = [];
 
   myInterval = 3000;
-  slides = [
-    { image: "assets/Images/Håndboldbane.jpg" },
-    { image: "assets/Images/omklædning.jpg" },
-    { image: "assets/Images/Styrke.jpg" }
-  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -101,15 +97,12 @@ export class ClubDashboardComponent implements OnInit {
       return;
     }
     else {
-      let folder: string = "Images";
 
       this.uploadFilesService.uploadFile(files).subscribe(res => {
 
         this.uploadFilesService.createImgPath(JSON.stringify(res.body));
         this.clubBinding.imagePath = this.uploadFilesService.imagePath;
 
-        //Update club
-        this.updateClub(this.clubBinding);
       });
     }
   }
@@ -119,28 +112,21 @@ export class ClubDashboardComponent implements OnInit {
       return;
     }
     else {
-      let folder: string = "Images";
+      
+      this.uploadFilesService.uploadFile(files).subscribe(res => {
 
-      this.uploadFilesService.uploadFiles(files).subscribe( 
-        (res: any) => {
-          res.forEach(element => {
-            console.log(element);
-          });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-        
-        // this.uploadFilesService.createImgPath(JSON.stringify(res.body));
-        // this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+        this.uploadFilesService.createImgPath(JSON.stringify(res.body));
+        console.log(this.uploadFilesService.imagePath);
 
-        // //Update club
-        // this.updateClub(this.clubBinding);
+        this.facilityImages.push(this.uploadFilesService.imagePath);
+
+        this.clubBinding.facilityImagesList = this.facilityImages;
+
+      });   
     }
   }
   
-  updateClub(c: Club) {
-    this.updateService.updateClub(c);
+  updateClub() {
+    this.updateService.updateClub(this.clubBinding);
   }
 }

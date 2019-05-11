@@ -38,10 +38,8 @@ namespace Api.DAL.Entities {
         public List<string> PreferenceList { get; set; }
         public List<JobPosition> JobPositionsList { get; set; }
         public int SearchPercentage { get; set; }
-
-        //// files
-        //logo: File;
-        //facilityPictures: FileList;
+        public List<string> FacilityImagesList { get; set; }
+        
 
 
         public Club() {
