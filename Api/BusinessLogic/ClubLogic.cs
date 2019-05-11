@@ -108,7 +108,7 @@ namespace Api.BusinessLogic {
             // Calculate match percentage, sort by match percentage and return the list
             clubs = CalculateCriteriaMatchPercentage(clubs, criterias, player);
             SortListByPercentage sort = new SortListByPercentage();
-            clubs.Sort(sort.Compare);
+            clubs.Sort(sort.CompareClub);
             return clubs;
         }
 
