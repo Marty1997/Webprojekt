@@ -79,7 +79,9 @@ export class ClubDashboardComponent implements OnInit {
     } else if (this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen
       this.isClub = false;
+      console.log(this.searchService.club);
       this.clubBinding = this.searchService.club;
+      console.log(this.clubBinding);
     } else {
       this.loginService.logout();
     }

@@ -23,6 +23,7 @@ namespace Api.Controllers {
             _clubLogic = clubLogic;
         }
 
+        // api/Club
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Club entity) {
@@ -32,6 +33,7 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
+        // api/Club/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {
@@ -40,9 +42,10 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
-        [HttpPost]
+        // api/Club/SearchForClubs
+        [HttpGet]
         [Route("[action]")]
-        public IActionResult SearchForClubs([FromBody] ClubSearchCriteria clubSearchCriteria, [FromBody]int id) {
+        public IActionResult SearchForClubs([FromQuery] ClubSearchCriteria clubSearchCriteria, int id) {
             return  Ok(_clubLogic.HandleClubSearchAlgorithm(clubSearchCriteria, id));
         }
     }

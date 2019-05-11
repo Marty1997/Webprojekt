@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import { Club } from '../../models/club.model';
 import { searchService } from '../../services/searchService';
 import { Router } from '@angular/router';
@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-search-for-clubs',
   templateUrl: './search-for-clubs.component.html',
-  styleUrls: ['./search-for-clubs.component.css'],
-  providers: [searchService]
+  styleUrls: ['./search-for-clubs.component.css']
 })
 export class SearchForClubsComponent implements OnInit {
 
@@ -22,6 +21,7 @@ export class SearchForClubsComponent implements OnInit {
   selectedClub(id: number) {
     this.searchService.getClubById(id).subscribe(
       (success: Club) => {
+        console.log(success);
         this.searchService.club = success;
         this.router.navigate(['/club-dashboard'])
       },

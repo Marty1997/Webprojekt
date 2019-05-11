@@ -4,7 +4,6 @@ import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 import { SearchCriteria } from '../models/searchCriteria.model';
 import { ClubSearchCriteria } from '../models/clubSearchCriteria.model';
-import { JobPosition } from '../models/jobPosition';
 
 @Injectable()
 export class searchService {
@@ -30,10 +29,11 @@ export class searchService {
     return this.http.get(url, {params: params});
   }
 
-  searchForClubs(searchCriteria: ClubSearchCriteria, id: number) {
-    let url = "https://localhost:44310/api/Player/SearchForClubs/";
+  searchForClubs(searchCriteria: any, id: number) {
+    const params = new HttpParams({fromObject: searchCriteria}).set('id', id.toString());
+    let url = "https://localhost:44310/api/Club/SearchForClubs/";
     console.log(searchCriteria);
-    return this.http.post(url, {searchCriteria, id});
+    return this.http.get(url, {params: params});
   }
 
   getClubById(id: number) {

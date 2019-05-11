@@ -259,7 +259,24 @@ namespace Api.DAL.Repos {
         }
 
         public IEnumerable<Club> GetAll() {
-            throw new NotImplementedException();
+            List<Club> clubs = new List<Club>();
+
+            using (var conn = Connection()) {
+                clubs = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
+                    " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id",
+                (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, splitOn: "Zipcode,city").ToList();
+
+                foreach (Club club in clubs) {
+                    club.TrainingHoursList = GetClubTraningHourList(club, conn);
+                    club.CurrentSquadPlayersList = GetClubCurrentSquadList(club, conn);
+                    club.NextYearSquadPlayersList = GetClubNextYearSquadList(club, conn);
+                    club.JobPositionsList = GetJobPosition(club, conn);
+                    club.ValuesList = GetClubValueList(club, conn);
+                    club.PreferenceList = GetClubPreferenceList(club, conn);
+                }
+            }
+
+            return clubs;
         }
 
         public Club GetByEmail(string email) {

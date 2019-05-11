@@ -10,8 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: "app-club-search-criteria",
   templateUrl: "./club-search-criteria.component.html",
-  styleUrls: ["./club-search-criteria.component.css"],
-  providers: [searchService]
+  styleUrls: ["./club-search-criteria.component.css"]
 })
 export class ClubSearchCriteriaComponent implements OnInit {
   searchForm: FormGroup;
@@ -62,9 +61,12 @@ export class ClubSearchCriteriaComponent implements OnInit {
     this.searchService.searchForClubsResult = [];
     this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
       (success: Club[]) => {
+        console.log(success);
         success.forEach(element => {
+          console.log(element);
           this.club = element;
           this.searchService.searchForClubsResult.push(this.club);
+          console.log(this.searchService.searchForClubsResult);
         });
         this.router.navigate(['/search-for-clubs']);
       },

@@ -16,4 +16,5 @@
 .searchRows {
   border: 2px solid #2A344F;
   margin: 10px 10px 20px 10px;
+  cursor: pointer;
 }
