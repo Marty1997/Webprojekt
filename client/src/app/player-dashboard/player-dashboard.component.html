@@ -22,7 +22,7 @@
         <img class="responsiveImage" src="{{playerBinding.imagePath}}" height="150" width="150" />
       </div>
 
-      <input type="file" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+      <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
       <button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
       <input type="button" class="btn btn-success" value="Update" (click) ="updatePlayer()">
 

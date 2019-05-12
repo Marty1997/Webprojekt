@@ -63,7 +63,6 @@ export class PlayerDashboardComponent implements OnInit {
         if(type === 'video') {
           this.uploadFilesService.createPath(JSON.stringify(res.body), 'video');
           this.playerBinding.videoPath = this.uploadFilesService.videoPath;
-          console.log(this.playerBinding.videoPath);
         }
       });
     }
