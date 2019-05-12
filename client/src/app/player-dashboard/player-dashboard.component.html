@@ -205,7 +205,7 @@
             </accordion-group>
           </div>
           <div *ngIf="playerBinding.nationalTeamList.length > 0">
-            <accordion-group [isOpen]="isATeamOpen">
+            <accordion-group [isOpen]="isFirstOpen">
               <h5 accordion-heading>A team statistics </h5>
               <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                 <div *ngIf="nationalTeam.name == 'A'">
@@ -216,7 +216,7 @@
                 </div>
               </div>
             </accordion-group>
-            <accordion-group [isOpen]="isBTeamOpen">
+            <accordion-group>
               <h5 accordion-heading>B team statistics </h5>
               <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                 <div *ngIf="nationalTeam.name == 'B'">
@@ -227,7 +227,7 @@
                 </div>
               </div>
             </accordion-group>
-            <accordion-group [isOpen]="isU21TeamOpen">
+            <accordion-group>
               <h5 accordion-heading>U21 team statistics </h5>
               <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                 <div *ngIf="nationalTeam.name == 'U21'">
@@ -238,7 +238,7 @@
                 </div>
               </div>
             </accordion-group>
-            <accordion-group [isOpen]="isU18TeamOpen">
+            <accordion-group>
               <h5 accordion-heading>U18 team statistics </h5>
               <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                 <div *ngIf="nationalTeam.name == 'U18'">
