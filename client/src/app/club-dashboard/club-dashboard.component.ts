@@ -103,7 +103,9 @@ export class ClubDashboardComponent implements OnInit {
           this.clubBinding.imagePath = this.uploadFilesService.imagePath;
         }
         if(type === 'facility') {
-        this.facilityImages = this.clubBinding.facilityImagesList;
+          if(this.clubBinding.facilityImagesList != null) {
+            this.facilityImages = this.clubBinding.facilityImagesList;
+          }
         this.facilityImages.push(this.uploadFilesService.imagePath);
         this.clubBinding.facilityImagesList = this.facilityImages;
         }
