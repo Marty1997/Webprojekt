@@ -92,36 +92,22 @@ export class ClubDashboardComponent implements OnInit {
     }
   }
 
-  uploadFile = (files) => {
+  upload = (files, type: string) => {
     if (files.length === 0) {
       return;
     }
     else {
-
       this.uploadFilesService.uploadFile(files).subscribe(res => {
-
-        this.uploadFilesService.createImgPath(JSON.stringify(res.body));
-        this.clubBinding.imagePath = this.uploadFilesService.imagePath;
-
-      });
-    }
-  }
-
-  uploadFiles = (files) => {
-    if (files.length === 0) {
-      return;
-    }
-    else {
-      
-      this.uploadFilesService.uploadFile(files).subscribe(res => {
-
-        this.uploadFilesService.createImgPath(JSON.stringify(res.body));
-
+        this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
+        if(type === 'profile') {
+          this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+        }
+        if(type === 'facility') {
+        this.facilityImages = this.clubBinding.facilityImagesList;
         this.facilityImages.push(this.uploadFilesService.imagePath);
-
         this.clubBinding.facilityImagesList = this.facilityImages;
-
-      });   
+        }
+      });
     }
   }
   

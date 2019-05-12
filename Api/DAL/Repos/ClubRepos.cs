@@ -375,17 +375,26 @@ namespace Api.DAL.Repos {
                                 int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
 
                                 foreach (string imagePath in entity.FacilityImagesList) {
-
+                                
                                     if(club_ID != 0) {
-                                        //Insert facility image
-                                        string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+
+                                        //Check if imagePath already exist in DB
+                                        string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
+                                        int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
+                                        
+                                        if(id == 0) {
+                                            //Insert facility image
+                                            string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
                                             VALUES (@ImagePath, @Club_ID)";
 
-                                        _rowCountList.Add(conn.Execute(facilityImageSQL, new {
-                                            ImagePath = imagePath,
-                                            Club_ID = club_ID
-                                        }, transaction: tran));
+                                            _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                                ImagePath = imagePath,
+                                                Club_ID = club_ID
+                                            }, transaction: tran));
+                                        }
+                                     
                                     }
+                                       
 
                                 }
                             }

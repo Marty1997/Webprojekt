@@ -7,6 +7,7 @@ import { HttpEventType, HttpClient, HttpResponseBase, HttpResponse } from '@angu
 export class uploadFilesService {
 
   imagePath: string = "";
+  videoPath: string = "";
 
   constructor(private http: HttpClient) {}
 
@@ -20,8 +21,14 @@ export class uploadFilesService {
     return this.http.post(url, formData, {reportProgress: true, observe: 'response'})
   }
 
-  createImgPath = (serverPath: string) => {
+  createPath = (serverPath: string, type: string) => {
     serverPath = serverPath.replace(/[{}]/g, "").substring(9).slice(1, -1);;
-    this.imagePath = ("https:" + "\\\\" + "localhost:44310" + "\\" + serverPath);
+
+    if(type === 'image') {
+      this.imagePath = ("https:" + "\\\\" + "localhost:44310" + "\\" + serverPath);
+    }
+    if(type === 'video') {
+      this.videoPath = ("https:" + "\\\\" + "localhost:44310" + "\\" + serverPath);
+    }
   }
 }

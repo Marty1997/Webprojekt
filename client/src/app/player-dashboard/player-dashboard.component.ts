@@ -50,23 +50,26 @@ export class PlayerDashboardComponent implements OnInit {
     }
   }
 
-  uploadFile = (files) => {
+  upload = (files, type: string) => {
     if (files.length === 0) {
       return;
     }
     else {
       this.uploadFilesService.uploadFile(files).subscribe(res => {
-
-        this.uploadFilesService.createImgPath(JSON.stringify(res.body));
-        this.playerBinding.imagePath = this.uploadFilesService.imagePath;
-
-        //Update player
-        this.updatePlayer(this.playerBinding);
+        if(type === 'profile') {
+          this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
+          this.playerBinding.imagePath = this.uploadFilesService.imagePath;
+        }
+        if(type === 'video') {
+          this.uploadFilesService.createPath(JSON.stringify(res.body), 'video');
+          this.playerBinding.videoPath = this.uploadFilesService.videoPath;
+          console.log(this.playerBinding.videoPath);
+        }
       });
     }
   }
   
-  updatePlayer(p: Player) {
-    this.updateService.updatePlayer(p);
+  updatePlayer() {
+    this.updateService.updatePlayer(this.playerBinding);
   }
 }
