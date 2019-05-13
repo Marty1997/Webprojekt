@@ -200,22 +200,64 @@ namespace Api.DAL.Repos {
             Player player = new Player();
             using (var conn = Connection()) {
                 //try {
-                player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
+                Player result = null;
+                conn.Query<Player, string, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name, s.name from player p" +
                     " left join Position pp on pp.id = p.primaryPosition_ID" +
                     " left join Position sp on sp.id = p.secondaryPosition_ID" +
                     " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                    " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email",
-                (playerinside, pp, sp, cp, cs) => {
-                    playerinside.PrimaryPosition = pp;
-                    playerinside.SecondaryPosition = sp;
-                    playerinside.CurrentClubPrimaryPosition = cp;
-                    playerinside.CurrentClubSecondaryPosition = cs;
-                    return playerinside;
-                }, new { email }, splitOn: "name,name,name,name").Single();
+                    " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID" +
+                    " left join playerstrength ps on ps.player_id = p.id" +
+                    " left join strength s on s.id = ps.strength_ID where p.email = @email",
+                    (playerinside, pp, sp, cp, cs, strength) => {
+                        Player p = null;
+                        if (result == null) {
+                            p = new Player {
+                                Id = playerinside.Id,
+                                FirstName = playerinside.FirstName,
+                                LastName = playerinside.LastName,
+                                Email = playerinside.Email,
+                                Day = playerinside.Day,
+                                Month = playerinside.Month,
+                                Year = playerinside.Year,
+                                Country = playerinside.Country,
+                                League = playerinside.League,
+                                Height = playerinside.Height,
+                                Weight = playerinside.Weight,
+                                Bodyfat = playerinside.Bodyfat,
+                                PreferredHand = playerinside.PreferredHand,
+                                CurrentClub = playerinside.CurrentClub,
+                                Accomplishments = playerinside.Accomplishments,
+                                Statistic = playerinside.Statistic,
+                                StrengthDescription = playerinside.StrengthDescription,
+                                WeaknessDescription = playerinside.WeaknessDescription,
+                                VideoPath = playerinside.VideoPath,
+                                ImagePath = playerinside.ImagePath,
+                                FormerClubs = playerinside.FormerClubs,
+                                ContractStatus = playerinside.ContractStatus,
+                                ContractExpired = playerinside.ContractExpired,
+                                InjuryStatus = playerinside.InjuryStatus,
+                                InjuryDescription = playerinside.InjuryDescription,
+                                InjuryExpired = playerinside.InjuryExpired,
+                                IsAvailable = playerinside.IsAvailable,
+                                PrimaryPosition = pp,
+                                SecondaryPosition = sp,
+                                CurrentClubPrimaryPosition = cp,
+                                CurrentClubSecondaryPosition = cs
+                            };
+                            result = p;
+                        }
+                        if(strength != null) {
+                            result.StrengthList.Add(strength);
+                        }
+                        
+                        return result;
+                    }, new { email }, splitOn: "name,name,name,name,name");
 
-                player.NationalTeamList = GetPlayerNationalTeams(player, conn);
-                player.StrengthList = GetPlayerStrengthList(player, conn);
-                player.WeaknessList = GetPlayerWeaknessList(player, conn);
+                result.NationalTeamList = GetPlayerNationalTeams(result, conn);
+                //player.StrengthList = GetPlayerStrengthList(player, conn);
+                result.WeaknessList = GetPlayerWeaknessList(result, conn);
+                
+            
                 //}
                 //catch (SqlException e) {
                 //    player.ErrorMessage = ErrorHandling.Exception(e);
