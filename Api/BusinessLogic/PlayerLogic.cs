@@ -155,6 +155,7 @@ namespace Api.BusinessLogic {
                 if(request.StrengthsList.Count != 0) {
                     // select strength list på en måde
                 }
+                playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
             }
 
             // Now we check for which values match the search criterias and calculate the percentage they match with of total search criteria 

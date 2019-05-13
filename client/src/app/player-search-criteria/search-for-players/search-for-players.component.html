@@ -1,6 +1,11 @@
 <app-header></app-header>
 <section class="well custom-container forPlayerClubBackgroundColor">
-  <div class="row searchRows" *ngFor="let player of playerList">
+  <div 
+      infiniteScroll
+      [infiniteScrollDistance]="0.1"
+      [infiniteScrollThrottle]="200"
+      (scrolled)="onScroll()">
+  <div class="row searchRows" *ngFor="let player of playerList" >
     <a (click)="selectedPlayer(player.id)" style="color: inherit;">
       <div class="col-md-3 " style="text-align:center;">
         <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
@@ -66,5 +71,7 @@
         <div class="circle">{{player.searchPercentage}}%</div>
       </div>
     </a>
+  </div>
+
   </div>
 </section>

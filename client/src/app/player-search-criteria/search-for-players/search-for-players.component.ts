@@ -11,10 +11,108 @@ import { searchService } from '../../services/searchService';
 })
 export class SearchForPlayersComponent implements OnInit {
   playerList: Player[] = [];
-  constructor(private searchService: searchService, private router: Router) {}
+  constructor(private searchService: searchService, private router: Router) {
+    
+  }
 
   ngOnInit() {
-    this.playerList = this.searchService.searchForPlayersResult;
+
+    
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+    this.searchService.searchForPlayersResult.push(new Player());
+//this.playerList = this.searchService.searchForPlayersResult;
+    console.log(this.playerList);
+  }
+
+  onScroll() {
+    if(this.playerList.length < this.searchService.searchForPlayersResult.length) {
+      let len = this.playerList.length;
+      for(let i = len; i <= len + 2; i++) {
+        this.playerList.push(this.searchService.searchForPlayersResult[i]);
+      }
+    }
   }
 
   selectedPlayer(id: number) {

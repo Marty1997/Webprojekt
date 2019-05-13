@@ -29,6 +29,7 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^4.0.1",
+    "ngx-infinite-scroll": "^7.1.0",
     "ngx-material-file-input": "^1.1.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

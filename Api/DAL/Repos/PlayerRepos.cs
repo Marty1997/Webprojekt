@@ -173,18 +173,19 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                 //try {
 
-                playerList = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where isAvailable = 1",
-                (playerinside, pp, sp, cp, cs) => {
-                    playerinside.PrimaryPosition = pp;
-                    playerinside.SecondaryPosition = sp;
-                    playerinside.CurrentClubPrimaryPosition = cp;
-                    playerinside.CurrentClubSecondaryPosition = cs;
-                    return playerinside;
-                }, splitOn: "name,name,name,name").ToList();
+                //playerList = conn.Query<Player, string, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
+                //" left join Position pp on pp.id = p.primaryPosition_ID" +
+                //" left join Position sp on sp.id = p.secondaryPosition_ID" +
+                //" left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
+                //" left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID" +
+                //" left join playerStrength ps on ps.player_ID = p.id left join strength s on s.id = ps.strength_ID  where isAvailable = 1",
+                //(playerinside, pp, sp, cp, cs) => {
+                //    playerinside.PrimaryPosition = pp;
+                //    playerinside.SecondaryPosition = sp;
+                //    playerinside.CurrentClubPrimaryPosition = cp;
+                //    playerinside.CurrentClubSecondaryPosition = cs;
+                //    return playerinside;
+                //}, splitOn: "name,name,name,name").ToList();
                 return playerList;
                 //}
                 //catch(SqlException e) {
