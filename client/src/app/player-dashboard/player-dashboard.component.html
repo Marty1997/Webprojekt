@@ -13,7 +13,19 @@
 
   <div class="row">
     <div class="col-sm-2" style=" text-align: center;">
-      <img src="../../assets/Images/player-icon.png" height="175" width="175" />
+
+      <div *ngIf="playerBinding.imagePath == null">
+        <img class="responsiveImage" src="../../assets/Images/player-icon.png" height="150" width="150" />
+      </div>
+
+      <div *ngIf="playerBinding.imagePath != null">
+        <img class="responsiveImage" src="{{playerBinding.imagePath}}" height="150" width="150" />
+      </div>
+
+      <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+      <button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
+      <input type="button" class="btn btn-success" value="Update" (click) ="updatePlayer()">
+
       <h2 style="word-wrap: break-word;">{{playerBinding.firstName}} {{playerBinding.lastName}}</h2>
       <h4 *ngIf="!playerBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking to
         recruit players</h4>
@@ -168,7 +180,7 @@
         <accordion>
 
           <div *ngIf="playerBinding.nationalTeamList.length == 0">
-            <accordion-group [isOpen]="isFirstOpen">
+            <accordion-group>
               <h5 accordion-heading>A team statistics </h5>
               <p>Appearances: Not specified</p>
               <p>Position: Not specified</p>
@@ -247,9 +259,12 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
       <h1 style="text-align:center; font-family: 'Fresno'">Player presentation</h1>
-      <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/PSe2j-izIWY" frameborder="0" allow="accelerometer; autoplay;
-                                    encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      
+      <video src="{{playerBinding.videoPath}}" width="100%" controls></video>
+      
+      <div style="text-align: center">
+          <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
+          <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
       </div>
     </div>
     <div class="col-md-3"></div>

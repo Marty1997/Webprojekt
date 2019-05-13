@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
+import { uploadFilesService} from "src/app/services/uploadFilesService";
 import { Club } from "../models/club.model";
 import { searchService } from "../services/searchService";
 import { ActivatedRoute } from "@angular/router";
+import { updateService } from "src/app/services/updateService";
 
 @Component({
   selector: "app-club-dashboard",
@@ -16,18 +18,16 @@ export class ClubDashboardComponent implements OnInit {
   clubBinding: Club;
   isClub: boolean;
   clubs: Club[] = this.searchService.searchForClubsResult;
+  facilityImages: string[] = [];
 
   myInterval = 3000;
-  slides = [
-    { image: "assets/Images/Håndboldbane.jpg" },
-    { image: "assets/Images/omklædning.jpg" },
-    { image: "assets/Images/Styrke.jpg" }
-  ];
 
   constructor(
     private route: ActivatedRoute,
     private loginService: loginService,
-    private searchService: searchService
+    private searchService: searchService,
+    private uploadFilesService: uploadFilesService,
+    private updateService: updateService
   ) {}
 
   ngOnInit() {
@@ -90,5 +90,30 @@ export class ClubDashboardComponent implements OnInit {
     } else {
       this.loginService.logout();
     }
+  }
+
+  upload = (files, type: string) => {
+    if (files.length === 0) {
+      return;
+    }
+    else {
+      this.uploadFilesService.uploadFile(files).subscribe(res => {
+        this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
+        if(type === 'profile') {
+          this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+        }
+        if(type === 'facility') {
+          if(this.clubBinding.facilityImagesList != null) {
+            this.facilityImages = this.clubBinding.facilityImagesList;
+          }
+        this.facilityImages.push(this.uploadFilesService.imagePath);
+        this.clubBinding.facilityImagesList = this.facilityImages;
+        }
+      });
+    }
+  }
+  
+  updateClub() {
+    this.updateService.updateClub(this.clubBinding);
   }
 }

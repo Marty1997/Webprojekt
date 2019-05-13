@@ -43,6 +43,16 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        public IActionResult Update([FromBody] Player entity) {
+
+            var player = _playerLogic.Update(entity);
+
+            return Ok(player);
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
         public IActionResult SearchPlayers([FromBody] SearchCriteriaForPlayer request) {
             var firsTime = DateTime.Now;
             List<Player> list = _playerLogic.HandleSearchAlgorithm(request);
