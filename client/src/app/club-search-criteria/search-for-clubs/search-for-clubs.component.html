@@ -1,44 +1,46 @@
 <app-header></app-header>
 <section class="well custom-container forPlayerClubBackgroundColor">
-  <div class="row searchRows" *ngFor="let club of clubList">
-    <a (click)="selectedClub(club.id)" style="color: inherit;">
-      <div class="col-md-3 " style="text-align:center;">
-        <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
-        <h3 style="word-wrap: break-word;">{{club.name}}</h3>
-      </div>
-      <div class="col-md-3">
-        <table class="tableFixed">
-          <tr>
-            <td>Country:</td>
-            <td>{{club.country}}</td>
-          </tr>
-          <tr>
-            <td>League:</td>
-            <td>{{club.league}}</td>
-          </tr>
-          <tr>
-            <td>Trainer:</td>
-            <td>{{club.trainer}}</td>
-          </tr>
-          <!-- <tr>
-            <td>Fitness facility:</td>
-            <td>Yes/No</td>
-          </tr> -->
-        </table>
-      </div>
-      <div class="col-md-3">
-        <table class="tableFixed">
-          <tr>
-            <th>Open Positions</th>
-          </tr>
-          <tr *ngFor="let openPosition of club.jobPositionsList">
-            <td>{{openPosition.position}}</td>
-          </tr>
-        </table>
-      </div>
-      <div class="col-md-3">
-        <div class="circle">90%</div>
-      </div>
-    </a>
+  <div infiniteScroll [infiniteScrollDistance]="0.1" [infiniteScrollThrottle]="200" (scrolled)="onScroll()">
+    <div class="row searchRows" *ngFor="let club of clubList">
+      <a (click)="selectedClub(club.id)" style="color: inherit;">
+        <div class="col-md-3 " style="text-align:center;">
+          <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+          <h3 style="word-wrap: break-word;">{{club.name}}</h3>
+        </div>
+        <div class="col-md-3">
+          <table class="tableFixed">
+            <tr>
+              <td>Country:</td>
+              <td>{{club.country}}</td>
+            </tr>
+            <tr>
+              <td>League:</td>
+              <td>{{club.league}}</td>
+            </tr>
+            <tr>
+              <td>Trainer:</td>
+              <td>{{club.trainer}}</td>
+            </tr>
+            <!-- <tr>
+                  <td>Fitness facility:</td>
+                  <td>Yes/No</td>
+                </tr> -->
+          </table>
+        </div>
+        <div class="col-md-3">
+          <table class="tableFixed">
+            <tr>
+              <th>Open Positions</th>
+            </tr>
+            <tr *ngFor="let openPosition of club.jobPositionsList">
+              <td>{{openPosition.position}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-3">
+          <div class="circle">90%</div>
+        </div>
+      </a>
+    </div>
   </div>
 </section>

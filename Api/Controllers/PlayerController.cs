@@ -24,6 +24,7 @@ namespace Api.Controllers
             _playerLogic = playerLogic;
         }
 
+        // api/Player
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Player entity) {
