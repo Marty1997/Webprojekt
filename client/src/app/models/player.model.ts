@@ -42,44 +42,46 @@ export class Player {
   // national team
   nationalTeamList: NationalTeam[] = [];
   // picture/video
-  profilePicture: File;
-  videoPresentation: File;
+  imagePath: string;
+  videoPath: string;
 
   constructor() {}
 
-  buildPlayer(succes: any, player: Player) {
-    this.contractExpired = succes.contractExpired;
-    this.injuryExpired = succes.injuryExpired;
-    this.injuryStatus = succes.injuryStatus;
-    this.injuryDescription = succes.injuryDescription;
-    this.isAvailable = succes.isAvailable;
-    this.email = succes.email;
-    this.firstName = succes.firstName;
-    this.lastName = succes.lastName;
-    this.country = succes.country;
-    this.league = succes.league;
-    this.day = succes.day;
-    this.month = succes.month;
-    this.year = succes.year;
-    this.height = succes.height;
-    this.weight = succes.weight;
-    this.bodyfat = succes.bodyfat;
-    this.primaryPosition = succes.primaryPosition;
-    this.secondaryPosition = succes.secondaryPosition;
-    this.preferredHand = succes.preferredHand;
-    this.strengthDescription = succes.strengthDescription;
-    this.weaknessDescription = succes.weaknessDescription;
-    this.strengthList = succes.strengthList;
-    this.weaknessList = succes.weaknessList;
-    this.currentClub = succes.currentClub;
-    this.currentClubPrimaryPosition = succes.currentClubPrimaryPosition;
-    this.currentClubSecondaryPosition = succes.currentClubSecondaryPosition;
-    this.accomplishments = succes.accomplishments;
-    this.statistic = succes.statistic;
-    this.formerClubs = succes.formerClubs;
-    this.contractStatus = succes.contractStatus;
-    this.injuryStatus = succes.injuryStatus;
-    this.nationalTeamList = succes.nationalTeamList;
+    buildPlayer(succes:any, player: Player)  {
+        this.contractExpired = succes.contractExpired;
+        this.injuryExpired = succes.injuryExpired;
+        this.injuryStatus = succes.injuryStatus;
+        this.injuryDescription = succes.injuryDescription;
+        this.isAvailable = succes.isAvailable;
+        this.email = succes.email;
+        this.firstName = succes.firstName;
+        this.lastName = succes.lastName;
+        this.country = succes.country;
+        this.league = succes.league;
+        this.day = succes.day;
+        this.month = succes.month;
+        this.year = succes.year;
+        this.height = succes.height;
+        this.weight = succes.weight;
+        this.bodyfat = succes.bodyfat;
+        this.primaryPosition = succes.primaryPosition;
+        this.secondaryPosition = succes.secondaryPosition;
+        this.preferredHand = succes.preferredHand;
+        this.strengthDescription = succes.strengthDescription;
+        this.weaknessDescription = succes.weaknessDescription;
+        this.strengthList = succes.strengthList;
+        this.weaknessList = succes.weaknessList;
+        this.currentClub = succes.currentClub;
+        this.currentClubPrimaryPosition = succes.currentClubPrimaryPosition;
+        this.currentClubSecondaryPosition = succes.currentClubSecondaryPosition;
+        this.accomplishments = succes.accomplishments;
+        this.statistic = succes.statistic;
+        this.formerClubs = succes.formerClubs;
+        this.contractStatus = succes.contractStatus;
+        this.injuryStatus = succes.injuryStatus;
+        this.nationalTeamList = succes.nationalTeamList;
+        this.imagePath = succes.imagePath;
+        this.videoPath = succes.videoPath;
 
     return player;
   }

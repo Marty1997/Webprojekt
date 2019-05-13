@@ -5,7 +5,7 @@ import { JobPosition } from './jobPosition';
 export class Club {
     // required info
     id: number;
-    password: string
+    password: string;
     isAvailable: boolean;
     name: string = "";
     email: string = "";
@@ -28,8 +28,8 @@ export class Club {
     manager: string = "";
 
     // files
-    logo: File;
-    facilityPictures: FileList;
+    imagePath: string = "";
+    facilityImagesList: string[] = [];
     
     // values/preferences
     valueDescription: string = "";
@@ -41,6 +41,7 @@ export class Club {
 
     buildClub(succes:any, club: Club)  {
         this.isAvailable = succes.isAvailable;
+        console.log(this.isAvailable);
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;
@@ -66,6 +67,10 @@ export class Club {
         this.preferenceDescription = succes.preferenceDescription;
         this.valuesList = succes.valuesList;
         this.preferenceList = succes.preferenceList;
+
+        // files
+        this.imagePath = succes.imagePath;
+        this.facilityImagesList = succes.facilityImagesList;
 
         return club;
     }

@@ -532,51 +532,14 @@
       <h2 class="stepHeadline">Player Presentation</h2>
       <br>
       <p>
-        Making a player presentation is important to give a first impression to the clubs looking for players.
+        Please hit the register button down below to sign up as a player.
         <br>
-        It is <strong>optional</strong>, but highly recommended.
+        You can also go back to any step you would like and change your info.
       </p>
       <hr>
 
-      <div class="row">
-        <div class="col-xs-6">
-          <mat-label>Upload profile picture</mat-label>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #profilePicture formControlName="profilePictureControl"
-              (change)="onProfilePictureFileSelected($event)" placeholder="Upload picture" accept="image/*">
-            </ngx-mat-file-input>
-            <button mat-icon-button matSuffix *ngIf="!profilePicture.empty" (click)="profilePicture.clear($event)">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </mat-form-field>
-          <br>
-          <br>
-          <button class="btn btn-primary chooseFileBtn" (click)="profilePicture.open()">Choose File</button>
-        </div>
-
-        <div class="col-xs-6">
-          <mat-label>Upload presentation video</mat-label>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #playerPresentation formControlName="videoFileControl"
-              (change)="onPresentationVideoFileSelected($event)" placeholder="Upload video" accept="video/*">
-            </ngx-mat-file-input>
-            <button mat-icon-button matSuffix *ngIf="!playerPresentation.empty"
-              (click)="playerPresentation.clear($event)">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </mat-form-field>
-
-          <br>
-          <br>
-          <button class="btn btn-primary chooseFileBtn" (click)="playerPresentation.open()">Choose File</button>
-        </div>
-      </div>
-
       <br>
       <hr><br>
-
       <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
       <button mat-flat-button matStepperNext class="btn btn-primary nextBtn"
         (click)="registerPlayer()">Register</button>

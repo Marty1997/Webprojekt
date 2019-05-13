@@ -31,9 +31,19 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult Update([FromBody] Club entity) {
+
+            var club = _clubLogic.Update(entity);
+
+            return Ok(club);
+        }
+
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {
+
             Club club = _clubLogic.GetById(id);
 
             return Ok(club);
