@@ -1,7 +1,7 @@
 <app-header></app-header>
 <section class="well custom-container forPlayerClubBackgroundColor">
   <div class="row searchRows" *ngFor="let club of clubList">
-    <a [routerLink]="['/club-profile', club.id]" style="color: inherit;">
+    <a (click)="selectedClub(club.id)" style="color: inherit;">
       <div class="col-md-3 " style="text-align:center;">
         <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
         <h3 style="word-wrap: break-word;">{{club.name}}</h3>
