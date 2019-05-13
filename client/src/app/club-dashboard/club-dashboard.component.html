@@ -249,11 +249,19 @@
 
         </div>
         <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
-        <carousel [interval]="myInterval">
-          <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-            <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
-          </slide>
-        </carousel>
+
+        <div *ngIf="clubBinding.facilityImagesList == ''">
+            <h4 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
+              No facility images was specified from the club</h4>
+        </div>
+
+        <div *ngIf="clubBinding.facilityImagesList != null">
+            <carousel [interval]="myInterval">
+                <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
+                  <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
+                </slide>
+              </carousel>
+        </div>
 
         <div style="text-align: center">
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">

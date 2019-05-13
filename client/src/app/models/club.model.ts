@@ -41,6 +41,7 @@ export class Club {
 
     buildClub(succes:any, club: Club)  {
         this.isAvailable = succes.isAvailable;
+        console.log(this.isAvailable);
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;

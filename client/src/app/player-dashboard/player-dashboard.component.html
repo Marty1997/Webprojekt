@@ -260,8 +260,15 @@
     <div class="col-md-6">
       <h1 style="text-align:center; font-family: 'Fresno'">Player presentation</h1>
       
-      <video src="{{playerBinding.videoPath}}" width="100%" controls></video>
-      
+      <div *ngIf="playerBinding.videoPath == null">
+          <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
+            No video was specified from the player</h3>
+      </div>
+  
+      <div *ngIf="playerBinding.videoPath != null">
+          <video src="{{playerBinding.videoPath}}" width="100%" controls></video>
+      </div>
+
       <div style="text-align: center">
           <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
           <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>

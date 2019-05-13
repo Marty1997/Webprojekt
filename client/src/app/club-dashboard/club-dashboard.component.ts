@@ -31,6 +31,7 @@ export class ClubDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    
     if (this.loginService.typeOfLogin == "Club") {
       this.isClub = true;
       if (this.loginService.refreshValue) {
@@ -40,6 +41,7 @@ export class ClubDashboardComponent implements OnInit {
         this.loginService.refreshValue = false;
       }
       this.clubBinding = this.loginService.clubInSession;
+      console.log(this.clubBinding);
       this.clubBinding.trainingHoursList.forEach(elm => {
         if (elm.mon == null) {
           elm.mon = "-";
