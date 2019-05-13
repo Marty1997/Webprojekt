@@ -125,9 +125,11 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     }
 
     if(this.searchForm.value.contractStatus != '') {
-      this.searchCriteria.contractStatus = this.searchForm.value.contractStatus;
-    } else {
-      this.searchCriteria.contractStatus = null;
+      if(this.searchForm.value.contractStatus != null) {
+        this.searchCriteria.contractStatus = this.searchForm.value.contractStatus;
+      } else {
+        this.searchCriteria.contractStatus = null;
+      }
     }
 
     if(this.searchForm.value.minimumAge != '') {

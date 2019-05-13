@@ -17,10 +17,10 @@ export class searchService {
     this.club = new Club();
   }
 
-  searchForPlayers(searchCriteria: SearchCriteria) {
+  searchForPlayers(searchCriteria: any) {
     let url = "https://localhost:44310/api/Player/SearchPlayers/";
-    console.log(searchCriteria);
-    return this.http.post(url, searchCriteria);
+    const params = new HttpParams({fromObject: searchCriteria});
+    return this.http.get(url, {params: params});
   }
 
   getPlayerById(id: number) {
@@ -32,7 +32,6 @@ export class searchService {
   searchForClubs(searchCriteria: any, id: number) {
     const params = new HttpParams({fromObject: searchCriteria}).set('id', id.toString());
     let url = "https://localhost:44310/api/Club/SearchForClubs/";
-    console.log(searchCriteria);
     return this.http.get(url, {params: params});
   }
 
