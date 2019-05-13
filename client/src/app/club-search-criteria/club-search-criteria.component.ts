@@ -59,6 +59,7 @@ export class ClubSearchCriteriaComponent implements OnInit {
   searchForClubs() {
     this.validateSearchCriteria();    
     this.searchService.searchForClubsResult = [];
+    // some call to the searchService
     this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
       (success: Club[]) => {
         success.forEach(element => {
@@ -69,8 +70,10 @@ export class ClubSearchCriteriaComponent implements OnInit {
       },
       (error) => {
         // redirect to error page
+        console.log(error);
       }
     );
+    console.log(this.searchCriteria);
   }
 
   validateSearchCriteria() {

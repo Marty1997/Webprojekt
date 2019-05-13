@@ -24,6 +24,7 @@ namespace Api.Controllers
             _playerLogic = playerLogic;
         }
 
+        // api/Player
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Player entity) {
@@ -33,6 +34,7 @@ namespace Api.Controllers
             return Ok(player);
         }
 
+        // api/Player/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {
@@ -41,9 +43,10 @@ namespace Api.Controllers
             return Ok(player);
         }
 
-        [HttpPost]
+        // api/Player/SearchPlayers
+        [HttpGet]
         [Route("[action]")]
-        public IActionResult SearchPlayers([FromBody] SearchCriteriaForPlayer request) {
+        public IActionResult SearchPlayers([FromQuery] SearchCriteriaForPlayer request) {
             var firsTime = DateTime.Now;
             List<Player> list = _playerLogic.HandleSearchAlgorithm(request);
             var afterTime = DateTime.Now;
