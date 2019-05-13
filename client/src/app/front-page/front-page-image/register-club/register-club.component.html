@@ -471,11 +471,16 @@
         </mat-select>
       </mat-form-field>
       <br>
-      <mat-checkbox #openPositionStr1 value="str1">Strength #1</mat-checkbox>
-      <mat-checkbox #openPositionStr2 value="str2">Strength #2</mat-checkbox>
-      <mat-checkbox #openPositionStr3 value="str3">Strength #3</mat-checkbox>
-      <mat-checkbox #openPositionStr4 value="str4">Strength #4</mat-checkbox>
-      <mat-checkbox #openPositionStr5 value="str5">Strength #5</mat-checkbox>
+      <mat-checkbox #openPositionSpeedy value="Speedy">Speedy</mat-checkbox>
+      <mat-checkbox #openPositionAthletic value="Athletic">Athletic</mat-checkbox>
+      <mat-checkbox #openPositionGreatShape value="Great shape">Great shape</mat-checkbox>
+      <mat-checkbox #openPositionQuickShots value="Quick shots">Quick shots</mat-checkbox>
+      <mat-checkbox #openPositionAccurateShooter value="Accurate shooter">Accurate shooter</mat-checkbox>
+      <mat-checkbox #openPositionTactical value="Tactical">Tactical</mat-checkbox>
+      <mat-checkbox #openPositionTeamplayer value="Teamplayer">Team player</mat-checkbox>
+      <mat-checkbox #openPositionSocial value="Social">Social</mat-checkbox>
+      <mat-checkbox #openPositionWinAtAllCosts value="Win at all costs">Win at all costs</mat-checkbox>
+      <mat-checkbox #openPositionLongRangeShooter value="Long range shooter">Long range shooter</mat-checkbox>
 
       <br><br>
       <button class="btn btn-success" (click)="onAddJobPosition()">Add</button><br><br><br>
@@ -632,45 +637,11 @@
     <form [formGroup]="clubPicturesFormGroup">
       <h2 class="stepHeadline">Pictures</h2>
       <p>
-        Please upload your club logo and pictures of your facilities.
+        Please hit the register button down below to sign up as a club.
         <br>
-        This could be of your fitness, handball court or other relevant pictures.
+        You can also go back to any step you would like and change your info.
       </p>
       <hr>
-
-      <div class="row">
-        <div class="col-xs-6">
-          <mat-label>Upload club logo</mat-label>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #clubLogo formControlName="clubLogoControl" (change)="onClubLogoSelected($event)"
-              placeholder="Upload club logo" accept="image/*"></ngx-mat-file-input>
-            <button mat-icon-button matSuffix *ngIf="!clubLogo.empty" (click)="clubLogo.clear($event)">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </mat-form-field>
-          <br>
-          <br>
-          <button class="btn btn-primary chooseFileBtn" (click)="clubLogo.open()">Choose File</button>
-        </div>
-
-        <div class="col-xs-6">
-          <mat-label>Upload facility pictures</mat-label>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <ngx-mat-file-input #facilityPictures formControlName="facilityPicturesControl" [multiple]="true"
-              (change)="onFacilityPicturesSelected($event)" placeholder="Upload facility pictures" accept="image/*">
-            </ngx-mat-file-input>
-            <mat-hint>Ctrl + click to select multiple files</mat-hint>
-            <button mat-icon-button matSuffix *ngIf="!facilityPictures.empty" (click)="facilityPictures.clear($event)">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </mat-form-field>
-          <br>
-          <br>
-          <button class="btn btn-primary chooseFileBtn" (click)="facilityPictures.open()">Choose File</button>
-        </div>
-      </div>
 
       <br>
       <hr><br>
