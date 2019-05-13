@@ -265,6 +265,9 @@ namespace Api.DAL.Repos {
                     playerinside.SecondaryPosition = sp;
                     return playerinside;
                     }, splitOn: "name,name").ToList();
+                //foreach (Player item in playerList) {
+                //    item.StrengthList = GetPlayerStrengthList(item, conn);
+                //}
                 //}
                 //catch(SqlException e) {
 

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 import { SearchCriteria } from '../models/searchCriteria.model';
@@ -95,8 +95,9 @@ export class searchService {
   }
 
   getPlayerById(id: number) {
-    let url = "https://localhost:44310/api/Player/GetById/" +id;
-    return this.http.get(url);
+    const params = new HttpParams().set('id', id.toString());
+    let url = "https://localhost:44310/api/Player/GetById/";
+    return this.http.get(url, {params: params});
   }
 
   searchForClubs(searchCriteria: ClubSearchCriteria) {
