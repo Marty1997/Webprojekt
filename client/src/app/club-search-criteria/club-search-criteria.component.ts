@@ -64,6 +64,7 @@ export class ClubSearchCriteriaComponent implements OnInit {
       (success: Club[]) => {
         success.forEach(element => {
           this.club = element;
+          console.log(this.club);
           this.searchService.searchForClubsResult.push(this.club);
         });
         this.router.navigate(['/search-for-clubs']);

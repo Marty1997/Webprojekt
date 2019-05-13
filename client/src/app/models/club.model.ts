@@ -20,6 +20,8 @@ export class Club {
     nextYearSquadPlayersList : SquadPlayer[] = [];
     jobPositionsList : JobPosition[] = [];
 
+    searchPercentage: number;
+
     // staff
     trainer: string = "";
     assistantTrainer: string = "";

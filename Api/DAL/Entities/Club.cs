@@ -51,6 +51,7 @@ namespace Api.DAL.Entities {
             PreferenceList = new List<string>();
             JobPositionsList = new List<JobPosition>();
             IsClub = true;
+            SearchPercentage = 100;
         }
 
         public void CalculatePercentage(int criteriaMatch, int selectedCriteria) {
