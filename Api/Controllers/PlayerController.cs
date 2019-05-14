@@ -37,7 +37,7 @@ namespace Api.Controllers
         // api/Player/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
-        public IActionResult GetById([FromQuery]int id) {
+        public IActionResult GetById([FromQuery] int id) {
             Player player = _playerLogic.GetById(id);
 
             return Ok(player);

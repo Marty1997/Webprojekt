@@ -11,7 +11,7 @@ namespace Api.DAL.Entities {
         public int ShirtNumber { get; set; }
         public string Season { get; set; }
         public string Name { get; set; }
-        public string Position { get; set; }
+        public string PositionName { get; set; }
 
     }
 }

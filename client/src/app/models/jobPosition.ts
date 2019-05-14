@@ -6,6 +6,6 @@ export class JobPosition {
     minAge: number;
     season: string =""
     contractStatus: string = "";
-    position: string ="";
+    positionName: string ="";
     strengthsList: string [] = [];
 }
