@@ -30,7 +30,7 @@ namespace Api.DAL.Repos {
                         int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0}, transaction: tran).Single();
                 
                         //Return primary position ID
-                        string primaryPositionSQL = @"Select id from position where name = @PrimaryPosition";
+                        string primaryPositionSQL = @"Select id from position where positionName = @PrimaryPosition";
                         int? primaryPosition_ID = conn.Query<int>(primaryPositionSQL, new { PrimaryPosition = entity.PrimaryPosition }, transaction: tran).FirstOrDefault();
 
                         if(primaryPosition_ID == 0) {
@@ -38,7 +38,7 @@ namespace Api.DAL.Repos {
                         }
 
                         //Return secondary position ID
-                        string secondaryPositionSQL = @"Select id from position where name = @SecondaryPosition";
+                        string secondaryPositionSQL = @"Select id from position where positionName = @SecondaryPosition";
                         int? secondaryPosition_ID = conn.Query<int>(secondaryPositionSQL, new { SecondaryPosition = entity.SecondaryPosition }, transaction: tran).FirstOrDefault();
 
                         if (secondaryPosition_ID == 0) {
@@ -46,7 +46,7 @@ namespace Api.DAL.Repos {
                         }
 
                         //Return current club primary position ID
-                        string currentClubPrimaryPositionSQL = @"Select id from position where name = @CurrentClubPrimaryPosition";
+                        string currentClubPrimaryPositionSQL = @"Select id from position where positionName = @CurrentClubPrimaryPosition";
                         int? currentClubPrimaryPosition_ID = conn.Query<int>(currentClubPrimaryPositionSQL, new { CurrentClubPrimaryPosition  = entity.CurrentClubPrimaryPosition }, transaction: tran).FirstOrDefault();
 
                         if (currentClubPrimaryPosition_ID == 0) {
@@ -123,8 +123,8 @@ namespace Api.DAL.Repos {
                             foreach (NationalTeam nt in entity.NationalTeamList) {
 
                                 //Return national team position ID
-                                string nationalTeamPositionSQL = @"Select id from position where name = @Position";
-                                int nationalTeamPosition_ID = conn.Query<int>(nationalTeamPositionSQL, new { Position = nt.Position }, transaction: tran).FirstOrDefault();
+                                string nationalTeamPositionSQL = @"Select id from position where positionName = @Position";
+                                int nationalTeamPosition_ID = conn.Query<int>(nationalTeamPositionSQL, new { Position = nt.PositionName }, transaction: tran).FirstOrDefault();
 
                                 if (nationalTeamPosition_ID != 0) {
 
@@ -133,7 +133,7 @@ namespace Api.DAL.Repos {
                                         VALUES (@Name, @Appearances, @Statistic, @Player_ID, @Position_ID)";
 
                                     _rowCountList.Add(conn.Execute(nationalTeamSQL, new {
-                                        Name = nt.Name,
+                                        PositionName = nt.Name,
                                         Appearances = nt.Appearances,
                                         Statistic = nt.Statistic,
                                         Player_ID = player_ID,
@@ -407,8 +407,8 @@ namespace Api.DAL.Repos {
 
         // Helping method to build only NationalTeams on your player
         private List<NationalTeam> GetPlayerNationalTeams(Player player, IDbConnection conn) {
-            player.NationalTeamList = conn.Query<NationalTeam, string, NationalTeam>("select nt.*, p.name from NationalTeam nt " +
-                    " inner join Position p on p.id = nt.position_id where nt.player_id = @id", (nationalTeam, p) => { nationalTeam.Position = p; return nationalTeam; },
+            player.NationalTeamList = conn.Query<NationalTeam, string, NationalTeam>("select nt.*, p.positionName from NationalTeam nt " +
+                    " inner join Position p on p.id = nt.position_id where nt.player_id = @id", (nationalTeam, p) => { nationalTeam.PositionName = p; return nationalTeam; },
                     new { id = player.Id }, splitOn: "name").ToList();
             return player.NationalTeamList;
         }

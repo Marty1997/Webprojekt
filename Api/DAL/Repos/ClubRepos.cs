@@ -110,9 +110,9 @@ namespace Api.DAL.Repos {
 
                             //Return squad player position ID
 
-                            string squadPlayerPositionSQL = @"Select id from position where name = @Position";
+                            string squadPlayerPositionSQL = @"Select id from position where positionName = @Position";
 
-                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.Position }, transaction: tran).FirstOrDefault();
+                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.PositionName }, transaction: tran).FirstOrDefault();
 
                             if (squadPlayerPosition_ID != 0) {
 
@@ -137,9 +137,9 @@ namespace Api.DAL.Repos {
 
                             //Return squad player position ID
 
-                            string squadPlayerPositionSQL = @"Select id from position where name = @Position";
+                            string squadPlayerPositionSQL = @"Select id from position where positionName = @Position";
 
-                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.Position }, transaction: tran).FirstOrDefault();
+                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.PositionName }, transaction: tran).FirstOrDefault();
 
                             if (squadPlayerPosition_ID != 0) {
 
@@ -164,8 +164,8 @@ namespace Api.DAL.Repos {
 
                             var jobPosition_ID = 0;
                             //Return jobPosition position ID
-                            string positionSQL = @"Select id from position where name = @Position";
-                            int position_ID = conn.Query<int>(positionSQL, new { Position = jp.Position }, transaction: tran).FirstOrDefault();
+                            string positionSQL = @"Select id from position where positionName = @Position";
+                            int position_ID = conn.Query<int>(positionSQL, new { Position = jp.PositionName }, transaction: tran).FirstOrDefault();
 
                             if (position_ID != 0) {
 
@@ -303,27 +303,123 @@ namespace Api.DAL.Repos {
         }
 
         public Club GetById(int id) {
-            Club club = new Club();
-            using (var conn = Connection()) {
-                //try {
-                club = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
-                    " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.id = @id",
-                (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, new { id }, splitOn: "Zipcode,city").Single();
+            Club c = new Club();
 
-                club.TrainingHoursList = GetClubTraningHourList(club, conn);
-                club.CurrentSquadPlayersList = GetClubCurrentSquadList(club, conn);
-                club.NextYearSquadPlayersList = GetClubNextYearSquadList(club, conn);
-                club.JobPositionsList = GetJobPosition(club, conn);
-                club.ValuesList = GetClubValueList(club, conn);
-                club.PreferenceList = GetClubPreferenceList(club, conn);
+            string sql = 
+                "SELECT c.*, ci.zipcode, ci.city FROM club c " +
+                "INNER JOIN zipcodecity ci " +
+                "ON c.zipcodecity_id = ci.id " +
+                "WHERE c.id = @id; " +
 
-                //}
-                //catch (SqlException e) {
-                //    club.ErrorMessage = ErrorHandling.Exception(e);
-                //}
+                "SELECT p.name FROM clubpreference cp " +
+                "INNER JOIN preference p " +
+                "ON p.id = cp.preference_id " +
+                "WHERE cp.club_id = @id; " +
+
+                "SELECT v.name FROM clubvalue cv " +
+                "INNER JOIN value v " +
+                "ON v.id = cv.value_id " +
+                "WHERE cv.club_id = @id; " +
+                
+                "SELECT th.* FROM traininghours th " +
+                "WHERE th.club_id = @id; " +
+
+                "SELECT csp.*, cpos.name FROM squadplayers csp " +
+                "INNER JOIN position cpos " +
+                "ON cpos.id = csp.position_id " +
+                "WHERE csp.club_id = @id AND csp.season = 'Current year';" +
+                
+                "SELECT nsp.*, pos.name FROM squadplayers nsp " +
+                "INNER JOIN position pos " +
+                "ON pos.id = nsp.position_id " +
+                "WHERE nsp.club_id = @id AND nsp.season = 'Next year';";
+
+            using (var connection = Connection()) {
+
+                using (var multi = connection.QueryMultiple(sql, new { id })) {
+                    c = multi.Read<Club>().First();
+                    c.PreferenceList = multi.Read<string>().ToList();
+                    c.ValuesList = multi.Read<string>().ToList();
+                    c.TrainingHoursList = multi.Read<TrainingHours>().ToList();
+                    c.CurrentSquadPlayersList = multi.Read<SquadPlayer>().ToList();
+                    c.NextYearSquadPlayersList = multi.Read<SquadPlayer>().ToList();
+                }
+
             }
-            return club;
+
+            return c;
         }
+
+        //public Club GetById(int id) {
+        //    using (var conn = Connection()) {
+        //        //try {
+        //        Club result = null;
+        //        TrainingHours schedule = null;
+        //        conn.Query<Club, int, string, string, string, TrainingHours, SquadPlayer, Club>(
+        //            " select c.*, ci.zipcode, ci.city, v.name, p.name, th.*, csp.* from club c " +
+        //            " inner join zipcodecity ci on c.zipcodecity_id = ci.id " +
+        //            " left join clubvalue cv on cv.club_id = c.id " +
+        //            " left join value v on v.id = cv.value_id " +
+        //            " left join clubpreference cp on cp.club_id = c.id " +
+        //            " left join preference p on p.id = cp.preference_id " +
+        //            " left join traininghours th on th.club_id = c.id " +
+        //            " left join squadplayers csp on csp.club_id = c.id where c.id = @id ",
+        //        (clubinside, code, city, value, preference, traininghours, currentsquadplayers) => {
+        //            Club c = null;
+        //            if(result == null) {
+        //                c = new Club {
+        //                    Id = clubinside.Id,
+        //                    Name = clubinside.Name,
+        //                    Email = clubinside.Email,
+        //                    League = clubinside.League,
+        //                    Country = clubinside.Country,
+        //                    StreetAddress = clubinside.StreetAddress,
+        //                    StreetNumber = clubinside.StreetNumber,
+        //                    Trainer = clubinside.Trainer,
+        //                    AssistantTrainer = clubinside.AssistantTrainer,
+        //                    Physiotherapist = clubinside.Physiotherapist,
+        //                    AssistantPhysiotherapist = clubinside.AssistantPhysiotherapist,
+        //                    Manager = clubinside.Manager,
+        //                    ValueDescription = clubinside.ValueDescription,
+        //                    PreferenceDescription = clubinside.PreferenceDescription,
+        //                    Zipcode = code,
+        //                    City = city
+        //                };
+        //                result = c;
+        //            }
+
+        //            if(value != null && !result.ValuesList.Contains(value)) {
+        //                result.ValuesList.Add(value);
+        //            }
+        //            if(preference != null && !result.PreferenceList.Contains(preference)) {
+        //                result.PreferenceList.Add(preference);
+        //            }
+        //            if(traininghours != null && !result.TrainingHoursList.Contains(traininghours)) {
+        //                result.TrainingHoursList.Add(schedule);
+        //            }
+        //            if(currentsquadplayers != null && !result.CurrentSquadPlayersList.Contains(currentsquadplayers)) {
+        //                result.CurrentSquadPlayersList.Add(currentsquadplayers);
+        //            }
+
+        //            return result;
+
+        //        }, new { id }, splitOn: "Zipcode,city,name,name, name, id");
+
+        //        //result.TrainingHoursList = GetClubTraningHourList(result, conn);
+        //        result.CurrentSquadPlayersList = GetClubCurrentSquadList(result, conn);
+        //        result.NextYearSquadPlayersList = GetClubNextYearSquadList(result, conn);
+        //        result.JobPositionsList = GetJobPosition(result, conn);
+        //        //club.ValuesList = GetClubValueList(club, conn);
+        //        //club.PreferenceList = GetClubPreferenceList(club, conn);
+
+        //        //}
+        //        //catch (SqlException e) {
+        //        //    club.ErrorMessage = ErrorHandling.Exception(e);
+        //        //}
+        //        return result;
+        //    }
+            
+        //}
 
 
 
@@ -353,7 +449,7 @@ namespace Api.DAL.Repos {
         private List<SquadPlayer> GetClubCurrentSquadList(Club club, IDbConnection conn) {
             club.CurrentSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
                     " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Current year'",
-            (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
+            (squadPlayers, position) => { squadPlayers.PositionName = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
             return club.CurrentSquadPlayersList;
         }
 
@@ -361,7 +457,7 @@ namespace Api.DAL.Repos {
         private List<SquadPlayer> GetClubNextYearSquadList(Club club, IDbConnection conn) {
             club.NextYearSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
                      " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Next year'",
-                (squadPlayers, position) => { squadPlayers.Position = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
+                (squadPlayers, position) => { squadPlayers.PositionName = position; return squadPlayers; }, new { id = club.Id }, splitOn: "name").ToList();
             return club.NextYearSquadPlayersList;
         }
 
@@ -369,7 +465,7 @@ namespace Api.DAL.Repos {
         private List<JobPosition> GetJobPosition(Club club, IDbConnection conn) {
             club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp.*, p.name from JobPosition jp " +
                 "inner join Position p on p.id = jp.position_ID where jp.club_ID = @id",
-                (jobPosition, position) => { jobPosition.Position = position; return jobPosition; }, new { id = club.Id }, splitOn: "name").ToList();
+                (jobPosition, position) => { jobPosition.PositionName = position; return jobPosition; }, new { id = club.Id }, splitOn: "name").ToList();
 
             foreach (JobPosition item in club.JobPositionsList) {
                 item.StrengthsList = conn.Query<string>("select s.name from Strength s " +

@@ -13,7 +13,7 @@ namespace Api.DAL.Entities {
         public int? MaxAge { get; set; }
         public string Season { get; set; }
         public string ContractStatus { get; set; }
-        public string Position { get; set; }
+        public string PositionName { get; set; }
         public List<string> StrengthsList { get; set; }
 
         public JobPosition() {
