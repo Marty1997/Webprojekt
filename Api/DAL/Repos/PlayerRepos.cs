@@ -133,7 +133,7 @@ namespace Api.DAL.Repos {
                                         VALUES (@Name, @Appearances, @Statistic, @Player_ID, @Position_ID)";
 
                                     _rowCountList.Add(conn.Execute(nationalTeamSQL, new {
-                                        PositionName = nt.Name,
+                                        Name = nt.Name,
                                         Appearances = nt.Appearances,
                                         Statistic = nt.Statistic,
                                         Player_ID = player_ID,
