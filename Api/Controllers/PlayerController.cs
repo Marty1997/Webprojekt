@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.BusinessLogic;
+using Api.DAL;
 using Api.DAL.Entities;
 using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
@@ -19,9 +20,12 @@ namespace Api.Controllers
     public class PlayerController : ControllerBase {
 
         private readonly PlayerLogic _playerLogic;
+        private readonly IRepository<Player> _playerRepos;
 
-        public PlayerController(PlayerLogic playerLogic) {
+        public PlayerController(PlayerLogic playerLogic, IRepository<Player> playerRepos) {
             _playerLogic = playerLogic;
+            _playerRepos = playerRepos;
+
         }
 
         // api/Player
@@ -37,10 +41,15 @@ namespace Api.Controllers
         // api/Player/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
-        public IActionResult GetById([FromQuery] int id) {
-            Player player = _playerLogic.GetById(id);
+        public IActionResult GetById([FromQuery]int id) {
+            if(id > 0) {
+                return Ok(_playerRepos.GetById(id));
+            }
+            else {
+                return StatusCode(404, "Resource not found");
+            }
 
-            return Ok(player);
+           
         }
 
         // api/Player/SearchPlayers
