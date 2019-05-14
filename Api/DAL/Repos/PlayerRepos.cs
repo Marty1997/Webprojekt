@@ -290,7 +290,7 @@ namespace Api.DAL.Repos {
 
                 " select w.name from Player p " +
                 " inner join playerweakness pw on pw.player_id = p.id " +
-                " inner join weeakness w on w.id = pw.weakness_ID where p.id = @id;" +
+                " inner join weakness w on w.id = pw.weakness_ID where p.id = @id;" +
 
                 " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
                 " inner join NationalTeam nt on nt.player_Id = p.id" +
