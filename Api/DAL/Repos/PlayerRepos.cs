@@ -172,13 +172,7 @@ namespace Api.DAL.Repos {
             List<Player> playerList = new List<Player>();
             using (var conn = Connection()) {
                 //try {
-                playerList = conn.Query<Player, string, string, string, string, string, Player>("select p.*, pp.positionName, sp.positionName, cp.positionName, cs.positionName, s.positionName from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID" +
-                " left join playerstrength ps on ps.player_id = p.id" +
-                " left join strength s on s.id = ps.strength_ID where isAvailable = 1",
+                playerList = conn.Query<Player, string, string, string, string, string, Player>("select p.* from player p where isAvailable = 1",
                 (playerinside, pp, sp, cp, cs, strength) => {
                     playerinside.PrimaryPosition = pp;
                     playerinside.SecondaryPosition = sp;
@@ -199,11 +193,7 @@ namespace Api.DAL.Repos {
         public Player GetByEmail(string email) {
             Player player = new Player();
             string sql =
-                " select p.*, pp.positionname, sp.positionname, cp.positionname, cs.positionname from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email;" +
+                " select p.* from player p where p.email = @email;" +
 
                 " select s.name from Player p " +
                 " inner join playerstrength ps on ps.player_id = p.id " +
@@ -213,9 +203,8 @@ namespace Api.DAL.Repos {
                 " inner join playerweakness pw on pw.player_id = p.id " +
                 " inner join weakness w on w.id = pw.weakness_ID where p.email = @email;" +
 
-                " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
-                " inner join NationalTeam nt on nt.player_Id = p.id" +
-                " inner join Position po on po.id = nt.position_ID where p.email = @email;";
+                " select nt.name, nt.appearances, nt.statistic, nt.position from Player p" +
+                " inner join NationalTeam nt on nt.player_Id = p.id where p.email = @email;";
 
             using (var conn = Connection()) {
                 //try {
@@ -278,23 +267,15 @@ namespace Api.DAL.Repos {
         public Player GetById(int id) {
             Player player = new Player();
             string sql =
-                " select p.*, pp.positionname, sp.positionname, cp.positionname, cs.positionname from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.id = @id;" +
+                " select p.* from player p where p.id = @id;" +
 
-                " select s.name from Player p " +
-                " inner join playerstrength ps on ps.player_id = p.id " +
+                " select s.name from playerstrength ps " +
                 " inner join strength s on s.id = ps.strength_ID where p.id = @id;" +
 
-                " select w.name from Player p " +
-                " inner join playerweakness pw on pw.player_id = p.id " +
+                " select w.name playerweakness pw " +
                 " inner join weakness w on w.id = pw.weakness_ID where p.id = @id;" +
 
-                " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
-                " inner join NationalTeam nt on nt.player_Id = p.id" +
-                " inner join Position po on po.id = nt.position_ID where p.id = @id;";
+                " select nt.name, nt.appearances, nt.statistic, nt.position from NationalTeam nt where nt.player_id = @id;";
 
             using (var conn = Connection()) {
                 //try {
