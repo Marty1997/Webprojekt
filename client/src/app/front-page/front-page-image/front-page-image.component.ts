@@ -67,6 +67,7 @@ export class FrontPageImageComponent implements OnInit {
 
       },
       error => {
+        this.isLoading = false;
         if(error.error == "Failed to authenticate") {
           this.wrongEmailOrPassword = true;
         }
