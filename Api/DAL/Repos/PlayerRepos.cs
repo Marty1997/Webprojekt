@@ -54,7 +54,7 @@ namespace Api.DAL.Repos {
                         }
 
                         //Return current club secondary position ID
-                        string currentClubSecondaryPositionSQL = @"Select id from position where name = @CurrentClubSecondaryPosition";
+                        string currentClubSecondaryPositionSQL = @"Select id from position where positionName = @CurrentClubSecondaryPosition";
                         int? currentClubSecondaryPosition_ID = conn.Query<int>(currentClubSecondaryPositionSQL, new { CurrentClubSecondaryPosition = entity.CurrentClubSecondaryPosition }, transaction: tran).FirstOrDefault();
 
                         if (currentClubSecondaryPosition_ID == 0) {
