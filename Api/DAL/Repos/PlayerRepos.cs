@@ -211,7 +211,7 @@ namespace Api.DAL.Repos {
 
                 " select w.name from Player p " +
                 " inner join playerweakness pw on pw.player_id = p.id " +
-                " inner join weakness w on w.id = pw.weakness where p.email = @email;" +
+                " inner join weakness w on w.id = pw.weakness_ID where p.email = @email;" +
 
                 " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
                 " inner join NationalTeam nt on nt.player_Id = p.id" +
@@ -290,7 +290,7 @@ namespace Api.DAL.Repos {
 
                 " select w.name from Player p " +
                 " inner join playerweakness pw on pw.player_id = p.id " +
-                " inner join weeakness w on w.id = pw.weakness where p.id = @id;" +
+                " inner join weeakness w on w.id = pw.weakness_ID where p.id = @id;" +
 
                 " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
                 " inner join NationalTeam nt on nt.player_Id = p.id" +
@@ -299,7 +299,7 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                 //try {
                 using (var multi = conn.QueryMultiple(sql, new { id })) {
-                    player = multi.Read<Player>().First();
+                    player = multi.Read<Player>().First(); 
                     player.StrengthList = multi.Read<string>().ToList();
                     player.WeaknessList = multi.Read<string>().ToList();
                     player.NationalTeamList = multi.Read<NationalTeam>().ToList();
