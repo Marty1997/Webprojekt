@@ -18,6 +18,7 @@ export class FrontPageImageComponent implements OnInit {
   recoverPasswordResult : string = "Email has been sent";
   clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
+  isLoading: boolean = false;
   constructor(private modalService: BsModalService, private loginService: loginService,
     private router: Router) { }
   
@@ -50,8 +51,10 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   loginUser(form: NgForm) {
+    this.isLoading = true;
     this.loginService.loginUser(form).subscribe(
-      (succes:any) => {      
+      (succes:any) => {
+        this.isLoading = false;
         this.closeAllModals();
         if(succes.isPlayer) {
           this.loginService.setupPlayerLogin(succes);

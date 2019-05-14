@@ -42,6 +42,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { HeaderComponent } from './header/header.component';
 import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-search-criteria.component';
 import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
+import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
     HeaderComponent,
     PlayerSearchCriteriaComponent,
     ClubSearchCriteriaComponent,
+    LoadingIconComponent,
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -93,7 +97,8 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
     MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    NgxSpinnerModule
   ],
   providers: [
     ErrorStateMatcher,
