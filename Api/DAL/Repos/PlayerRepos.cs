@@ -29,54 +29,52 @@ namespace Api.DAL.Repos {
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
                         int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0}, transaction: tran).Single();
                 
-                        //Return primary position ID
-                        string primaryPositionSQL = @"Select id from position where positionName = @PrimaryPosition";
-                        int? primaryPosition_ID = conn.Query<int>(primaryPositionSQL, new { PrimaryPosition = entity.PrimaryPosition }, transaction: tran).FirstOrDefault();
-
-                        if(primaryPosition_ID == 0) {
-                            primaryPosition_ID = null;
-                        }
-
-                        //Return secondary position ID
-                        string secondaryPositionSQL = @"Select id from position where positionName = @SecondaryPosition";
-                        int? secondaryPosition_ID = conn.Query<int>(secondaryPositionSQL, new { SecondaryPosition = entity.SecondaryPosition }, transaction: tran).FirstOrDefault();
-
-                        if (secondaryPosition_ID == 0) {
-                            secondaryPosition_ID = null;
-                        }
-
-                        //Return current club primary position ID
-                        string currentClubPrimaryPositionSQL = @"Select id from position where positionName = @CurrentClubPrimaryPosition";
-                        int? currentClubPrimaryPosition_ID = conn.Query<int>(currentClubPrimaryPositionSQL, new { CurrentClubPrimaryPosition  = entity.CurrentClubPrimaryPosition }, transaction: tran).FirstOrDefault();
-
-                        if (currentClubPrimaryPosition_ID == 0) {
-                            currentClubPrimaryPosition_ID = null;
-                        }
-
-                        //Return current club secondary position ID
-                        string currentClubSecondaryPositionSQL = @"Select id from position where positionName = @CurrentClubSecondaryPosition";
-                        int? currentClubSecondaryPosition_ID = conn.Query<int>(currentClubSecondaryPositionSQL, new { CurrentClubSecondaryPosition = entity.CurrentClubSecondaryPosition }, transaction: tran).FirstOrDefault();
-
-                        if (currentClubSecondaryPosition_ID == 0) {
-                            currentClubSecondaryPosition_ID = null;
-                        }
-
                         //Insert player and return player_ID
                         string playerSQL = @"INSERT INTO Player (Firstname, Lastname, Email, Day, Month, Year, Country, League, Height, Weight, Bodyfat, PreferredHand, CurrentClub, Accomplishments, Statistic, StrengthDescription, 
-                                            WeaknessDescription, VideoPath, ImagePath, FormerClubs, ContractStatus, ContractExpired, InjuryStatus, InjuryExpired, InjuryDescription, IsAvailable, PrimaryPosition_ID, SecondaryPosition_ID, CurrentClubPrimaryPosition_ID, CurrentClubSecondaryPosition_ID, UserCredentials_ID) 
+                                            WeaknessDescription, VideoPath, ImagePath, FormerClubs, ContractStatus, ContractExpired, InjuryStatus, InjuryExpired, InjuryDescription, IsAvailable, PrimaryPosition, SecondaryPosition, CurrentClubPrimaryPosition, CurrentClubSecondaryPosition, UserCredentials_ID) 
                                         VALUES (@Firstname, @Lastname, @Email, @Day, @Month, @Year, @Country, @League, @Height, @Weight, @Bodyfat, @PreferredHand, @CurrentClub, @Accomplishments, @Statistic,
                                             @StrengthDescription, @WeaknessDescription, @VideoPath, @ImagePath, @FormerClubs, @ContractStatus, @ContractExpired, @InjuryStatus, 
-                                            @InjuryExpired, @InjuryDescription, @IsAvailable, @PrimaryPosition_ID, @SecondaryPosition_ID, @CurrentClubPrimaryPosition_ID, @CurrentClubSecondaryPosition_ID, @UserCredentials_ID);
+                                            @InjuryExpired, @InjuryDescription, @IsAvailable, @PrimaryPosition, @SecondaryPosition, @CurrentClubPrimaryPosition, @CurrentClubSecondaryPosition, @UserCredentials_ID);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                        int player_ID = conn.Query<int>(playerSQL, new { Firstname = entity.FirstName, Lastname = entity.LastName, entity.Email, entity.Day, entity.Month, entity.Year, entity.Country, entity.League, entity.Height, entity.Weight,
-                                                      entity.Bodyfat, entity.PreferredHand, entity.CurrentClub, entity.Accomplishments, entity.Statistic, entity.StrengthDescription, entity.WeaknessDescription,
-                                                      entity.VideoPath, entity.ImagePath, entity.FormerClubs, entity.ContractStatus, entity.ContractExpired, entity.InjuryStatus, entity.InjuryExpired, entity.InjuryDescription, entity.IsAvailable,
-                                                      PrimaryPosition_ID = primaryPosition_ID, SecondaryPosition_ID = secondaryPosition_ID, CurrentClubPrimaryPosition_ID = currentClubPrimaryPosition_ID,
-                                                        CurrentClubSecondaryPosition_ID = currentClubSecondaryPosition_ID, UserCredentials_ID = userCredentials_ID}, transaction: tran).Single();
+                    int player_ID = conn.Query<int>(playerSQL, new {
+                        Firstname = entity.FirstName,
+                        Lastname = entity.LastName,
+                        entity.Email,
+                        entity.Day,
+                        entity.Month,
+                        entity.Year,
+                        entity.Country,
+                        entity.League,
+                        entity.Height,
+                        entity.Weight,
+                        entity.Bodyfat,
+                        entity.PreferredHand,
+                        entity.CurrentClub,
+                        entity.Accomplishments,
+                        entity.Statistic,
+                        entity.StrengthDescription,
+                        entity.WeaknessDescription,
+                        entity.VideoPath,
+                        entity.ImagePath,
+                        entity.FormerClubs,
+                        entity.ContractStatus,
+                        entity.ContractExpired,
+                        entity.InjuryStatus,
+                        entity.InjuryExpired,
+                        entity.InjuryDescription,
+                        entity.IsAvailable,
+                        entity.PrimaryPosition,
+                        entity.SecondaryPosition,
+                        entity.CurrentClubPrimaryPosition,
+                        entity.CurrentClubSecondaryPosition,
+                        UserCredentials_ID = userCredentials_ID
+                    }, transaction: tran).Single();
 
-                        //Player strengths
-                        if (entity.StrengthList.Count > 0) {
+
+
+                    //Player strengths
+                    if (entity.StrengthList.Count > 0) {
                             foreach (string strength in entity.StrengthList) {
 
                                 //Return strength ID
@@ -122,24 +120,18 @@ namespace Api.DAL.Repos {
                         if (entity.NationalTeamList.Count > 0) {
                             foreach (NationalTeam nt in entity.NationalTeamList) {
 
-                                //Return national team position ID
-                                string nationalTeamPositionSQL = @"Select id from position where positionName = @Position";
-                                int nationalTeamPosition_ID = conn.Query<int>(nationalTeamPositionSQL, new { Position = nt.PositionName }, transaction: tran).FirstOrDefault();
+                                //Insert NationalTeam
+                                string nationalTeamSQL = @"INSERT INTO NationalTeam (Name, Appearances, Statistic, Position, Player_ID) 
+                                            VALUES (@Name, @Appearances, @Statistic, @Position, @Player_ID)";
 
-                                if (nationalTeamPosition_ID != 0) {
+                                _rowCountList.Add(conn.Execute(nationalTeamSQL, new {
+                                    Name = nt.Name,
+                                    Appearances = nt.Appearances,
+                                    Statistic = nt.Statistic,
+                                    Position = nt.Position,
+                                    Player_ID = player_ID,
+                                }, transaction: tran));
 
-                                    //Insert NationalTeam
-                                    string nationalTeamSQL = @"INSERT INTO NationalTeam (Name, Appearances, Statistic, Player_ID, Position_ID) 
-                                        VALUES (@Name, @Appearances, @Statistic, @Player_ID, @Position_ID)";
-
-                                    _rowCountList.Add(conn.Execute(nationalTeamSQL, new {
-                                        Name = nt.Name,
-                                        Appearances = nt.Appearances,
-                                        Statistic = nt.Statistic,
-                                        Player_ID = player_ID,
-                                        Position_ID = nationalTeamPosition_ID
-                                    }, transaction: tran));
-                                }
                             }
                         }    
                         

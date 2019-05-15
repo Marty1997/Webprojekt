@@ -108,26 +108,19 @@ namespace Api.DAL.Repos {
                     if (entity.CurrentSquadPlayersList.Count > 0) {
                         foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
 
-                            //Return squad player position ID
+                            
+                            //Insert Squad Player
+                            string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Position, Club_ID) 
+                                        VALUES (@ShirtNumber, @Season, @Name, @Position, @Club_ID)";
 
-                            string squadPlayerPositionSQL = @"Select id from position where positionName = @Position";
+                            _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                ShirtNumber = csp.ShirtNumber,
+                                Season = csp.Season,
+                                Name = csp.Name,
+                                Position = csp.Position,
+                                Club_ID = club_ID
+                            }, transaction: tran));
 
-                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = csp.PositionName }, transaction: tran).FirstOrDefault();
-
-                            if (squadPlayerPosition_ID != 0) {
-
-                                //Insert Squad Player
-                                string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
-                                        VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
-
-                                _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                    ShirtNumber = csp.ShirtNumber,
-                                    Season = csp.Season,
-                                    Name = csp.Name,
-                                    Club_ID = club_ID,
-                                    Position_ID = squadPlayerPosition_ID
-                                }, transaction: tran));
-                            }
                         }
                     }
 
@@ -135,26 +128,19 @@ namespace Api.DAL.Repos {
                     if (entity.NextYearSquadPlayersList.Count > 0) {
                         foreach (SquadPlayer nysp in entity.NextYearSquadPlayersList) {
 
-                            //Return squad player position ID
+                            
+                            //Insert Squad Player
+                            string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Position, Club_ID) 
+                                        VALUES (@ShirtNumber, @Season, @Name, @Position, @Club_ID)";
 
-                            string squadPlayerPositionSQL = @"Select id from position where positionName = @Position";
+                            _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                ShirtNumber = nysp.ShirtNumber,
+                                Season = nysp.Season,
+                                Name = nysp.Name,                                
+                                Position = nysp.Position,
+                                Club_ID = club_ID,
+                            }, transaction: tran));
 
-                            int squadPlayerPosition_ID = conn.Query<int>(squadPlayerPositionSQL, new { Position = nysp.PositionName }, transaction: tran).FirstOrDefault();
-
-                            if (squadPlayerPosition_ID != 0) {
-
-                                //Insert Squad Player
-                                string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Club_ID, Position_ID) 
-                                        VALUES (@ShirtNumber, @Season, @Name, @Club_ID, @Position_ID)";
-
-                                _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                    ShirtNumber = nysp.ShirtNumber,
-                                    Season = nysp.Season,
-                                    Name = nysp.Name,
-                                    Club_ID = club_ID,
-                                    Position_ID = squadPlayerPosition_ID
-                                }, transaction: tran));
-                            }
                         }
                     }
 
@@ -163,29 +149,23 @@ namespace Api.DAL.Repos {
                         foreach (JobPosition jp in entity.JobPositionsList) {
 
                             var jobPosition_ID = 0;
-                            //Return jobPosition position ID
-                            string positionSQL = @"Select id from position where positionName = @Position";
-                            int position_ID = conn.Query<int>(positionSQL, new { Position = jp.PositionName }, transaction: tran).FirstOrDefault();
 
-                            if (position_ID != 0) {
-
-                                //Insert JobPosition
-                                string jobPositionSQL = @"INSERT INTO JobPosition (League, PreferredHand, Height, MinAge, MaxAge, Season, ContractStatus, Club_ID, Position_ID) 
-                                        VALUES (@League, @PreferredHand, @Height, @MinAge, @MaxAge, @Season, @ContractStatus, @Club_ID, @Position_ID);
+                            //Insert JobPosition
+                            string jobPositionSQL = @"INSERT INTO JobPosition (League, PreferredHand, Height, MinAge, MaxAge, Season, ContractStatus, Position, Club_ID,) 
+                                        VALUES (@League, @PreferredHand, @Height, @MinAge, @MaxAge, @Season, @ContractStatus, @Position, @Club_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                                jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
-                                    League = jp.League,
-                                    PreferredHand = jp.PreferredHand,
-                                    Height = jp.Height,
-                                    MinAge = jp.MinAge,
-                                    MaxAge = jp.MaxAge,
-                                    Season = jp.Season,
-                                    ContractStatus = jp.ContractStatus,
-                                    Club_ID = club_ID,
-                                    Position_ID = position_ID
-                                }, transaction: tran).Single();
-                            }
+                            jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
+                                League = jp.League,
+                                PreferredHand = jp.PreferredHand,
+                                Height = jp.Height,
+                                MinAge = jp.MinAge,
+                                MaxAge = jp.MaxAge,
+                                Season = jp.Season,
+                                ContractStatus = jp.ContractStatus,
+                                Position = jp.Position,
+                                Club_ID = club_ID,
+                            }, transaction: tran).Single();
 
                             if (jp.StrengthsList.Count > 0) {
                                 foreach (string strength in jp.StrengthsList) {
