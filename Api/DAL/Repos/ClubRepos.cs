@@ -258,21 +258,29 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
+        /*
+         * Get all club entities from database with
+         *  JobPositionsList
+         *  ValuesList
+         *  PreferenceList
+         */ 
         public IEnumerable<Club> GetAll() {
             List<Club> clubs = new List<Club>();
+            List<JobPosition> jobPositions = null;
+
+            string sql =
+                "SELECT c.*, jp.*, v.name, p.name " +
+                "FROM club c " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id ";
 
             using (var conn = Connection()) {
-                clubs = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
-                    " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id",
-                (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, splitOn: "Zipcode,city").ToList();
+                using (var multi = conn.QueryMultiple(sql)) {
+                    clubs = multi.Read<Club>().ToList();
+                    jobPositions = multi.Read<JobPosition>().ToList();
 
-                foreach (Club club in clubs) {
-                    club.TrainingHoursList = GetClubTraningHourList(club, conn);
-                    club.CurrentSquadPlayersList = GetClubCurrentSquadList(club, conn);
-                    club.NextYearSquadPlayersList = GetClubNextYearSquadList(club, conn);
-                    club.JobPositionsList = GetJobPosition(club, conn);
-                    club.ValuesList = GetClubValueList(club, conn);
-                    club.PreferenceList = GetClubPreferenceList(club, conn);
+                    foreach (Club club in clubs) {
+                        club.JobPositionsList = jobPositions.Where(jp => jp.Club_ID == club.Id).ToList();
+                    }
                 }
             }
 
@@ -297,29 +305,6 @@ namespace Api.DAL.Repos {
             return c;
         }
 
-        //public Club GetByEmail(string email) {
-        //    Club club = new Club();
-        //    using (var conn = Connection()) {
-        //        //try {
-        //        club = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
-        //            " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where c.email = @email",
-        //        (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, new { email }, splitOn: "Zipcode,city").Single();
-
-        //        club.TrainingHoursList = GetClubTraningHourList(club, conn);
-        //        club.CurrentSquadPlayersList = GetClubCurrentSquadList(club, conn);
-        //        club.NextYearSquadPlayersList = GetClubNextYearSquadList(club, conn);
-        //        club.JobPositionsList = GetJobPosition(club, conn);
-        //        club.ValuesList = GetClubValueList(club, conn);
-        //        club.PreferenceList = GetClubPreferenceList(club, conn);
-
-        //        //}
-        //        //catch (SqlException e) {
-        //        //    club.ErrorMessage = ErrorHandling.Exception(e);
-        //        //}
-        //    }
-        //    return club;
-        //}
-
         public Club GetById(int id) {
             Club c = new Club();
             string sql = SqlSelectWithId(id);
@@ -337,77 +322,6 @@ namespace Api.DAL.Repos {
             }
             return c;
         }
-
-        //public Club GetById(int id) {
-        //    using (var conn = Connection()) {
-        //        //try {
-        //        Club result = null;
-        //        TrainingHours schedule = null;
-        //        conn.Query<Club, int, string, string, string, TrainingHours, SquadPlayer, Club>(
-        //            " select c.*, ci.zipcode, ci.city, v.name, p.name, th.*, csp.* from club c " +
-        //            " inner join zipcodecity ci on c.zipcodecity_id = ci.id " +
-        //            " left join clubvalue cv on cv.club_id = c.id " +
-        //            " left join value v on v.id = cv.value_id " +
-        //            " left join clubpreference cp on cp.club_id = c.id " +
-        //            " left join preference p on p.id = cp.preference_id " +
-        //            " left join traininghours th on th.club_id = c.id " +
-        //            " left join squadplayers csp on csp.club_id = c.id where c.id = @id ",
-        //        (clubinside, code, city, value, preference, traininghours, currentsquadplayers) => {
-        //            Club c = null;
-        //            if(result == null) {
-        //                c = new Club {
-        //                    Id = clubinside.Id,
-        //                    Name = clubinside.Name,
-        //                    Email = clubinside.Email,
-        //                    League = clubinside.League,
-        //                    Country = clubinside.Country,
-        //                    StreetAddress = clubinside.StreetAddress,
-        //                    StreetNumber = clubinside.StreetNumber,
-        //                    Trainer = clubinside.Trainer,
-        //                    AssistantTrainer = clubinside.AssistantTrainer,
-        //                    Physiotherapist = clubinside.Physiotherapist,
-        //                    AssistantPhysiotherapist = clubinside.AssistantPhysiotherapist,
-        //                    Manager = clubinside.Manager,
-        //                    ValueDescription = clubinside.ValueDescription,
-        //                    PreferenceDescription = clubinside.PreferenceDescription,
-        //                    Zipcode = code,
-        //                    City = city
-        //                };
-        //                result = c;
-        //            }
-
-        //            if(value != null && !result.ValuesList.Contains(value)) {
-        //                result.ValuesList.Add(value);
-        //            }
-        //            if(preference != null && !result.PreferenceList.Contains(preference)) {
-        //                result.PreferenceList.Add(preference);
-        //            }
-        //            if(traininghours != null && !result.TrainingHoursList.Contains(traininghours)) {
-        //                result.TrainingHoursList.Add(schedule);
-        //            }
-        //            if(currentsquadplayers != null && !result.CurrentSquadPlayersList.Contains(currentsquadplayers)) {
-        //                result.CurrentSquadPlayersList.Add(currentsquadplayers);
-        //            }
-
-        //            return result;
-
-        //        }, new { id }, splitOn: "Zipcode,city,name,name, name, id");
-
-        //        //result.TrainingHoursList = GetClubTraningHourList(result, conn);
-        //        result.CurrentSquadPlayersList = GetClubCurrentSquadList(result, conn);
-        //        result.NextYearSquadPlayersList = GetClubNextYearSquadList(result, conn);
-        //        result.JobPositionsList = GetJobPosition(result, conn);
-        //        //club.ValuesList = GetClubValueList(club, conn);
-        //        //club.PreferenceList = GetClubPreferenceList(club, conn);
-
-        //        //}
-        //        //catch (SqlException e) {
-        //        //    club.ErrorMessage = ErrorHandling.Exception(e);
-        //        //}
-        //        return result;
-        //    }
-
-        //}
 
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
             List<Club> clubs = new List<Club>();
@@ -444,7 +358,8 @@ namespace Api.DAL.Repos {
         }
         // Helping method to get club with all lists
         private string SqlSelectWithId(int id) {
-            return "SELECT c.*, ci.zipcode, ci.city FROM club c " +
+            return 
+                "SELECT c.*, ci.zipcode, ci.city FROM club c " +
                 "INNER JOIN zipcodecity ci " +
                 "ON c.zipcodecity_id = ci.id " +
                 "WHERE c.id = " + id +
@@ -462,56 +377,57 @@ namespace Api.DAL.Repos {
                 "SELECT th.* FROM traininghours th " +
                 "WHERE th.club_id = " + id +
 
-                "SELECT csp.*, cpos.positionName FROM squadplayers csp " +
-                "INNER JOIN position cpos " +
-                "ON cpos.id = csp.position_id " +
+                "SELECT csp.* FROM squadplayers csp " +
                 "WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
 
                 "SELECT nsp.*, pos.positionName FROM squadplayers nsp " +
-                "INNER JOIN position pos " +
-                "ON pos.id = nsp.position_id " +
                 "WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
 
-                "SELECT jp.*, jpos.positionName FROM jobposition jp " +
-                "INNER JOIN position jpos " +
-                "ON jpos.id = jp.position_id " +
+                "SELECT jp.* FROM jobposition jp " +
                 "WHERE jp.club_id = " + id;
         }
 
         // Helping method to get club with all lists
         private string SqlSelectWithEmail(string email) {
-            return "SELECT c.*, ci.zipcode, ci.city FROM club c " +
+            return 
+                "SELECT c.*, ci.zipcode, ci.city FROM club c " +
                 "INNER JOIN zipcodecity ci " +
                 "ON c.zipcodecity_id = ci.id " +
-                "WHERE c.id = " + email +
+                "WHERE c.email = " + email + ";" +
 
-                "SELECT p.name FROM clubpreference cp " +
+                "SELECT p.name, c.id FROM club c " +
+                "INNER JOIN clubpreference cp " +
+                "   ON cp.club_id = c.id " +
                 "INNER JOIN preference p " +
-                "ON p.id = cp.preference_id " +
-                "WHERE cp.club_id = " + email +
+                "   ON p.id = cp.preference_id " +
+                "WHERE c.email = " + email +
 
-                "SELECT v.name FROM clubvalue cv " +
+                "SELECT v.name, c.id FROM club c " +
+                "INNER JOIN clubvalue cv " +
+                "   ON cv.club_id = c.id " +
                 "INNER JOIN value v " +
-                "ON v.id = cv.value_id " +
-                "WHERE cv.club_id = " + email +
+                "   ON v.id = cv.value_id " +
+                "WHERE c.email " + email +
 
-                "SELECT th.* FROM traininghours th " +
-                "WHERE th.club_id = " + email +
+                "SELECT th.*, c.id FROM club c " +
+                "INNER JOIN traininghours th" +
+                "   ON th.club_id = c.id " +
+                "WHERE c.email = " + email +
 
-                "SELECT csp.*, cpos.positionName FROM squadplayers csp " +
-                "INNER JOIN position cpos " +
-                "ON cpos.id = csp.position_id " +
-                "WHERE csp.club_id = " + email + " AND csp.season = 'Current year';" +
+                "SELECT csp.*, c.id FROM club c " +
+                "INNER JOIN squadplayers csp " +
+                "   ON csp.club_id = c.id" +
+                "WHERE c.email = " + email + " AND csp.season = 'Current year'" +
+                
+                "SELECT nsp.*, c.id FROM club c" +
+                "INNER JOIN squadplayers nsp " +
+                "   ON nsp.club_id = c.id " +
+                "WHERE c.email = " + email + " AND nsp.season = 'Next year';" +
 
-                "SELECT nsp.*, pos.positionName FROM squadplayers nsp " +
-                "INNER JOIN position pos " +
-                "ON pos.id = nsp.position_id " +
-                "WHERE nsp.club_id = " + email + " AND nsp.season = 'Next year';" +
-
-                "SELECT jp.*, jpos.positionName FROM jobposition jp " +
-                "INNER JOIN position jpos " +
-                "ON jpos.id = jp.position_id " +
-                "WHERE jp.club_id = " + email;
+                "SELECT jp.*, c.id FROM club c " +
+                "INNER JOIN jobposition jp" +
+                "   ON jp.club_id = c.id " +
+                "WHERE c.email = " + email;
         }
 
         //Helping method to build club traininghours

@@ -139,9 +139,9 @@ namespace Api.BusinessLogic {
                     int playerAge = DateTime.Now.Year - player.Year;
 
                     foreach (JobPosition jobPosition in club.JobPositionsList) {
-                        if(jobPosition.PositionName != null) {
+                        if(jobPosition.Position != null) {
                             amountOfCriterias++;
-                            if (criterias.Position == jobPosition.PositionName) {
+                            if (criterias.Position == jobPosition.Position) {
                                 amountOfMatches++;
                             }
                         }
