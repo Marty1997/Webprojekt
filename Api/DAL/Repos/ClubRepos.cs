@@ -245,8 +245,7 @@ namespace Api.DAL.Repos {
          *  PreferenceList
          */ 
         public IEnumerable<Club> GetAll() {
-            List<Club> clubs = new List<Club>();
-            List<JobPosition> jobPositions = null;
+            List<Club> clubs = null;
             string sql =
                 "SELECT c.*, jp.* " +
                 "FROM club c " +
@@ -255,10 +254,12 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                 using (var multi = conn.QueryMultiple(sql)) {
                     clubs = multi.Read<Club>().ToList();
-                    jobPositions = multi.Read<JobPosition>().ToList();
+                    if(clubs != null) {
+                        var jobPositions = multi.Read<JobPosition>().ToList().FirstOrDefault();
 
-                    foreach (Club club in clubs) {
-                        club.JobPositionsList = jobPositions.Where(jp => jp.Club_ID == club.Id).ToList();
+                        foreach (Club club in clubs) {
+                            club.JobPositionsList = jobPositions.Where(jp => jp.Club_ID == club.Id).ToList();
+                        }
                     }
                 }
             }
@@ -378,41 +379,41 @@ namespace Api.DAL.Repos {
                 "SELECT c.*, ci.zipcode, ci.city FROM club c " +
                 "INNER JOIN zipcodecity ci " +
                 "ON c.zipcodecity_id = ci.id " +
-                "WHERE c.email = " + email + ";" +
+                "WHERE c.email = '" + email + "'; " +
 
                 "SELECT p.name, c.id FROM club c " +
                 "INNER JOIN clubpreference cp " +
                 "   ON cp.club_id = c.id " +
                 "INNER JOIN preference p " +
                 "   ON p.id = cp.preference_id " +
-                "WHERE c.email = " + email +
+                "WHERE c.email = '" + email + "'; " +
 
                 "SELECT v.name, c.id FROM club c " +
                 "INNER JOIN clubvalue cv " +
                 "   ON cv.club_id = c.id " +
                 "INNER JOIN value v " +
                 "   ON v.id = cv.value_id " +
-                "WHERE c.email " + email +
+                "WHERE c.email = '" + email + "';" +
 
                 "SELECT th.*, c.id FROM club c " +
-                "INNER JOIN traininghours th" +
+                "INNER JOIN traininghours th " +
                 "   ON th.club_id = c.id " +
-                "WHERE c.email = " + email +
+                "WHERE c.email = '" + email + "'; " +
 
                 "SELECT csp.*, c.id FROM club c " +
                 "INNER JOIN squadplayers csp " +
-                "   ON csp.club_id = c.id" +
-                "WHERE c.email = " + email + " AND csp.season = 'Current year'" +
+                "   ON csp.club_id = c.id " +
+                "WHERE c.email = '" + email + "' AND csp.season = 'Current year'; " +
                 
-                "SELECT nsp.*, c.id FROM club c" +
+                "SELECT nsp.*, c.id FROM club c " +
                 "INNER JOIN squadplayers nsp " +
                 "   ON nsp.club_id = c.id " +
-                "WHERE c.email = " + email + " AND nsp.season = 'Next year';" +
+                "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
 
                 "SELECT jp.*, c.id FROM club c " +
-                "INNER JOIN jobposition jp" +
+                "INNER JOIN jobposition jp " +
                 "   ON jp.club_id = c.id " +
-                "WHERE c.email = " + email;
+                "WHERE c.email = '" + email + "';";
         }
     }
 }
