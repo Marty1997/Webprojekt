@@ -246,31 +246,52 @@ namespace Api.DAL.Repos {
          *  PreferenceList
          */ 
         public IEnumerable<Club> GetAll() {
-            List<Club> clubs = null;
+            List<Club> clubs = new List<Club>();
             string sql =
-                "SELECT c.*, jp.* " +
-                "FROM club c " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id ";
+                "SELECT c.*, ci.zipcode, ci.city, " +
+                "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge, " +
+                "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, " +
+                "jp.club_id as club_id FROM club c" +
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id" +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id";
 
             using (var conn = Connection()) {
-                using (var multi = conn.QueryMultiple(sql)) {
-                    clubs = multi.Read<Club>().ToList();
-                    if(clubs != null) {
-                        var jobPositions = multi.Read<JobPosition>().ToList().FirstOrDefault();
-
-                        foreach (Club club in clubs) {
-                            club.JobPositionsList = jobPositions.Where(jp => jp.Club_ID == club.Id).ToList();
-                        }
+                Club result = null;
+                conn.Query<Club, JobPosition, int, string, Club>(sql, (clubinside, jobposition, zipcode, city) => {
+                    Club c = null;
+                    if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+                        c = BuildClub(clubinside);
+                        result = c;
+                        clubs.Add(result);
                     }
-                }
-            }
+                    else {
+                        result = clubs.Single(cl => cl.Id == clubinside.Id);
+                    }
 
+                    if (jobposition != null) {
+                        result.JobPositionsList.Add(jobposition);
+                    }
+
+                    return result;
+                }, splitOn: "id");
+            }
             return clubs;
         }
 
+        /*List<Player> playerList = new List<Player>();
+            string sql = ""
+             if(false) {
+                sql = " select p.* from player p where  " + sqlStatement;
+            }
+            else if(true) {
+                sql = " select p.*, s.name from player p " +
+                    "inner join playerstrength ps on ps.player_id = p.id " +
+                     "inner join strength s on s.id = ps.strength_ID where " + sqlStatement;
+            }
+         */
         /**
          * Get club by email with all lists
-         */ 
+         */
         public Club GetByEmail(string email) {
             Club c = new Club();
             string sql = SqlSelectWithEmail(email);
@@ -508,6 +529,28 @@ namespace Api.DAL.Repos {
                 "INNER JOIN jobposition jp " +
                 "   ON jp.club_id = c.id " +
                 "WHERE c.email = '" + email + "';";
+        }
+
+        private Club BuildClub(Club clubinside) {
+            return new Club {
+                Id = clubinside.Id,
+                Name = clubinside.Name,
+                Email = clubinside.Email,
+                League = clubinside.League,
+                Country = clubinside.Country,
+                StreetAddress = clubinside.StreetAddress,
+                StreetNumber = clubinside.StreetNumber,
+                Trainer = clubinside.Trainer,
+                AssistantTrainer = clubinside.AssistantTrainer,
+                Physiotherapist = clubinside.Physiotherapist,
+                AssistantPhysiotherapist = clubinside.AssistantPhysiotherapist,
+                Manager = clubinside.Manager,
+                ValueDescription = clubinside.ValueDescription,
+                PreferenceDescription = clubinside.PreferenceDescription,
+                ImagePath = clubinside.ImagePath,
+                IsAvailable = clubinside.IsAvailable,
+                
+            };
         }
     }
 }
