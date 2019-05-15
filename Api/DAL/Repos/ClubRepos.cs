@@ -244,7 +244,7 @@ namespace Api.DAL.Repos {
          *  JobPositionsList
          *  ValuesList
          *  PreferenceList
-         */ 
+         */
         public IEnumerable<Club> GetAll() {
             List<Club> clubs = new List<Club>();
             string sql =
@@ -338,7 +338,7 @@ namespace Api.DAL.Repos {
          *  Values
          *  Preferences
          */ 
-        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
+        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement, string option) {
             List<Club> clubs = new List<Club>();
 
             using (var conn = Connection()) {
@@ -349,14 +349,6 @@ namespace Api.DAL.Repos {
         }
 
         public UserCredentials getCredentialsByEmail(string email) {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(Club entity) {
-            throw new NotImplementedException();
-        }
-
-        public void Save() {
             throw new NotImplementedException();
         }
 
@@ -481,7 +473,7 @@ namespace Api.DAL.Repos {
                 "SELECT csp.* FROM squadplayers csp " +
                 "WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
 
-                "SELECT nsp.*, pos.positionName FROM squadplayers nsp " +
+                "SELECT nsp.* FROM squadplayers nsp " +
                 "WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
 
                 "SELECT jp.* FROM jobposition jp " +

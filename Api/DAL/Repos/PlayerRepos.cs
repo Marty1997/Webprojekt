@@ -302,21 +302,42 @@ namespace Api.DAL.Repos {
             //return player;
         }
 
-        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
+        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement, string option) {
             List<Player> playerList = new List<Player>();
-            string sql = " select p.* from player p where isAvailable = 1 " + sqlStatement;
+            string sql = "";
+             if(false) {
+                sql = " select p.* from player p where  " + sqlStatement;
+            }
+            else if(true) {
+                sql = " select p.*, s.name from player p " +
+                    "inner join playerstrength ps on ps.player_id = p.id " +
+                     "inner join strength s on s.id = ps.strength_ID where " + sqlStatement;
+            }
+                
+
+
 
             using (var conn = Connection()) {
-                //try {
-                using (var multi = conn.QueryMultiple(sql)) {
+                Player result = null;
 
+                conn.Query<Player, string, Player>(sql,
+                    (playerinside, strength) => {
 
-                    //player = multi.Read<Player>().First();
-                    //player.StrengthList = multi.Read<string>().ToList();
-                }
-                //catch(SqlException e) {
-
-                //}
+                        Player p = null;
+                        if (!playerList.Any(pl => pl.Id == playerinside.Id)) {
+                            p = BuildPlayer(playerinside);
+                            result = p;
+                            playerList.Add(result);
+                        }
+                        else {
+                            result = playerList.Single(pl => pl.Id == playerinside.Id);
+                        }
+                        if (strength != null) {
+                            result.StrengthList.Add(strength);
+                        }
+                        return result;
+                    }, splitOn: "strength");
+                   
             }
             return playerList;
         }
@@ -351,14 +372,6 @@ namespace Api.DAL.Repos {
                 //}
             }
 
-        }
-
-        public void Insert(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public void Save() {
-            throw new NotImplementedException();
         }
 
         public Player Update(Player entity) {
@@ -443,6 +456,38 @@ namespace Api.DAL.Repos {
             }
             return p;
 
+        }
+
+        private Player BuildPlayer(Player playerinside) {
+            return new Player {
+                Id = playerinside.Id,
+                FirstName = playerinside.FirstName,
+                LastName = playerinside.LastName,
+                Email = playerinside.Email,
+                Day = playerinside.Day,
+                Month = playerinside.Month,
+                Year = playerinside.Year,
+                Country = playerinside.Country,
+                League = playerinside.League,
+                Height = playerinside.Height,
+                Weight = playerinside.Weight,
+                Bodyfat = playerinside.Bodyfat,
+                PreferredHand = playerinside.PreferredHand,
+                CurrentClub = playerinside.CurrentClub,
+                Accomplishments = playerinside.Accomplishments,
+                Statistic = playerinside.Statistic,
+                StrengthDescription = playerinside.StrengthDescription,
+                WeaknessDescription = playerinside.WeaknessDescription,
+                VideoPath = playerinside.VideoPath,
+                ImagePath = playerinside.ImagePath,
+                FormerClubs = playerinside.FormerClubs,
+                ContractStatus = playerinside.ContractStatus,
+                ContractExpired = playerinside.ContractExpired,
+                InjuryStatus = playerinside.InjuryStatus,
+                InjuryDescription = playerinside.InjuryDescription,
+                InjuryExpired = playerinside.InjuryExpired,
+                IsAvailable = playerinside.IsAvailable,
+            };
         }
     }
 }
