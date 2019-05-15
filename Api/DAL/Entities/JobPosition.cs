@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace Api.DAL.Entities {
     public class JobPosition {
         public int ID { get; set; }
+        public int Club_ID { get; set; }
         public string League { get; set; }
         public string PreferredHand { get; set; }
         public int? Height { get; set; }
@@ -13,7 +14,7 @@ namespace Api.DAL.Entities {
         public int? MaxAge { get; set; }
         public string Season { get; set; }
         public string ContractStatus { get; set; }
-        public string PositionName { get; set; }
+        public string Position { get; set; }
         public List<string> StrengthsList { get; set; }
 
         public JobPosition() {
