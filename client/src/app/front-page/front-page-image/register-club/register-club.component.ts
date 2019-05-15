@@ -230,7 +230,7 @@ export class RegisterClubComponent implements OnInit {
       this.squadPlayer.name = this.clubSquadFormGroup.get(
         "playerNameControl"
       ).value;
-      this.squadPlayer.positionName = this.clubSquadFormGroup.get(
+      this.squadPlayer.position = this.clubSquadFormGroup.get(
         "playerPositionControl"
       ).value;
       this.squadPlayer.shirtNumber = this.clubSquadFormGroup.get(
@@ -259,7 +259,7 @@ export class RegisterClubComponent implements OnInit {
       this.nextYearSquadPlayer.name = this.nextYearSquadFormGroup.get(
         "playerNameControl"
       ).value;
-      this.nextYearSquadPlayer.positionName = this.nextYearSquadFormGroup.get(
+      this.nextYearSquadPlayer.position = this.nextYearSquadFormGroup.get(
         "playerPositionControl"
       ).value;
       this.nextYearSquadPlayer.shirtNumber = this.nextYearSquadFormGroup.get(
@@ -286,7 +286,7 @@ export class RegisterClubComponent implements OnInit {
       this.jobPosition.minAge = this.openPositionsFormGroup.value.openPositionMinAge;
       this.jobPosition.season = this.openPositionsFormGroup.value.openPositionSeason;
       this.jobPosition.contractStatus = this.openPositionsFormGroup.value.openPositionContract;
-      this.jobPosition.positionName = this.openPositionsFormGroup.value.openPositionName;
+      this.jobPosition.position = this.openPositionsFormGroup.value.openPositionName;
 
       if (this.openPositionStr1.checked) {
         this.jobPosition.strengthsList.push(this.openPositionStr1.value);

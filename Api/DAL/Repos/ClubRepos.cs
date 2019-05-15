@@ -151,7 +151,7 @@ namespace Api.DAL.Repos {
                             var jobPosition_ID = 0;
 
                             //Insert JobPosition
-                            string jobPositionSQL = @"INSERT INTO JobPosition (League, PreferredHand, Height, MinAge, MaxAge, Season, ContractStatus, Position, Club_ID,) 
+                            string jobPositionSQL = @"INSERT INTO JobPosition (League, PreferredHand, Height, MinAge, MaxAge, Season, ContractStatus, Position, Club_ID) 
                                         VALUES (@League, @PreferredHand, @Height, @MinAge, @MaxAge, @Season, @ContractStatus, @Position, @Club_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -164,7 +164,7 @@ namespace Api.DAL.Repos {
                                 Season = jp.Season,
                                 ContractStatus = jp.ContractStatus,
                                 Position = jp.Position,
-                                Club_ID = club_ID,
+                                Club_ID = club_ID
                             }, transaction: tran).Single();
 
                             if (jp.StrengthsList.Count > 0) {
