@@ -8,6 +8,6 @@ namespace Api.DAL.Entities {
         public string Name { get; set; }
         public int Appearances { get; set; }
         public string Statistic { get; set; }
-        public string PositionName { get; set; }
+        public string Position { get; set; }
     }
 }
