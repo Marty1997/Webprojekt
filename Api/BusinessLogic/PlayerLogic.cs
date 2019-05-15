@@ -71,8 +71,9 @@ namespace Api.BusinessLogic {
 
             //First we check if any League or PrimaryPosition is selected as search criteria. If true we selected after those 2 or 1 of them
             if (request.League != null || request.PrimaryPosition != null) {
+                sqlSelectStatement += " p.isAvailable = 1";
                 if (request.League != null) {
-                    sqlSelectStatement = " and p.league = '" + request.League + "'";
+                    sqlSelectStatement = " and p.league = '" + request.League + "'" ;
                 }
                 if (request.PrimaryPosition != null) {
                     sqlSelectStatement = " and p.PrimaryPosition = '" + request.PrimaryPosition + "'";
@@ -80,7 +81,7 @@ namespace Api.BusinessLogic {
             }
             //If no league or primaryPosition was selected we try to selected after country if they specified any country in their search.
             else if (request.Country != null) {
-                sqlSelectStatement = " and p.country = '" + request.Country + "'";
+                sqlSelectStatement = " p.isAvailable = 1 and p.country = '" + request.Country + "'";
             }
             // If no country, league or primary position was selected, we put togehter a selected statement for the rest of the search criteria
             // that are less important
@@ -88,41 +89,77 @@ namespace Api.BusinessLogic {
                 request.SecondaryPosition != null || request.InjuryStatus != null || request.HandPreference != null ||
                 request.MinimumHeight != null || request.MaximumWeight != null || request.StrengthsList.Count == 0) {
                 if (request.ContractStatus != null) {
-                    sqlSelectStatement = " and p.contractstatus = '" + request.ContractStatus + "'";
+                    
+                    sqlSelectStatement = " p.contractstatus = '" + request.ContractStatus + "'" + " and p.isAvailable = 1";
                 }
                 if (request.MinimumAge != null) {
                     int timeNow = DateTime.Now.Year;
                     int? year = timeNow - request.MinimumAge;
-                    sqlSelectStatement = " and p.year <= " + year;
-
+                    if(sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.year <= " + year + " and p.isAvailable = 1";
+                    }
+                    else {
+                        sqlSelectStatement = " or p.year <= " + year + " and p.isAvailable = 1";
+                    }
                 }
                 if (request.MaximumAge != null) {
                     int timeNow = DateTime.Now.Year;
                     int? year = timeNow - request.MaximumAge;
-                    sqlSelectStatement = " and p.year >= " + year;
-
+                    if (sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.year >= " + year + " and p.isAvailable = 1";
+                    }
+                    else {
+                        sqlSelectStatement = " or p.year >= " + year + " and p.isAvailable = 1";
+                    }
                 }
                 if (request.SecondaryPosition != null) {
-                    sqlSelectStatement = " and s.SecondaryPosition = '" + request.SecondaryPosition + "'";
+                    if (sqlSelectStatement == "") {
+                        sqlSelectStatement = " s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                    }
+                    else {
+                        sqlSelectStatement = " or s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                    }
                 }
                 if (request.HandPreference != null) {
-                    sqlSelectStatement = " and p.handpreference = '" + request.HandPreference + "'";
+                    if (sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                    }
+                    else {
+                        sqlSelectStatement = " or p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                    }
                 }
                 if (request.InjuryStatus != null) {
-                    sqlSelectStatement = " and p.Injurystatus = '" + request.InjuryStatus + "'";
+                    if (sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
+                    }
+                    else {
+                        sqlSelectStatement = " or p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
+                    }
                 }
                 if (request.MinimumHeight != null) {
-                    sqlSelectStatement = " and p.height >= " + request.MinimumHeight;
+                    if (sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
+                    }
+                    else {
+                         sqlSelectStatement = " or p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
+                    }
                 }
                 if (request.MaximumWeight != null) {
-                    sqlSelectStatement = " and p.weight <= " + request.MaximumWeight;
+                    if (sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
+                    }
+                    else {
+                        sqlSelectStatement = " or p.weight <= " + request.MaximumWeight + " and p.isAvailable = 1";
+                    }  
                 }
                 if (request.StrengthsList.Count != 0) {
-                    sqlSelectStatement += "UNION ALL select s.name, p.id from Player p " +
-                    " inner join playerstrength ps on ps.player_id = p.id " +
-                    " inner join strength s on s.id = ps.strength_ID ";
                     foreach (string item in request.StrengthsList) {
-                        sqlSelectStatement += " and s.name = '" + item + "'";
+                        if (sqlSelectStatement == "") {
+                            sqlSelectStatement += " s.name = '" + item + "'" + " and p.isAvailable = 1";
+                        }
+                        else {
+                            sqlSelectStatement += " or s.name = '" + item + "'" + " and p.isAvailable = 1";
+                        }   
                     }
                 }
             }

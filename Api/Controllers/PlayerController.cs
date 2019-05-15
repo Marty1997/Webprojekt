@@ -63,7 +63,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [Route("[action]")]
         public IActionResult SearchPlayers([FromQuery] SearchCriteriaForPlayer request) {
             var firsTime = DateTime.Now;
@@ -71,9 +71,6 @@ namespace Api.Controllers
             var afterTime = DateTime.Now;
 
             List<DateTime> lol = new List<DateTime>();
-            lol.Add(firsTime);
-            lol.Add(afterTime);
-
             
             return Ok(list);
         }

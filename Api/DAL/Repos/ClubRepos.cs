@@ -244,33 +244,33 @@ namespace Api.DAL.Repos {
          *  JobPositionsList
          *  ValuesList
          *  PreferenceList
-         */ 
+         */
         public IEnumerable<Club> GetAll() {
             List<Club> clubs = null;
-            string sql =
-                "SELECT c.*, jp.* " +
-                "FROM club c " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id ";
+            //string sql =
+            //    "SELECT c.*, jp.* " +
+            //    "FROM club c " +
+            //    "INNER JOIN jobposition jp ON jp.club_id = c.id ";
 
-            using (var conn = Connection()) {
-                using (var multi = conn.QueryMultiple(sql)) {
-                    clubs = multi.Read<Club>().ToList();
-                    if(clubs != null) {
-                        var jobPositions = multi.Read<JobPosition>().ToList().FirstOrDefault();
+            //using (var conn = Connection()) {
+            //    using (var multi = conn.QueryMultiple(sql)) {
+            //        clubs = multi.Read<Club>().ToList();
+            //        if (clubs != null) {
+            //            var jobPositions = multi.Read<JobPosition>().ToList().FirstOrDefault();
 
-                        foreach (Club club in clubs) {
-                            club.JobPositionsList = jobPositions.Where(jp => jp.Club_ID == club.Id).ToList();
-                        }
-                    }
-                }
-            }
+            //            foreach (Club club in clubs) {
+            //                club.JobPositionsList = jobPositions.Where(jp => jp.Club_ID == club.Id).ToList();
+            //            }
+            //        }
+            //    }
+            //}
 
             return clubs;
         }
 
         /**
          * Get club by email with all lists
-         */ 
+         */
         public Club GetByEmail(string email) {
             Club c = new Club();
             string sql = SqlSelectWithEmail(email);
@@ -317,7 +317,7 @@ namespace Api.DAL.Repos {
          *  Values
          *  Preferences
          */ 
-        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
+        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement, string option) {
             List<Club> clubs = new List<Club>();
 
             using (var conn = Connection()) {
@@ -328,14 +328,6 @@ namespace Api.DAL.Repos {
         }
 
         public UserCredentials getCredentialsByEmail(string email) {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(Club entity) {
-            throw new NotImplementedException();
-        }
-
-        public void Save() {
             throw new NotImplementedException();
         }
 
@@ -460,7 +452,7 @@ namespace Api.DAL.Repos {
                 "SELECT csp.* FROM squadplayers csp " +
                 "WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
 
-                "SELECT nsp.*, pos.positionName FROM squadplayers nsp " +
+                "SELECT nsp.* FROM squadplayers nsp " +
                 "WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
 
                 "SELECT jp.* FROM jobposition jp " +

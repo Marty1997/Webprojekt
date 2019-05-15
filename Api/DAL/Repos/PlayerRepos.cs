@@ -302,9 +302,20 @@ namespace Api.DAL.Repos {
             //return player;
         }
 
-        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
+        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement, string option) {
             List<Player> playerList = new List<Player>();
-            string sql = " select p.*, null as strength from player p where isAvailable = 1 " + sqlStatement;
+            string sql = "";
+             if(false) {
+                sql = " select p.* from player p where  " + sqlStatement;
+            }
+            else if(true) {
+                sql = " select p.*, s.name from player p " +
+                    "inner join playerstrength ps on ps.player_id = p.id " +
+                     "inner join strength s on s.id = ps.strength_ID where " + sqlStatement;
+            }
+                
+
+
 
             using (var conn = Connection()) {
                 Player result = null;
@@ -314,7 +325,7 @@ namespace Api.DAL.Repos {
 
                         Player p = null;
                         if (!playerList.Any(pl => pl.Id == playerinside.Id)) {
-                            p = BuildPlayer(p, playerinside);
+                            p = BuildPlayer(playerinside);
                             result = p;
                             playerList.Add(result);
                         }
@@ -325,7 +336,7 @@ namespace Api.DAL.Repos {
                             result.StrengthList.Add(strength);
                         }
                         return result;
-                    });
+                    }, splitOn: "strength");
                    
             }
             return playerList;
@@ -361,14 +372,6 @@ namespace Api.DAL.Repos {
                 //}
             }
 
-        }
-
-        public void Insert(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public void Save() {
-            throw new NotImplementedException();
         }
 
         public Player Update(Player entity) {
@@ -455,8 +458,8 @@ namespace Api.DAL.Repos {
 
         }
 
-        private Player BuildPlayer(Player p, Player playerinside) {
-            p = new Player {
+        private Player BuildPlayer(Player playerinside) {
+            return new Player {
                 Id = playerinside.Id,
                 FirstName = playerinside.FirstName,
                 LastName = playerinside.LastName,
@@ -485,7 +488,6 @@ namespace Api.DAL.Repos {
                 InjuryExpired = playerinside.InjuryExpired,
                 IsAvailable = playerinside.IsAvailable,
             };
-            return p;
         }
     }
 }
