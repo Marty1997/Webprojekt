@@ -338,7 +338,7 @@ namespace Api.DAL.Repos {
          *  Values
          *  Preferences
          */ 
-        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement, string option) {
+        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
             List<Club> clubs = new List<Club>();
 
             using (var conn = Connection()) {

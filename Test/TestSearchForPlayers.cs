@@ -35,8 +35,8 @@ namespace Test {
             //Arrange
             var playerRepos = new Mock<IRepository<Player>>();
             SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer();
-            //sc.PrimaryPosition = "Playmaker";
-            //sc.League = "Second League";
+            sc.PrimaryPosition = "Playmaker";
+            sc.League = "Second League";
             playerRepos.Setup(x => x.GetBySearchCriteria(""))
                 .Returns(new List<Player>
                 {
