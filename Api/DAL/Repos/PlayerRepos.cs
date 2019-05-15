@@ -371,8 +371,88 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        public bool Update(Player entity) {
-            throw new NotImplementedException();
+        public Player Update(Player entity) {
+
+            Player p = new Player();
+            for (int i = 0; i < 5; i++) {
+
+                using (var conn = Connection()) {
+
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        //byte[] rowId = null;
+                        int rowCount = 0;
+
+
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Player where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+
+
+
+                        //Update club
+                        string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country,
+                                                                    League = @League, Height = @Height, Weight = @Weight, Bodyfat = @Bodyfat,
+                                                                    PreferredHand = @PreferredHand, CurrentClub = @CurrentClub, Accomplishments = @Accomplishments,
+                                                                    Statistic = @Statistic, StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription,
+                                                                    VideoPath = @VideoPath, ImagePath = @ImagePath, FormerClubs = @FormerClubs, ContractStatus = @ContractStatus,
+                                                                    ContractExpired = @ContractExpired, InjuryStatus = @InjuryStatus, InjuryExpired = @InjuryExpired, InjuryDescription = @InjuryDescription,
+                                                                    IsAvailable = @IsAvailable
+                                                                 Where Email = @Email AND RowID = @RowID";
+                        rowCount = conn.Execute(updatePlayerSQL, new {
+                            Firstname = entity.FirstName,
+                            Lastname = entity.LastName,
+                            entity.Day,
+                            entity.Month,
+                            entity.Year,
+                            entity.Country,
+                            entity.League,
+                            entity.Height,
+                            entity.Weight,
+                            entity.Bodyfat,
+                            entity.PreferredHand,
+                            entity.CurrentClub,
+                            entity.Accomplishments,
+                            entity.Statistic,
+                            entity.StrengthDescription,
+                            entity.WeaknessDescription,
+                            entity.VideoPath,
+                            entity.ImagePath,
+                            entity.FormerClubs,
+                            entity.ContractStatus,
+                            entity.ContractExpired,
+                            entity.InjuryStatus,
+                            entity.InjuryExpired,
+                            entity.InjuryDescription,
+                            entity.IsAvailable,                           
+                            Email = entity.Email,
+                            RowID = row_ID
+                        }, transaction: tran);
+
+
+
+                        //Check for 0 in rowcount list
+                        if (rowCount == 0) {
+                            p.ErrorMessage = "The player was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            p.ErrorMessage = "";
+                            tran.Commit();
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return p;
+
         }
 
         private Player BuildPlayer(Player p, Player playerinside) {

@@ -45,6 +45,18 @@ namespace Api.BusinessLogic {
             return _playerRepos.Create(entity);
         }
 
+
+        public Player GetById(int id) {
+            return _playerRepos.GetById(id);
+
+        }
+
+
+        public Player Update(Player entity) {
+            return _playerRepos.Update(entity);
+        }
+
+
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";
             List<Player> playerList = new List<Player>();

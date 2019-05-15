@@ -31,6 +31,7 @@
     "ngx-bootstrap": "^4.0.1",
     "ngx-infinite-scroll": "^7.0.0",
     "ngx-material-file-input": "^1.1.1",
+    "ngx-spinner": "^7.1.4",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "validator": "^10.11.0",

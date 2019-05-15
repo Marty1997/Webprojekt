@@ -1,5 +1,5 @@
 @media (max-width: 415px) {
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+    .goalKeeper, .left-back, .playmaker, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 50%; 
     }
 }
@@ -8,7 +8,7 @@
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) 
 and (orientation : portrait) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+    .goalKeeper, .left-back, .playmaker, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 100%;
     }
 }
@@ -17,7 +17,7 @@ and (orientation : portrait) {
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) 
 and (orientation : landscape) {
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+    .goalKeeper, .left-back, .playmaker, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 50%;
     }
 }
@@ -26,7 +26,7 @@ and (orientation : landscape) {
 @media only screen 
 and (min-device-width : 1024px) 
 and (orientation : portrait) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+    .goalKeeper, .left-back, .playmaker, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 50%;
     }
 }
@@ -36,7 +36,7 @@ and (min-device-width : 375px)
 and (max-device-width : 812px) 
 and (-webkit-device-pixel-ratio : 3)
 and (orientation : landscape) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+    .goalKeeper, .left-back, .playmaker, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 100%;
     }
 }
@@ -44,7 +44,7 @@ and (orientation : landscape) {
 @media only screen 
 and (min-device-width : 1366px) 
 and (orientation : landscape) { 
-    .goalKeeper, .left-back, .center-back, .right-back, .pivot, .left-wing, .right-wing, .defence {
+    .goalKeeper, .left-back, .playmaker, .right-back, .pivot, .left-wing, .right-wing, .defence {
         font-size: 80%;
     }
 }
@@ -67,7 +67,7 @@ and (orientation : landscape) {
     left: 15%;  
 }
 
-.center-back {
+.playmaker {
     top: 80%;
     left: 50%;
 }

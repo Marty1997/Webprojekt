@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Videos\**" />
+    <Content Remove="Resources\Videos\**" />
+    <EmbeddedResource Remove="Resources\Videos\**" />
+    <None Remove="Resources\Videos\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Files\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
