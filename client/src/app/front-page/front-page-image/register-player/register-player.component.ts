@@ -542,7 +542,7 @@ export class RegisterPlayerComponent implements OnInit {
         "/" +
         this.player.contractExpiredDate.getFullYear();
     } else {
-      this.player.contractExpiredDate = null;
+      this.player.contractExpired = null;
     }
     if(this.additionalInfoFormGroup.value.injuryStatus !== '') {
       this.player.injuryStatus = this.additionalInfoFormGroup.value.injuryStatus;
@@ -558,7 +558,7 @@ export class RegisterPlayerComponent implements OnInit {
         "/" +
         this.player.injuryExpiredDate.getFullYear();
     } else {
-      this.player.injuryExpiredDate = null;
+      this.player.injuryExpired = null;
     }
     if(this.additionalInfoFormGroup.value.injuryDescription !== '') {
       this.player.injuryDescription = this.additionalInfoFormGroup.value.injuryDescription;
@@ -704,12 +704,12 @@ export class RegisterPlayerComponent implements OnInit {
     }
 
     if (this.playerPresentationFormGroup.value.profilePictureControl !== "") {
-      this.player.profilePicture = this.playerPresentationFormGroup.value.profilePictureControl;
+      this.player.imagePath = this.playerPresentationFormGroup.value.profilePictureControl;
     } else {
-      this.player.profilePicture = null;
+      this.player.imagePath = null;
     }
     if (this.playerPresentationFormGroup.value.videoFileControl !== "") {
-      this.player.videoPresentation = this.playerPresentationFormGroup.value.videoFileControl;
+      this.player.videoPath = this.playerPresentationFormGroup.value.videoFileControl;
     }
 
     return this.player;

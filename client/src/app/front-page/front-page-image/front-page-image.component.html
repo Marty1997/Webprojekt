@@ -22,9 +22,13 @@
   <!-- LOGIN -->
   <ng-template #loginModal>
     <div id="loginBox" class="box">
-        <button type="button" class="close" aria-label="Close" (click)="loginModal.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+
+        <!-- Loading spinner component -->
+        <app-loading-icon [isLoading]="isLoading"></app-loading-icon>
+
+      <button type="button" class="close" aria-label="Close" (click)="loginModal.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
       <h1 >Login</h1>
       <div style="color:red; font-size:20px;" *ngIf="wrongEmailOrPassword">Wrong email or password</div>
       <form name="form" (ngSubmit)="f.form.valid && loginUser(f)" #f="ngForm" novalidate>
@@ -33,7 +37,6 @@
           <input type="email" name="email" placeholder="Enter your email" ngModel name="email" #email="ngModel"
             [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required />
         </div>
-
         <div style="text-align: center; color:red; height:20px;">
           <div *ngIf="f.submitted && email.invalid">
             <div *ngIf="email.errors.required">Email is required</div>

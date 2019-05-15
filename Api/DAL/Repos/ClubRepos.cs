@@ -36,9 +36,9 @@ namespace Api.DAL.Repos {
 
                     //Insert Club
                     string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
-                                        ZipcodeCity_ID, UserCredentials_ID) 
+                                        IsAvailable, ZipcodeCity_ID, UserCredentials_ID) 
                                         VALUES (@Name, @Email, @League, @Country, @StreetAddress, @StreetNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
-                                        @ZipcodeCity_ID, @UserCredentials_ID);
+                                        @IsAvailable, @ZipcodeCity_ID, @UserCredentials_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     var club_ID = conn.Query<int>(clubSQL, new {
@@ -55,6 +55,7 @@ namespace Api.DAL.Repos {
                         entity.Manager,
                         entity.ValueDescription,
                         entity.PreferenceDescription,
+                        entity.IsAvailable,
                         ZipcodeCity_ID = zipcodeCity_ID,
                         UserCredentials_ID = userCredentials_ID
                     }, transaction: tran).Single();
@@ -338,8 +339,101 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        public bool Update(Club entity) {
-            throw new NotImplementedException();
+        public Club Update(Club entity) {
+
+            Club c = new Club();
+            for (int i = 0; i < 5; i++) {
+
+                List<int> _rowCountList = new List<int>();
+
+                using (var conn = Connection()) {
+                    
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+                        
+                            //Return row ID
+                            string rowIDSQL = @"Select rowID from Club where email = @Email";
+                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+
+                            //Update club
+                            string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
+                                                                    AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
+                                                                    ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath
+                                                                 Where Email = @Email AND RowID = @RowID";
+
+
+                            _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                                Name = entity.Name,
+                                entity.League,
+                                entity.Country,
+                                entity.StreetAddress,
+                                entity.StreetNumber,
+                                entity.Trainer,
+                                entity.AssistantTrainer,
+                                entity.Physiotherapist,
+                                entity.AssistantPhysiotherapist,
+                                entity.Manager,
+                                entity.ValueDescription,
+                                entity.PreferenceDescription,
+                                entity.ImagePath,
+                                Email = entity.Email,
+                                RowID = row_ID
+                            }, transaction: tran));
+
+                           
+                            //Facility image
+                            if (entity.FacilityImagesList.Count > 0) {
+
+                                //Return club ID
+                                string clubIDSQL = @"Select id from Club where email = @Email";
+                                int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
+
+                                foreach (string imagePath in entity.FacilityImagesList) {
+                                
+                                    if(club_ID != 0) {
+
+                                        //Check if imagePath already exist in DB
+                                        string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
+                                        int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
+                                        
+                                        if(id == 0) {
+                                            //Insert facility image
+                                            string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+                                            VALUES (@ImagePath, @Club_ID)";
+
+                                            _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                                ImagePath = imagePath,
+                                                Club_ID = club_ID
+                                            }, transaction: tran));
+                                        }
+                                     
+                                    }
+                                       
+
+                                }
+                            }
+
+                            //Check for 0 in rowcount list
+                            if (_rowCountList.Contains(0)) {
+                                c.ErrorMessage = "The club was not updated";
+                                tran.Rollback();
+                            }
+                            else {
+                                c.ErrorMessage = "";
+                                tran.Commit();
+                                break;
+                            }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
         }
 
         // Helping method to get club with all lists
