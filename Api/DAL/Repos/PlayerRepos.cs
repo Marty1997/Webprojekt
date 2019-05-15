@@ -261,10 +261,10 @@ namespace Api.DAL.Repos {
                 " select p.* from player p where p.id = @id;" +
 
                 " select s.name from playerstrength ps " +
-                " inner join strength s on s.id = ps.strength_ID where p.id = @id;" +
+                " inner join strength s on s.id = ps.strength_ID where ps.player_id = @id;" +
 
-                " select w.name playerweakness pw " +
-                " inner join weakness w on w.id = pw.weakness_ID where p.id = @id;" +
+                " select w.name from playerweakness pw " +
+                " inner join weakness w on w.id = pw.weakness_ID where pw.player_id = @id;" +
 
                 " select nt.name, nt.appearances, nt.statistic, nt.position from NationalTeam nt where nt.player_id = @id;";
 
@@ -312,13 +312,16 @@ namespace Api.DAL.Repos {
 
         public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
             List<Player> playerList = new List<Player>();
+            string sql = " select p.* from player p where isAvailable = 1 " + sqlStatement;
+
             using (var conn = Connection()) {
                 //try {
-                    playerList = conn.Query<Player>("select p.* from player p  where " + sqlStatement).ToList();
-                //foreach (Player item in playerList) {
-                //    item.StrengthList = GetPlayerStrengthList(item, conn);
-                //}
-                //}
+                using (var multi = conn.QueryMultiple(sql)) {
+
+
+                    //player = multi.Read<Player>().First();
+                    //player.StrengthList = multi.Read<string>().ToList();
+                }
                 //catch(SqlException e) {
 
                 //}
