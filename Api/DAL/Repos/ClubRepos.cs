@@ -258,7 +258,7 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        /*
+        /**
          * Get all club entities from database with
          *  JobPositionsList
          *  ValuesList
@@ -267,9 +267,8 @@ namespace Api.DAL.Repos {
         public IEnumerable<Club> GetAll() {
             List<Club> clubs = new List<Club>();
             List<JobPosition> jobPositions = null;
-
             string sql =
-                "SELECT c.*, jp.*, v.name, p.name " +
+                "SELECT c.*, jp.* " +
                 "FROM club c " +
                 "INNER JOIN jobposition jp ON jp.club_id = c.id ";
 
@@ -287,6 +286,9 @@ namespace Api.DAL.Repos {
             return clubs;
         }
 
+        /**
+         * Get club by email with all lists
+         */ 
         public Club GetByEmail(string email) {
             Club c = new Club();
             string sql = SqlSelectWithEmail(email);
@@ -305,6 +307,9 @@ namespace Api.DAL.Repos {
             return c;
         }
 
+        /**
+         * Get club by id with all lists
+         */ 
         public Club GetById(int id) {
             Club c = new Club();
             string sql = SqlSelectWithId(id);
@@ -323,19 +328,18 @@ namespace Api.DAL.Repos {
             return c;
         }
 
+        /**
+         * Get a list of club based on search criteria
+         * 3 possible combinations with 
+         *  Jobpositions
+         *  Values
+         *  Preferences
+         */ 
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
             List<Club> clubs = new List<Club>();
 
             using (var conn = Connection()) {
-                clubs = conn.Query<Club, int, string, Club>("select c.*, ci.zipcode, ci.city from club c" +
-                    " inner join ZipcodeCity ci on c.zipcodecity_id = ci.id where " + sqlStatement,
-                (clubinside, code, city) => { clubinside.Zipcode = code; clubinside.City = city; return clubinside; }, splitOn: "Zipcode,city").ToList();
-
-                foreach (Club club in clubs) {
-                    club.JobPositionsList = GetJobPosition(club, conn);
-                    club.PreferenceList = GetClubPreferenceList(club, conn);
-                    club.ValuesList = GetClubValueList(club, conn);
-                }
+                
             }
 
             return clubs;
@@ -356,6 +360,7 @@ namespace Api.DAL.Repos {
         public bool Update(Club entity) {
             throw new NotImplementedException();
         }
+
         // Helping method to get club with all lists
         private string SqlSelectWithId(int id) {
             return 
@@ -428,55 +433,6 @@ namespace Api.DAL.Repos {
                 "INNER JOIN jobposition jp" +
                 "   ON jp.club_id = c.id " +
                 "WHERE c.email = " + email;
-        }
-
-        //Helping method to build club traininghours
-        private List<TrainingHours> GetClubTraningHourList(Club club, IDbConnection conn) {
-            club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
-            return club.TrainingHoursList;
-        }
-
-        //Helping method to build club current squad list
-        private List<SquadPlayer> GetClubCurrentSquadList(Club club, IDbConnection conn) {
-            club.CurrentSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
-                    " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Current year'",
-            (squadPlayers, position) => { squadPlayers.PositionName = position; return squadPlayers; }, new { id = club.Id }, splitOn: "positionName").ToList();
-            return club.CurrentSquadPlayersList;
-        }
-
-        //Helping method to build club next year squad list
-        private List<SquadPlayer> GetClubNextYearSquadList(Club club, IDbConnection conn) {
-            club.NextYearSquadPlayersList = conn.Query<SquadPlayer, string, SquadPlayer>("select s.*, p.* from SquadPlayers s" +
-                     " inner join Position p on p.id = s.position_ID where s.club_id = @id and s.season = 'Next year'",
-                (squadPlayers, position) => { squadPlayers.PositionName = position; return squadPlayers; }, new { id = club.Id }, splitOn: "positionName").ToList();
-            return club.NextYearSquadPlayersList;
-        }
-
-        //Helping method to build club open position list
-        private List<JobPosition> GetJobPosition(Club club, IDbConnection conn) {
-            club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp.*, p.positionName from JobPosition jp " +
-                "inner join Position p on p.id = jp.position_ID where jp.club_ID = @id",
-                (jobPosition, position) => { jobPosition.PositionName = position; return jobPosition; }, new { id = club.Id }, splitOn: "positionName").ToList();
-
-            foreach (JobPosition item in club.JobPositionsList) {
-                item.StrengthsList = conn.Query<string>("select s.name from Strength s " +
-                    "inner join JobPositionStrength jps on jps.strength_id = s.id where jps.jobposition_ID = @newid", new { newid = item.ID }).ToList();
-            }
-            return club.JobPositionsList;
-        }
-
-        //Helping method to build club value list
-        private List<string> GetClubValueList(Club club, IDbConnection conn) {
-            club.ValuesList = conn.Query<string>("select v.name from Value v " +
-                 "inner join ClubValue cv on cv.value_id = v.id where cv.club_ID = @id", new { id = club.Id }).ToList();
-            return club.ValuesList;
-        }
-
-        //Helping method to build club strength list
-        private List<string> GetClubPreferenceList(Club club, IDbConnection conn) {
-            club.PreferenceList = conn.Query<string>("select p.name from Preference p" +
-                " inner join ClubPreference cp on cp.preference_id = p.id where cp.club_ID = @id", new { id = club.Id }).ToList();
-            return club.PreferenceList;
         }
     }
 }
