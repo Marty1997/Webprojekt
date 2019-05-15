@@ -106,7 +106,7 @@ namespace Api.BusinessLogic {
                     sqlSelectStatement = " and p.weight <= " + request.MaximumWeight;
                 }
                 if (request.StrengthsList.Count != 0) {
-                    sqlSelectStatement += "select s.name from Player p " +
+                    sqlSelectStatement += "UNION ALL select s.name, p.id from Player p " +
                     " inner join playerstrength ps on ps.player_id = p.id " +
                     " inner join strength s on s.id = ps.strength_ID ";
                     foreach (string item in request.StrengthsList) {
