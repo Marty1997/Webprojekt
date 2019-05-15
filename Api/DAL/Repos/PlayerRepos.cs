@@ -172,20 +172,7 @@ namespace Api.DAL.Repos {
             List<Player> playerList = new List<Player>();
             using (var conn = Connection()) {
                 //try {
-                playerList = conn.Query<Player, string, string, string, string, string, Player>("select p.*, pp.positionName, sp.positionName, cp.positionName, cs.positionName, s.positionName from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID" +
-                " left join playerstrength ps on ps.player_id = p.id" +
-                " left join strength s on s.id = ps.strength_ID where isAvailable = 1",
-                (playerinside, pp, sp, cp, cs, strength) => {
-                    playerinside.PrimaryPosition = pp;
-                    playerinside.SecondaryPosition = sp;
-                    playerinside.CurrentClubPrimaryPosition = cp;
-                    playerinside.CurrentClubSecondaryPosition = cs;
-                    return playerinside;
-                }, splitOn: "positionName,positionName,positionName,positionName").ToList();
+                playerList = conn.Query<Player>("select * from player where isAvailable = 1").ToList();
                 return playerList;
                 //}
                 //catch(SqlException e) {
@@ -194,16 +181,10 @@ namespace Api.DAL.Repos {
             }
         }
 
-
-
         public Player GetByEmail(string email) {
             Player player = new Player();
             string sql =
-                " select p.*, pp.positionname, sp.positionname, cp.positionname, cs.positionname from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.email = @email;" +
+                " select p.* from player p where p.email = @email;" +
 
                 " select s.name from Player p " +
                 " inner join playerstrength ps on ps.player_id = p.id " +
@@ -211,11 +192,10 @@ namespace Api.DAL.Repos {
 
                 " select w.name from Player p " +
                 " inner join playerweakness pw on pw.player_id = p.id " +
-                " inner join weakness w on w.id = pw.weakness where p.email = @email;" +
+                " inner join weakness w on w.id = pw.weakness_ID where p.email = @email;" +
 
-                " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
-                " inner join NationalTeam nt on nt.player_Id = p.id" +
-                " inner join Position po on po.id = nt.position_ID where p.email = @email;";
+                " select nt.name, nt.appearances, nt.statistic, nt.position from Player p" +
+                " inner join NationalTeam nt on nt.player_Id = p.id where p.email = @email;";
 
             using (var conn = Connection()) {
                 //try {
@@ -278,28 +258,20 @@ namespace Api.DAL.Repos {
         public Player GetById(int id) {
             Player player = new Player();
             string sql =
-                " select p.*, pp.positionname, sp.positionname, cp.positionname, cs.positionname from player p" +
-                " left join Position pp on pp.id = p.primaryPosition_ID" +
-                " left join Position sp on sp.id = p.secondaryPosition_ID" +
-                " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-                " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.id = @id;" +
+                " select p.* from player p where p.id = @id;" +
 
-                " select s.name from Player p " +
-                " inner join playerstrength ps on ps.player_id = p.id " +
+                " select s.name from playerstrength ps " +
                 " inner join strength s on s.id = ps.strength_ID where p.id = @id;" +
 
-                " select w.name from Player p " +
-                " inner join playerweakness pw on pw.player_id = p.id " +
-                " inner join weeakness w on w.id = pw.weakness where p.id = @id;" +
+                " select w.name playerweakness pw " +
+                " inner join weakness w on w.id = pw.weakness_ID where p.id = @id;" +
 
-                " select nt.name, nt.appearances, nt.statistic, po.positionname from Player p" +
-                " inner join NationalTeam nt on nt.player_Id = p.id" +
-                " inner join Position po on po.id = nt.position_ID where p.id = @id;";
+                " select nt.name, nt.appearances, nt.statistic, nt.position from NationalTeam nt where nt.player_id = @id;";
 
             using (var conn = Connection()) {
                 //try {
                 using (var multi = conn.QueryMultiple(sql, new { id })) {
-                    player = multi.Read<Player>().First();
+                    player = multi.Read<Player>().First(); 
                     player.StrengthList = multi.Read<string>().ToList();
                     player.WeaknessList = multi.Read<string>().ToList();
                     player.NationalTeamList = multi.Read<NationalTeam>().ToList();
@@ -342,14 +314,7 @@ namespace Api.DAL.Repos {
             List<Player> playerList = new List<Player>();
             using (var conn = Connection()) {
                 //try {
-                    playerList = conn.Query<Player, string, string, Player>("select p.*, pp.positionName, sp.positionName from player p" +
-                    " left join Position pp on pp.id = p.primaryPosition_ID" +
-                    " left join Position sp on sp.id = p.secondaryPosition_ID where " + sqlStatement,
-                    (playerinside, pp, sp) => {
-                    playerinside.PrimaryPosition = pp;
-                    playerinside.SecondaryPosition = sp;
-                    return playerinside;
-                    }, splitOn: "positionName,PositionName").ToList();
+                    playerList = conn.Query<Player>("select p.* from player p  where " + sqlStatement).ToList();
                 //foreach (Player item in playerList) {
                 //    item.StrengthList = GetPlayerStrengthList(item, conn);
                 //}
@@ -403,65 +368,6 @@ namespace Api.DAL.Repos {
 
         public bool Update(Player entity) {
             throw new NotImplementedException();
-        }
-
-        // Helping method to build only NationalTeams on your player
-        private List<NationalTeam> GetPlayerNationalTeams(Player player, IDbConnection conn) {
-            player.NationalTeamList = conn.Query<NationalTeam, string, NationalTeam>("select nt.*, p.positionName from NationalTeam nt " +
-                    " inner join Position p on p.id = nt.position_id where nt.player_id = @id", (nationalTeam, p) => { nationalTeam.PositionName = p; return nationalTeam; },
-                    new { id = player.Id }, splitOn: "name").ToList();
-            return player.NationalTeamList;
-        }
-
-        // Helping method to build only Strengths on your player
-        private List<string> GetPlayerStrengthList(Player player, IDbConnection conn) {
-            player.StrengthList = conn.Query<string>("select s.name from Strength s " +
-                 "inner join PlayerStrength ps on ps.strength_id = s.id where ps.player_id = @id", new { id = player.Id }).ToList();
-            return player.StrengthList;
-        }
-
-        // Helping method to build only Weakness on your player
-        private List<string> GetPlayerWeaknessList(Player player, IDbConnection conn) {
-            player.WeaknessList = conn.Query<string>("select w.name from Weakness w " +
-                 "inner join PlayerWeakness pw on pw.weakness_id = w.id where pw.player_ID = @id", new { id = player.Id }).ToList();
-            return player.WeaknessList;
-        }
-
-        private Player BuildPlayer(Player p, Player playerinside, string pp, string sp, string cp, string cs) {
-             p = new Player {
-                Id = playerinside.Id,
-                FirstName = playerinside.FirstName,
-                LastName = playerinside.LastName,
-                Email = playerinside.Email,
-                Day = playerinside.Day,
-                Month = playerinside.Month,
-                Year = playerinside.Year,
-                Country = playerinside.Country,
-                League = playerinside.League,
-                Height = playerinside.Height,
-                Weight = playerinside.Weight,
-                Bodyfat = playerinside.Bodyfat,
-                PreferredHand = playerinside.PreferredHand,
-                CurrentClub = playerinside.CurrentClub,
-                Accomplishments = playerinside.Accomplishments,
-                Statistic = playerinside.Statistic,
-                StrengthDescription = playerinside.StrengthDescription,
-                WeaknessDescription = playerinside.WeaknessDescription,
-                VideoPath = playerinside.VideoPath,
-                ImagePath = playerinside.ImagePath,
-                FormerClubs = playerinside.FormerClubs,
-                ContractStatus = playerinside.ContractStatus,
-                ContractExpired = playerinside.ContractExpired,
-                InjuryStatus = playerinside.InjuryStatus,
-                InjuryDescription = playerinside.InjuryDescription,
-                InjuryExpired = playerinside.InjuryExpired,
-                IsAvailable = playerinside.IsAvailable,
-                PrimaryPosition = pp,
-                SecondaryPosition = sp,
-                CurrentClubPrimaryPosition = cp,
-                CurrentClubSecondaryPosition = cs
-            };
-            return p;
         }
     }
 }

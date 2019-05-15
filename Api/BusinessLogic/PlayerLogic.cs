@@ -64,10 +64,10 @@ namespace Api.BusinessLogic {
                 }
                 if(request.PrimaryPosition != null) {
                     if(sqlSelectStatement == "") {
-                        sqlSelectStatement = "pp.name = '" + request.PrimaryPosition + "'";
+                        sqlSelectStatement = "p.PrimaryPosition = '" + request.PrimaryPosition + "'";
                     }
                     else {
-                        sqlSelectStatement += " and pp.name = '" + request.PrimaryPosition + "'";
+                        sqlSelectStatement += " and p.PrimaryPosition = '" + request.PrimaryPosition + "'";
                     }
                 }
                 playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
@@ -108,10 +108,10 @@ namespace Api.BusinessLogic {
                 }
                 if (request.SecondaryPosition != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " sp.name = '" + request.SecondaryPosition + "'";
+                        sqlSelectStatement = " s.SecondaryPosition = '" + request.SecondaryPosition + "'";
                     }
                     else {
-                        sqlSelectStatement += " and sp.name = '" + request.SecondaryPosition + "'";
+                        sqlSelectStatement += " and s.SecondaryPosition = '" + request.SecondaryPosition + "'";
                     }
                 }
                 if (request.HandPreference != null) {
@@ -147,7 +147,7 @@ namespace Api.BusinessLogic {
                     }
                 }
                 if(request.StrengthsList.Count != 0) {
-                    // select strength list på en måde
+                    // 
                 }
                 playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
             }
