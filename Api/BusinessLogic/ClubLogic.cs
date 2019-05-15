@@ -91,7 +91,7 @@ namespace Api.BusinessLogic {
                     // job position list
                 }
 
-                clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
+                clubs = _clubRepos.GetBySearchCriteria(sql, "").ToList();
             }
             // If Country, League and Position is not selected as a criteria
             // We continue to match with the 'less important' criterias
@@ -113,7 +113,7 @@ namespace Api.BusinessLogic {
                     // wtf is going on
                 }
 
-                clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
+                clubs = _clubRepos.GetBySearchCriteria(sql, "").ToList();
             }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first

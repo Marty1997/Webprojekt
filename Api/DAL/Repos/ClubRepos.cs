@@ -248,19 +248,16 @@ namespace Api.DAL.Repos {
         public IEnumerable<Club> GetAll() {
             List<Club> clubs = new List<Club>();
             string sql =
-                "SELECT c.*, ci.zipcode, ci.city, " +
-                "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge, " +
-                "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, " +
-                "jp.club_id as club_id FROM club c" +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id" +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id";
+                "SELECT c.*, ci.zipcode, ci.city, jp.* FROM club c " +
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id ";
 
             using (var conn = Connection()) {
                 Club result = null;
-                conn.Query<Club, JobPosition, int, string, Club>(sql, (clubinside, jobposition, zipcode, city) => {
+                conn.Query<Club, int, string, JobPosition, Club>(sql, (clubinside, zipcode, city, jobposition) => {
                     Club c = null;
                     if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
-                        c = BuildClub(clubinside);
+                        c = BuildClub(clubinside, zipcode, city);
                         result = c;
                         clubs.Add(result);
                     }
@@ -273,22 +270,11 @@ namespace Api.DAL.Repos {
                     }
 
                     return result;
-                }, splitOn: "id");
+                }, splitOn: "zipcode, city, id");
             }
             return clubs;
         }
-
-        /*List<Player> playerList = new List<Player>();
-            string sql = ""
-             if(false) {
-                sql = " select p.* from player p where  " + sqlStatement;
-            }
-            else if(true) {
-                sql = " select p.*, s.name from player p " +
-                    "inner join playerstrength ps on ps.player_id = p.id " +
-                     "inner join strength s on s.id = ps.strength_ID where " + sqlStatement;
-            }
-         */
+        
         /**
          * Get club by email with all lists
          */
@@ -452,78 +438,39 @@ namespace Api.DAL.Repos {
         // Helping method to get club with all lists
         private string SqlSelectWithId(int id) {
             return 
-                "SELECT c.*, ci.zipcode, ci.city FROM club c " +
-                "INNER JOIN zipcodecity ci " +
-                "ON c.zipcodecity_id = ci.id " +
-                "WHERE c.id = " + id +
-
-                "SELECT p.name FROM clubpreference cp " +
-                "INNER JOIN preference p " +
-                "ON p.id = cp.preference_id " +
-                "WHERE cp.club_id = " + id +
-
-                "SELECT v.name FROM clubvalue cv " +
-                "INNER JOIN value v " +
-                "ON v.id = cv.value_id " +
-                "WHERE cv.club_id = " + id +
-
-                "SELECT th.* FROM traininghours th " +
-                "WHERE th.club_id = " + id +
-
-                "SELECT csp.* FROM squadplayers csp " +
-                "WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
-
-                "SELECT nsp.* FROM squadplayers nsp " +
-                "WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
-
-                "SELECT jp.* FROM jobposition jp " +
-                "WHERE jp.club_id = " + id;
+                "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
+                "ON c.zipcodecity_id = ci.id WHERE c.id = " + id +
+                "SELECT p.name FROM clubpreference cp INNER JOIN preference p " +
+                "ON p.id = cp.preference_id WHERE cp.club_id = " + id +
+                "SELECT v.name FROM clubvalue cv INNER JOIN value v " +
+                "ON v.id = cv.value_id WHERE cv.club_id = " + id +
+                "SELECT th.* FROM traininghours th WHERE th.club_id = " + id +
+                "SELECT csp.* FROM squadplayers csp WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
+                "SELECT nsp.* FROM squadplayers nsp WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
+                "SELECT jp.* FROM jobposition jp WHERE jp.club_id = " + id;
         }
 
         // Helping method to get club with all lists
         private string SqlSelectWithEmail(string email) {
             return 
-                "SELECT c.*, ci.zipcode, ci.city FROM club c " +
-                "INNER JOIN zipcodecity ci " +
-                "ON c.zipcodecity_id = ci.id " +
+                "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
+                "ON c.zipcodecity_id = ci.id WHERE c.email = '" + email + "'; " +
+                "SELECT p.name, c.id FROM club c INNER JOIN clubpreference cp " +
+                "ON cp.club_id = c.id INNER JOIN preference p ON p.id = cp.preference_id " +
                 "WHERE c.email = '" + email + "'; " +
-
-                "SELECT p.name, c.id FROM club c " +
-                "INNER JOIN clubpreference cp " +
-                "   ON cp.club_id = c.id " +
-                "INNER JOIN preference p " +
-                "   ON p.id = cp.preference_id " +
-                "WHERE c.email = '" + email + "'; " +
-
-                "SELECT v.name, c.id FROM club c " +
-                "INNER JOIN clubvalue cv " +
-                "   ON cv.club_id = c.id " +
-                "INNER JOIN value v " +
-                "   ON v.id = cv.value_id " +
-                "WHERE c.email = '" + email + "';" +
-
-                "SELECT th.*, c.id FROM club c " +
-                "INNER JOIN traininghours th " +
-                "   ON th.club_id = c.id " +
-                "WHERE c.email = '" + email + "'; " +
-
-                "SELECT csp.*, c.id FROM club c " +
-                "INNER JOIN squadplayers csp " +
-                "   ON csp.club_id = c.id " +
+                "SELECT v.name, c.id FROM club c INNER JOIN clubvalue cv ON cv.club_id = c.id " +
+                "INNER JOIN value v ON v.id = cv.value_id WHERE c.email = '" + email + "';" +
+                "SELECT th.*, c.id FROM club c INNER JOIN traininghours th " +
+                "ON th.club_id = c.id WHERE c.email = '" + email + "'; " +
+                "SELECT csp.*, c.id FROM club c INNER JOIN squadplayers csp ON csp.club_id = c.id " +
                 "WHERE c.email = '" + email + "' AND csp.season = 'Current year'; " +
-                
-                "SELECT nsp.*, c.id FROM club c " +
-                "INNER JOIN squadplayers nsp " +
-                "   ON nsp.club_id = c.id " +
+                "SELECT nsp.*, c.id FROM club c INNER JOIN squadplayers nsp ON nsp.club_id = c.id " +
                 "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
-
-                "SELECT jp.*, c.id FROM club c " +
-                "INNER JOIN jobposition jp " +
-                "   ON jp.club_id = c.id " +
-                "WHERE c.email = '" + email + "';";
+                "SELECT jp.*, c.id FROM club c INNER JOIN jobposition jp " +
+                "ON jp.club_id = c.id WHERE c.email = '" + email + "';";
         }
 
-        private Club BuildClub(Club clubinside) {
+        private Club BuildClub(Club clubinside, int zipcode, string city) {
             return new Club {
                 Id = clubinside.Id,
                 Name = clubinside.Name,
@@ -541,7 +488,8 @@ namespace Api.DAL.Repos {
                 PreferenceDescription = clubinside.PreferenceDescription,
                 ImagePath = clubinside.ImagePath,
                 IsAvailable = clubinside.IsAvailable,
-                
+                Zipcode = zipcode,
+                City = city
             };
         }
     }
