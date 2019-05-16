@@ -186,7 +186,7 @@ namespace Api.DAL.Repos {
                 " inner join playerweakness pw on pw.player_id = p.id " +
                 " inner join weakness w on w.id = pw.weakness_ID where p.email = @email;" +
 
-                " select nt.name, nt.appearances, nt.statistic, nt.position from Player p" +
+                " select nt.name, nt.appearances, nt.statistic, nt.position, nt.id from Player p" +
                 " inner join NationalTeam nt on nt.player_Id = p.id where p.email = @email;";
 
             using (var conn = Connection()) {
@@ -258,7 +258,7 @@ namespace Api.DAL.Repos {
                 " select w.name from playerweakness pw " +
                 " inner join weakness w on w.id = pw.weakness_ID where pw.player_id = @id;" +
 
-                " select nt.name, nt.appearances, nt.statistic, nt.position from NationalTeam nt where nt.player_id = @id;";
+                " select nt.name, nt.appearances, nt.statistic, nt.position, nt.id from NationalTeam nt where nt.player_id = @id;";
 
             using (var conn = Connection()) {
                 //try {

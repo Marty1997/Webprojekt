@@ -33,6 +33,7 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
+        // api/Club/Update
         [HttpPost]
         [Route("[action]")]
         public IActionResult Update([FromBody] Club entity) {
@@ -42,6 +43,7 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
+        // api/Club/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {

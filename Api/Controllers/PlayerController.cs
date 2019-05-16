@@ -52,7 +52,7 @@ namespace Api.Controllers
            
         }
 
-        // api/Player/SearchPlayers
+        // api/Player/Update
         [HttpGet]
         [Route("[action]")]
         public IActionResult Update([FromBody] Player entity) {
@@ -62,7 +62,7 @@ namespace Api.Controllers
             return Ok(player);
         }
 
-
+        // api/Player/SearchPlayers
         [HttpGet]
         [Route("[action]")]
         public IActionResult SearchPlayers([FromQuery] SearchCriteriaForPlayer request) {

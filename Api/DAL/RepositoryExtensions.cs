@@ -11,7 +11,7 @@ namespace Api.DAL {
             return repository;
         }
 
-        public static IClubRepository<TEntity> With<TEntity>(this IClubRepository<TEntity> clubRepository, Func<IDbConnection> connectionFactory) {
+        public static IClubRepository<TEntity> WithClub<TEntity>(this IClubRepository<TEntity> clubRepository, Func<IDbConnection> connectionFactory) {
             clubRepository.Connection = connectionFactory;
             return clubRepository;
         }
