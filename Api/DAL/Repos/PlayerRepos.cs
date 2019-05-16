@@ -302,20 +302,12 @@ namespace Api.DAL.Repos {
             //return player;
         }
 
-        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement, string option) {
+        public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
             List<Player> playerList = new List<Player>();
-            string sql = "";
-             if(false) {
-                sql = " select p.* from player p where  " + sqlStatement;
-            }
-            else if(true) {
-                sql = " select p.*, s.name from player p " +
+       
+              string sql = " select p.*, s.name from player p " +
                     "inner join playerstrength ps on ps.player_id = p.id " +
                      "inner join strength s on s.id = ps.strength_ID where " + sqlStatement;
-            }
-                
-
-
 
             using (var conn = Connection()) {
                 Player result = null;
@@ -336,8 +328,7 @@ namespace Api.DAL.Repos {
                             result.StrengthList.Add(strength);
                         }
                         return result;
-                    }, splitOn: "strength");
-                   
+                    }, splitOn: "name");    
             }
             return playerList;
         }
@@ -487,6 +478,10 @@ namespace Api.DAL.Repos {
                 InjuryDescription = playerinside.InjuryDescription,
                 InjuryExpired = playerinside.InjuryExpired,
                 IsAvailable = playerinside.IsAvailable,
+                PrimaryPosition = playerinside.PrimaryPosition,
+                SecondaryPosition = playerinside.SecondaryPosition,
+                CurrentClubPrimaryPosition = playerinside.CurrentClubPrimaryPosition,
+                CurrentClubSecondaryPosition = playerinside.CurrentClubSecondaryPosition
             };
         }
     }

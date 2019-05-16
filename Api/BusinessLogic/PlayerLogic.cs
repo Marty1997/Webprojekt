@@ -73,10 +73,10 @@ namespace Api.BusinessLogic {
             if (request.League != null || request.PrimaryPosition != null) {
                 sqlSelectStatement += " p.isAvailable = 1";
                 if (request.League != null) {
-                    sqlSelectStatement = " and p.league = '" + request.League + "'" ;
+                    sqlSelectStatement += " and p.league = '" + request.League + "'" ;
                 }
                 if (request.PrimaryPosition != null) {
-                    sqlSelectStatement = " and p.PrimaryPosition = '" + request.PrimaryPosition + "'";
+                    sqlSelectStatement += " and p.PrimaryPosition = '" + request.PrimaryPosition + "'";
                 }
             }
             //If no league or primaryPosition was selected we try to selected after country if they specified any country in their search.
