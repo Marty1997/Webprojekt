@@ -341,10 +341,15 @@ namespace Api.DAL.Repos {
                             string rowIDSQL = @"Select rowID from Club where email = @Email";
                             byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
 
+                            //Return zipcodeCity ID
+                            string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                                        SELECT CAST(SCOPE_IDENTITY() as int)";
+                            int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+
                             //Update club
                             string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
                                                                     AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
-                                                                    ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath
+                                                                    ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath, IsAvailable = @IsAvailable, ZipcodeCity_ID = @ZipcodeCity_ID
                                                                  Where Email = @Email AND RowID = @RowID";
 
 
@@ -363,6 +368,8 @@ namespace Api.DAL.Repos {
                                 entity.PreferenceDescription,
                                 entity.ImagePath,
                                 Email = entity.Email,
+                                IsAvailable = entity.IsAvailable,
+                                ZipcodeCity_ID = zipcodeCity_ID,
                                 RowID = row_ID
                             }, transaction: tran));
 
@@ -398,78 +405,166 @@ namespace Api.DAL.Repos {
                                 }
                             }
 
-                       
                         // CurrentSquadPlayers
                         if (entity.CurrentSquadPlayersList.Count > 0) {
 
                             foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
+                                
+                                //Update SquadPlayer
+                                string updateCurrentSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
+                                                                 Where ID = @ID";
 
-                                if (club_ID != 0) {
-                                    //Update SquadPlayer
-                                    string updateCurrentSquadPlayersSQL = @"Update SquadPlayers Set Appearances = @Appearances, Statistic = @Statistic, Position = @Position
-                                                                 Where Player_ID = @Player_ID";
+                                _rowCountList.Add(conn.Execute(updateCurrentSquadPlayersSQL, new {
+                                    csp.ShirtNumber,
+                                    csp.Season,
+                                    csp.Name,
+                                    csp.Position,
+                                    ID = csp.Id,
+                                }, transaction: tran));
+                            }
+                        }
 
-                                    _rowCountList.Add(conn.Execute(updateNationalTeamSQL, new {
-                                        nt.Appearances,
-                                        nt.Statistic,
-                                        nt.Position,
-                                        Player_ID = player_ID
-                                    }, transaction: tran));
-                                }
+                        // NextYearSquadPlayers
+                        if (entity.NextYearSquadPlayersList.Count > 0) {
+
+                            foreach (SquadPlayer csp in entity.NextYearSquadPlayersList) {
+                                
+                                //Update SquadPlayer
+                                string updateNextYearSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
+                                                                 Where ID = @ID";
+
+                                _rowCountList.Add(conn.Execute(updateNextYearSquadPlayersSQL, new {
+                                    csp.ShirtNumber,
+                                    csp.Season,
+                                    csp.Name,
+                                    csp.Position,
+                                    ID = csp.Id
+                                }, transaction: tran));
 
                             }
                         }
 
 
+                        //Job position
+                        if (entity.JobPositionsList.Count > 0) {
+                            foreach (JobPosition jp in entity.JobPositionsList) {
 
-                        //Weaknesses
-                        if (entity.WeaknessList.Count > 0) {
+                                var jobPosition_ID = 0;
+                               
+                                //Update JobPosition
+                                string jobPositionSQL = @"Update JobPosition Set League = @League, PreferredHand = @PreferredHand, Height = @Height, MinAge = @MinAge, MaxAge = @MaxAge, Season = @Season, 
+                                                                    ContractStatus = @ContractStatus, Position = @Position
+                                                          Where ID = @ID";
 
-                            foreach (string weakness in entity.WeaknessList) {
+                                jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
+                                    League = jp.League,
+                                    PreferredHand = jp.PreferredHand,
+                                    Height = jp.Height,
+                                    MinAge = jp.MinAge,
+                                    MaxAge = jp.MaxAge,
+                                    Season = jp.Season,
+                                    ContractStatus = jp.ContractStatus,
+                                    Position = jp.Position,
+                                    ID = jp.Id
+                                }, transaction: tran).Single();
 
-                                //Return weakness ID
-                                string weaknessSQL = @"Select id from Weakness where name = @Name";
-                                int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
 
-                                if (weakness_ID != 0 && player_ID != 0) {
+                                if (jp.StrengthsList.Count > 0) {
+                                    foreach (string strength in jp.StrengthsList) {
 
-                                    //Update PlayerWeakness
-                                    string updatePlayerWeaknessSQL = @"Update PlayerWeakness Set Weakness_ID = @Weakness_ID
-                                                                 Where Player_ID = @Player_ID";
+                                        //Return strength ID
+                                        string strengthSQL = @"Select id from Strength where name = @Name";
+                                        int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
 
-                                    _rowCountList.Add(conn.Execute(updatePlayerWeaknessSQL, new {
-                                        Player_ID = player_ID,
-                                        Weakness_ID = weakness_ID
+                                        if (strength_ID != 0) {
+
+                                            //Update JobPositionStrength
+                                            string updateJobPositionStrengthSQL = @"Update JobPositionStrength Set Strength_ID = @Strength_ID
+                                                                 Where JobPosition_ID = @ID";
+
+                                            _rowCountList.Add(conn.Execute(updateJobPositionStrengthSQL, new {
+                                                Strength_ID = strength_ID,
+                                                ID = jp.Id
+                                            }, transaction: tran));
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+                        }
+
+                        
+                        //Values
+                        if (entity.ValuesList.Count > 0) {
+
+                            foreach (string value in entity.ValuesList) {
+
+                                //Return value ID
+                                string valueSQL = @"Select id from Value where name = @Name";
+                                int value_ID = conn.Query<int>(valueSQL, new { Name = value }, transaction: tran).FirstOrDefault();
+
+                                if (value_ID != 0 && club_ID != 0) {
+
+                                    //Update ClubValue
+                                    string updateClubValueSQL = @"Update ClubValue Set Value_ID = @Value_ID
+                                                                 Where Club_ID = @Club_ID";
+
+                                    _rowCountList.Add(conn.Execute(updateClubValueSQL, new {
+                                        Value_ID = value_ID,
+                                        Club_ID = club_ID
                                     }, transaction: tran));
                                 }
                             }
                         }
 
-                        //Strengths
-                        if (entity.StrengthList.Count > 0) {
+                        //Preference
+                        if (entity.PreferenceList.Count > 0) {
 
-                            foreach (string strength in entity.StrengthList) {
+                            foreach (string preference in entity.PreferenceList) {
 
-                                //Return strength ID
-                                string strengthSQL = @"Select id from Strength where name = @Name";
-                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
+                                //Return preference ID
+                                string preferenceSQL = @"Select id from Preference where name = @Name";
+                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
 
-                                if (strength_ID != 0 && player_ID != 0) {
+                                if (preference_ID != 0 && club_ID != 0) {
 
-                                    //Update PlayerStrength
-                                    string updatePlayerStrengthSQL = @"Update PlayerStrength Set Strength_ID = @Strength_ID
-                                                                 Where Player_ID = @Player_ID";
+                                    //Update ClubPreference
+                                    string updateClubPreferenceSQL = @"Update ClubPreference Set Preference_ID = @Preference_ID
+                                                                 Where Club_ID = @Club_ID";
 
-                                    _rowCountList.Add(conn.Execute(updatePlayerStrengthSQL, new {
-                                        Player_ID = player_ID,
-                                        Strength_ID = strength_ID
+                                    _rowCountList.Add(conn.Execute(updateClubPreferenceSQL, new {
+                                        Preference_ID = preference_ID,
+                                        Club_ID = club_ID
                                     }, transaction: tran));
                                 }
                             }
                         }
 
+                        // TrainingHours
+                        if (entity.TrainingHoursList.Count > 0) {
+
+                            foreach (TrainingHours th in entity.TrainingHoursList) {
 
 
+                                //Update TrainingHours
+                                string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
+                                                                 Where ID = @ID";
+
+                                _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
+                                    th.Name,
+                                    th.Mon,
+                                    th.Tue,
+                                    th.Wed,
+                                    th.Thu,
+                                    th.Fri,
+                                    th.Sat,
+                                    th.Sun,
+                                    ID = th.Id
+                                }, transaction: tran));
+                            }
+                        }
 
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
@@ -492,7 +587,346 @@ namespace Api.DAL.Repos {
             }
             return c;
         }
-        
+
+        public string DeleteJobPosition(List<JobPosition> jpl) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (jpl.Count > 0) {
+
+                        foreach (JobPosition jp in jpl) {
+
+                            //Delete jobPosition
+                            string deleteJobPositionSQL = @"Delete From JobPosition Where ID = @ID";
+
+                            _rowCountList.Add(conn.Execute(deleteJobPositionSQL, new {
+                                ID = jp.Id
+                            }, transaction: tran));
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "JobPosition was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeleteJobPositionStrength(List<string> jpsl, int jobPosition_ID) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (jpsl.Count > 0) {
+                    
+                        foreach (string jps in jpsl) {
+
+                            //Return Strength ID
+                            string strengthSQL = @"Select id from Strength where name = @Name";
+                            int strength_ID = conn.Query<int>(strengthSQL, new { Name = jps }, transaction: tran).FirstOrDefault();
+
+                            if (strength_ID != 0) {
+
+                                //Delete jobPositionStrength
+                                string jobPositionStrengthSQL = @"Delete From JobPositionStrength Where Strength_ID = @Strength_ID, JobPosition_ID = @JobPosition_ID";
+
+                                _rowCountList.Add(conn.Execute(jobPositionStrengthSQL, new {
+                                    Strength_ID = strength_ID,
+                                    JobPosition_ID = jobPosition_ID
+                                }, transaction: tran));
+                            }
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "JobPosition Strength was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeleteSquadPlayer(List<SquadPlayer> spl) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (spl.Count > 0) {
+
+                        foreach (SquadPlayer sp in spl) {
+
+                            //Delete squadplayers
+                            string squadPlayerSQL = @"Delete From SquadPlayer Where ID = @ID";
+
+                            _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
+                                ID = sp.Id
+                            }, transaction: tran));
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "Squadplayer was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeleteClubValue(List<string> cvl, int club_ID) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (cvl.Count > 0) {
+
+                        foreach (string v in cvl) {
+
+                            //Return value ID
+                            string valueSQL = @"Select id from Value where name = @Name";
+                            int value_ID = conn.Query<int>(valueSQL, new { Name = v }, transaction: tran).FirstOrDefault();
+
+                            if (value_ID != 0) {
+
+                                //Delete value
+                                string deleteClubValueSQL = @"Delete From ClubValue Where Value_ID = @Value_ID, Club_ID = @Club_ID";
+
+                                _rowCountList.Add(conn.Execute(deleteClubValueSQL, new {
+                                    Value_ID = value_ID,
+                                    Club_ID = club_ID
+                                }, transaction: tran));
+                            }
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "Club value was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeleteClubPreference(List<string> cpl, int club_ID) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (cpl.Count > 0) {
+
+                        foreach (string p in cpl) {
+
+                            //Return preference ID
+                            string preferenceSQL = @"Select id from Preference where name = @Name";
+                            int preference_ID = conn.Query<int>(preferenceSQL, new { Name = p }, transaction: tran).FirstOrDefault();
+
+                            if (preference_ID != 0) {
+
+                                //Delete value
+                                string deleteClubPreferenceSQL = @"Delete From ClubPreference Where Preference_ID = @Preference_ID, Club_ID = @Club_ID";
+
+                                _rowCountList.Add(conn.Execute(deleteClubPreferenceSQL, new {
+                                    Preference_ID = preference_ID,
+                                    Club_ID = club_ID
+                                }, transaction: tran));
+                            }
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "Club preference was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeleteFacilityImage(List<string> fil) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (fil.Count > 0) {
+
+                        foreach (string fi in fil) {
+
+                            //Delete facility image
+                            string facilityImageSQL = @"Delete From FacilityImage Where ImagePath = @ImagePath";
+
+                            _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                ImagePath = fi
+                            }, transaction: tran));
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "FacilityImage was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeleteTrainingHours(List<TrainingHours> thl) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (thl.Count > 0) {
+
+                        foreach (TrainingHours th in thl) {
+
+                            //Delete trainingHours
+                            string trainingHoursSQL = @"Delete From TrainingHours Where ID = @ID";
+
+                            _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
+                                ID = th.Id
+                            }, transaction: tran));
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "Squadplayer was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
 
         //Helping method to build club traininghours
         private Club GetClubTraningHourList(Club club, IDbConnection conn) {

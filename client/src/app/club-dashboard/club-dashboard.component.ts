@@ -6,6 +6,7 @@ import { Club } from "../models/club.model";
 import { searchService } from "../services/searchService";
 import { ActivatedRoute } from "@angular/router";
 import { updateService } from "src/app/services/updateService";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-club-dashboard",
@@ -27,7 +28,8 @@ export class ClubDashboardComponent implements OnInit {
     private loginService: loginService,
     private searchService: searchService,
     private uploadFilesService: uploadFilesService,
-    private updateService: updateService
+    private updateService: updateService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -116,6 +118,8 @@ export class ClubDashboardComponent implements OnInit {
   }
   
   updateClub() {
+    this.router.navigate(['/update-club'])
+    
     this.updateService.updateClub(this.clubBinding);
   }
 }

@@ -394,7 +394,7 @@ namespace Api.DAL.Repos {
                                     //Update nationalTeam
                                     string updateNationalTeamSQL = @"Update NationalTeam Set Appearances = @Appearances, Statistic = @Statistic, Position = @Position
                                                                  Where Player_ID = @Player_ID";
-
+                                    
                                     _rowCountList.Add(conn.Execute(updateNationalTeamSQL, new {
                                         nt.Appearances,
                                         nt.Statistic,
@@ -472,6 +472,157 @@ namespace Api.DAL.Repos {
             }
             return p;
 
+        }
+
+        public string DeleteNationalTeam(List<NationalTeam> ntl) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (ntl.Count > 0) {
+
+                        foreach (NationalTeam nt in ntl) {
+
+                            //Delete nationalTeam
+                            string deleteNationalTeamSQL = @"Delete From NationalTeam Where ID = @ID";
+
+                            _rowCountList.Add(conn.Execute(deleteNationalTeamSQL, new {
+                                ID = nt.Id
+                            }, transaction: tran));
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "NationalTeam was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeletePlayerWeakness(List<string> wl, int player_ID) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (wl.Count > 0) {
+
+                        foreach (string w in wl) {
+
+                            //Return weakness ID
+                            string weaknessSQL = @"Select id from Weakness where name = @Name";
+                            int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = w }, transaction: tran).FirstOrDefault();
+
+                            if (weakness_ID != 0) {
+
+                                //Delete playerWeakness
+                                string deletePlayerWeaknessSQL = @"Delete From PlayerWeakness Where Weakness_ID = @Weakness_ID, Player_ID = @Player_ID";
+
+                                _rowCountList.Add(conn.Execute(deletePlayerWeaknessSQL, new {
+                                    Weakness_ID = weakness_ID,
+                                    Player_ID = player_ID
+                                }, transaction: tran));
+                            } 
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "Player weakness was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
+        }
+
+        public string DeletePlayerStrength(List<string> sl, int player_ID) {
+
+            string errorMessage;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    //try {
+
+                    if (sl.Count > 0) {
+
+                        foreach (string s in sl) {
+
+                            //Return strength ID
+                            string strengthSQL = @"Select id from Strength where name = @Name";
+                            int strength_ID = conn.Query<int>(strengthSQL, new { Name = s }, transaction: tran).FirstOrDefault();
+
+                            if (strength_ID != 0) {
+
+                                //Delete playerStrength
+                                string deletePlayerStrengthSQL = @"Delete From PlayerStrength Where Strength_ID = @Strength_ID, Player_ID = @Player_ID";
+
+                                _rowCountList.Add(conn.Execute(deletePlayerStrengthSQL, new {
+                                    Strength_ID = strength_ID,
+                                    Player_ID = player_ID
+                                }, transaction: tran));
+                            }
+                        }
+                    }
+
+                    //Check for 0 in rowcount list
+                    if (_rowCountList.Contains(0)) {
+                        errorMessage = "Player strength was not deleted";
+                        tran.Rollback();
+                    }
+                    else {
+                        errorMessage = "";
+                        tran.Commit();
+                    }
+                    //}
+                    //catch (SqlException e) {
+
+                    //    tran.Rollback();
+                    //    c.ErrorMessage = ErrorHandling.Exception(e);
+                    //}
+
+                }
+            }
+            return errorMessage;
         }
 
         // Helping method to build only NationalTeams on your player

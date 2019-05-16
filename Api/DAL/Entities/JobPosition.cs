@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
     public class JobPosition {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string League { get; set; }
         public string PreferredHand { get; set; }
         public string Height { get; set; }

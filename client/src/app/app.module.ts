@@ -44,6 +44,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
 import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
 import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { UpdateClubComponent } from './club-dashboard/update-club/update-club.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PlayerSearchCriteriaComponent,
     ClubSearchCriteriaComponent,
     LoadingIconComponent,
+    UpdateClubComponent,
     
   ],
   imports: [
