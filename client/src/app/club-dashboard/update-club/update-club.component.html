@@ -1,4 +1,13 @@
 
+<!-- Upload profile button -->
 <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
 <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
+
+<!-- Upload facility image button -->
+<div style="text-align: center">
+  <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
+  <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
+</div>
+
+<!-- Update button -->
 <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()">
