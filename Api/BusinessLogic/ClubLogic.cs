@@ -76,22 +76,26 @@ namespace Api.BusinessLogic {
             if(criterias.Country != null || criterias.League != null || criterias.Position != null) {
 
                 if(criterias.League != null) {
-                    sql = "c.league = '" + criterias.League + "'";
+                    sql = " c.league = '" + criterias.League + "' and isavailable = 1 ";
                 }
 
                 if(criterias.Country != null) {
                     if(sql == "") {
-                        sql = "c.country = '" + criterias.Country + "'";
+                        sql = " c.country = '" + criterias.Country + "' and isavailable = 1 ";
                     } else {
-                        sql += "and c.country = '" + criterias.Country + "'";
+                        sql += " and c.country = '" + criterias.Country + "' and isavailable = 1 ";
                     }
                 }
 
                 if(criterias.Position != null) {
-                    // job position list
+                    if(sql == "") {
+                        sql = " jp.position = '" + criterias.Position + "' and isavailable = 1 ";
+                    } else {
+                        sql += " and jp.position = '" + criterias.Position + "' and isavailable = 1 ";
+                    }
                 }
 
-                clubs = _clubRepos.GetBySearchCriteria(sql, "").ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobposition(sql).ToList();
             }
             // If Country, League and Position is not selected as a criteria
             // We continue to match with the 'less important' criterias
