@@ -47,7 +47,8 @@ export class Player {
 
   constructor() {}
 
-    buildPlayer(succes:any, player: Player)  {
+    buildPlayer(succes: any, player: Player) {
+        this.id = succes.id;
         this.contractExpired = succes.contractExpired;
         this.injuryExpired = succes.injuryExpired;
         this.injuryStatus = succes.injuryStatus;

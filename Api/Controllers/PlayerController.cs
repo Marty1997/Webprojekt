@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.BusinessLogic;
+using Api.DAL;
 using Api.DAL.Entities;
 using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,15 @@ namespace Api.Controllers
     public class PlayerController : ControllerBase {
 
         private readonly PlayerLogic _playerLogic;
+        private readonly IRepository<Player> _playerRepos;
 
-        public PlayerController(PlayerLogic playerLogic) {
+        public PlayerController(PlayerLogic playerLogic, IRepository<Player> playerRepos) {
             _playerLogic = playerLogic;
+            _playerRepos = playerRepos;
+
         }
 
+        // api/Player
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Player entity) {
@@ -33,15 +38,22 @@ namespace Api.Controllers
             return Ok(player);
         }
 
+        // api/Player/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {
-            Player player = _playerLogic.GetById(id);
+            if(id > 0) {
+                return Ok(_playerRepos.GetById(id));
+            }
+            else {
+                return StatusCode(404, "Resource not found");
+            }
 
-            return Ok(player);
+           
         }
 
-        [HttpPost]
+        // api/Player/Update
+        [HttpGet]
         [Route("[action]")]
         public IActionResult Update([FromBody] Player entity) {
 
@@ -50,20 +62,13 @@ namespace Api.Controllers
             return Ok(player);
         }
 
-
-        [HttpPost]
+        // api/Player/SearchPlayers
+        [HttpGet]
         [Route("[action]")]
-        public IActionResult SearchPlayers([FromBody] SearchCriteriaForPlayer request) {
-            var firsTime = DateTime.Now;
-            List<Player> list = _playerLogic.HandleSearchAlgorithm(request);
-            var afterTime = DateTime.Now;
-
-            List<DateTime> lol = new List<DateTime>();
-            lol.Add(firsTime);
-            lol.Add(afterTime);
-
+        public IActionResult SearchPlayers([FromQuery] SearchCriteriaForPlayer request) {
             
-            return Ok(list);
+            
+            return Ok(_playerLogic.HandleSearchAlgorithm(request));
         }
     }
 }

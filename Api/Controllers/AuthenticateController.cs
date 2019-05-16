@@ -21,9 +21,9 @@ namespace Api.Controllers {
     public class AuthenticateController : ControllerBase {
         private readonly Authentication authentication;
         private readonly IRepository<Player> playerRepos;
-        private readonly IRepository<Club> clubRepos;
+        private readonly IClubRepository<Club> clubRepos;
 
-        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos, IRepository<Club> clubRepos) {
+        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos, IClubRepository<Club> clubRepos) {
             this.authentication = authentication;
             this.playerRepos = playerRepos;
             this.clubRepos = clubRepos;

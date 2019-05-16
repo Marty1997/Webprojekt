@@ -48,8 +48,8 @@ namespace Api {
                     return conn;
                 });
             });
-            services.AddTransient<IRepository<Club>>(s => {
-                return RepositoryFactory<Club>.CreateClubRepos().With(() => {
+            services.AddTransient<IClubRepository<Club>>(s => {
+                return RepositoryFactory<Club>.CreateClubRepos().WithClub(() => {
                     var conn = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
                     conn.Open();
                     return conn;
