@@ -33,6 +33,7 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { updateService } from './services/updateService';
+import { deleteService } from './services/deleteService';
 import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
@@ -107,6 +108,7 @@ import { UpdateClubComponent } from './club-dashboard/update-club/update-club.co
     loginService,
     uploadFilesService,
     updateService,
+    deleteService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService
