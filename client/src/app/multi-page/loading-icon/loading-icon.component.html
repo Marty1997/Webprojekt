@@ -1,0 +1,9 @@
+<div *ngIf="isLoading">
+    {{showSpinner()}}
+    <ngx-spinner></ngx-spinner>
+</div>
+
+<div *ngIf="!isLoading">
+    {{hideSpinner()}}
+    <ngx-spinner></ngx-spinner>
+</div>

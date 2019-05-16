@@ -55,17 +55,20 @@ namespace Api.Controllers
         // api/Player/SearchPlayers
         [HttpGet]
         [Route("[action]")]
+        public IActionResult Update([FromBody] Player entity) {
+
+            var player = _playerLogic.Update(entity);
+
+            return Ok(player);
+        }
+
+
+        [HttpGet]
+        [Route("[action]")]
         public IActionResult SearchPlayers([FromQuery] SearchCriteriaForPlayer request) {
-            var firsTime = DateTime.Now;
-            List<Player> list = _playerLogic.HandleSearchAlgorithm(request);
-            var afterTime = DateTime.Now;
-
-            List<DateTime> lol = new List<DateTime>();
-            lol.Add(firsTime);
-            lol.Add(afterTime);
-
             
-            return Ok(list);
+            
+            return Ok(_playerLogic.HandleSearchAlgorithm(request));
         }
     }
 }

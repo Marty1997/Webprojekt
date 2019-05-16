@@ -45,6 +45,18 @@ namespace Api.BusinessLogic {
             return _playerRepos.Create(entity);
         }
 
+
+        public Player GetById(int id) {
+            return _playerRepos.GetById(id);
+
+        }
+
+
+        public Player Update(Player entity) {
+            return _playerRepos.Update(entity);
+        }
+
+
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";
             List<Player> playerList = new List<Player>();
@@ -58,99 +70,100 @@ namespace Api.BusinessLogic {
             }
 
             //First we check if any League or PrimaryPosition is selected as search criteria. If true we selected after those 2 or 1 of them
-            if(request.League != null || request.PrimaryPosition != null) {  
-                if(request.League != null) {
-                    sqlSelectStatement = "p.league = '" + request.League + "'";
+            if (request.League != null || request.PrimaryPosition != null) {
+                sqlSelectStatement += " p.isAvailable = 1";
+                if (request.League != null) {
+                    sqlSelectStatement += " and p.league = '" + request.League + "'" ;
                 }
-                if(request.PrimaryPosition != null) {
-                    if(sqlSelectStatement == "") {
-                        sqlSelectStatement = "pp.name = '" + request.PrimaryPosition + "'";
-                    }
-                    else {
-                        sqlSelectStatement += " and pp.name = '" + request.PrimaryPosition + "'";
-                    }
+                if (request.PrimaryPosition != null) {
+                    sqlSelectStatement += " and p.PrimaryPosition = '" + request.PrimaryPosition + "'";
                 }
-                playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
             }
             //If no league or primaryPosition was selected we try to selected after country if they specified any country in their search.
             else if (request.Country != null) {
-                sqlSelectStatement = "p.country = '" + request.Country + "'";
+                sqlSelectStatement = " p.isAvailable = 1 and p.country = '" + request.Country + "'";
             }
             // If no country, league or primary position was selected, we put togehter a selected statement for the rest of the search criteria
             // that are less important
-            else if(request.ContractStatus != null || request.MinimumAge != null || request.MaximumAge != null || 
-                request.SecondaryPosition != null || request.InjuryStatus != null || request.HandPreference != null || 
+            else if (request.ContractStatus != null || request.MinimumAge != null || request.MaximumAge != null ||
+                request.SecondaryPosition != null || request.InjuryStatus != null || request.HandPreference != null ||
                 request.MinimumHeight != null || request.MaximumWeight != null || request.StrengthsList.Count == 0) {
                 if (request.ContractStatus != null) {
-                    if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.contractstatus = '" + request.ContractStatus + "'";
-                    }
+                    
+                    sqlSelectStatement = " p.contractstatus = '" + request.ContractStatus + "'" + " and p.isAvailable = 1";
                 }
-                if(request.MinimumAge != null) {
+                if (request.MinimumAge != null) {
                     int timeNow = DateTime.Now.Year;
                     int? year = timeNow - request.MinimumAge;
-                    if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.year <= " + year;
+                    if(sqlSelectStatement == "") {
+                        sqlSelectStatement = " p.year <= " + year + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and p.year <= " + year;
+                        sqlSelectStatement = " or p.year <= " + year + " and p.isAvailable = 1";
                     }
                 }
-                if(request.MaximumAge != null) {
+                if (request.MaximumAge != null) {
                     int timeNow = DateTime.Now.Year;
                     int? year = timeNow - request.MaximumAge;
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.year >= " + year;
+                        sqlSelectStatement = " p.year >= " + year + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and p.year >= " + year;
+                        sqlSelectStatement = " or p.year >= " + year + " and p.isAvailable = 1";
                     }
                 }
                 if (request.SecondaryPosition != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " sp.name = '" + request.SecondaryPosition + "'";
+                        sqlSelectStatement = " s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and sp.name = '" + request.SecondaryPosition + "'";
+                        sqlSelectStatement = " or s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.HandPreference != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.handpreference = '" + request.HandPreference + "'";
+                        sqlSelectStatement = " p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and p.handpreference = '" + request.HandPreference + "'";
+                        sqlSelectStatement = " or p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.InjuryStatus != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.Injurystatus = '" + request.InjuryStatus + "'";
+                        sqlSelectStatement = " p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and p.injurystatus = '" + request.InjuryStatus + "'";
+                        sqlSelectStatement = " or p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.MinimumHeight != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.height >= " + request.MinimumHeight;
+                        sqlSelectStatement = " p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and p.height >= " + request.MinimumHeight;
+                         sqlSelectStatement = " or p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
                     }
                 }
                 if (request.MaximumWeight != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.weight <= " + request.MaximumWeight;
+                        sqlSelectStatement = " p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " and p.weight <= " + request.MaximumWeight;
+                        sqlSelectStatement = " or p.weight <= " + request.MaximumWeight + " and p.isAvailable = 1";
+                    }  
+                }
+                if (request.StrengthsList.Count != 0) {
+                    foreach (string item in request.StrengthsList) {
+                        if (sqlSelectStatement == "") {
+                            sqlSelectStatement += " s.name = '" + item + "'" + " and p.isAvailable = 1";
+                        }
+                        else {
+                            sqlSelectStatement += " or s.name = '" + item + "'" + " and p.isAvailable = 1";
+                        }   
                     }
                 }
-                if(request.StrengthsList.Count != 0) {
-                    // select strength list på en måde
-                }
-                playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
             }
+            playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
 
             // Now we check for which values match the search criterias and calculate the percentage they match with of total search criteria 
             // selected and order the list by the percentage and return the finished list
@@ -235,11 +248,11 @@ namespace Api.BusinessLogic {
                         matchedCriteriaNumber += 1;
                     }
                 }
-                if(request.StrengthsList.Count > 0) {
+                if (request.StrengthsList.Count > 0) {
                     foreach (string rList in request.StrengthsList) {
                         criteriaNumber += 1;
                         foreach (string pList in player.StrengthList) {
-                            if(rList == pList) {
+                            if (rList == pList) {
                                 matchedCriteriaNumber += 1;
                             }
                         }
@@ -248,6 +261,6 @@ namespace Api.BusinessLogic {
                 player.CalculatePercentage(matchedCriteriaNumber, criteriaNumber);
             }
             return playerList;
-        }   
+        }
     }
 }

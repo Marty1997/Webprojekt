@@ -33,6 +33,8 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { updateService } from './services/updateService';
+import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
@@ -41,6 +43,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { HeaderComponent } from './header/header.component';
 import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-search-criteria.component';
 import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
+import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,8 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
     HeaderComponent,
     PlayerSearchCriteriaComponent,
     ClubSearchCriteriaComponent,
+    LoadingIconComponent,
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -93,11 +99,14 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
     MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    NgxSpinnerModule
   ],
   providers: [
     ErrorStateMatcher,
     loginService,
+    uploadFilesService,
+    updateService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService

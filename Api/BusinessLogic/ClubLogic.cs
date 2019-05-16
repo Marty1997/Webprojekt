@@ -46,22 +46,33 @@ namespace Api.BusinessLogic {
             
         }
 
+        public Club Update(Club entity) {
+            return _clubRepos.Update(entity);
+        }
+
         public Club GetById(int id) {
             return _clubRepos.GetById(id);
         }
 
+        /**
+         * Search for clubs based on the search criteria
+         * Only gets neccessary club info based on the search criteria
+         * Sorts the list based on Match Percentage and returns the list
+         */ 
         public List<Club> HandleClubSearchAlgorithm(ClubSearchCriteria criterias, int id) {
             string sql = "";
             List<Club> clubs = new List<Club>();
 
             // If no criteria is selected all clubs is returned
+            // Since no criteria is selected, all clubs match 100%
             if(criterias.Country == null && criterias.League == null && 
                 criterias.Position == null && criterias.PreferencesList.Count == 0 && 
                 criterias.Season == null && criterias.ValuesList.Count == 0) {
                 return (List<Club>)_clubRepos.GetAll();
             }
 
-            // Country, league and position is a must-match if selected and is removed if they dont match
+            // Country, league and position is a must-match when selected
+            // Get all clubs with matching league, country and/or position
             if(criterias.Country != null || criterias.League != null || criterias.Position != null) {
 
                 if(criterias.League != null) {
@@ -82,7 +93,8 @@ namespace Api.BusinessLogic {
 
                 clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
             }
-            // If no country, position or league is selected we look for less important search criterias
+            // If Country, League and Position is not selected as a criteria
+            // We continue to match with the 'less important' criterias
             else if(criterias.PreferencesList.Count > 0 && criterias.Season != null && criterias.ValuesList.Count > 0) {
 
                 if(criterias.PreferencesList.Count > 0) {
@@ -103,7 +115,8 @@ namespace Api.BusinessLogic {
 
                 clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
             }
-            // Get player by id
+            // When the clubs list is build it is ready to be sorted by match percentage
+            // Since we match player with open job positions, we need to get the player first
             Player player = _playerRepos.GetById(id);
             // Calculate match percentage, sort by match percentage and return the list
             clubs = CalculateCriteriaMatchPercentage(clubs, criterias, player);
@@ -112,10 +125,10 @@ namespace Api.BusinessLogic {
             return clubs;
         }
 
-        /* 
-            Helping method used to calculate match percentage
-            If criteria is not null, amountOfCriterias + 1
-            If criteria match with club, amountofMatches + 1
+        /**
+        * Helping method used to calculate match percentage
+        * If criteria is not null, amountOfCriterias + 1
+        * If criteria match with club, amountofMatches + 1
         */
         private List<Club> CalculateCriteriaMatchPercentage(List<Club> clubs, ClubSearchCriteria criterias, Player player) {
             int amountOfCriterias = 0; // how many criterias is selected
@@ -139,9 +152,9 @@ namespace Api.BusinessLogic {
                     int playerAge = DateTime.Now.Year - player.Year;
 
                     foreach (JobPosition jobPosition in club.JobPositionsList) {
-                        if(jobPosition.PositionName != null) {
+                        if(jobPosition.Position != null) {
                             amountOfCriterias++;
-                            if (criterias.Position == jobPosition.PositionName) {
+                            if (criterias.Position == jobPosition.Position) {
                                 amountOfMatches++;
                             }
                         }

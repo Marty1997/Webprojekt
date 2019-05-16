@@ -1,7 +1,7 @@
 
 export class SquadPlayer {
     name: string;
-    positionName: string;
+    position: string;
     shirtNumber: number;
     season: string;
 }

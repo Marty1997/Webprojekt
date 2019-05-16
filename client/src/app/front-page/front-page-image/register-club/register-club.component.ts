@@ -76,11 +76,19 @@ export class RegisterClubComponent implements OnInit {
   @Input() openPositionSeason: string;
   @Input() openPositionContract: string;
   jobPosition: JobPosition = new JobPosition();
-  @ViewChild("openPositionStr1") openPositionStr1: MatCheckbox;
-  @ViewChild("openPositionStr2") openPositionStr2: MatCheckbox;
-  @ViewChild("openPositionStr3") openPositionStr3: MatCheckbox;
-  @ViewChild("openPositionStr4") openPositionStr4: MatCheckbox;
-  @ViewChild("openPositionStr5") openPositionStr5: MatCheckbox;
+  // // 
+  // <!-- Speedy, Athletic, Great shape, Quick shots, Accurate shooter, Tactical
+  // , Teamplayer, Social, Win at all costs, Long range shooter. -->
+  @ViewChild("openPositionSpeedy") openPositionSpeedy: MatCheckbox;
+  @ViewChild("openPositionAthletic") openPositionAthletic: MatCheckbox;
+  @ViewChild("openPositionGreatShape") openPositionGreatShape: MatCheckbox;
+  @ViewChild("openPositionQuickShots") openPositionQuickShots: MatCheckbox;
+  @ViewChild("openPositionAccurateShooter") openPositionAccurateShooter: MatCheckbox;
+  @ViewChild("openPositionTactical") openPositionTactical: MatCheckbox;
+  @ViewChild("openPositionTeamplayer") openPositionTeamplayer: MatCheckbox;
+  @ViewChild("openPositionSocial") openPositionSocial: MatCheckbox;
+  @ViewChild("openPositionWinAtAllCosts") openPositionWinAtAllCosts: MatCheckbox;
+  @ViewChild("openPositionLongRangeShooter") openPositionLongRangeShooter: MatCheckbox;
 
   // values&preferences
   @ViewChild("hardWorking") hardWorking: MatCheckbox;
@@ -230,7 +238,7 @@ export class RegisterClubComponent implements OnInit {
       this.squadPlayer.name = this.clubSquadFormGroup.get(
         "playerNameControl"
       ).value;
-      this.squadPlayer.positionName = this.clubSquadFormGroup.get(
+      this.squadPlayer.position = this.clubSquadFormGroup.get(
         "playerPositionControl"
       ).value;
       this.squadPlayer.shirtNumber = this.clubSquadFormGroup.get(
@@ -259,7 +267,7 @@ export class RegisterClubComponent implements OnInit {
       this.nextYearSquadPlayer.name = this.nextYearSquadFormGroup.get(
         "playerNameControl"
       ).value;
-      this.nextYearSquadPlayer.positionName = this.nextYearSquadFormGroup.get(
+      this.nextYearSquadPlayer.position = this.nextYearSquadFormGroup.get(
         "playerPositionControl"
       ).value;
       this.nextYearSquadPlayer.shirtNumber = this.nextYearSquadFormGroup.get(
@@ -286,22 +294,47 @@ export class RegisterClubComponent implements OnInit {
       this.jobPosition.minAge = this.openPositionsFormGroup.value.openPositionMinAge;
       this.jobPosition.season = this.openPositionsFormGroup.value.openPositionSeason;
       this.jobPosition.contractStatus = this.openPositionsFormGroup.value.openPositionContract;
-      this.jobPosition.positionName = this.openPositionsFormGroup.value.openPositionName;
+      this.jobPosition.position = this.openPositionsFormGroup.value.openPositionName;
 
-      if (this.openPositionStr1.checked) {
-        this.jobPosition.strengthsList.push(this.openPositionStr1.value);
+      if (this.openPositionSpeedy.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionSpeedy.value);
+        this.openPositionSpeedy.toggle();
       }
-      if (this.openPositionStr2.checked) {
-        this.jobPosition.strengthsList.push(this.openPositionStr2.value);
+      if (this.openPositionAthletic.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionAthletic.value);
+        this.openPositionAthletic.toggle();
       }
-      if (this.openPositionStr3.checked) {
-        this.jobPosition.strengthsList.push(this.openPositionStr3.value);
+      if (this.openPositionGreatShape.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionGreatShape.value);
+        this.openPositionGreatShape.toggle();
       }
-      if (this.openPositionStr4.checked) {
-        this.jobPosition.strengthsList.push(this.openPositionStr4.value);
+      if (this.openPositionQuickShots.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionQuickShots.value);
+        this.openPositionQuickShots.toggle();
       }
-      if (this.openPositionStr5.checked) {
-        this.jobPosition.strengthsList.push(this.openPositionStr5.value);
+      if (this.openPositionAccurateShooter.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionAccurateShooter.value);
+        this.openPositionAccurateShooter.toggle();
+      }
+      if (this.openPositionTactical.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionTactical.value);
+        this.openPositionTactical.toggle();
+      }
+      if (this.openPositionTeamplayer.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionTeamplayer.value);
+        this.openPositionTeamplayer.toggle();
+      }
+      if (this.openPositionSocial.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionSocial.value);
+        this.openPositionSocial.toggle();
+      }
+      if (this.openPositionWinAtAllCosts.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionWinAtAllCosts.value);
+        this.openPositionWinAtAllCosts.toggle();
+      }
+      if (this.openPositionLongRangeShooter.checked) {
+        this.jobPosition.strengthsList.push(this.openPositionLongRangeShooter.value);
+        this.openPositionLongRangeShooter.toggle();
       }
 
       this.openPositionSource.push(this.jobPosition); // add the new model object to the dataSource
@@ -316,11 +349,6 @@ export class RegisterClubComponent implements OnInit {
       this.openPositionsFormGroup.get("openPositionSeason").setValue("");
       this.openPositionsFormGroup.get("openPositionContract").setValue("");
       this.openPositionsFormGroup.get("openPositionName").setValue("");
-      this.openPositionStr1.toggle();
-      this.openPositionStr2.toggle();
-      this.openPositionStr3.toggle();
-      this.openPositionStr4.toggle();
-      this.openPositionStr5.toggle();
     }
   }
 
@@ -337,7 +365,7 @@ export class RegisterClubComponent implements OnInit {
       this.uploadFilesService.uploadFile(this.clubLogo);
     }
     if (this.facilityPictures != null) {
-      this.uploadFilesService.uploadFiles(this.facilityPictures);
+      this.uploadFilesService.uploadFile(this.facilityPictures);
     }
   }
 
@@ -695,15 +723,15 @@ export class RegisterClubComponent implements OnInit {
 
     // files
     if (this.clubPicturesFormGroup.value.clubLogoControl !== "") {
-      this.club.logo = this.clubPicturesFormGroup.value.clubLogoControl;
+      this.club.imagePath = this.clubPicturesFormGroup.value.clubLogoControl;
     } else {
-      this.club.logo = null;
+      this.club.imagePath = null;
     }
 
     if (this.clubPicturesFormGroup.value.facilityPicturesControl !== "") {
-      this.club.facilityPictures = this.clubPicturesFormGroup.value.facilityPicturesControl;
+      this.club.facilityImagesList = this.clubPicturesFormGroup.value.facilityPicturesControl;
     } else {
-      this.club.facilityPictures = null;
+      this.club.facilityImagesList = null;
     }
 
     // values
