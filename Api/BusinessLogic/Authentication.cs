@@ -14,10 +14,10 @@ namespace Api.BusinessLogic {
     public class Authentication {
         private readonly Account account;
         private readonly IRepository<Player> playerRepos;
-        private readonly IRepository<Club> clubRepos;
+        private readonly IClubRepository<Club> clubRepos;
         private readonly AppSettings appSettings;
 
-        public Authentication(Account account, IRepository<Player> playerRepos, IRepository<Club> clubRepos,
+        public Authentication(Account account, IRepository<Player> playerRepos, IClubRepository<Club> clubRepos,
                                     IOptions<AppSettings> appSettings) {
             this.account = account;
             this.playerRepos = playerRepos;
