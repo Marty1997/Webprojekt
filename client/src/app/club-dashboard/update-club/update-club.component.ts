@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Club } from 'src/app/models/club.model';
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
@@ -58,31 +58,27 @@ export class UpdateClubComponent implements OnInit {
     if(type == 'Next Year') {
       this.deleteService.deleteSquadPlayer(this.clubBinding.nextYearSquadPlayersList);
     }
-    
   }
 
-  
-// <!-- Delete SquadPlayer button -->
-// <input type="button" class="btn btn-success" value="Delete" (click) ="DeleteSquadPlayer()">
+  deleteTrainingHours() {
+    this.deleteService.deleteTrainingHours(this.clubBinding.trainingHoursList);
+  }
 
-// <!-- Delete TrainingHours button -->
-// <input type="button" class="btn btn-success" value="Delete" (click) ="DeleteTrainingHours()">
+  deleteClubValue() {
+    this.deleteService.deleteClubValue(this.clubBinding.valuesList);
+  }
 
-// <!-- Delete Club value button -->
-// <input type="button" class="btn btn-success" value="Delete" (click) ="DeleteClubValue()">
+  deleteClubPreference() {
+    this.deleteService.deleteClubPreference(this.clubBinding.preferenceList);
+  }
 
-// <!-- Delete Club preference button -->
-// <input type="button" class="btn btn-success" value="Delete" (click) ="DeleteClubPreference()">
+  deleteJobPosition() {
+    this.deleteService.deleteJobPosition(this.clubBinding.jobPositionsList);
+  }
 
-// <!-- Delete Job position button -->
-// <input type="button" class="btn btn-success" value="Delete" (click) ="DeleteJobPosition()">
-
-// <!-- Delete Job position strength button -->
-// <input type="button" class="btn btn-success" value="Delete" (click) ="DeleteJobPositionStrength()">
-
-// <!-- Update button -->
-// <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()">
-
+  deleteJobPositionStrength() {
+    this.deleteService.deleteJobPositionStrength();
+  }
 
   cancel() {
     this.clubBinding = this.loginService.clubInSession;

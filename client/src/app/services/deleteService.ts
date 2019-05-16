@@ -5,10 +5,11 @@ import { Player } from "../models/player.model";
 import { SquadPlayer } from '../models/squadPlayer.model';
 import { TrainingHours } from '../models/trainingHours.model';
 import { JobPosition } from '../models/jobPosition';
+import { NationalTeam } from '../models/nationalTeam.model';
 
 @Injectable()
 export class deleteService {
-  
+    
   constructor(private http: HttpClient) {}
 
   deletePlayer(player: Player) {
@@ -38,9 +39,9 @@ export class deleteService {
     );
   }
 
-  deleteSquadPlayer(squadPlayer: SquadPlayer[]) {
+  deleteSquadPlayer(squadPlayerList: SquadPlayer[]) {
     let url = "https://localhost:44310/api/Club/DeleteSquadPlayer";
-    return this.http.post(url, squadPlayer).subscribe(
+    return this.http.post(url, squadPlayerList).subscribe(
       (success) => {
         return true;
       },
@@ -51,9 +52,9 @@ export class deleteService {
     );
   }
 
-  deleteTrainingHours(trainingHours: TrainingHours[]) {
+  deleteTrainingHours(trainingHoursList: TrainingHours[]) {
     let url = "https://localhost:44310/api/Club/DeleteTrainingHours";
-    return this.http.post(url, trainingHours).subscribe(
+    return this.http.post(url, trainingHoursList).subscribe(
       (success) => {
         return true;
       },
@@ -64,9 +65,9 @@ export class deleteService {
     );
   }
 
-  deleteClubValue(clubValue: string[]) {
+  deleteClubValue(clubValueList: string[]) {
     let url = "https://localhost:44310/api/Club/DeleteClubValue";
-    return this.http.post(url, clubValue).subscribe(
+    return this.http.post(url, clubValueList).subscribe(
       (success) => {
         return true;
       },
@@ -77,9 +78,9 @@ export class deleteService {
     );
   }
 
-  deleteClubPreference(clubPreference: string[]) {
+  deleteClubPreference(clubPreferenceList: string[]) {
     let url = "https://localhost:44310/api/Club/DeleteClubPreference";
-    return this.http.post(url, clubPreference).subscribe(
+    return this.http.post(url, clubPreferenceList).subscribe(
       (success) => {
         return true;
       },
@@ -90,9 +91,9 @@ export class deleteService {
     );
   }
 
-  deleteJobPosition(jobPosition: JobPosition[]) {
-    let url = "https://localhost:44310/api/Club/DeleteClubValue";
-    return this.http.post(url, clubValue).subscribe(
+  deleteJobPosition(jobPositionList: JobPosition[]) {
+    let url = "https://localhost:44310/api/Club/DeleteJobPosition";
+    return this.http.post(url, jobPositionList).subscribe(
       (success) => {
         return true;
       },
@@ -103,12 +104,57 @@ export class deleteService {
     );
   }
 
-  deleteJobPositionStrength() {
-    this.deleteService.deleteJobPositionStrength();
+  deleteJobPositionStrength(jobPositionStrengthList: string[]) {
+    let url = "https://localhost:44310/api/Club/DeleteJobPositionStrength";
+    return this.http.post(url, jobPositionStrengthList).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
   }
 
-  cancel() {
-    this.clubBinding = this.loginService.clubInSession;
+  
+  deleteNationalTeam(nationalTeamList: NationalTeam[]) {
+    let url = "https://localhost:44310/api/Club/DeleteNationalTeam";
+    return this.http.post(url, nationalTeamList).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  }
+
+  deletePlayerWeakness(playerWeaknessList: string[]) {
+    let url = "https://localhost:44310/api/Club/DeletePlayerWeakness";
+    return this.http.post(url, playerWeaknessList).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
+  }
+
+  deletePlayerStrength(playerStrengthList: string[]) {
+    let url = "https://localhost:44310/api/Club/DeletePlayerStrength";
+    return this.http.post(url, playerStrengthList).subscribe(
+      (success) => {
+        return true;
+      },
+      (error) => {
+        console.log(error);
+        return false;
+      }
+    );
   }
 
 }

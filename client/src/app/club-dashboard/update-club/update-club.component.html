@@ -9,23 +9,26 @@
   <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
 </div>
 
-<!-- Delete SquadPlayer button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="DeleteSquadPlayer()">
+<!-- Delete Current year squadPlayer button -->
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteSquadPlayer('Current Year')">
+
+<!-- Delete Next year squadPlayer button -->
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteSquadPlayer('Next Year')">
 
 <!-- Delete TrainingHours button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="DeleteTrainingHours()">
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteTrainingHours()">
 
 <!-- Delete Club value button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="DeleteClubValue()">
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteClubValue()">
 
 <!-- Delete Club preference button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="DeleteClubPreference()">
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteClubPreference()">
 
 <!-- Delete Job position button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="DeleteJobPosition()">
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteJobPosition()">
 
 <!-- Delete Job position strength button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="DeleteJobPositionStrength()">
+<input type="button" class="btn btn-success" value="Delete" (click) ="deleteJobPositionStrength()">
 
 <!-- Update button -->
 <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()">
