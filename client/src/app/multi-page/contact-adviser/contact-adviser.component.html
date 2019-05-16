@@ -13,8 +13,8 @@
           <td id="labelwidth">
             <label>E-mail:</label>
           </td>
-          <td id="inputwidth" *ngIf="playerBinding==!null; then playerEmail; else clubEmail">
-            <ng-template #playerEmail>
+          <td id="inputwidth">
+            <ng-template [ngIf]="isPlayer" [ngIfElse]="clubEmail">
               <input type="email" formControlName="email" placeholder="Enter your e-mail here..."
                 onfocus="this.placeholder =''" onblur="this.placeholder='Enter your e-mail here...'"
                 value="{{playerBinding.email}}" required style="border: 1px solid #cccccc;" />

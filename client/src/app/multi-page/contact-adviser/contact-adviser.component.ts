@@ -19,6 +19,9 @@ export class ContactAdviserComponent implements OnInit {
   playerBinding: Player;
   clubBinding: Club;
 
+  isPlayer: boolean = false;
+  isClub: boolean = false;
+
   form: FormGroup;
   email: FormControl;
   message: FormControl;
@@ -31,10 +34,12 @@ export class ContactAdviserComponent implements OnInit {
 
     if (this.loginService.typeOfLogin == "Player") {
       this.playerBinding = this.loginService.playerInSession;
+      this.isPlayer = true;
     }
 
     if (this.loginService.typeOfLogin == "Club") {
       this.clubBinding = this.loginService.clubInSession;
+      this.isClub = true;
     }
   }
 
@@ -54,18 +59,18 @@ export class ContactAdviserComponent implements OnInit {
     });
   }
 
-  onSubmit(form: NgForm) {
-    // if (this.form.valid) {
-    //   console.log("Form Submitted!");
-    //   console.log(this.form);
-    //   console.log(this.form.value);
-    //   this.emailService.sendContactEmail(this.form);
-    //   this.form.reset();
-    // }
-    // else{
-    //   console.log("Form not Submitted!");
-    // }
-    console.log(this.form)
+  onSubmit() {
+    if (this.form.valid) {
+      console.log("Form Submitted!");
+      console.log(this.form);
+      console.log(this.form.value);
+      this.emailService.sendContactEmail(this.form);
+      this.form.reset();
+    }
+    else{
+      console.log("Form not Submitted!");
+    }
+    // console.log(this.form)
   }
 
   toggle() {
