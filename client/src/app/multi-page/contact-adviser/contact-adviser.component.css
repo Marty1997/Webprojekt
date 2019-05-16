@@ -1,116 +1,101 @@
-table{
+table {
   width: 100%;
 }
 
 input {
-  width: 70%
+  width: 80%
 }
 
 #labelwidth {
-    width: 20%;
-    padding: 10px 2.5px 5px 0px;
+  width: 20%;
+  padding: 10px 2.5px 5px 0px;
 }
 
 #inputwidth {
-    width: 80%;
-    padding: 5px 0px 5px 0px;
+  width: 80%;
+  padding: 5px 0px 5px 8px;
 }
 
 .glyphicon {
-    color: #ffffff;
-    font-size: 200%
+  color: #ffffff;
+  font-size: 200%
 }
 
-#ee{
-  font-size: 7.5px;
-  color:red;
+#ee {
+  padding: 0px 0px 0px 8px;
+  font-size: 9px;
+  color: red;
   word-wrap: break-word;
 }
 
 /* Button used to open the chat form - fixed at the bottom of the page */
 .openContactAdviserBtn {
-    background-color: #45a29e;
-    color: #ffffff;
-    padding: 15px 13px 10px 13px;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    opacity: 0.8;
-    position: fixed;
-    bottom: 23px;
-    right: 28px;
-    width: 60px;
-    z-index: 16;
-  }
-  
-  /* The popup chat - hidden by default */
-  .chat-popup {
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 2px solid #f1f1f1;
-    z-index: 16;
-  }
-  
-  /* Add styles to the form container */
-  .form-container {
-    /* max-width: 300px; */
-    padding: 10px;
-    background-color: white;
-  }
-  
-  /* Full-width textarea */
-  .form-container textarea {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    background: #f1f1f1;
-    height: 200px;
-  }
-  
-  /* When the textarea gets focus, do something */
-  .form-container textarea:focus {
-    background-color: #ddd;
-    outline: none;
-  }
-  
-  /* Set a style for the submit/send button */
-  .form-container .btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px 20px;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
-  }
-  
-  /* Add a red background color to the cancel button */
-  .form-container .cancel {
-    background-color: red;
-  }
-  
-  /* Add some hover effects to buttons */
-  .form-container .btn:hover, .open-button:hover {
-    opacity: 1;
-  }
+  background-color: #45a29e;
+  color: #ffffff;
+  padding: 15px 13px 10px 13px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 60px;
+  z-index: 16;
+}
 
-/* @media only screen 
-and (max-width : 1024px)  {
-  .openContactAdviserBtn {
-    width: 11%;
-    font-size: 60%;
-    padding: 3% 1% 2% 1%;
-  }
-} */
+/* The popup chat - hidden by default */
+.chat-popup {
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 2px solid #f1f1f1;
+  z-index: 16;
+}
 
-/* @media (max-width: 415px) and (min-width: 300px) {
-  .openContactAdviserBtn {
-    width: 11%;
-    font-size: 60%;
-    padding: 3% 1% 2% 1%;
-  }
-} */
+/* Add styles to the form container */
+.form-container {
+  /* max-width: 300px; */
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  background: #f1f1f1;
+  height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover,
+.open-button:hover {
+  opacity: 1;
+}
 
 @media only screen  
 and (max-width : 415px) 
@@ -226,4 +211,5 @@ and (orientation : landscape) {
   .form-container .btn{
     width: 50%;
   }
+
 }
