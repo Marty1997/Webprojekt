@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.DAL.Repos {
-    public class ClubRepos : IRepository<Club>, IClub<Club> {
+    public class ClubRepos : IClubRepository<Club> {
 
         public Func<IDbConnection> Connection { get; set; }
 
@@ -291,7 +291,7 @@ namespace Api.DAL.Repos {
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, jp.* FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE isAvailable = 1";
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1";
 
             using (var conn = Connection()) {
                 Club result = null;
@@ -319,9 +319,9 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with jobposition, preference and value
          */ 
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementValue, 
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementJobposition, 
                                                                                    string sqlWhereStatementPreference, 
-                                                                                   string sqlWhereStatementJobposition) {
+                                                                                   string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
             string sql = 
                 "SELECT c.*, ci.zipcode, ci.city, v.name as value, null as preference, " +
@@ -780,6 +780,10 @@ namespace Api.DAL.Repos {
                 Zipcode = zipcode,
                 City = city
             };
+        }
+
+        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
+            throw new NotImplementedException();
         }
     }
 }

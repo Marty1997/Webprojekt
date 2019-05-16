@@ -163,7 +163,7 @@ namespace Api.BusinessLogic {
                     }
                 }
             }
-            playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement, "");
+            playerList = (List<Player>)_playerRepos.GetBySearchCriteria(sqlSelectStatement);
 
             // Now we check for which values match the search criterias and calculate the percentage they match with of total search criteria 
             // selected and order the list by the percentage and return the finished list

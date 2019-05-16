@@ -11,7 +11,7 @@ namespace Api.DAL {
         }
 
         public static IRepository<TEnitity> CreateClubRepos() {
-            return new ClubRepos() as IRepository<TEnitity>;
+            return new ClubRepos() as IClubRepository<TEnitity> ;
         }
     }
 }
