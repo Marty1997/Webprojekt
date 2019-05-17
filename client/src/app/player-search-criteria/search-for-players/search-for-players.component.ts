@@ -11,6 +11,7 @@ import { searchService } from '../../services/searchService';
 })
 export class SearchForPlayersComponent implements OnInit {
   playerList: Player[] = [];
+  
   constructor(private searchService: searchService, private router: Router) {
     
   }

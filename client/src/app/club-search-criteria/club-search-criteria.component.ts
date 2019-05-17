@@ -16,6 +16,7 @@ export class ClubSearchCriteriaComponent implements OnInit {
   searchForm: FormGroup;
   searchCriteria: ClubSearchCriteria = new ClubSearchCriteria();
   club: Club = new Club();
+  isLoading: boolean = false;
   countryList: string[] = ["All Countries", "Denmark", "Sweden", "Norway"];
   leagueList: string[] = ["All Leagues", "First League", "Second League", "Third League"];
   positionList: string[] = [
@@ -59,6 +60,7 @@ export class ClubSearchCriteriaComponent implements OnInit {
   searchForClubs() {
     this.validateSearchCriteria();    
     this.searchService.searchForClubsResult = [];
+    this.isLoading = true;
     // some call to the searchService
     this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
       (success: Club[]) => {
@@ -67,10 +69,12 @@ export class ClubSearchCriteriaComponent implements OnInit {
           console.log(this.club);
           this.searchService.searchForClubsResult.push(this.club);
         });
+        this.isLoading = false;
         this.router.navigate(['/search-for-clubs']);
       },
       (error) => {
         // redirect to error page
+        this.isLoading
         console.log(error);
       }
     );

@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class PlayerSearchCriteriaComponent implements OnInit {
   p: Player = new Player();
   searchForm: FormGroup;
+  isLoading: boolean = false;
   searchCriteria: SearchCriteria = new SearchCriteria();
   @ViewChild('speedy') speedy: MatCheckbox;
   @ViewChild('athletic') athletic: MatCheckbox;
@@ -87,6 +88,7 @@ export class PlayerSearchCriteriaComponent implements OnInit {
   searchForPlayers() {
     this.validateSearchCriteria();
     this.searchService.searchForPlayersResult = [];
+    this.isLoading = true;
     // some call to the searchService
     this.searchService.searchForPlayers(this.searchCriteria).subscribe(
       (success: Player[]) => {
@@ -94,9 +96,11 @@ export class PlayerSearchCriteriaComponent implements OnInit {
           this.p = element;
           this.searchService.searchForPlayersResult.push(this.p);
         });
+        this.isLoading = false;
         this.router.navigate(['/search-for-players'])
       },
       (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     );
