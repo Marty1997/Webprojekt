@@ -9,12 +9,13 @@ import { Router } from "@angular/router";
   styleUrls: ["./search-for-clubs.component.css"]
 })
 export class SearchForClubsComponent implements OnInit {
-  clubList: Club[] = [
-    this.searchService.searchForClubsResult[0]
-  ];
+  clubList: Club[] = [];
   constructor(private searchService: searchService, private router: Router) {}
 
   ngOnInit() {
+    for (let i = 0; i < this.searchService.searchForClubsResult.length && i < 5; i++) {
+        this.clubList.push(this.searchService.searchForClubsResult[i]);
+    }
     console.log(this.clubList);
   }
 
@@ -25,7 +26,6 @@ export class SearchForClubsComponent implements OnInit {
         this.clubList.push(this.searchService.searchForClubsResult[i]);
       }
       console.log(this.searchService.searchForClubsResult);
-      
     }
   }
 
