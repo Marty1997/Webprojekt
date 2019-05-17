@@ -85,32 +85,24 @@ export class ClubSearchCriteriaComponent implements OnInit {
     if (this.searchForm.value.country != "") {
       if(this.searchForm.value.country != "All Countries") {
         this.searchCriteria.country = this.searchForm.value.country;
-      } else {
-        this.searchCriteria.country = null;
       }
     }
 
     if (this.searchForm.value.league != "") {
       if(this.searchForm.value.league != "All Leagues") {
         this.searchCriteria.league = this.searchForm.value.league;
-      } else {
-        this.searchCriteria.league = null;
       }
     }
 
     if (this.searchForm.value.position != "") {
       if(this.searchForm.value.position != "None") {
         this.searchCriteria.position = this.searchForm.value.position;
-      } else {
-        this.searchCriteria.position = null;
       }
     }
 
     if (this.searchForm.value.season != "") {
       if(this.searchForm.value.season != "None") {
         this.searchCriteria.season = this.searchForm.value.season;
-      } else {
-        this.searchCriteria.season = null;
       }
     }
 
