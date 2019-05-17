@@ -10,53 +10,11 @@ import { Router } from "@angular/router";
 })
 export class SearchForClubsComponent implements OnInit {
   clubList: Club[] = [
-    // first 5 clubs as starting value
-    this.searchService.searchForClubsResult[0],
-    this.searchService.searchForClubsResult[1],
-    this.searchService.searchForClubsResult[2],
-    this.searchService.searchForClubsResult[3],
-    this.searchService.searchForClubsResult[4]
+    this.searchService.searchForClubsResult[0]
   ];
   constructor(private searchService: searchService, private router: Router) {}
 
   ngOnInit() {
-    // test clubs added to club list
-    // this.clubList = this.searchService.searchForClubsResult;
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
-    this.searchService.searchForClubsResult.push(new Club());
     console.log(this.clubList);
   }
 

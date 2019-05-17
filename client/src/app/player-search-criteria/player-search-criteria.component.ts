@@ -111,56 +111,42 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     if(this.searchForm.value.country != '') {
       if(this.searchForm.value.country != 'All Countries') {
         this.searchCriteria.country = this.searchForm.value.country;
-      } else {
-        this.searchCriteria.country = null;
-      }  
+      }
     } 
     
     if(this.searchForm.value.league != '') {
       if(this.searchForm.value.league != 'All Leagues') {
         this.searchCriteria.league = this.searchForm.value.league;
-      } else {
-        this.searchCriteria.league = null;
       }
     }
 
     if(this.searchForm.value.contractStatus != '') {
       if(this.searchForm.value.contractStatus != null) {
         this.searchCriteria.contractStatus = this.searchForm.value.contractStatus;
-      } else {
-        this.searchCriteria.contractStatus = null;
       }
     }
 
     if(this.searchForm.value.minimumAge != '') {
       if(this.searchForm.value.minimumAge != 'None') {
         this.searchCriteria.minimumAge = this.searchForm.value.minimumAge;
-      } else {
-        this.searchCriteria.minimumAge = null;
       }
     }
 
     if(this.searchForm.value.maximumAge != '') {
       if(this.searchForm.value.maximumAge != 'None') {
         this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
-      } else {
-        this.searchCriteria.maximumAge = null;
       }
     }
 
     if(this.searchForm.value.primaryPosition != '') {
       if(this.searchForm.value.primaryPosition != 'None') {
         this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
-      } else {
-        this.searchCriteria.primaryPosition = null;
       }
     }
 
     if(this.searchForm.value.secondaryPosition != '') {
       if(this.searchForm.value.secondaryPosition != 'None') {
         this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
-      } else {
-        this.searchCriteria.secondaryPosition = null;
       }
     }
 
@@ -178,32 +164,24 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     if(this.searchForm.value.injuryStatus != '') {
       if(this.searchForm.value.injuryStatus != 'Both') {
         this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
-      } else {
-        this.searchCriteria.injuryStatus = null;
       }
     }
 
     if(this.searchForm.value.handPreference != '') {
       if(this.searchForm.value.handPreference != 'None') {
         this.searchCriteria.handPreference = this.searchForm.value.handPreference;
-      } else {
-        this.searchCriteria.handPreference = null;
       }
     }
 
     if(this.searchForm.value.minimumHeight != '') {
       if(this.searchForm.value.minimumHeight != 'None') {
         this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
-      } else {
-        this.searchCriteria.minimumHeight = null;
       }
     }
 
     if(this.searchForm.value.maximumWeight != '') {
       if(this.searchForm.value.maximumWeight != 'None') {
         this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
-      } else {
-        this.searchCriteria.maximumWeight = null;
       }
     }
   }
