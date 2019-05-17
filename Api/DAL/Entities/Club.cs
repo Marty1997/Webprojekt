@@ -54,7 +54,7 @@ namespace Api.DAL.Entities {
         }
 
         public void CalculatePercentage(int criteriaMatch, int selectedCriteria) {
-            this.SearchPercentage = criteriaMatch / selectedCriteria * 100;
+            this.SearchPercentage = criteriaMatch * 100 / selectedCriteria;
         }
     }
 }

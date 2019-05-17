@@ -13,19 +13,21 @@
         <div class="navbar-collapse collapse" [class.collapse]="navbarCollapse">
             <ul style="float: right" class="nav navbar-nav">
                 <li *ngIf="isPlayer">
-                    <a [routerLink]="['/player-dashboard']" (click)="toggleNavbarCollapse()" class="headerLinks">Profile</a>
+                    <a [routerLink]="['/player-dashboard']" (click)="toggleNavbarCollapse()"
+                        class="headerLinks">Profile</a>
                 </li>
                 <li *ngIf="isClub">
-                    <a [routerLink]="['/club-dashboard']" (click)="toggleNavbarCollapse()" class="headerLinks">Profile</a>
+                    <a [routerLink]="['/club-dashboard']" (click)="toggleNavbarCollapse()"
+                        class="headerLinks">Profile</a>
                 </li>
                 <li *ngIf="isPlayer">
-                    <a [routerLink]="['/club-search-criteria']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
+                    <a [routerLink]="['/club-search-criteria']" (click)="toggleNavbarCollapse()"
+                        class="headerLinks">Search</a>
                 </li>
                 <li *ngIf="isClub">
-                    <a [routerLink]="['/player-search-criteria']" (click)="toggleNavbarCollapse()" class="headerLinks">Search</a>
+                    <a [routerLink]="['/player-search-criteria']" (click)="toggleNavbarCollapse()"
+                        class="headerLinks">Search</a>
                 </li>
-                <li>
-                    <a (click)="toggleNavbarCollapse()" class="headerLinks">Messages</a></li>
                 <li>
                     <a mat-button [matMenuTriggerFor]="menu" class="headerLinks">Account <span class="caret"></span></a>
                     <mat-menu id="dropdownMenu" #menu="matMenu">
