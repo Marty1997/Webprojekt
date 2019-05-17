@@ -33,6 +33,7 @@ import { TrainingHoursFromComponent } from './front-page/front-page-image/regist
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
 import { updateService } from './services/updateService';
+import { deleteService } from './services/deleteService';
 import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
@@ -45,6 +46,7 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
 import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UpdateClubComponent } from './club-dashboard/update-club/update-club.component';
+import { UpdatePlayerComponent } from './player-dashboard/update-player/update-player.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { UpdateClubComponent } from './club-dashboard/update-club/update-club.co
     ClubSearchCriteriaComponent,
     LoadingIconComponent,
     UpdateClubComponent,
+    UpdatePlayerComponent,
     
   ],
   imports: [
@@ -107,6 +110,7 @@ import { UpdateClubComponent } from './club-dashboard/update-club/update-club.co
     loginService,
     uploadFilesService,
     updateService,
+    deleteService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuardService

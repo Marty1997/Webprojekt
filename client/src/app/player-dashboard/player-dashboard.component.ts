@@ -6,6 +6,7 @@ import { updateService } from "src/app/services/updateService";
 import { ActivatedRoute } from "@angular/router";
 import { Player } from "../models/player.model";
 import { searchService } from "../services/searchService";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-player-dashboard",
@@ -20,13 +21,13 @@ export class PlayerDashboardComponent implements OnInit {
 
   isFirstOpen = true;
   
-
   constructor(
     private route: ActivatedRoute,
     private searchService: searchService,
     private loginService: loginService,
     private uploadFilesService: uploadFilesService,
-    private updateService: updateService
+    private updateService: updateService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -70,6 +71,6 @@ export class PlayerDashboardComponent implements OnInit {
   }
   
   updatePlayer() {
-    this.updateService.updatePlayer(this.playerBinding);
+    this.router.navigate(['/update-player'])
   }
 }
