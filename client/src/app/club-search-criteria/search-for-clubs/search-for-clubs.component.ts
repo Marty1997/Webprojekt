@@ -13,6 +13,7 @@ export class SearchForClubsComponent implements OnInit {
   constructor(private searchService: searchService, private router: Router) {}
 
   ngOnInit() {
+    // Add the first 5 clubs to the result list
     for (let i = 0; i < this.searchService.searchForClubsResult.length && i < 5; i++) {
         this.clubList.push(this.searchService.searchForClubsResult[i]);
     }
