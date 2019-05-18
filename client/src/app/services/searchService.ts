@@ -8,9 +8,11 @@ import { ClubSearchCriteria } from '../models/clubSearchCriteria.model';
 @Injectable()
 export class searchService {
   searchForPlayersResult: Player[] = [];
+  scrollCount: number = 0;
   player: Player;
   searchForClubsResult: Club[] = [];
   club: Club;
+  isBackward: boolean = false;
 
   constructor(private http: HttpClient) {
     this.player = new Player();

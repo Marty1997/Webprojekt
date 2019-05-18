@@ -306,8 +306,8 @@ namespace Api.DAL.Repos {
             List<Player> playerList = new List<Player>();
        
               string sql = " select p.*, s.name from player p " +
-                    "inner join playerstrength ps on ps.player_id = p.id " +
-                     "inner join strength s on s.id = ps.strength_ID where " + sqlStatement;
+                    "left join playerstrength ps on ps.player_id = p.id " +
+                     "left join strength s on s.id = ps.strength_ID where " + sqlStatement;
 
             using (var conn = Connection()) {
                 Player result = null;

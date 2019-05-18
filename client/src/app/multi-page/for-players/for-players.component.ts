@@ -7,7 +7,6 @@ import { loginService } from 'src/app/services/loginService';
   styleUrls: ['./for-players.component.css']
 })
 export class ForPlayersComponent implements OnInit {
-  isContentOpen: boolean = false;
   isPlayer: boolean;
   constructor(private loginService: loginService) { }
 

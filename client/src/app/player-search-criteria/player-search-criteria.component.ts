@@ -89,6 +89,8 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();
     this.searchService.searchForPlayersResult = [];
     this.isLoading = true;
+    this.searchService.isBackward = false;
+    window.scrollTo(0, 0)
     // some call to the searchService
     this.searchService.searchForPlayers(this.searchCriteria).subscribe(
       (success: Player[]) => {
@@ -96,6 +98,7 @@ export class PlayerSearchCriteriaComponent implements OnInit {
           this.p = element;
           this.searchService.searchForPlayersResult.push(this.p);
         });
+
         this.isLoading = false;
         this.router.navigate(['/search-for-players'])
       },

@@ -86,10 +86,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       { path: 'player-search-criteria', component: PlayerSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'player-profile/:id', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
       { path: 'club-search-criteria', component: ClubSearchCriteriaComponent, canActivate: [AuthGuardService] },
-      { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService] },
+      { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService], },
       { path: 'club-how-to', component: ForClubsComponent },
-      { path: 'player-how-to', component: ForPlayersComponent }
-    ]),
+      { path: 'player-how-to', component: ForPlayersComponent }, 
+    ], ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
@@ -113,4 +113,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}
