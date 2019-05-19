@@ -49,24 +49,30 @@ export class UpdatePlayerComponent implements OnInit {
     if(this.playerBinding.nationalTeamList.length > 0 ) {
       this.deleteService.deleteNationalTeam(this.playerBinding.nationalTeamList);
     }
-    //Check if  was deleted from playerBinding
-    if(this.playerBinding.nationalTeamList.length > 0 ) {
-      this.deleteService.deleteNationalTeam(this.playerBinding.nationalTeamList);
+    //Check if player weakness was deleted from playerBinding
+    if(this.playerBinding.weaknessList.length > 0 ) {
+      this.deleteService.deletePlayerWeakness(this.playerBinding.weaknessList);
+    }
+
+    //Check if player strength was deleted from playerBinding
+    if(this.playerBinding.strengthList.length > 0 ) {
+      this.deleteService.deletePlayerStrength(this.playerBinding.strengthList);
     }
 
     this.updateService.updatePlayer(this.playerBinding);
   }
 
   deleteNationalTeam() {
-    this.deleteService.deleteNationalTeam(this.playerBinding.nationalTeamList);
+    
+    //Decrement nationalTeam from playerbinding
   }
 
   deletePlayerWeakness() {
-    this.deleteService.deletePlayerWeakness(this.playerBinding.weaknessList);
+    //Decrement player weakness from playerbinding
   }
 
   deletePlayerStrength() {
-    this.deleteService.deletePlayerStrength(this.playerBinding.strengthList);
+    //Decrement player strength from playerbinding
   }
 
   cancel() {
