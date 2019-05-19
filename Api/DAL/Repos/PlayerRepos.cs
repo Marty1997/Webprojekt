@@ -324,30 +324,29 @@ namespace Api.DAL.Repos {
                 List<int> _rowCountList = new List<int>();
 
                 using (var conn = Connection()) {
-
-
+                    
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
-
-                    
+                        
                         //Return row ID
                         string rowIDSQL = @"Select rowID from Player where email = @Email";
                         byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
 
                         
-                        //Update club
+                        //Update player
                         string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country,
                                                                     League = @League, Height = @Height, Weight = @Weight, Bodyfat = @Bodyfat,
                                                                     PreferredHand = @PreferredHand, CurrentClub = @CurrentClub, Accomplishments = @Accomplishments,
                                                                     Statistic = @Statistic, StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription,
                                                                     VideoPath = @VideoPath, ImagePath = @ImagePath, FormerClubs = @FormerClubs, ContractStatus = @ContractStatus,
-                                                                    ContractExpired = @ContractExpired, InjuryStatus = @InjuryStatus, InjuryExpired = @InjuryExpired, InjuryDescription = @InjuryDescription,
-                                                                    IsAvailable = @IsAvailable, PrimaryPosition = @PrimaryPosition, SecondaryPosition = @SecondaryPosition, CurrentClubPrimaryPosition = @CurrentClubPrimaryPosition,
+                                                                    ContractExpired = @ContractExpired, InjuryStatus = @InjuryStatus, InjuryExpired = @InjuryExpired, 
+                                                                    InjuryDescription = @InjuryDescription, IsAvailable = @IsAvailable, PrimaryPosition = @PrimaryPosition, 
+                                                                    SecondaryPosition = @SecondaryPosition, CurrentClubPrimaryPosition = @CurrentClubPrimaryPosition,
                                                                     CurrentClubSecondaryPosition = @CurrentClubSecondaryPosition
                                                                  Where Email = @Email AND RowID = @RowID";
                         _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
-                            Firstname = entity.FirstName,
-                            Lastname = entity.LastName,
+                            entity.FirstName,
+                            entity.LastName,
                             entity.Day,
                             entity.Month,
                             entity.Year,
@@ -375,7 +374,7 @@ namespace Api.DAL.Repos {
                             entity.SecondaryPosition,
                             entity.CurrentClubPrimaryPosition,
                             entity.CurrentClubSecondaryPosition,
-                            Email = entity.Email,
+                            entity.Email,
                             RowID = row_ID
                         }, transaction: tran));
 
@@ -389,9 +388,10 @@ namespace Api.DAL.Repos {
                             foreach (NationalTeam nt in entity.NationalTeamList) {
 
                                 if(player_ID != 0) {
+
                                     //Update nationalTeam
                                     string updateNationalTeamSQL = @"Update NationalTeam Set Appearances = @Appearances, Statistic = @Statistic, Position = @Position
-                                                                 Where Player_ID = @Player_ID";
+                                                                     Where Player_ID = @Player_ID";
                                     
                                     _rowCountList.Add(conn.Execute(updateNationalTeamSQL, new {
                                         nt.Appearances,
@@ -417,7 +417,7 @@ namespace Api.DAL.Repos {
 
                                     //Update PlayerWeakness
                                     string updatePlayerWeaknessSQL = @"Update PlayerWeakness Set Weakness_ID = @Weakness_ID
-                                                                 Where Player_ID = @Player_ID";
+                                                                       Where Player_ID = @Player_ID";
 
                                     _rowCountList.Add(conn.Execute(updatePlayerWeaknessSQL, new {
                                         Player_ID = player_ID,
@@ -440,7 +440,7 @@ namespace Api.DAL.Repos {
 
                                     //Update PlayerStrength
                                     string updatePlayerStrengthSQL = @"Update PlayerStrength Set Strength_ID = @Strength_ID
-                                                                 Where Player_ID = @Player_ID";
+                                                                       Where Player_ID = @Player_ID";
 
                                     _rowCountList.Add(conn.Execute(updatePlayerStrengthSQL, new {
                                         Player_ID = player_ID,
@@ -469,7 +469,6 @@ namespace Api.DAL.Repos {
                 }
             }
             return p;
-
         }
 
         public string DeleteNationalTeam(List<NationalTeam> ntl) {

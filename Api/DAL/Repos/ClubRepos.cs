@@ -327,6 +327,7 @@ namespace Api.DAL.Repos {
         public Club Update(Club entity) {
 
             Club c = new Club();
+
             for (int i = 0; i < 5; i++) {
 
                 List<int> _rowCountList = new List<int>();
@@ -338,7 +339,7 @@ namespace Api.DAL.Repos {
                         
                             //Return row ID
                             string rowIDSQL = @"Select rowID from Club where email = @Email";
-                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { entity.Email }, transaction: tran).Single();
 
                             //Return zipcodeCity ID
                             string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
@@ -353,7 +354,7 @@ namespace Api.DAL.Repos {
 
 
                             _rowCountList.Add(conn.Execute(updateClubSQL, new {
-                                Name = entity.Name,
+                                entity.Name,
                                 entity.League,
                                 entity.Country,
                                 entity.StreetAddress,
@@ -366,20 +367,19 @@ namespace Api.DAL.Repos {
                                 entity.ValueDescription,
                                 entity.PreferenceDescription,
                                 entity.ImagePath,
-                                Email = entity.Email,
-                                IsAvailable = entity.IsAvailable,
+                                entity.Email,
+                                entity.IsAvailable,
                                 ZipcodeCity_ID = zipcodeCity_ID,
                                 RowID = row_ID
                             }, transaction: tran));
-
-
+                        
                             //Return club ID
                             string clubIDSQL = @"Select id from Club where email = @Email";
                             int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
 
 
-                        //Facility image
-                        if (entity.FacilityImagesList.Count > 0) {
+                            //Facility image
+                            if (entity.FacilityImagesList.Count > 0) {
                             
                                 foreach (string imagePath in entity.FacilityImagesList) {
                                 
