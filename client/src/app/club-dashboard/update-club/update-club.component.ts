@@ -77,7 +77,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteJobPositionStrength() {
-    this.deleteService.deleteJobPositionStrength();
+    // this.deleteService.deleteJobPositionStrength();
   }
 
   cancel() {

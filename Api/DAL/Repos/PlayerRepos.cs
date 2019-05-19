@@ -329,9 +329,7 @@ namespace Api.DAL.Repos {
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
 
-                        //byte[] rowId = null;
-                        int rowCount = 0;
-                        
+                    
                         //Return row ID
                         string rowIDSQL = @"Select rowID from Player where email = @Email";
                         byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
