@@ -109,7 +109,7 @@ namespace Api.DAL.Repos {
                     if (entity.CurrentSquadPlayersList.Count > 0) {
                         foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
 
-                            
+
                             //Insert Squad Player
                             string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Position, Club_ID) 
                                         VALUES (@ShirtNumber, @Season, @Name, @Position, @Club_ID)";
@@ -129,7 +129,7 @@ namespace Api.DAL.Repos {
                     if (entity.NextYearSquadPlayersList.Count > 0) {
                         foreach (SquadPlayer nysp in entity.NextYearSquadPlayersList) {
 
-                            
+
                             //Insert Squad Player
                             string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Position, Club_ID) 
                                         VALUES (@ShirtNumber, @Season, @Name, @Position, @Club_ID)";
@@ -137,7 +137,7 @@ namespace Api.DAL.Repos {
                             _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
                                 ShirtNumber = nysp.ShirtNumber,
                                 Season = nysp.Season,
-                                Name = nysp.Name,                                
+                                Name = nysp.Name,
                                 Position = nysp.Position,
                                 Club_ID = club_ID,
                             }, transaction: tran));
@@ -192,7 +192,7 @@ namespace Api.DAL.Repos {
 
                         }
                     }
-                    
+
                     //Training hours
                     foreach (TrainingHours traininghours in entity.TrainingHoursList) {
 
@@ -233,12 +233,11 @@ namespace Api.DAL.Repos {
             }
             return c;
         }
-        
 
         public int Delete(int id) {
             throw new NotImplementedException();
         }
-        
+
         /**
          * Get club by email with all lists
          */
@@ -262,7 +261,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get club by id with all lists
-         */ 
+         */
         public Club GetById(int id) {
             Club c = new Club();
             string sql = SqlSelectWithId(id);
@@ -318,12 +317,12 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with jobposition, preference and value
-         */ 
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementJobposition, 
-                                                                                   string sqlWhereStatementPreference, 
+         */
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementJobposition,
+                                                                                   string sqlWhereStatementPreference,
                                                                                    string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
-            string sql = 
+            string sql =
                 "SELECT c.*, ci.zipcode, ci.city, v.name as value, null as preference, " +
                 "null as id, null as league, null as preferredHand, null as height, null as minAge, " +
                 "null as maxAge, null as season, null as contractStatus, null as position, null as club_id FROM club c " +
@@ -346,7 +345,7 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
                 Club result = null;
-                conn.Query<Club, int, string, JobPosition, string, string, Club>(sql, 
+                conn.Query<Club, int, string, JobPosition, string, string, Club>(sql,
                     (clubinside, zipcode, city, jobposition, preference, value) => {
                         Club c = null;
                         if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
@@ -358,15 +357,15 @@ namespace Api.DAL.Repos {
                             result = clubs.Single(cl => cl.Id == clubinside.Id);
                         }
 
-                        if(jobposition != null) {
+                        if (jobposition != null) {
                             result.JobPositionsList.Add(jobposition);
                         }
 
-                        if(preference != null) {
+                        if (preference != null) {
                             result.PreferenceList.Add(preference);
                         }
 
-                        if(value != null) {
+                        if (value != null) {
                             result.ValuesList.Add(value);
                         }
 
@@ -379,7 +378,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with jobposition and preference
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementJobposition,
                                                                                string sqlWhereStatementPreference) {
             List<Club> clubs = new List<Club>();
@@ -393,7 +392,7 @@ namespace Api.DAL.Repos {
                 "SELECT c.*, ci.zipcode, ci.city, p.name as preference, " +
                 "null as id, null as league, null as preferredHand, null as height, null as minAge, " +
                 "null as maxAge, null as season, null as contractStatus, null as position, null as club_id FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " + 
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
                 "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
                 "INNER JOIN preference p ON cp.preference_ID = p.id WHERE " + sqlWhereStatementPreference;
 
@@ -428,7 +427,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with jobposition and value
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementJobposition,
                                                                           string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
@@ -477,7 +476,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with preference and value
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
                                                                         string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
@@ -523,7 +522,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with job position
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition) {
             List<Club> clubs = new List<Club>();
             string sql =
@@ -556,7 +555,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with preference
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference) {
             List<Club> clubs = new List<Club>();
             string sql =
@@ -590,7 +589,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with value
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithValue(string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
             string sql =
@@ -635,82 +634,82 @@ namespace Api.DAL.Repos {
                 List<int> _rowCountList = new List<int>();
 
                 using (var conn = Connection()) {
-                    
+
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
-                        
-                            //Return row ID
-                            string rowIDSQL = @"Select rowID from Club where email = @Email";
-                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { entity.Email }, transaction: tran).Single();
 
-                            //Return zipcodeCity ID
-                            string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Club where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { entity.Email }, transaction: tran).Single();
+
+                        //Return zipcodeCity ID
+                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
-                            int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
 
-                            //Update club
-                            string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
+                        //Update club
+                        string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
                                                                     AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
                                                                     ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath, IsAvailable = @IsAvailable, ZipcodeCity_ID = @ZipcodeCity_ID
                                                                  Where Email = @Email AND RowID = @RowID";
 
 
-                            _rowCountList.Add(conn.Execute(updateClubSQL, new {
-                                entity.Name,
-                                entity.League,
-                                entity.Country,
-                                entity.StreetAddress,
-                                entity.StreetNumber,
-                                entity.Trainer,
-                                entity.AssistantTrainer,
-                                entity.Physiotherapist,
-                                entity.AssistantPhysiotherapist,
-                                entity.Manager,
-                                entity.ValueDescription,
-                                entity.PreferenceDescription,
-                                entity.ImagePath,
-                                entity.Email,
-                                entity.IsAvailable,
-                                ZipcodeCity_ID = zipcodeCity_ID,
-                                RowID = row_ID
-                            }, transaction: tran));
-                        
-                            //Return club ID
-                            string clubIDSQL = @"Select id from Club where email = @Email";
-                            int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
+                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                            entity.Name,
+                            entity.League,
+                            entity.Country,
+                            entity.StreetAddress,
+                            entity.StreetNumber,
+                            entity.Trainer,
+                            entity.AssistantTrainer,
+                            entity.Physiotherapist,
+                            entity.AssistantPhysiotherapist,
+                            entity.Manager,
+                            entity.ValueDescription,
+                            entity.PreferenceDescription,
+                            entity.ImagePath,
+                            entity.Email,
+                            entity.IsAvailable,
+                            ZipcodeCity_ID = zipcodeCity_ID,
+                            RowID = row_ID
+                        }, transaction: tran));
+
+                        //Return club ID
+                        string clubIDSQL = @"Select id from Club where email = @Email";
+                        int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
 
 
-                            //Facility image
-                            if (entity.FacilityImagesList.Count > 0) {
-                            
-                                foreach (string imagePath in entity.FacilityImagesList) {
-                                
-                                    if(club_ID != 0) {
+                        //Facility image
+                        if (entity.FacilityImagesList.Count > 0) {
 
-                                        //Check if imagePath already exist in DB
-                                        string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
-                                        int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
-                                        
-                                        if(id == 0) {
-                                            //Insert facility image
-                                            string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+                            foreach (string imagePath in entity.FacilityImagesList) {
+
+                                if (club_ID != 0) {
+
+                                    //Check if imagePath already exist in DB
+                                    string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
+                                    int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
+
+                                    if (id == 0) {
+                                        //Insert facility image
+                                        string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
                                             VALUES (@ImagePath, @Club_ID)";
 
-                                            _rowCountList.Add(conn.Execute(facilityImageSQL, new {
-                                                ImagePath = imagePath,
-                                                Club_ID = club_ID
-                                            }, transaction: tran));
-                                        }
-                                     
-                                    }     
+                                        _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                            ImagePath = imagePath,
+                                            Club_ID = club_ID
+                                        }, transaction: tran));
+                                    }
+
                                 }
                             }
+                        }
 
                         // CurrentSquadPlayers
                         if (entity.CurrentSquadPlayersList.Count > 0) {
 
                             foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
-                                
+
                                 //Update SquadPlayer
                                 string updateCurrentSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
                                                                  Where ID = @ID";
@@ -729,7 +728,7 @@ namespace Api.DAL.Repos {
                         if (entity.NextYearSquadPlayersList.Count > 0) {
 
                             foreach (SquadPlayer csp in entity.NextYearSquadPlayersList) {
-                                
+
                                 //Update SquadPlayer
                                 string updateNextYearSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
                                                                  Where ID = @ID";
@@ -751,7 +750,7 @@ namespace Api.DAL.Repos {
                             foreach (JobPosition jp in entity.JobPositionsList) {
 
                                 var jobPosition_ID = 0;
-                               
+
                                 //Update JobPosition
                                 string jobPositionSQL = @"Update JobPosition Set League = @League, PreferredHand = @PreferredHand, Height = @Height, MinAge = @MinAge, MaxAge = @MaxAge, Season = @Season, 
                                                                     ContractStatus = @ContractStatus, Position = @Position
@@ -796,7 +795,7 @@ namespace Api.DAL.Repos {
                             }
                         }
 
-                        
+
                         //Values
                         if (entity.ValuesList.Count > 0) {
 
@@ -869,14 +868,14 @@ namespace Api.DAL.Repos {
 
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
-                                c.ErrorMessage = "The club was not updated";
-                                tran.Rollback();
-                            }
-                            else {
-                                c.ErrorMessage = "";
-                                tran.Commit();
-                                break;
-                            }
+                            c.ErrorMessage = "The club was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
                         //}
                         //catch (SqlException e) {
 
@@ -892,7 +891,7 @@ namespace Api.DAL.Repos {
         public string DeleteJobPosition(List<JobPosition> jpl) {
 
             string errorMessage = "";
-            
+
             for (int i = 0; i < 5; i++) {
 
                 List<int> _rowCountList = new List<int>();
@@ -901,7 +900,7 @@ namespace Api.DAL.Repos {
 
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
-                        
+
 
                         if (jpl.Count > 0) {
 
@@ -1323,7 +1322,7 @@ namespace Api.DAL.Repos {
 
         // Helping method to get club with all lists by club id
         private string SqlSelectWithId(int id) {
-            return 
+            return
                 "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
                 "ON c.zipcodecity_id = ci.id WHERE c.id = " + id +
                 "SELECT p.name FROM clubpreference cp INNER JOIN preference p " +
@@ -1334,65 +1333,67 @@ namespace Api.DAL.Repos {
                 "SELECT csp.* FROM squadplayers csp WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
                 "SELECT nsp.* FROM squadplayers nsp WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
                 "SELECT jp.* FROM jobposition jp WHERE jp.club_id = " + id;
-        //Helping method to build club open position list
-        private Club GetJobPosition(Club club, IDbConnection conn) {
-            club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp.*, p.name from JobPosition jp " +
-                "inner join Position p on p.id = jp.position_ID where jp.club_ID = @id",
-                (jobPosition, position) => { jobPosition.Position = position; return jobPosition; }, new { id = club.Id }, splitOn: "name").ToList();
+        }
+            //Helping method to build club open position list
+            private Club GetJobPosition(Club club, IDbConnection conn) {
+                club.JobPositionsList = conn.Query<JobPosition, string, JobPosition>("select jp.*, p.name from JobPosition jp " +
+                    "inner join Position p on p.id = jp.position_ID where jp.club_ID = @id",
+                    (jobPosition, position) => { jobPosition.Position = position; return jobPosition; }, new { id = club.Id }, splitOn: "name").ToList();
 
-            foreach (JobPosition item in club.JobPositionsList) {
-                item.StrengthsList = conn.Query<string>("select s.name from Strength s " +
-                    "inner join JobPositionStrength jps on jps.strength_id = s.id where jps.jobposition_ID = @newid", new { newid = item.Id }).ToList();
+                foreach (JobPosition item in club.JobPositionsList) {
+                    item.StrengthsList = conn.Query<string>("select s.name from Strength s " +
+                        "inner join JobPositionStrength jps on jps.strength_id = s.id where jps.jobposition_ID = @newid", new { newid = item.Id }).ToList();
+                }
+                return club;
             }
-            return club;
+
+            // Helping method to get club with all lists by club email
+            private string SqlSelectWithEmail(string email) {
+                return
+                    "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
+                    "ON c.zipcodecity_id = ci.id WHERE c.email = '" + email + "'; " +
+                    "SELECT p.name, c.id FROM club c INNER JOIN clubpreference cp " +
+                    "ON cp.club_id = c.id INNER JOIN preference p ON p.id = cp.preference_id " +
+                    "WHERE c.email = '" + email + "'; " +
+                    "SELECT v.name, c.id FROM club c INNER JOIN clubvalue cv ON cv.club_id = c.id " +
+                    "INNER JOIN value v ON v.id = cv.value_id WHERE c.email = '" + email + "';" +
+                    "SELECT th.*, c.id FROM club c INNER JOIN traininghours th " +
+                    "ON th.club_id = c.id WHERE c.email = '" + email + "'; " +
+                    "SELECT csp.*, c.id FROM club c INNER JOIN squadplayers csp ON csp.club_id = c.id " +
+                    "WHERE c.email = '" + email + "' AND csp.season = 'Current year'; " +
+                    "SELECT nsp.*, c.id FROM club c INNER JOIN squadplayers nsp ON nsp.club_id = c.id " +
+                    "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
+                    "SELECT jp.*, c.id FROM club c INNER JOIN jobposition jp " +
+                    "ON jp.club_id = c.id WHERE c.email = '" + email + "';";
+            }
+
+            // Helping method used to build club values
+            private Club BuildClub(Club clubinside, int zipcode, string city) {
+                return new Club {
+                    Id = clubinside.Id,
+                    Name = clubinside.Name,
+                    Email = clubinside.Email,
+                    League = clubinside.League,
+                    Country = clubinside.Country,
+                    StreetAddress = clubinside.StreetAddress,
+                    StreetNumber = clubinside.StreetNumber,
+                    Trainer = clubinside.Trainer,
+                    AssistantTrainer = clubinside.AssistantTrainer,
+                    Physiotherapist = clubinside.Physiotherapist,
+                    AssistantPhysiotherapist = clubinside.AssistantPhysiotherapist,
+                    Manager = clubinside.Manager,
+                    ValueDescription = clubinside.ValueDescription,
+                    PreferenceDescription = clubinside.PreferenceDescription,
+                    ImagePath = clubinside.ImagePath,
+                    IsAvailable = clubinside.IsAvailable,
+                    Zipcode = zipcode,
+                    City = city
+                };
+            }
+
+            public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
+                throw new NotImplementedException();
+            }
         }
 
-        // Helping method to get club with all lists by club email
-        private string SqlSelectWithEmail(string email) {
-            return 
-                "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
-                "ON c.zipcodecity_id = ci.id WHERE c.email = '" + email + "'; " +
-                "SELECT p.name, c.id FROM club c INNER JOIN clubpreference cp " +
-                "ON cp.club_id = c.id INNER JOIN preference p ON p.id = cp.preference_id " +
-                "WHERE c.email = '" + email + "'; " +
-                "SELECT v.name, c.id FROM club c INNER JOIN clubvalue cv ON cv.club_id = c.id " +
-                "INNER JOIN value v ON v.id = cv.value_id WHERE c.email = '" + email + "';" +
-                "SELECT th.*, c.id FROM club c INNER JOIN traininghours th " +
-                "ON th.club_id = c.id WHERE c.email = '" + email + "'; " +
-                "SELECT csp.*, c.id FROM club c INNER JOIN squadplayers csp ON csp.club_id = c.id " +
-                "WHERE c.email = '" + email + "' AND csp.season = 'Current year'; " +
-                "SELECT nsp.*, c.id FROM club c INNER JOIN squadplayers nsp ON nsp.club_id = c.id " +
-                "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
-                "SELECT jp.*, c.id FROM club c INNER JOIN jobposition jp " +
-                "ON jp.club_id = c.id WHERE c.email = '" + email + "';";
-        }
-
-        // Helping method used to build club values
-        private Club BuildClub(Club clubinside, int zipcode, string city) {
-            return new Club {
-                Id = clubinside.Id,
-                Name = clubinside.Name,
-                Email = clubinside.Email,
-                League = clubinside.League,
-                Country = clubinside.Country,
-                StreetAddress = clubinside.StreetAddress,
-                StreetNumber = clubinside.StreetNumber,
-                Trainer = clubinside.Trainer,
-                AssistantTrainer = clubinside.AssistantTrainer,
-                Physiotherapist = clubinside.Physiotherapist,
-                AssistantPhysiotherapist = clubinside.AssistantPhysiotherapist,
-                Manager = clubinside.Manager,
-                ValueDescription = clubinside.ValueDescription,
-                PreferenceDescription = clubinside.PreferenceDescription,
-                ImagePath = clubinside.ImagePath,
-                IsAvailable = clubinside.IsAvailable,
-                Zipcode = zipcode,
-                City = city
-            };
-        }
-
-        public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
-            throw new NotImplementedException();
-        }
     }
-}

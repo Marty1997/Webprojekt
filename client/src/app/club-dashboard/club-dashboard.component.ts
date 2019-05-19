@@ -85,6 +85,7 @@ export class ClubDashboardComponent implements OnInit {
   }
 
   updateClub() {
+    console.log("ramt");
     this.router.navigate(['/update-club'])
   }
 }
