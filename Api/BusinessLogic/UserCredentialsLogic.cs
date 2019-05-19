@@ -6,10 +6,8 @@ using Api.DAL.Entities;
 
 namespace Api.BusinessLogic {
     public class UserCredentialsLogic {
-
         private readonly Account _account;
         private UserCredentials _userCredentials;
-
 
         public UserCredentialsLogic(Account account) {
             _account = account;
@@ -17,7 +15,6 @@ namespace Api.BusinessLogic {
         }
 
         public UserCredentials Create(string password) {
-
             string s = _account.CreatePasswordHash(password);
             char[] splitter = { ':' };
             var split = s.Split(splitter);

@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class PlayerSearchCriteriaComponent implements OnInit {
   p: Player = new Player();
   searchForm: FormGroup;
+  isLoading: boolean = false;
   searchCriteria: SearchCriteria = new SearchCriteria();
   @ViewChild('speedy') speedy: MatCheckbox;
   @ViewChild('athletic') athletic: MatCheckbox;
@@ -42,12 +43,12 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230];
   injuryStatusList: string[] = ['Both', 'Injured', 'Healthy']
   handPreferenceList: string[] = ['None', 'Left Hand', 'Right Hand', 'Both Hands'];
-  positionList: string[] = ['None', 'Left Wing', 'Left Back', 'Playmaker', 'Pivot', 'Right Back', 'Right Wing', 'Defence'];
+  positionList: string[] = ['None', 'Goalkeeper', 'Left Wing', 'Left Back', 'Playmaker', 'Pivot', 'Right Back', 'Right Wing', 'Defence'];
   leagueList: string[] = ['All Leagues', 'First League', 'Second League', 'Third League'];
   ageList: number[] = [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,
     47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70];
   countryList: string[] = [
-    'All Countries',
+    'All Countries', 'Denmark', 'Sweden', 'Norway',
     "Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria",
     "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan",
     "Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso",
@@ -87,6 +88,9 @@ export class PlayerSearchCriteriaComponent implements OnInit {
   searchForPlayers() {
     this.validateSearchCriteria();
     this.searchService.searchForPlayersResult = [];
+    this.isLoading = true;
+    this.searchService.isBackward = false;
+    window.scrollTo(0, 0)
     // some call to the searchService
     this.searchService.searchForPlayers(this.searchCriteria).subscribe(
       (success: Player[]) => {
@@ -94,9 +98,12 @@ export class PlayerSearchCriteriaComponent implements OnInit {
           this.p = element;
           this.searchService.searchForPlayersResult.push(this.p);
         });
+
+        this.isLoading = false;
         this.router.navigate(['/search-for-players'])
       },
       (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     );
@@ -111,54 +118,42 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     if(this.searchForm.value.country != '') {
       if(this.searchForm.value.country != 'All Countries') {
         this.searchCriteria.country = this.searchForm.value.country;
-      } else {
-        this.searchCriteria.country = null;
-      }  
+      }
     } 
     
     if(this.searchForm.value.league != '') {
       if(this.searchForm.value.league != 'All Leagues') {
         this.searchCriteria.league = this.searchForm.value.league;
-      } else {
-        this.searchCriteria.league = null;
       }
     }
 
     if(this.searchForm.value.contractStatus != '') {
-      this.searchCriteria.contractStatus = this.searchForm.value.contractStatus;
-    } else {
-      this.searchCriteria.contractStatus = null;
+      if(this.searchForm.value.contractStatus != null) {
+        this.searchCriteria.contractStatus = this.searchForm.value.contractStatus;
+      }
     }
 
     if(this.searchForm.value.minimumAge != '') {
       if(this.searchForm.value.minimumAge != 'None') {
         this.searchCriteria.minimumAge = this.searchForm.value.minimumAge;
-      } else {
-        this.searchCriteria.minimumAge = null;
       }
     }
 
     if(this.searchForm.value.maximumAge != '') {
       if(this.searchForm.value.maximumAge != 'None') {
         this.searchCriteria.maximumAge = this.searchForm.value.maximumAge;
-      } else {
-        this.searchCriteria.maximumAge = null;
       }
     }
 
     if(this.searchForm.value.primaryPosition != '') {
       if(this.searchForm.value.primaryPosition != 'None') {
         this.searchCriteria.primaryPosition = this.searchForm.value.primaryPosition;
-      } else {
-        this.searchCriteria.primaryPosition = null;
       }
     }
 
     if(this.searchForm.value.secondaryPosition != '') {
       if(this.searchForm.value.secondaryPosition != 'None') {
         this.searchCriteria.secondaryPosition = this.searchForm.value.secondaryPosition;
-      } else {
-        this.searchCriteria.secondaryPosition = null;
       }
     }
 
@@ -176,32 +171,24 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     if(this.searchForm.value.injuryStatus != '') {
       if(this.searchForm.value.injuryStatus != 'Both') {
         this.searchCriteria.injuryStatus = this.searchForm.value.injuryStatus;
-      } else {
-        this.searchCriteria.injuryStatus = null;
       }
     }
 
     if(this.searchForm.value.handPreference != '') {
       if(this.searchForm.value.handPreference != 'None') {
         this.searchCriteria.handPreference = this.searchForm.value.handPreference;
-      } else {
-        this.searchCriteria.handPreference = null;
       }
     }
 
     if(this.searchForm.value.minimumHeight != '') {
       if(this.searchForm.value.minimumHeight != 'None') {
         this.searchCriteria.minimumHeight = this.searchForm.value.minimumHeight;
-      } else {
-        this.searchCriteria.minimumHeight = null;
       }
     }
 
     if(this.searchForm.value.maximumWeight != '') {
       if(this.searchForm.value.maximumWeight != 'None') {
         this.searchCriteria.maximumWeight = this.searchForm.value.maximumWeight;
-      } else {
-        this.searchCriteria.maximumWeight = null;
       }
     }
   }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.BusinessLogic;
 using Api.DAL.Entities;
+using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,7 @@ namespace Api.Controllers {
             _clubLogic = clubLogic;
         }
 
+        // api/Club
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Register([FromBody] Club entity) {
@@ -31,6 +33,7 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
+        // api/Club/Update
         [HttpPost]
         [Route("[action]")]
         public IActionResult Update([FromBody] Club entity) {
@@ -40,6 +43,7 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
+        // api/Club/GetById
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {
@@ -47,6 +51,13 @@ namespace Api.Controllers {
             Club club = _clubLogic.GetById(id);
 
             return Ok(club);
+        }
+
+        // api/Club/SearchForClubs
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult SearchForClubs([FromQuery] ClubSearchCriteria clubSearchCriteria, int id) {
+            return  Ok(_clubLogic.HandleClubSearchAlgorithm(clubSearchCriteria, id));
         }
     }
 }

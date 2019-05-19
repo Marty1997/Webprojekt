@@ -11,6 +11,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './multi-page/footer/footer.component';
@@ -21,7 +22,7 @@ import { AboutUsComponent } from './front-page/about-us/about-us.component';
 import { FrontPageImageComponent } from './front-page/front-page-image/front-page-image.component';
 import { FrontPageComponent } from './front-page/front-page.component';
 import { SearchForPlayersComponent } from './player-search-criteria/search-for-players/search-for-players.component';
-import { SearchForClubsComponent } from './search-for-clubs/search-for-clubs.component';
+import { SearchForClubsComponent } from './club-search-criteria/search-for-clubs/search-for-clubs.component';
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './club-dashboard/club-dashboard.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -79,6 +80,7 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    InfiniteScrollModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: FrontPageComponent, pathMatch: 'full' },
@@ -89,10 +91,10 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
       { path: 'player-search-criteria', component: PlayerSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'player-profile/:id', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
       { path: 'club-search-criteria', component: ClubSearchCriteriaComponent, canActivate: [AuthGuardService] },
-      { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService] },
+      { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService], },
       { path: 'club-how-to', component: ForClubsComponent },
-      { path: 'player-how-to', component: ForPlayersComponent }
-    ]),
+      { path: 'player-how-to', component: ForPlayersComponent }, 
+    ], ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
@@ -117,4 +119,6 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

@@ -3,16 +3,20 @@ import { searchService } from "../services/searchService";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { ClubSearchCriteria } from "../models/clubSearchCriteria.model";
 import { MatCheckbox } from "@angular/material";
+import { Club } from '../models/club.model';
+import { loginService } from '../services/loginService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-club-search-criteria",
   templateUrl: "./club-search-criteria.component.html",
-  styleUrls: ["./club-search-criteria.component.css"],
-  providers: [searchService]
+  styleUrls: ["./club-search-criteria.component.css"]
 })
 export class ClubSearchCriteriaComponent implements OnInit {
   searchForm: FormGroup;
   searchCriteria: ClubSearchCriteria = new ClubSearchCriteria();
+  club: Club = new Club();
+  isLoading: boolean = false;
   countryList: string[] = ["All Countries", "Denmark", "Sweden", "Norway"];
   leagueList: string[] = ["All Leagues", "First League", "Second League", "Third League"];
   positionList: string[] = [
@@ -39,7 +43,9 @@ export class ClubSearchCriteriaComponent implements OnInit {
 
   constructor(
     private _formbuilder: FormBuilder,
-    private searchService: searchService
+    private searchService: searchService,
+    private loginService: loginService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -52,41 +58,51 @@ export class ClubSearchCriteriaComponent implements OnInit {
   }
 
   searchForClubs() {
-    this.validateSearchCriteria();
+    this.validateSearchCriteria();    
+    this.searchService.searchForClubsResult = [];
+    this.isLoading = true;
+    // some call to the searchService
+    this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
+      (success: Club[]) => {
+        success.forEach(element => {
+          this.club = element;
+          console.log(this.club);
+          this.searchService.searchForClubsResult.push(this.club);
+        });
+        this.isLoading = false;
+        this.router.navigate(['/search-for-clubs']);
+      },
+      (error) => {
+        // redirect to error page
+        this.isLoading
+        console.log(error);
+      }
+    );
     console.log(this.searchCriteria);
-    this.searchService.searchForClubs(this.searchCriteria);
   }
 
   validateSearchCriteria() {
     if (this.searchForm.value.country != "") {
       if(this.searchForm.value.country != "All Countries") {
         this.searchCriteria.country = this.searchForm.value.country;
-      } else {
-        this.searchCriteria.country = null;
       }
     }
 
     if (this.searchForm.value.league != "") {
       if(this.searchForm.value.league != "All Leagues") {
         this.searchCriteria.league = this.searchForm.value.league;
-      } else {
-        this.searchCriteria.league = null;
       }
     }
 
     if (this.searchForm.value.position != "") {
       if(this.searchForm.value.position != "None") {
         this.searchCriteria.position = this.searchForm.value.position;
-      } else {
-        this.searchCriteria.position = null;
       }
     }
 
     if (this.searchForm.value.season != "") {
       if(this.searchForm.value.season != "None") {
         this.searchCriteria.season = this.searchForm.value.season;
-      } else {
-        this.searchCriteria.season = null;
       }
     }
 

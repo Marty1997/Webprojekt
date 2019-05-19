@@ -398,7 +398,6 @@ export class RegisterPlayerComponent implements OnInit {
       currentClub: [""],
       currentPrimaryPosition: [""],
       currentSecondaryPosition: [""],
-      isActiveSearching: [''],
       accomplishments: [""],
       statistics: [""],
       formerClubs: [""]
@@ -492,6 +491,7 @@ export class RegisterPlayerComponent implements OnInit {
     this.player.day = this.personalInfoFormGroup.value.day;
     this.player.month = this.personalInfoFormGroup.value.month;
     this.player.year = this.personalInfoFormGroup.value.year;
+    this.player.isAvailable = true;
 
     if (this.additionalInfoFormGroup.value.height !== "") {
       this.player.height = this.additionalInfoFormGroup.value.height;
@@ -637,13 +637,6 @@ export class RegisterPlayerComponent implements OnInit {
       this.player.currentClubSecondaryPosition = this.sportCvFormGroup.value.currentSecondaryPosition;
     } else {
       this.player.currentClubSecondaryPosition = null;
-    }
-    if(this.sportCvFormGroup.value.isActiveSearching === 'currentlySearching') {
-      this.player.isAvailable = true;
-    } else if(this.sportCvFormGroup.value.isActiveSearching === 'notSearching') {
-      this.player.isAvailable = false;
-    } else {
-      this.player.isAvailable = true;
     }
     if (this.sportCvFormGroup.value.accomplishments !== "") {
       this.player.accomplishments = this.sportCvFormGroup.value.accomplishments;
