@@ -1,70 +1,147 @@
 <app-header></app-header>
-<section class="well custom-container forPlayerClubBackgroundColor">
-  <div class="row searchRows" *ngFor="let player of playerList">
-    <a (click)="selectedPlayer(player.id)" style="color: inherit;">
-      <div class="col-md-3 " style="text-align:center;">
-        <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
-        <h3 style="word-wrap: break-word;">{{player.firstName}} {{player.lastName}}</h3>
-      </div>
-      <div class="col-md-3">
-        <table class="tableFixed">
-          <tr>
-            <td>Date of birth:</td>
-            <td>{{player.day}}/{{player.month}}/{{player.year}}</td>
-          </tr>
-          <tr>
-            <td>Nationality:</td>
-            <td>{{player.country}}</td>
-          </tr>
-          <tr>
-            <td>Position:</td>
-            <td *ngIf="player.primaryPosition == null">Not specified</td>
-            <td *ngIf="player.primaryPosition != null">{{player.primaryPosition}}</td>
-          </tr>
-          <tr>
-            <td>Contract status:</td>
-            <td *ngIf="player.contractStatus == null">Not specified</td>
-            <td *ngIf="player.contractStatus != null">{{player.contractStatus}}</td>
-          </tr>
-          <tr>
-            <td>Contract expires:</td>
-            <td *ngIf="player.contractExpired == null">Not specified</td>
-            <td *ngIf="player.contractExpired != null">{{player.contractExpired}}</td>
-          </tr>
-        </table>
-      </div>
-      <div class="col-md-3">
-        <table class="tableFixed">
-          <tr>
-            <td>Height:</td>
-            <td *ngIf="player.height == null">Not specified</td>
-            <td *ngIf="player.height != null">{{player.height}}</td>
-          </tr>
-          <tr>
-            <td>Weight:</td>
-            <td *ngIf="player.weight == null">Not specified</td>
-            <td *ngIf="player.weight != null">{{player.weight}}</td>
-          </tr>
-          <tr>
-            <td>Bodyfat:</td>
-            <td *ngIf="player.bodyfat == null">Not specified</td>
-            <td *ngIf="player.bodyfat != null">{{player.bodyfat}}</td>
-          </tr>
-          <tr>
-            <td>Preferred hand:</td>
-            <td *ngIf="player.preferredHand == null">Not specified</td>
-            <td *ngIf="player.preferredHand != null">{{player.preferredHand}}</td>
-          </tr>
-          <tr>
-            <td>Injury status:</td>
-            <td *ngIf="player.injuryStatus == null">Not specified</td>
-            <td *ngIf="player.injuryStatus != null">{{player.injuryStatus}}</td>
-          </tr>
-        </table>
-      </div>
-      <div class="col-md-3">
-        <div class="circle">{{player.searchPercentage}}%</div>
-      </div>
-    </a>
-  </div>
+<section *ngIf="playerList.length === 0" class="well custom-container forPlayerClubBackgroundColor" style="height: 90vh">
+  <h1 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+    No players were found <br><br><br> Try searching with different criterias</h1>
+</section>
+<section *ngIf="playerList.length === 1 || playerList.length === 2" class="well custom-container forPlayerClubBackgroundColor" style="height: 90vh">
+        <div class="row searchRows" *ngFor="let player of playerList">
+    
+          <a (click)="selectedPlayer(player.id)" style="color: inherit;">
+            <div class="col-md-3 " style="text-align:center;">
+              
+              <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+              <h3 style="word-wrap: break-word;">{{player.firstName}} {{player.lastName}}</h3>
+            </div>
+            <div class="col-md-3">
+              <table class="tableFixed">
+                <tr>
+                  <td>Date of birth:</td>
+                  <td>{{player.day}}/{{player.month}}/{{player.year}}</td>
+                </tr>
+                <tr>
+                  <td>Nationality:</td>
+                  <td>{{player.country}}</td>
+                </tr>
+                <tr>
+                  <td>Position:</td>
+                  <td *ngIf="player.primaryPosition == null">Not specified</td>
+                  <td *ngIf="player.primaryPosition != null">{{player.primaryPosition}}</td>
+                </tr>
+                <tr>
+                  <td>Contract status:</td>
+                  <td *ngIf="player.contractStatus == null">Not specified</td>
+                  <td *ngIf="player.contractStatus != null">{{player.contractStatus}}</td>
+                </tr>
+                <tr>
+                  <td>Contract expires:</td>
+                  <td *ngIf="player.contractExpired == null">Not specified</td>
+                  <td *ngIf="player.contractExpired != null">{{player.contractExpired}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-3">
+              <table class="tableFixed">
+                <tr>
+                  <td>Height:</td>
+                  <td *ngIf="player.height == null">Not specified</td>
+                  <td *ngIf="player.height != null">{{player.height}}</td>
+                </tr>
+                <tr>
+                  <td>Weight:</td>
+                  <td *ngIf="player.weight == null">Not specified</td>
+                  <td *ngIf="player.weight != null">{{player.weight}}</td>
+                </tr>
+                <tr>
+                  <td>Bodyfat:</td>
+                  <td *ngIf="player.bodyfat == null">Not specified</td>
+                  <td *ngIf="player.bodyfat != null">{{player.bodyfat}}</td>
+                </tr>
+                <tr>
+                  <td>Preferred hand:</td>
+                  <td *ngIf="player.preferredHand == null">Not specified</td>
+                  <td *ngIf="player.preferredHand != null">{{player.preferredHand}}</td>
+                </tr>
+                <tr>
+                  <td>Injury status:</td>
+                  <td *ngIf="player.injuryStatus == null">Not specified</td>
+                  <td *ngIf="player.injuryStatus != null">{{player.injuryStatus}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-3">
+              <div class="circle">{{player.searchPercentage}}%</div>
+            </div>
+          </a>
+        </div>
+</section>
+<section *ngIf="playerList.length >= 3" class="well custom-container forPlayerClubBackgroundColor" >
+    <div class="row searchRows" *ngFor="let player of playerList">
+
+      <a (click)="selectedPlayer(player.id)" style="color: inherit;">
+        <div class="col-md-3 " style="text-align:center;">
+          
+          <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+          <h3 style="word-wrap: break-word;">{{player.firstName}} {{player.lastName}}</h3>
+        </div>
+        <div class="col-md-3">
+          <table class="tableFixed">
+            <tr>
+              <td>Date of birth:</td>
+              <td>{{player.day}}/{{player.month}}/{{player.year}}</td>
+            </tr>
+            <tr>
+              <td>Nationality:</td>
+              <td>{{player.country}}</td>
+            </tr>
+            <tr>
+              <td>Position:</td>
+              <td *ngIf="player.primaryPosition == null">Not specified</td>
+              <td *ngIf="player.primaryPosition != null">{{player.primaryPosition}}</td>
+            </tr>
+            <tr>
+              <td>Contract status:</td>
+              <td *ngIf="player.contractStatus == null">Not specified</td>
+              <td *ngIf="player.contractStatus != null">{{player.contractStatus}}</td>
+            </tr>
+            <tr>
+              <td>Contract expires:</td>
+              <td *ngIf="player.contractExpired == null">Not specified</td>
+              <td *ngIf="player.contractExpired != null">{{player.contractExpired}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-3">
+          <table class="tableFixed">
+            <tr>
+              <td>Height:</td>
+              <td *ngIf="player.height == null">Not specified</td>
+              <td *ngIf="player.height != null">{{player.height}}</td>
+            </tr>
+            <tr>
+              <td>Weight:</td>
+              <td *ngIf="player.weight == null">Not specified</td>
+              <td *ngIf="player.weight != null">{{player.weight}}</td>
+            </tr>
+            <tr>
+              <td>Bodyfat:</td>
+              <td *ngIf="player.bodyfat == null">Not specified</td>
+              <td *ngIf="player.bodyfat != null">{{player.bodyfat}}</td>
+            </tr>
+            <tr>
+              <td>Preferred hand:</td>
+              <td *ngIf="player.preferredHand == null">Not specified</td>
+              <td *ngIf="player.preferredHand != null">{{player.preferredHand}}</td>
+            </tr>
+            <tr>
+              <td>Injury status:</td>
+              <td *ngIf="player.injuryStatus == null">Not specified</td>
+              <td *ngIf="player.injuryStatus != null">{{player.injuryStatus}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-3">
+          <div class="circle">{{player.searchPercentage}}%</div>
+        </div>
+      </a>
+    </div>
 </section>

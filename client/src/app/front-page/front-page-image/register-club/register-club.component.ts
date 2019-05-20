@@ -691,6 +691,9 @@ export class RegisterClubComponent implements OnInit {
     this.club.nextYearSquadPlayersList = this.nextYearSquadSource;
     // open positions
     this.club.jobPositionsList = this.openPositionSource;
+    if(this.club.jobPositionsList.length > 0) {
+      this.club.isAvailable = true;
+    }
 
     // staff
     if (this.clubStaffFormGroup.value.trainerControl !== "") {

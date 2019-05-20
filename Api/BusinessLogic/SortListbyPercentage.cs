@@ -18,5 +18,15 @@ namespace Api.BusinessLogic {
             else
                 return 0;
         }
+
+        public int CompareClub(Club c1, Club c2) {
+            if(c1.SearchPercentage < c2.SearchPercentage) {
+                return 1;
+            } else if(c1.SearchPercentage > c2.SearchPercentage) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
     }
 }

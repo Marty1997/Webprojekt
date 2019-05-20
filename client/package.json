@@ -29,6 +29,7 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^4.0.1",
+    "ngx-infinite-scroll": "^7.0.0",
     "ngx-material-file-input": "^1.1.1",
     "ngx-spinner": "^7.1.4",
     "rxjs": "~6.3.3",
@@ -37,7 +38,7 @@
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.8",
+    "@angular-devkit/build-angular": "^0.13.9",
     "@angular/cli": "~7.3.6",
     "@angular/compiler-cli": "^7.2.13",
     "@angular/language-service": "^7.2.13",

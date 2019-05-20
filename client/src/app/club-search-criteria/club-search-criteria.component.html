@@ -1,5 +1,7 @@
 <app-header></app-header>
 <div class="well custom-container forPlayerClubBackgroundColor">
+  <!-- Loading spinner component -->
+  <app-loading-icon [isLoading]="isLoading"></app-loading-icon>
   <h1>Search Criterias</h1>
   <hr>
   <p class="lead">
@@ -42,8 +44,7 @@
         <mat-checkbox #processOriented value="Process oriented">Process Oriented</mat-checkbox><br>
 
         <div id="buttonGroup" class="col-xs-12">
-          <button class="btn btn-primary" [routerLink]="['/search-for-clubs']"
-            (click)="searchForClubs()">Search</button>
+          <button class="btn btn-primary" (click)="searchForClubs()">Search</button>
         </div>
       </form>
     </div>

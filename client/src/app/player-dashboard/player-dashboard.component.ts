@@ -12,7 +12,6 @@ import { Router } from "@angular/router";
   selector: "app-player-dashboard",
   templateUrl: "./player-dashboard.component.html",
   styleUrls: ["./player-dashboard.component.css"],
-  encapsulation: ViewEncapsulation.None,
   providers: []
 })
 export class PlayerDashboardComponent implements OnInit {
