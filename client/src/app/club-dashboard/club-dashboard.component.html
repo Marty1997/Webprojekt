@@ -194,8 +194,8 @@
           </tr>
           <tr>
             <td>Team Manager:</td>
-            <td *ngIf="clubBinding.teamManager == null">Not specified</td>
-            <td *ngIf="clubBinding.teamManager != null">{{clubBinding.manager}}</td>
+            <td *ngIf="clubBinding.manager == null">Not specified</td>
+            <td *ngIf="clubBinding.manager != null">{{clubBinding.manager}}</td>
           </tr>
         </table>
       </div>
@@ -247,7 +247,7 @@
         </div>
         <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
 
-        <div *ngIf="clubBinding.facilityImagesList == ''">
+        <div *ngIf="clubBinding.facilityImagesList.length == 0">
             <h4 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
               No facility images was specified from the club</h4>
         </div>
