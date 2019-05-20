@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule } from '@angular/material';
+import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule, MatExpansionModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -90,8 +90,10 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
       { path: 'player-profile/:id', component: PlayerDashboardComponent, canActivate: [AuthGuardService] },
       { path: 'club-search-criteria', component: ClubSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService] },
-      { path: 'club-how-to', component: ForClubsComponent },
-      { path: 'player-how-to', component: ForPlayersComponent }
+      { path: 'club-how-to', component: ForClubsComponent, canActivate: [AuthGuardService] },
+      { path: 'player-how-to', component: ForPlayersComponent, canActivate: [AuthGuardService] },
+      { path: 'club-settings', component: UpdateClubComponent, /*canActivate: [AuthGuardService]*/ },
+      { path: 'player-settings', component: UpdatePlayerComponent, canActivate: [AuthGuardService] }
     ]),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
@@ -99,7 +101,7 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
     CdkStepperModule,
       MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
       MatPaginatorModule, MatCheckboxModule, MatTableModule, MatDatepickerModule, MatMomentDateModule, MatMenuModule, MatDividerModule,
-    MatCardModule,
+    MatCardModule, MatExpansionModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialFileInputModule,

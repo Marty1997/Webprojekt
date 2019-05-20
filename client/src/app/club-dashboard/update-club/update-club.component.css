@@ -1,0 +1,37 @@
+.custom-container {
+    margin-top: 50px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Fields */
+mat-form-field {
+    width: 49%;
+    margin: 0.5%;
+}
+
+.trainingHoursFields {
+    width: 15.66%;
+    margin: 0.5;
+}
+
+.threeFieldsOnSameRow {
+    width: 32.33%;
+    margin: 0.5%;
+}
+
+/* Accordion */
+mat-accordion,
+mat-expansion-panel {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}

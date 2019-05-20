@@ -964,7 +964,7 @@ namespace Api.DAL.Repos {
 
             foreach (JobPosition item in club.JobPositionsList) {
                 item.StrengthsList = conn.Query<string>("select s.name from Strength s " +
-                    "inner join JobPositionStrength jps on jps.strength_id = s.id where jps.jobposition_ID = @newid", new { newid = item.ID }).ToList();
+                    "inner join JobPositionStrength jps on jps.strength_id = s.id where jps.jobposition_ID = @newid", new { newid = item.Id }).ToList();
             }
             return club;
         }
