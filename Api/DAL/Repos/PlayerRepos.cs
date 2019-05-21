@@ -209,47 +209,6 @@ namespace Api.DAL.Repos {
                     return null;
                 }
             }
-
-
-            //Player player = new Player();
-            //using (var conn = Connection()) {
-            //    //try {
-            //    Player result = null;
-            //    conn.Query<Player, string, string, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name, s.name, w.name  from player p" +
-            //        " left join Position pp on pp.id = p.primaryPosition_ID" +
-            //        " left join Position sp on sp.id = p.secondaryPosition_ID" +
-            //        " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-            //        " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID" +
-            //        " left join playerstrength ps on ps.player_id = p.id" +
-            //        " left join strength s on s.id = ps.strength_ID" +
-            //        " left join playerweakness pw on pw.player_id = p.id" +
-            //        " left join weakness w on w.id = pw.weakness_ID where p.email = @email",
-            //        (playerinside, pp, sp, cp, cs, strength, weakness) => {
-            //            Player p = null;
-            //            if (result == null) {
-            //                result = BuildPlayer(p, playerinside, pp, sp, cp, cs);
-            //            }
-            //            if(strength != null) {
-            //                result.StrengthList.Add(strength);
-            //            }
-            //            else if(weakness != null) {
-            //                result.WeaknessList.Add(weakness);
-            //            }
-
-            //            return result;
-            //        }, new { email }, splitOn: "name,name,name,name,name");
-            //    player = result;
-            //    result.NationalTeamList = GetPlayerNationalTeams(result, conn);
-            //    //player.StrengthList = GetPlayerStrengthList(player, conn);
-            //    //result.WeaknessList = GetPlayerWeaknessList(result, conn);
-
-
-            //    //}
-            //    //catch (SqlException e) {
-            //    //    player.ErrorMessage = ErrorHandling.Exception(e);
-            //    //}
-            //}
-            //return player;
         }
 
         public Player GetById(int id) {
@@ -279,32 +238,6 @@ namespace Api.DAL.Repos {
                     return null;
                 }
             }
-
-            //using (var conn = Connection()) {
-            //    //try {
-            //    player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
-            //        " left join Position pp on pp.id = p.primaryPosition_ID" +
-            //        " left join Position sp on sp.id = p.secondaryPosition_ID" +
-            //        " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-            //        " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.id = @id",
-            //    (playerinside, pp, sp, cp, cs) => {
-            //        playerinside.PrimaryPosition = pp;
-            //        playerinside.SecondaryPosition = sp;
-            //        playerinside.CurrentClubPrimaryPosition = cp;
-            //        playerinside.CurrentClubSecondaryPosition = cs;
-            //        return playerinside;
-            //    }, new { id }, splitOn: "name,name,name,name").Single();
-
-            //    player.NationalTeamList = GetPlayerNationalTeams(player, conn);
-            //    player.StrengthList = GetPlayerStrengthList(player, conn);
-            //    player.WeaknessList = GetPlayerWeaknessList(player, conn);
-            //}
-            //catch (SqlException e) {
-            //    player.ErrorMessage = ErrorHandling.Exception(e);
-            //}
-
-            //}
-            //return player;
         }
 
         public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
