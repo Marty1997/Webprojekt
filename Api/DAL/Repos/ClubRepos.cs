@@ -25,7 +25,7 @@ namespace Api.DAL.Repos {
                     try {
 
                         //Set imagePath to default image
-                        string imagePath = "Resources\\Files\\club-icon.png";
+                        string imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
 
                         //Return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
