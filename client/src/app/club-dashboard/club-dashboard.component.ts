@@ -19,6 +19,11 @@ export class ClubDashboardComponent implements OnInit {
   facilityImages: string[] = [];
 
   myInterval = 3000;
+  slides = [
+    {image: 'assets/Images/Håndboldbane.jpg'},
+    {image: 'assets/Images/omklædning.jpg'},
+    {image: 'assets/Images/Styrke.jpg'}
+  ];
 
   constructor(
     private loginService: loginService,
