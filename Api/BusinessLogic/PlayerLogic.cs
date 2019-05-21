@@ -87,7 +87,7 @@ namespace Api.BusinessLogic {
             // that are less important
             else if (request.ContractStatus != null || request.MinimumAge != null || request.MaximumAge != null ||
                 request.SecondaryPosition != null || request.InjuryStatus != null || request.HandPreference != null ||
-                request.MinimumHeight != null || request.MaximumWeight != null || request.StrengthsList.Count == 0) {
+                request.MinimumHeight != null || request.MaximumWeight != null || request.StrengthsList.Count != 0) {
                 if (request.ContractStatus != null) {
                     
                     sqlSelectStatement = " p.contractstatus = '" + request.ContractStatus + "'" + " and p.isAvailable = 1";
