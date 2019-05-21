@@ -37,7 +37,7 @@ namespace Test {
             SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer();
             sc.PrimaryPosition = "Playmaker";
             sc.League = "Second League";
-            playerRepos.Setup(x => x.GetBySearchCriteria(""))
+            playerRepos.Setup(x => x.GetBySearchCriteria(" p.isAvailable = 1 and p.league = 'Second League' and p.PrimaryPosition = 'Playmaker'"))
                 .Returns(new List<Player>
                 {
                     new Player { Id = 1, Country = "Denmark", League = "First League", PrimaryPosition = "Left back" },

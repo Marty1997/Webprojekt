@@ -47,7 +47,6 @@
         </div>
     </section>
 <section *ngIf="clubList.length >= 3" class="well custom-container forPlayerClubBackgroundColor">
-  <div infiniteScroll [infiniteScrollDistance]="0.1" [infiniteScrollThrottle]="200" (scrolled)="onScroll()">
     <div class="row searchRows" *ngFor="let club of clubList">
       <a (click)="selectedClub(club.id)" style="color: inherit;">
         <div class="col-md-3 " style="text-align:center;">
@@ -89,5 +88,4 @@
         </div>
       </a>
     </div>
-  </div>
 </section>
