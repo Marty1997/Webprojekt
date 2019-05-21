@@ -14,14 +14,10 @@
   <div class="row">
     <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
 
-      <div *ngIf="clubBinding.imagePath == null">
-        <img class="responsiveImage" src="./../assets/Images/club-icon.png" height="150" width="150" />
-      </div>
-
-      <div *ngIf="clubBinding.imagePath != null">
+      <div>
         <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
       </div>
-
+      
       <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
       <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
       <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()">
