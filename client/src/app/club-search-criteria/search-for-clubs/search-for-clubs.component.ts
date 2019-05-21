@@ -14,20 +14,7 @@ export class SearchForClubsComponent implements OnInit {
 
   ngOnInit() {
     // Add the first 5 clubs to the result list
-    for (let i = 0; i < this.searchService.searchForClubsResult.length && i < 5; i++) {
-        this.clubList.push(this.searchService.searchForClubsResult[i]);
-    }
-    console.log(this.clubList);
-  }
-
-  onScroll() {
-    if (this.clubList.length < this.searchService.searchForClubsResult.length) {
-      let len = this.clubList.length;
-      for (let i = len; i <= len + 2; i++) {
-        this.clubList.push(this.searchService.searchForClubsResult[i]);
-      }
-      console.log(this.searchService.searchForClubsResult);
-    }
+    this.clubList = this.searchService.searchForClubsResult;
   }
 
   selectedClub(id: number) {

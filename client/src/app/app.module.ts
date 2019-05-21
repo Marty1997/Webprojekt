@@ -11,7 +11,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './multi-page/footer/footer.component';
@@ -75,7 +74,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    InfiniteScrollModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: FrontPageComponent, pathMatch: 'full' },
