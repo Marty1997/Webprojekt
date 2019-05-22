@@ -2,6 +2,10 @@
 
 context('Register Club', () => {
     beforeEach(() => {
+        // Stub the register request
+        cy.server();
+        cy.route('POST', 'https://localhost:44310/api/Club', 200);
+        cy.route('POST', 'WEB API controller metode', 404);
         // Start on front page
         cy.visit('localhost:4200');
     })
@@ -38,5 +42,9 @@ context('Register Club', () => {
         cy.get('.nextBtn').contains('Next').click({force: true});
         cy.get('.nextBtn').contains('Next').click({force: true});
         cy.get('.nextBtn').contains('Register').click({force: true});
+
+        // const request = require('https://localhost:44310/api/Club');
+        // request(app).post('https://localhost:44310/api/Club').expect(200);
+        
     })
 })

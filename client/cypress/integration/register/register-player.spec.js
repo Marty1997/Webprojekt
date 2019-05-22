@@ -2,6 +2,10 @@
 
 context('Register Player', () => {
     beforeEach(() => {
+        // Stub the register request
+        cy.server();
+        cy.route('POST', 'https://localhost:44310/api/Player', 200);
+        cy.route('POST', 'WEB API controller metode', 404);
         // Start on front page
         cy.visit('localhost:4200');
     })
