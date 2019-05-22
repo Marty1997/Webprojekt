@@ -87,7 +87,7 @@ namespace Api.BusinessLogic {
             // that are less important
             else if (request.ContractStatus != null || request.MinimumAge != null || request.MaximumAge != null ||
                 request.SecondaryPosition != null || request.InjuryStatus != null || request.HandPreference != null ||
-                request.MinimumHeight != null || request.MaximumWeight != null || request.StrengthsList.Count == 0) {
+                request.MinimumHeight != null || request.MaximumWeight != null || request.StrengthsList.Count != 0) {
                 if (request.ContractStatus != null) {
                     
                     sqlSelectStatement = " p.contractstatus = '" + request.ContractStatus + "'" + " and p.isAvailable = 1";
@@ -99,7 +99,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " p.year <= " + year + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement = " or p.year <= " + year + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.year <= " + year + " and p.isAvailable = 1";
                     }
                 }
                 if (request.MaximumAge != null) {
@@ -109,7 +109,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " p.year >= " + year + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement = " or p.year >= " + year + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.year >= " + year + " and p.isAvailable = 1";
                     }
                 }
                 if (request.SecondaryPosition != null) {
@@ -117,7 +117,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement = " or s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.HandPreference != null) {
@@ -125,7 +125,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement = " or p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.InjuryStatus != null) {
@@ -133,7 +133,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement = " or p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.Injurystatus = '" + request.InjuryStatus + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.MinimumHeight != null) {
@@ -141,7 +141,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
                     }
                     else {
-                         sqlSelectStatement = " or p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
+                         sqlSelectStatement += " or p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
                     }
                 }
                 if (request.MaximumWeight != null) {
@@ -149,7 +149,7 @@ namespace Api.BusinessLogic {
                         sqlSelectStatement = " p.height >= " + request.MinimumHeight + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement = " or p.weight <= " + request.MaximumWeight + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.weight <= " + request.MaximumWeight + " and p.isAvailable = 1";
                     }  
                 }
                 if (request.StrengthsList.Count != 0) {
@@ -167,7 +167,7 @@ namespace Api.BusinessLogic {
 
             // Now we check for which values match the search criterias and calculate the percentage they match with of total search criteria 
             // selected and order the list by the percentage and return the finished list
-            playerList = this.CheckWhichCriteriaMatchAndCalculatePercentage(playerList, request);
+            playerList = CheckWhichCriteriaMatchAndCalculatePercentage(playerList, request);
             SortListByPercentage sort = new SortListByPercentage();
             playerList.Sort(sort.Compare);
             return playerList;

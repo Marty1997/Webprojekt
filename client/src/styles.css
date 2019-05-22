@@ -43,6 +43,7 @@ h1 {
 .forPlayerClubBackgroundColor {
   background-color: #e8eaec;
   padding-bottom: 20px;
+  margin-top: 50px;
 }
 
 .customModal {
@@ -230,5 +231,28 @@ accordion-group h5 {
     object-fit: cover;
     height: 250px !important;
     width: 100% !important;
+  }
+
+  .circle {
+    line-height: 150px;
+    text-align: center;
+    background: #000;
+    background-color: #e8eaec;
+    border: 2px solid #2A344F;
+    height: 150px;
+    font-size: 50px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    width: 200px;
+    margin: 25px auto;
+
+  }
+  
+  .searchRows {
+    border: 2px solid #2A344F;
+    margin: 10px 10px 20px 10px;
+    cursor: pointer;
+    
   }
 

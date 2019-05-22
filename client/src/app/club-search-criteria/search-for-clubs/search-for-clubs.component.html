@@ -7,7 +7,7 @@
         <div class="row searchRows" *ngFor="let club of clubList">
           <a (click)="selectedClub(club.id)" style="color: inherit;">
             <div class="col-md-3 " style="text-align:center;">
-              <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+              <img src={{club.imagepath}} height="150" width="150" />
               <h3 style="word-wrap: break-word;">{{club.name}}</h3>
             </div>
             <div class="col-md-3">
@@ -45,12 +45,14 @@
             </div>
           </a>
         </div>
+        <h2 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+            Did not find what your were looking for? <br> Try searching with different criterias</h2>
     </section>
 <section *ngIf="clubList.length >= 3" class="well custom-container forPlayerClubBackgroundColor">
     <div class="row searchRows" *ngFor="let club of clubList">
       <a (click)="selectedClub(club.id)" style="color: inherit;">
         <div class="col-md-3 " style="text-align:center;">
-          <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+          <img src={{club.imagepath}} height="150" width="150" />
           <h3 style="word-wrap: break-word;">{{club.name}}</h3>
         </div>
         <div class="col-md-3">
@@ -88,4 +90,6 @@
         </div>
       </a>
     </div>
+    <h2 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+        Did not find what your were looking for? <br> Try searching with different criterias</h2>
 </section>

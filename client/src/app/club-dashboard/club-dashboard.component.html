@@ -1,6 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <app-header></app-header>
-<section class="custom-container forPlayerClubBackgroundColor" style="margin-top: 50px;">
+<section class="custom-container forPlayerClubBackgroundColor" >
   <div class="row">
     <div class="col-md-2" style="text-align: center; margin-top: 15px;">
       <a class="editProfileButton" *ngIf="isClub">Edit Profile</a>
@@ -14,17 +14,13 @@
   <div class="row">
     <div class="col-md-2" style="text-align:center; margin-bottom:50px;">
 
-      <div *ngIf="clubBinding.imagePath == null">
-        <img class="responsiveImage" src="./../assets/Images/club-icon.png" height="150" width="150" />
-      </div>
-
-      <div *ngIf="clubBinding.imagePath != null">
+      <div>
         <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
       </div>
 
-      <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+      <!-- <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
       <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
-      <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()">
+      <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()"> -->
 
       <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3>
 
@@ -250,7 +246,7 @@
         </div>
         <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
 
-        <div *ngIf="clubBinding.facilityImagesList == ''">
+        <div *ngIf="clubBinding.facilityImagesList == null">
             <h4 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
               No facility images was specified from the club</h4>
         </div>
@@ -263,10 +259,10 @@
               </carousel>
         </div>
 
-        <div style="text-align: center">
+        <!-- <div style="text-align: center">
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
             <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
-        </div>
+        </div> -->
       </div>
 
       <div style="width: 100%; text-align: center; align-content: center">

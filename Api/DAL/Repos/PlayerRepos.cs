@@ -22,13 +22,17 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                     
                 using (IDbTransaction tran = conn.BeginTransaction()) {
-                    //try {
+                    try {
+
+                        //Set imagePath to default image
+                        string imagePath = "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
                         
+
                         //Insert userCredentials and return usercredentials ID
                         string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
                                      SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0}, transaction: tran).Single();
-                
+                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
+
                         //Insert player and return player_ID
                         string playerSQL = @"INSERT INTO Player (Firstname, Lastname, Email, Day, Month, Year, Country, League, Height, Weight, Bodyfat, PreferredHand, CurrentClub, Accomplishments, Statistic, StrengthDescription, 
                                             WeaknessDescription, VideoPath, ImagePath, FormerClubs, ContractStatus, ContractExpired, InjuryStatus, InjuryExpired, InjuryDescription, IsAvailable, PrimaryPosition, SecondaryPosition, CurrentClubPrimaryPosition, CurrentClubSecondaryPosition, UserCredentials_ID) 
@@ -37,52 +41,52 @@ namespace Api.DAL.Repos {
                                             @InjuryExpired, @InjuryDescription, @IsAvailable, @PrimaryPosition, @SecondaryPosition, @CurrentClubPrimaryPosition, @CurrentClubSecondaryPosition, @UserCredentials_ID);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                    int player_ID = conn.Query<int>(playerSQL, new {
-                        Firstname = entity.FirstName,
-                        Lastname = entity.LastName,
-                        entity.Email,
-                        entity.Day,
-                        entity.Month,
-                        entity.Year,
-                        entity.Country,
-                        entity.League,
-                        entity.Height,
-                        entity.Weight,
-                        entity.Bodyfat,
-                        entity.PreferredHand,
-                        entity.CurrentClub,
-                        entity.Accomplishments,
-                        entity.Statistic,
-                        entity.StrengthDescription,
-                        entity.WeaknessDescription,
-                        entity.VideoPath,
-                        entity.ImagePath,
-                        entity.FormerClubs,
-                        entity.ContractStatus,
-                        entity.ContractExpired,
-                        entity.InjuryStatus,
-                        entity.InjuryExpired,
-                        entity.InjuryDescription,
-                        entity.IsAvailable,
-                        entity.PrimaryPosition,
-                        entity.SecondaryPosition,
-                        entity.CurrentClubPrimaryPosition,
-                        entity.CurrentClubSecondaryPosition,
-                        UserCredentials_ID = userCredentials_ID
-                    }, transaction: tran).Single();
+                        int player_ID = conn.Query<int>(playerSQL, new {
+                            Firstname = entity.FirstName,
+                            Lastname = entity.LastName,
+                            entity.Email,
+                            entity.Day,
+                            entity.Month,
+                            entity.Year,
+                            entity.Country,
+                            entity.League,
+                            entity.Height,
+                            entity.Weight,
+                            entity.Bodyfat,
+                            entity.PreferredHand,
+                            entity.CurrentClub,
+                            entity.Accomplishments,
+                            entity.Statistic,
+                            entity.StrengthDescription,
+                            entity.WeaknessDescription,
+                            entity.VideoPath,
+                            ImagePath = imagePath,
+                            entity.FormerClubs,
+                            entity.ContractStatus,
+                            entity.ContractExpired,
+                            entity.InjuryStatus,
+                            entity.InjuryExpired,
+                            entity.InjuryDescription,
+                            entity.IsAvailable,
+                            entity.PrimaryPosition,
+                            entity.SecondaryPosition,
+                            entity.CurrentClubPrimaryPosition,
+                            entity.CurrentClubSecondaryPosition,
+                            UserCredentials_ID = userCredentials_ID
+                        }, transaction: tran).Single();
 
 
 
-                    //Player strengths
-                    if (entity.StrengthList.Count > 0) {
+                        //Player strengths
+                        if (entity.StrengthList.Count > 0) {
                             foreach (string strength in entity.StrengthList) {
 
                                 //Return strength ID
                                 string strengthSQL = @"Select id from Strength where name = @Name";
                                 int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
 
-                                if(strength_ID != 0) {
-                                
+                                if (strength_ID != 0) {
+
                                     //Insert PlayerStrength
                                     string playerStrengthSQL = @"INSERT INTO PlayerStrength (Player_ID, Strength_ID) 
                                         VALUES (@Player_ID, @Strength_ID)";
@@ -91,7 +95,7 @@ namespace Api.DAL.Repos {
                                         Player_ID = player_ID,
                                         Strength_ID = strength_ID
                                     }, transaction: tran));
-                                } 
+                                }
                             }
                         }
 
@@ -116,7 +120,7 @@ namespace Api.DAL.Repos {
                                 }
                             }
                         }
-                        
+
                         if (entity.NationalTeamList.Count > 0) {
                             foreach (NationalTeam nt in entity.NationalTeamList) {
 
@@ -133,8 +137,8 @@ namespace Api.DAL.Repos {
                                 }, transaction: tran));
 
                             }
-                        }    
-                        
+                        }
+
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
                             p.ErrorMessage = "The player was not registred";
@@ -144,13 +148,13 @@ namespace Api.DAL.Repos {
                             p.ErrorMessage = "";
                             tran.Commit();
                         }
-                        
-                    //}
-                    //catch (SqlException e) {
 
-                    //    tran.Rollback();
-                    //    p.ErrorMessage = ErrorHandling.Exception(e);                 
-                    //}
+                    }
+                    catch (SqlException e) {
+
+                        tran.Rollback();
+                        p.ErrorMessage = ErrorHandling.Exception(e);
+                    }
                 }
             }
             return p;
@@ -163,13 +167,14 @@ namespace Api.DAL.Repos {
         public IEnumerable<Player> GetAll() {
             List<Player> playerList = new List<Player>();
             using (var conn = Connection()) {
-                //try {
-                playerList = conn.Query<Player>("select * from player where isAvailable = 1").ToList();
-                return playerList;
-                //}
-                //catch(SqlException e) {
-
-                //}
+                try {
+                    playerList = conn.Query<Player>("select * from player where isAvailable = 1").ToList();
+                    return playerList;
+                }
+                catch (SqlException ) {
+                    return null;
+                }
+                
             }
         }
 
@@ -190,61 +195,20 @@ namespace Api.DAL.Repos {
                 " inner join NationalTeam nt on nt.player_Id = p.id where p.email = @email;";
 
             using (var conn = Connection()) {
-                //try {
+                try {
 
-                using (var multi = conn.QueryMultiple(sql, new { email })) {
-                    player = multi.Read<Player>().First();
-                    player.StrengthList = multi.Read<string>().ToList();
-                    player.WeaknessList = multi.Read<string>().ToList();
-                    player.NationalTeamList = multi.Read<NationalTeam>().ToList();
+                    using (var multi = conn.QueryMultiple(sql, new { email })) {
+                        player = multi.Read<Player>().First();
+                        player.StrengthList = multi.Read<string>().ToList();
+                        player.WeaknessList = multi.Read<string>().ToList();
+                        player.NationalTeamList = multi.Read<NationalTeam>().ToList();
+                    }
+                    return player;
                 }
-                return player;
-                //}
-                //catch(SqlException) {
-
-                //}
+                catch (SqlException) {
+                    return null;
+                }
             }
-
-
-            //Player player = new Player();
-            //using (var conn = Connection()) {
-            //    //try {
-            //    Player result = null;
-            //    conn.Query<Player, string, string, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name, s.name, w.name  from player p" +
-            //        " left join Position pp on pp.id = p.primaryPosition_ID" +
-            //        " left join Position sp on sp.id = p.secondaryPosition_ID" +
-            //        " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-            //        " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID" +
-            //        " left join playerstrength ps on ps.player_id = p.id" +
-            //        " left join strength s on s.id = ps.strength_ID" +
-            //        " left join playerweakness pw on pw.player_id = p.id" +
-            //        " left join weakness w on w.id = pw.weakness_ID where p.email = @email",
-            //        (playerinside, pp, sp, cp, cs, strength, weakness) => {
-            //            Player p = null;
-            //            if (result == null) {
-            //                result = BuildPlayer(p, playerinside, pp, sp, cp, cs);
-            //            }
-            //            if(strength != null) {
-            //                result.StrengthList.Add(strength);
-            //            }
-            //            else if(weakness != null) {
-            //                result.WeaknessList.Add(weakness);
-            //            }
-
-            //            return result;
-            //        }, new { email }, splitOn: "name,name,name,name,name");
-            //    player = result;
-            //    result.NationalTeamList = GetPlayerNationalTeams(result, conn);
-            //    //player.StrengthList = GetPlayerStrengthList(player, conn);
-            //    //result.WeaknessList = GetPlayerWeaknessList(result, conn);
-
-
-            //    //}
-            //    //catch (SqlException e) {
-            //    //    player.ErrorMessage = ErrorHandling.Exception(e);
-            //    //}
-            //}
-            //return player;
         }
 
         public Player GetById(int id) {
@@ -261,45 +225,19 @@ namespace Api.DAL.Repos {
                 " select nt.name, nt.appearances, nt.statistic, nt.position, nt.id from NationalTeam nt where nt.player_id = @id;";
 
             using (var conn = Connection()) {
-                //try {
-                using (var multi = conn.QueryMultiple(sql, new { id })) {
-                    player = multi.Read<Player>().First(); 
-                    player.StrengthList = multi.Read<string>().ToList();
-                    player.WeaknessList = multi.Read<string>().ToList();
-                    player.NationalTeamList = multi.Read<NationalTeam>().ToList();
+                try {
+                    using (var multi = conn.QueryMultiple(sql, new { id })) {
+                        player = multi.Read<Player>().First();
+                        player.StrengthList = multi.Read<string>().ToList();
+                        player.WeaknessList = multi.Read<string>().ToList();
+                        player.NationalTeamList = multi.Read<NationalTeam>().ToList();
+                    }
+                    return player;
                 }
-                return player;
-                //}
-                //catch(SqlException) {
-
-                //}
+                catch (SqlException) {
+                    return null;
+                }
             }
-
-            //using (var conn = Connection()) {
-            //    //try {
-            //    player = conn.Query<Player, string, string, string, string, Player>("select p.*, pp.name, sp.name, cp.name, cs.name from player p" +
-            //        " left join Position pp on pp.id = p.primaryPosition_ID" +
-            //        " left join Position sp on sp.id = p.secondaryPosition_ID" +
-            //        " left join Position cp on cp.id = p.currentClubPrimaryPosition_ID" +
-            //        " left join Position cs on cs.id = p.currentCLubSecondaryPosition_ID where p.id = @id",
-            //    (playerinside, pp, sp, cp, cs) => {
-            //        playerinside.PrimaryPosition = pp;
-            //        playerinside.SecondaryPosition = sp;
-            //        playerinside.CurrentClubPrimaryPosition = cp;
-            //        playerinside.CurrentClubSecondaryPosition = cs;
-            //        return playerinside;
-            //    }, new { id }, splitOn: "name,name,name,name").Single();
-
-            //    player.NationalTeamList = GetPlayerNationalTeams(player, conn);
-            //    player.StrengthList = GetPlayerStrengthList(player, conn);
-            //    player.WeaknessList = GetPlayerWeaknessList(player, conn);
-            //}
-            //catch (SqlException e) {
-            //    player.ErrorMessage = ErrorHandling.Exception(e);
-            //}
-
-            //}
-            //return player;
         }
 
         public IEnumerable<Player> GetBySearchCriteria(string sqlStatement) {
@@ -338,29 +276,29 @@ namespace Api.DAL.Repos {
             int id = 0;
             bool club = false;
             using (var conn = Connection()) {
-                //try {
-                //Select a club, if we find one we set UC.club to true, if not, we try to find a player, if we find one, we set uc.club to false 
-                id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
-                if (id != 0) {
-                    club = true;
-                }
-                else if (id == 0) {
-                    id = conn.Query<int>("select userCredentials_id from Player where email=@email", new { email }).FirstOrDefault();
-                }
+                try {
+                    //Select a club, if we find one we set UC.club to true, if not, we try to find a player, if we find one, we set uc.club to false 
+                    id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
+                    if (id != 0) {
+                        club = true;
+                    }
+                    else if (id == 0) {
+                        id = conn.Query<int>("select userCredentials_id from Player where email=@email", new { email }).FirstOrDefault();
+                    }
 
-                //Checks if we found a player or a club. If found, we select their credentials from DB
-                if (id == 0) {
+                    //Checks if we found a player or a club. If found, we select their credentials from DB
+                    if (id == 0) {
+                        return null;
+                    }
+                    else {
+                        UserCredentials UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).FirstOrDefault();
+                        UC.Club = club;
+                        return UC;
+                    }
+                }
+                catch (SqlException e) {
                     return null;
                 }
-                else {
-                    UserCredentials UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).FirstOrDefault();
-                    UC.Club = club;
-                    return UC;
-                }
-                //}
-                //catch (SqlException e) {
-                //    return null;
-                //}
             }
 
         }
@@ -374,20 +312,20 @@ namespace Api.DAL.Repos {
 
 
                     using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
+                        try {
 
-                        //byte[] rowId = null;
-                        int rowCount = 0;
-
-
-                        //Return row ID
-                        string rowIDSQL = @"Select rowID from Player where email = @Email";
-                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+                            //byte[] rowId = null;
+                            int rowCount = 0;
 
 
+                            //Return row ID
+                            string rowIDSQL = @"Select rowID from Player where email = @Email";
+                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
 
-                        //Update club
-                        string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country,
+
+
+                            //Update club
+                            string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country,
                                                                     League = @League, Height = @Height, Weight = @Weight, Bodyfat = @Bodyfat,
                                                                     PreferredHand = @PreferredHand, CurrentClub = @CurrentClub, Accomplishments = @Accomplishments,
                                                                     Statistic = @Statistic, StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription,
@@ -395,53 +333,53 @@ namespace Api.DAL.Repos {
                                                                     ContractExpired = @ContractExpired, InjuryStatus = @InjuryStatus, InjuryExpired = @InjuryExpired, InjuryDescription = @InjuryDescription,
                                                                     IsAvailable = @IsAvailable
                                                                  Where Email = @Email AND RowID = @RowID";
-                        rowCount = conn.Execute(updatePlayerSQL, new {
-                            Firstname = entity.FirstName,
-                            Lastname = entity.LastName,
-                            entity.Day,
-                            entity.Month,
-                            entity.Year,
-                            entity.Country,
-                            entity.League,
-                            entity.Height,
-                            entity.Weight,
-                            entity.Bodyfat,
-                            entity.PreferredHand,
-                            entity.CurrentClub,
-                            entity.Accomplishments,
-                            entity.Statistic,
-                            entity.StrengthDescription,
-                            entity.WeaknessDescription,
-                            entity.VideoPath,
-                            entity.ImagePath,
-                            entity.FormerClubs,
-                            entity.ContractStatus,
-                            entity.ContractExpired,
-                            entity.InjuryStatus,
-                            entity.InjuryExpired,
-                            entity.InjuryDescription,
-                            entity.IsAvailable,                           
-                            Email = entity.Email,
-                            RowID = row_ID
-                        }, transaction: tran);
+                            rowCount = conn.Execute(updatePlayerSQL, new {
+                                Firstname = entity.FirstName,
+                                Lastname = entity.LastName,
+                                entity.Day,
+                                entity.Month,
+                                entity.Year,
+                                entity.Country,
+                                entity.League,
+                                entity.Height,
+                                entity.Weight,
+                                entity.Bodyfat,
+                                entity.PreferredHand,
+                                entity.CurrentClub,
+                                entity.Accomplishments,
+                                entity.Statistic,
+                                entity.StrengthDescription,
+                                entity.WeaknessDescription,
+                                entity.VideoPath,
+                                entity.ImagePath,
+                                entity.FormerClubs,
+                                entity.ContractStatus,
+                                entity.ContractExpired,
+                                entity.InjuryStatus,
+                                entity.InjuryExpired,
+                                entity.InjuryDescription,
+                                entity.IsAvailable,
+                                Email = entity.Email,
+                                RowID = row_ID
+                            }, transaction: tran);
 
 
 
-                        //Check for 0 in rowcount list
-                        if (rowCount == 0) {
-                            p.ErrorMessage = "The player was not updated";
+                            //Check for 0 in rowcount list
+                            if (rowCount == 0) {
+                                p.ErrorMessage = "The player was not updated";
+                                tran.Rollback();
+                            }
+                            else {
+                                p.ErrorMessage = "";
+                                tran.Commit();
+                            }
+                        }
+                        catch (SqlException e) {
+
                             tran.Rollback();
+                            p.ErrorMessage = ErrorHandling.Exception(e);
                         }
-                        else {
-                            p.ErrorMessage = "";
-                            tran.Commit();
-                        }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
                     }
                 }
             }

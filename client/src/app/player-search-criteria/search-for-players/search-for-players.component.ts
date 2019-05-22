@@ -30,7 +30,6 @@ export class SearchForPlayersComponent implements OnInit {
     this.searchService.getPlayerById(id).subscribe(
       (success:Player) => {
         this.searchService.player = success;
-        this.searchService.isBackward = true;
         this.router.navigate(['/player-dashboard'])
       },
       error => {
