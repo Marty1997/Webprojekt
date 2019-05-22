@@ -40,10 +40,9 @@ export class ClubDashboardComponent implements OnInit {
         this.loginService.LoginUserIfValidTokenOnRefresh(
           this.loginService.getDecodeToken()
         );
-        this.loginService.refreshValue = false;
       }
       this.clubBinding = this.loginService.clubInSession;
-      console.log(this.clubBinding);
+      console.log(this.isClub);
       this.clubBinding.trainingHoursList.forEach(elm => {
         if (elm.mon == null) {
           elm.mon = "-";
