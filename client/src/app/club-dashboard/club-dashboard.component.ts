@@ -3,7 +3,6 @@ import { loginService } from "src/app/services/loginService";
 import { uploadFilesService} from "src/app/services/uploadFilesService";
 import { Club } from "../models/club.model";
 import { searchService } from "../services/searchService";
-import { ActivatedRoute } from "@angular/router";
 import { updateService } from "src/app/services/updateService";
 
 @Component({
@@ -33,7 +32,7 @@ export class ClubDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
+    window.scrollTo(0, 0)
     if (this.loginService.typeOfLogin == "Club") {
       this.isClub = true;
       if (this.loginService.refreshValue) {
@@ -83,9 +82,7 @@ export class ClubDashboardComponent implements OnInit {
       }
     } else if (this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen
-      console.log(this.searchService.club);
       this.clubBinding = this.searchService.club;
-      console.log(this.clubBinding);
     } else {
       this.loginService.logout();
     }

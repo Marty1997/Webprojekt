@@ -29,6 +29,7 @@ export class PlayerDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    window.scrollTo(0, 0)
     if (this.loginService.typeOfLogin == "Player") {
       this.isPlayer = true;
       if (this.loginService.refreshValue) {
@@ -45,7 +46,6 @@ export class PlayerDashboardComponent implements OnInit {
         this.playerBinding = this.searchService.player;
         }
      else {
-      console.log("Den her");
       this.loginService.logout();
     }
   }
