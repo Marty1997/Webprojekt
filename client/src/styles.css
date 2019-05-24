@@ -36,6 +36,10 @@ h1 {
   color: #c5c6c7;
 }
 
+.topMargin {
+  margin-top: 50px;
+}
+
 .colorDarkBlue {
   color: #2A344F;
 }
@@ -43,7 +47,6 @@ h1 {
 .forPlayerClubBackgroundColor {
   background-color: #e8eaec;
   padding-bottom: 20px;
-  margin-top: 50px;
 }
 
 .customModal {

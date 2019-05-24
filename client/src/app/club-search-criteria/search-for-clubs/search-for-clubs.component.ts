@@ -15,6 +15,7 @@ export class SearchForClubsComponent implements OnInit {
   ngOnInit() {
     // Add the first 5 clubs to the result list
     this.clubList = this.searchService.searchForClubsResult;
+    console.log(this.clubList);
   }
 
   selectedClub(id: number) {

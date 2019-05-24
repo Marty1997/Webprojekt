@@ -14,7 +14,7 @@
       <mat-label>Login credentials</mat-label>
       <br>
       <mat-form-field>
-        <input matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]="validate">
+        <input id="clubEmail" matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]="validate">
         <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
           Please enter a valid email address
         </mat-error>
@@ -23,7 +23,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+        <input id="clubPassword" matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
           [formControl]="passwordControl" [errorStateMatcher]='validate'>
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error *ngIf="passwordControl?.hasError('minlength') && !passwordControl?.hasError('required')">
@@ -37,13 +37,13 @@
       <br>
       <mat-label>Club info</mat-label><br>
       <mat-form-field>
-        <input matInput placeholder="Club name" [formControl]="clubNameControl" [errorStateMatcher]="validate">
+        <input id="clubName" matInput placeholder="Club name" [formControl]="clubNameControl" [errorStateMatcher]="validate">
         <mat-error *ngIf="clubNameControl?.hasError('required')">
           Club name is <strong>required</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="League" [formControl]="leagueControl" [errorStateMatcher]="validate">
+        <mat-select id="clubLeague" placeholder="League" [formControl]="leagueControl" [errorStateMatcher]="validate">
           <mat-option value="First League">First League</mat-option>
           <mat-option value="Second League">Second League</mat-option>
           <mat-option value="Third League">Third League</mat-option>
@@ -56,14 +56,14 @@
       <br>
       <mat-label>Address</mat-label><br>
       <mat-form-field>
-        <input matInput placeholder="Street Address" [formControl]="streetAddressControl"
+        <input id="clubAddress" matInput placeholder="Street Address" [formControl]="streetAddressControl"
           [errorStateMatcher]="validate">
         <mat-error *ngIf="streetAddressControl?.hasError('required')">
           Street address is <strong>required</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Street Number" [formControl]="streetNumberControl" [errorStateMatcher]="validate">
+        <input id="clubStreetNumber" matInput placeholder="Street Number" [formControl]="streetNumberControl" [errorStateMatcher]="validate">
         <mat-error *ngIf="streetNumberControl?.hasError('pattern') && !streetNumber?.hasError('required')">
           Street number must be a number
         </mat-error>
@@ -73,7 +73,7 @@
       </mat-form-field>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+        <mat-select id="clubCountry" placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
           <mat-option value="Denmark">Denmark</mat-option>
           <mat-option value="Sweden">Sweden</mat-option>
           <mat-option value="Norway">Norway</mat-option>
@@ -83,13 +83,13 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="City" [formControl]="cityControl" [errorStateMatcher]="validate">
+        <input id="clubCity" matInput placeholder="City" [formControl]="cityControl" [errorStateMatcher]="validate">
         <mat-error *ngIf="cityControl?.hasError('required')">
           City is <strong>required</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Zipcode" [formControl]="zipcodeControl" [errorStateMatcher]="validate">
+        <input id="clubZipcode" matInput placeholder="Zipcode" [formControl]="zipcodeControl" [errorStateMatcher]="validate">
         <mat-error *ngIf="zipcodeControl?.hasError('required')">
           Zipcode is <strong>required</strong>
         </mat-error>

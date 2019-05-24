@@ -1,6 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <app-header></app-header>
-<section class="custom-container forPlayerClubBackgroundColor" >
+<section class="custom-container forPlayerClubBackgroundColor topMargin" >
   <div class="row">
     <div class="col-md-2" style="text-align: center; margin-top: 15px;">
       <a class="editProfileButton" *ngIf="isClub">Edit Profile</a>
@@ -246,7 +246,7 @@
         </div>
         <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
 
-        <div *ngIf="clubBinding.facilityImagesList == null">
+        <!-- <div *ngIf="clubBinding.facilityImagesList == null">
             <h4 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
               No facility images was specified from the club</h4>
         </div>
@@ -257,7 +257,13 @@
                   <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
                 </slide>
               </carousel>
-        </div>
+        </div> -->
+
+        <carousel [interval]="myInterval">
+          <slide *ngFor="let slide of slides; let index=index">
+            <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
+          </slide>
+        </carousel>
 
         <!-- <div style="text-align: center">
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">

@@ -202,7 +202,7 @@
             </accordion-group>
           </div>
           <div *ngIf="playerBinding.nationalTeamList.length > 0">
-            <accordion-group [isOpen]="isFirstOpen">
+            <accordion-group >
               <h5 accordion-heading>A team statistics </h5>
               <div *ngFor="let nationalTeam of playerBinding.nationalTeamList">
                 <div *ngIf="nationalTeam.name == 'A'">
