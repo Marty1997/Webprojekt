@@ -93,33 +93,34 @@ namespace Test {
             Assert.Equal(60, list[0].SearchPercentage);
         }
 
-        //[Fact]
-        //public void SearchForPlayersWithOnlyStrength() {
-        //    //Arrange
-        //    var playerRepos = new Mock<IRepository<Player>>();
-        //    //Setup search criterias
-        //    List<string> strengthList = new List<string>() { "speedy"};
-        //    SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer {
-        //        StrengthsList = strengthList
-        //    };
+        [Fact]
+        public void SearchForPlayersWithOnlyStrength() {
+            //Arrange
+            var playerRepos = new Mock<IRepository<Player>>();
+            //Setup search criterias
+            List<string> strengthList = new List<string>() { "speedy", "Tactical", "Social" };
+            List<string> strengthList2 = new List<string>() { "speedy", "Tactical"};
+            SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer {
+                StrengthsList = strengthList
+            };
 
-        //    playerRepos.Setup(x => x.GetBySearchCriteria("s.name = 'speedy' and p.isAvailable = 1"))
-        //        .Returns(new List<Player>
-        //        {
-        //            new Player { Id = 1, InjuryStatus = "Healthy", Height = 180 },
-        //            new Player { Id = 2, InjuryStatus = "Healthy", Height = 170},
-        //            new Player { Id = 3, InjuryStatus = "Healthy", Height = 190},
-        //            new Player { Id = 4, InjuryStatus = "Healthy", Height = 170},
-        //            new Player { Id = 5, InjuryStatus = "Healthy", Height = 170},
-        //            new Player { Id = 6, InjuryStatus = "Healthy", Height = 170 }
-        //        });
+            playerRepos.Setup(x => x.GetBySearchCriteria(" s.name = 'speedy' and p.isAvailable = 1 or s.name = 'Tactical' and p.isAvailable = 1 or s.name = 'Social' and p.isAvailable = 1"))
+                .Returns(new List<Player>
+                {
+                    new Player { Id = 1, InjuryStatus = "Healthy", Height = 180},
+                    new Player { Id = 2, InjuryStatus = "Healthy", Height = 170},
+                    new Player { Id = 3, InjuryStatus = "Healthy", Height = 190},
+                    new Player { Id = 4, InjuryStatus = "Healthy", Height = 170, StrengthList = strengthList2},
+                    new Player { Id = 5, InjuryStatus = "Healthy", Height = 170},
+                    new Player { Id = 6, InjuryStatus = "Healthy", Height = 170}
+                });
 
-        //    PlayerLogic pl = new PlayerLogic(null, playerRepos.Object, null);
+            PlayerLogic pl = new PlayerLogic(null, playerRepos.Object, null);
 
-        //    //Act
-        //    var list = pl.HandleSearchAlgorithm(sc);
+            //Act
+            var list = pl.HandleSearchAlgorithm(sc);
 
-        //    Assert.Equal(3, list[0].Id);
-        //}
+            Assert.Equal(66, list[0].SearchPercentage);
+        }
     }
 }
