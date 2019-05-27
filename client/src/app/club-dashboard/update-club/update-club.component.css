@@ -28,10 +28,19 @@ mat-form-field {
     margin: 0.5%;
 }
 
+.addPlayerFields {
+    width: 28%;
+}
+
 /* Accordion */
 mat-accordion,
 mat-expansion-panel {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* data table */
+table {
+    width: 100%;
 }

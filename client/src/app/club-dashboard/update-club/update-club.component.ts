@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Club } from 'src/app/models/club.model';
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
@@ -19,8 +19,37 @@ export class UpdateClubComponent implements OnInit {
 
   clubBinding: Club;
   facilityImages: string[] = [];
+  fitnessMonTo: string;
+  fitnessMonFrom: string;
+  fitnessTueTo: string;
+  fitnessTueFrom: string;
+  fitnessWedTo: string;
+  fitnessWedFrom: string;
+  fitnessThuTo: string;
+  fitnessThuFrom: string;
+  fitnessFriTo: string;
+  fitnessFriFrom: string;
+  fitnessSatTo: string;
+  fitnessSatFrom: string;
+  fitnessSunTo: string;
+  fitnessSunFrom: string;
+  regularMonFrom: string;
+  regularMonTo: string;
+  regularTueFrom: string;
+  regularTueTo: string;
+  regularWedTo: string;
+  regularWedFrom: string;
+  regularThuFrom: string;
+  regularThuTo: string;
+  regularFriFrom: string;
+  regularFriTo: string;
+  regularSatFrom: string;
+  regularSatTo: string;
+  regularSunFrom: string;
+  regularSunTo: string;
   
   step: number = 0;
+  positionList: string[] = ['Goalkeeper', 'Left wing', 'Left back', 'Playmaker', 'Pivot', 'Right back', 'Right wing', 'Defence'];
   leagueList: string[] = ['First League', 'Second League', 'Third League'];
   countryList: string[] = ['Denmark', 'Sweden', 'Norway'];
   trainingHours: any[] = [
@@ -77,6 +106,13 @@ export class UpdateClubComponent implements OnInit {
   city = new FormControl("", Validators.required);
   zipcode = new FormControl("", Validators.required);
 
+  squadPlayerNameCtrl = new FormControl("");
+  squadPlayerPositionCtrl = new FormControl("");
+  squadPlayerShirtNumberCtrl = new FormControl("");
+  squadPlayerNameCtrlNext = new FormControl("");
+  squadPlayerPositionCtrlNext = new FormControl("");
+  squadPlayerShirtNumberCtrlNext = new FormControl("");
+
   deletedCurrentYearSquadPlayerList: SquadPlayer[] = [];
   deletedNextYearSquadPlayersList: SquadPlayer[] = [];
   deletedTrainingHoursList: TrainingHours[] = [];
@@ -84,6 +120,25 @@ export class UpdateClubComponent implements OnInit {
   deletedClubPreferenceList: string[] = [];
   deletedJobPositionList: JobPosition[] = [];
   deletedJobPositionStrengthList: string[] = [];
+
+  // squad table
+  displayedColumns: string[] = ["shirtNumber", "name", "position", "delete"];
+  elementData: SquadPlayer[] = [];
+  dataSource = this.elementData;
+  @Input() squadPlayerName: string;
+  @Input() squadPlayerPosition: string;
+  @Input() squadPlayerShirtNumber: number;
+  @Input() SquadPlayerDelete: any;
+  squadPlayer = new SquadPlayer();
+
+  // next year squad table
+  nextYearSquadColumns: string[] = ["shirtNumber", "name", "position", "delete"];
+  nextYearSquadData: SquadPlayer[] = [];
+  nextYearSquadSource = this.nextYearSquadData;
+  @Input() nextYearPlayerName: string;
+  @Input() nextYearPlayerPosition: string;
+  @Input() nextYearPlayerShirtNumber: number;
+  nextYearSquadPlayer = new SquadPlayer();
 
   constructor(
     private loginService: loginService,
@@ -94,6 +149,67 @@ export class UpdateClubComponent implements OnInit {
 
   ngOnInit() {
     this.clubBinding = this.loginService.clubInSession;
+    this.clubBinding.trainingHoursList.forEach(element => {
+      if(element.name == 'Handball') {
+        this.buildRegularHours(element);
+      } else if(element.name == 'Fitness training') {
+        this.buildFitnessHours(element);
+      }
+    });
+    if(this.clubBinding.currentSquadPlayersList.length > 0) {
+      this.elementData = this.clubBinding.currentSquadPlayersList;
+    }
+    if(this.clubBinding.nextYearSquadPlayersList.length > 0) {
+      this.nextYearSquadData = this.clubBinding.nextYearSquadPlayersList;
+    }
+  }
+
+  // Add player to the squad player table for current season
+  onAddPlayerToSquad() {
+    if (
+      this.squadPlayerNameCtrl.value !== "" &&
+      this.squadPlayerPositionCtrl.value !== "" &&
+      this.squadPlayerShirtNumberCtrl.value !== "" &&
+      Number(this.squadPlayerShirtNumberCtrl.value)
+    ) {
+      this.squadPlayer = new SquadPlayer();
+      this.squadPlayer.season = "Current year";
+      this.squadPlayer.name = this.squadPlayerNameCtrl.value;
+      this.squadPlayer.position = this.squadPlayerPositionCtrl.value;
+      this.squadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrl.value;
+
+      this.dataSource.push(this.squadPlayer); //add the new model object to the dataSource
+      this.dataSource = [...this.dataSource]; //refresh the dataSource
+
+      // reset input fields
+      this.squadPlayerNameCtrl.setValue("");
+      this.squadPlayerPositionCtrl.setValue("");
+      this.squadPlayerShirtNumberCtrl.setValue("");
+    }
+  }
+
+  // Add player to the squad player table for next season
+  onAddPlayerToNextYearSquad() {
+    if (
+      this.squadPlayerNameCtrlNext.value !== "" &&
+      this.squadPlayerPositionCtrlNext.value !== "" &&
+      this.squadPlayerShirtNumberCtrlNext.value !== "" &&
+      Number(this.squadPlayerShirtNumberCtrlNext.value)
+    ) {
+      this.nextYearSquadPlayer = new SquadPlayer();
+      this.nextYearSquadPlayer.season = "Next year";
+      this.nextYearSquadPlayer.name = this.squadPlayerNameCtrlNext.value;
+      this.nextYearSquadPlayer.position = this.squadPlayerPositionCtrlNext.value;
+      this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
+
+      this.nextYearSquadSource.push(this.nextYearSquadPlayer); //add the new model object to the dataSource
+      this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+
+      // reset input fields
+      this.squadPlayerNameCtrlNext.setValue("");
+      this.squadPlayerPositionCtrlNext.setValue("");
+      this.squadPlayerShirtNumberCtrlNext.setValue("");
+    }
   }
 
   setStep(index: number) {
@@ -196,5 +312,41 @@ export class UpdateClubComponent implements OnInit {
 
   cancel() {
     this.clubBinding = this.loginService.clubInSession;
+  }
+
+  // Helping method used to split up regular traininghours into from and to
+  buildRegularHours(element: any) {
+    this.regularMonFrom = element.mon.slice(0, 4);
+    this.regularMonTo = element.mon.slice(8, 12);
+    this.regularTueFrom = element.tue.slice(0, 4);
+    this.regularTueTo = element.tue.slice(8, 12);
+    this.regularWedFrom = element.wed.slice(0, 4);
+    this.regularWedTo = element.wed.slice(8, 12);
+    this.regularThuFrom = element.thu.slice(0, 4);
+    this.regularThuTo = element.thu.slice(8, 12);
+    this.regularFriFrom = element.fri.slice(0, 4);
+    this.regularFriTo = element.fri.slice(8, 12);
+    this.regularSatFrom = element.sat.slice(0, 4);
+    this.regularSatTo = element.sat.slice(8, 12);
+    this.regularSunFrom = element.sun.slice(0, 4);
+    this.regularSunTo = element.sun.slice(8, 12);
+  }
+
+  // Helping method used to split up fitness traininghours into from and to
+  buildFitnessHours(element: any) {
+    this.fitnessMonFrom = element.mon.slice(0, 4);
+    this.fitnessMonTo = element.mon.slice(8, 12);
+    this.fitnessTueFrom = element.tue.slice(0, 4);
+    this.fitnessTueTo = element.tue.slice(8, 12);
+    this.fitnessWedFrom = element.wed.slice(0, 4);
+    this.fitnessWedTo = element.wed.slice(8, 12);
+    this.fitnessThuFrom = element.thu.slice(0, 4);
+    this.fitnessThuTo = element.thu.slice(8, 12);
+    this.fitnessFriFrom = element.fri.slice(0, 4);
+    this.fitnessFriTo = element.fri.slice(8, 12);
+    this.fitnessSatFrom = element.sat.slice(0, 4);
+    this.fitnessSatTo = element.sat.slice(8, 12);
+    this.fitnessSunFrom = element.sun.slice(0, 4);
+    this.fitnessSunTo = element.sun.slice(8, 12);
   }
 }
