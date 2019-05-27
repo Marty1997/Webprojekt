@@ -507,6 +507,34 @@
         <mat-panel-title>Values and Preferences</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <div class="row">
+          <div class="col-xs-6">
+            <mat-label>Values</mat-label><br>
+            <mat-checkbox #hardWorking value="Hard working">Hard Working</mat-checkbox><br>
+            <mat-checkbox #socialCohesion value="Social cohesion">Social Cohesion</mat-checkbox><br>
+            <mat-checkbox #winningMentality value="Winning mentality">Winning Mentality</mat-checkbox><br>
+            <br><br>
+          </div>
+          <div class="col-xs-6">
+            <mat-label>Preferences</mat-label><br>
+            <mat-checkbox #talentDevelopmentClub value="Talent development club">Talent Development Club</mat-checkbox><br>
+            <mat-checkbox #strivesForTitles value="Strives for titles">Strives for Titles</mat-checkbox><br>
+            <mat-checkbox #resultOriented value="Result oriented">Result Oriented</mat-checkbox><br>
+            <mat-checkbox #processOriented value="Process oriented">Process Oriented</mat-checkbox><br>
+            <br><br>
+          </div>
+        </div>
+        <div class="row">
+          <mat-form-field>
+            <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
+              matAutosizeMaxRows="10" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+          <mat-form-field>
+            <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
+              matAutosizeMaxRows="10" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+        </div>
+
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">Next</button>

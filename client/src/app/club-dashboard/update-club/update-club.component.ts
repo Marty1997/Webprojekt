@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Club } from 'src/app/models/club.model';
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
@@ -9,6 +9,7 @@ import { TrainingHours } from 'src/app/models/trainingHours.model';
 import { JobPosition } from 'src/app/models/jobPosition';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/front-page/front-page-image/register-player/register-player.component';
+import { MatCheckbox } from '@angular/material';
 
 @Component({
   selector: 'app-update-club',
@@ -113,6 +114,9 @@ export class UpdateClubComponent implements OnInit {
   squadPlayerPositionCtrlNext = new FormControl("");
   squadPlayerShirtNumberCtrlNext = new FormControl("");
 
+  valueDescription = new FormControl("");
+  preferenceDescription = new FormControl("");
+
   deletedCurrentYearSquadPlayerList: SquadPlayer[] = [];
   deletedNextYearSquadPlayersList: SquadPlayer[] = [];
   deletedTrainingHoursList: TrainingHours[] = [];
@@ -140,6 +144,15 @@ export class UpdateClubComponent implements OnInit {
   @Input() nextYearPlayerShirtNumber: number;
   nextYearSquadPlayer = new SquadPlayer();
 
+  // values&preferences
+  @ViewChild("hardWorking") hardWorking: MatCheckbox;
+  @ViewChild("socialCohesion") socialCohesion: MatCheckbox;
+  @ViewChild("winningMentality") winningMentality: MatCheckbox;
+  @ViewChild("talentDevelopmentClub") talentDevelopmentClub: MatCheckbox;
+  @ViewChild("strivesForTitles") strivesForTitles: MatCheckbox;
+  @ViewChild("resultOriented") resultOriented: MatCheckbox;
+  @ViewChild("processOriented") processOriented: MatCheckbox;
+
   constructor(
     private loginService: loginService,
     private updateService: updateService,
@@ -161,6 +174,12 @@ export class UpdateClubComponent implements OnInit {
     }
     if(this.clubBinding.nextYearSquadPlayersList.length > 0) {
       this.nextYearSquadData = this.clubBinding.nextYearSquadPlayersList;
+    }
+    if(this.clubBinding.preferenceList.length > 0) {
+
+    }
+    if(this.clubBinding.valuesList.length > 0) {
+
     }
   }
 
@@ -312,6 +331,32 @@ export class UpdateClubComponent implements OnInit {
 
   cancel() {
     this.clubBinding = this.loginService.clubInSession;
+  }
+
+  markPreferenceCheckboxes(preferenceList: any) {
+    preferenceList.forEach(element => {
+      if(element == 'Talent development club') {
+        this.talentDevelopmentClub.checked = true;
+      } else if(element == 'Strives for titles') {
+        this.strivesForTitles.checked = true;
+      } else if(element == 'Result oriented') {
+        this.resultOriented.checked = true;
+      } else {
+        this.processOriented.checked = true;
+      }
+    });
+  }
+
+  markValueCheckboxes(valuesList: any) {
+    valuesList.forEach(element => {
+      if(element == 'Hard working') {
+        this.hardWorking.checked = true;
+      } else if(element == 'Social cohesion') {
+        this.socialCohesion.checked = true;
+      } else {
+        this.winningMentality.checked = true;
+      }
+    });
   }
 
   // Helping method used to split up regular traininghours into from and to
