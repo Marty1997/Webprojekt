@@ -17,6 +17,11 @@ export class ClubDashboardComponent implements OnInit {
   clubs: Club[] = this.searchService.searchForClubsResult;
 
   myInterval = 3000;
+  slides = [
+    {image: 'assets/Images/Håndboldbane.jpg'},
+    {image: 'assets/Images/omklædning.jpg'},
+    {image: 'assets/Images/Styrke.jpg'}
+  ];
 
   constructor(
     private loginService: loginService,
@@ -25,17 +30,16 @@ export class ClubDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
+    window.scrollTo(0, 0)
     if (this.loginService.typeOfLogin == "Club") {
       this.isClub = true;
       if (this.loginService.refreshValue) {
         this.loginService.LoginUserIfValidTokenOnRefresh(
           this.loginService.getDecodeToken()
         );
-        this.loginService.refreshValue = false;
       }
       this.clubBinding = this.loginService.clubInSession;
-      console.log(this.clubBinding);
+      console.log(this.isClub);
       this.clubBinding.trainingHoursList.forEach(elm => {
         if (elm.mon == null) {
           elm.mon = "-";
@@ -76,9 +80,7 @@ export class ClubDashboardComponent implements OnInit {
       }
     } else if (this.loginService.typeOfLogin == "Player") {
       //find klubben som spilleren vil se og put i clubBinding variablen
-      console.log(this.searchService.club);
       this.clubBinding = this.searchService.club;
-      console.log(this.clubBinding);
     } else {
       this.loginService.logout();
     }

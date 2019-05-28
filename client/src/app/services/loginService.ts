@@ -17,7 +17,6 @@ export class loginService {
   playerInSession: Player;
 
   constructor(private http: HttpClient, public router: Router) {
-    console.log("Constructor");
     this.isAuthenticated();
     this.clubInSession = new Club();
     this.playerInSession = new Player();
@@ -69,7 +68,6 @@ export class loginService {
         }
       },
       error => {
-        console.log("LoginUserIfValidTokenOnRefresh failed");
           this.logout();
       })
   }
@@ -105,7 +103,6 @@ export class loginService {
 
   logout() {
     // remove token from local storage to log user out
-    console.log("Logget ud"),
     localStorage.removeItem('token');
     this.typeOfLogin = "";
     this.clubInSession = new Club();

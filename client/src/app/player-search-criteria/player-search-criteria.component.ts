@@ -89,7 +89,6 @@ export class PlayerSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();
     this.searchService.searchForPlayersResult = [];
     this.isLoading = true;
-    this.searchService.isBackward = false;
     window.scrollTo(0, 0)
     // some call to the searchService
     this.searchService.searchForPlayers(this.searchCriteria).subscribe(

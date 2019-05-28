@@ -287,14 +287,34 @@ export class RegisterClubComponent implements OnInit {
   onAddJobPosition() {
     if (this.openPositionsFormGroup.value.openPositionName !== "") {
       this.jobPosition = new JobPosition();
-      this.jobPosition.league = this.openPositionsFormGroup.value.openPositionLeague;
-      this.jobPosition.preferredHand = this.openPositionsFormGroup.value.openPositionHand;
+      if(this.openPositionsFormGroup.value.openPositionLeague !== "") {
+        this.jobPosition.league = this.openPositionsFormGroup.value.openPositionLeague;
+      } else {
+        this.jobPosition.league = null;
+      }
+      if(this.openPositionsFormGroup.value.openPositionHand !== "") {
+        this.jobPosition.preferredHand = this.openPositionsFormGroup.value.openPositionHand;
+      } else {
+        this.jobPosition.preferredHand = null;
+      }
       this.jobPosition.height = this.openPositionsFormGroup.value.openPositionHeight;
       this.jobPosition.maxAge = this.openPositionsFormGroup.value.openPositionMaxAge;
       this.jobPosition.minAge = this.openPositionsFormGroup.value.openPositionMinAge;
-      this.jobPosition.season = this.openPositionsFormGroup.value.openPositionSeason;
-      this.jobPosition.contractStatus = this.openPositionsFormGroup.value.openPositionContract;
-      this.jobPosition.position = this.openPositionsFormGroup.value.openPositionName;
+      if(this.openPositionsFormGroup.value.openPositionSeason !== "") {
+        this.jobPosition.season = this.openPositionsFormGroup.value.openPositionSeason;
+      } else {
+        this.jobPosition.season = null;
+      }
+      if(this.openPositionsFormGroup.value.openPositionContract !== "") {
+        this.jobPosition.contractStatus = this.openPositionsFormGroup.value.openPositionContract;
+      } else {
+        this.jobPosition.contractStatus = null;
+      }
+      if(this.openPositionsFormGroup.value.openPositionName !== "") {
+        this.jobPosition.position = this.openPositionsFormGroup.value.openPositionName;
+      } else {
+        this.jobPosition.position = null;
+      }
 
       if (this.openPositionSpeedy.checked) {
         this.jobPosition.strengthsList.push(this.openPositionSpeedy.value);
