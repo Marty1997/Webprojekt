@@ -311,17 +311,17 @@ namespace Api.DAL.Repos {
                 List<int> _rowCountList = new List<int>();
 
                 using (var conn = Connection()) {
-                    
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
-                        
-                        //Return row ID
-                        string rowIDSQL = @"Select rowID from Player where email = @Email";
-                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
 
-                        
-                        //Update player
-                        string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country,
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        try {
+
+                            //Return row ID
+                            string rowIDSQL = @"Select rowID from Player where email = @Email";
+                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+
+
+                            //Update player
+                            string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country,
                                                                     League = @League, Height = @Height, Weight = @Weight, Bodyfat = @Bodyfat,
                                                                     PreferredHand = @PreferredHand, CurrentClub = @CurrentClub, Accomplishments = @Accomplishments,
                                                                     Statistic = @Statistic, StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription,
@@ -331,128 +331,131 @@ namespace Api.DAL.Repos {
                                                                     SecondaryPosition = @SecondaryPosition, CurrentClubPrimaryPosition = @CurrentClubPrimaryPosition,
                                                                     CurrentClubSecondaryPosition = @CurrentClubSecondaryPosition
                                                                  Where Email = @Email AND RowID = @RowID";
-                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
-                            entity.FirstName,
-                            entity.LastName,
-                            entity.Day,
-                            entity.Month,
-                            entity.Year,
-                            entity.Country,
-                            entity.League,
-                            entity.Height,
-                            entity.Weight,
-                            entity.Bodyfat,
-                            entity.PreferredHand,
-                            entity.CurrentClub,
-                            entity.Accomplishments,
-                            entity.Statistic,
-                            entity.StrengthDescription,
-                            entity.WeaknessDescription,
-                            entity.VideoPath,
-                            entity.ImagePath,
-                            entity.FormerClubs,
-                            entity.ContractStatus,
-                            entity.ContractExpired,
-                            entity.InjuryStatus,
-                            entity.InjuryExpired,
-                            entity.InjuryDescription,
-                            entity.IsAvailable,
-                            entity.PrimaryPosition,
-                            entity.SecondaryPosition,
-                            entity.CurrentClubPrimaryPosition,
-                            entity.CurrentClubSecondaryPosition,
-                            entity.Email,
-                            RowID = row_ID
-                        }, transaction: tran));
+                            _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                                entity.FirstName,
+                                entity.LastName,
+                                entity.Day,
+                                entity.Month,
+                                entity.Year,
+                                entity.Country,
+                                entity.League,
+                                entity.Height,
+                                entity.Weight,
+                                entity.Bodyfat,
+                                entity.PreferredHand,
+                                entity.CurrentClub,
+                                entity.Accomplishments,
+                                entity.Statistic,
+                                entity.StrengthDescription,
+                                entity.WeaknessDescription,
+                                entity.VideoPath,
+                                entity.ImagePath,
+                                entity.FormerClubs,
+                                entity.ContractStatus,
+                                entity.ContractExpired,
+                                entity.InjuryStatus,
+                                entity.InjuryExpired,
+                                entity.InjuryDescription,
+                                entity.IsAvailable,
+                                entity.PrimaryPosition,
+                                entity.SecondaryPosition,
+                                entity.CurrentClubPrimaryPosition,
+                                entity.CurrentClubSecondaryPosition,
+                                entity.Email,
+                                RowID = row_ID
+                            }, transaction: tran));
 
-                        //Return player ID
-                        string playerIDSQL = @"Select id from Player where email = @Email";
-                        int player_ID = conn.Query<int>(playerIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
+                            //Return player ID
+                            string playerIDSQL = @"Select id from Player where email = @Email";
+                            int player_ID = conn.Query<int>(playerIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
 
-                        // NationalTeam
-                        if (entity.NationalTeamList.Count > 0) {
-                            
-                            foreach (NationalTeam nt in entity.NationalTeamList) {
+                            // NationalTeam
+                            if (entity.NationalTeamList.Count > 0) {
 
-                                if(player_ID != 0) {
+                                foreach (NationalTeam nt in entity.NationalTeamList) {
 
-                                    //Update nationalTeam
-                                    string updateNationalTeamSQL = @"Update NationalTeam Set Appearances = @Appearances, Statistic = @Statistic, Position = @Position
+                                    if (player_ID != 0) {
+
+                                        //Update nationalTeam
+                                        string updateNationalTeamSQL = @"Update NationalTeam Set Appearances = @Appearances, Statistic = @Statistic, Position = @Position
                                                                      Where Player_ID = @Player_ID";
-                                    
-                                    _rowCountList.Add(conn.Execute(updateNationalTeamSQL, new {
-                                        nt.Appearances,
-                                        nt.Statistic,
-                                        nt.Position,
-                                        Player_ID = player_ID
-                                    }, transaction: tran));
+
+                                        _rowCountList.Add(conn.Execute(updateNationalTeamSQL, new {
+                                            nt.Appearances,
+                                            nt.Statistic,
+                                            nt.Position,
+                                            Player_ID = player_ID
+                                        }, transaction: tran));
+                                    }
+
                                 }
-                                
                             }
-                        }
 
-                        //Weaknesses
-                        if (entity.WeaknessList.Count > 0) {
+                            //Weaknesses
+                            if (entity.WeaknessList.Count > 0) {
 
-                            foreach (string weakness in entity.WeaknessList) {
+                                foreach (string weakness in entity.WeaknessList) {
 
-                                //Return weakness ID
-                                string weaknessSQL = @"Select id from Weakness where name = @Name";
-                                int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
+                                    //Return weakness ID
+                                    string weaknessSQL = @"Select id from Weakness where name = @Name";
+                                    int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
 
-                                if (weakness_ID != 0 && player_ID != 0) {
+                                    if (weakness_ID != 0 && player_ID != 0) {
 
-                                    //Update PlayerWeakness
-                                    string updatePlayerWeaknessSQL = @"Update PlayerWeakness Set Weakness_ID = @Weakness_ID
+                                        //Update PlayerWeakness
+                                        string updatePlayerWeaknessSQL = @"Update PlayerWeakness Set Weakness_ID = @Weakness_ID
                                                                        Where Player_ID = @Player_ID";
 
-                                    _rowCountList.Add(conn.Execute(updatePlayerWeaknessSQL, new {
-                                        Player_ID = player_ID,
-                                        Weakness_ID = weakness_ID
-                                    }, transaction: tran));
+                                        _rowCountList.Add(conn.Execute(updatePlayerWeaknessSQL, new {
+                                            Player_ID = player_ID,
+                                            Weakness_ID = weakness_ID
+                                        }, transaction: tran));
+                                    }
                                 }
                             }
-                        }
 
-                        //Strengths
-                        if (entity.StrengthList.Count > 0) {
+                            //Strengths
+                            if (entity.StrengthList.Count > 0) {
 
-                            foreach (string strength in entity.StrengthList) {
+                                foreach (string strength in entity.StrengthList) {
 
-                                //Return strength ID
-                                string strengthSQL = @"Select id from Strength where name = @Name";
-                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
+                                    //Return strength ID
+                                    string strengthSQL = @"Select id from Strength where name = @Name";
+                                    int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
 
-                                if (strength_ID != 0 && player_ID != 0) {
+                                    if (strength_ID != 0 && player_ID != 0) {
 
-                                    //Update PlayerStrength
-                                    string updatePlayerStrengthSQL = @"Update PlayerStrength Set Strength_ID = @Strength_ID
+                                        //Update PlayerStrength
+                                        string updatePlayerStrengthSQL = @"Update PlayerStrength Set Strength_ID = @Strength_ID
                                                                        Where Player_ID = @Player_ID";
 
-                                    _rowCountList.Add(conn.Execute(updatePlayerStrengthSQL, new {
-                                        Player_ID = player_ID,
-                                        Strength_ID = strength_ID
-                                    }, transaction: tran));
+                                        _rowCountList.Add(conn.Execute(updatePlayerStrengthSQL, new {
+                                            Player_ID = player_ID,
+                                            Strength_ID = strength_ID
+                                        }, transaction: tran));
+                                    }
                                 }
+                            }
+
+                            //Check for 0 in rowcount list
+                            if (_rowCountList.Contains(0)) {
+                                p.ErrorMessage = "The player was not updated";
+                                tran.Rollback();
+                            }
+                            else {
+                                p.ErrorMessage = "";
+                                tran.Commit();
                             }
                         }
 
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            p.ErrorMessage = "The player was not updated";
-                            tran.Rollback();
-                        }
-                        else {
-                            p.ErrorMessage = "";
-                            tran.Commit();
-                        }
-                        //}
-                        //catch (SqlException e) {
+                        catch (SqlException e) {
 
                             tran.Rollback();
                             p.ErrorMessage = ErrorHandling.Exception(e);
                         }
+
                     }
+
                 }
             }
             return p;
