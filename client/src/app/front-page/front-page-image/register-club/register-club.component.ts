@@ -42,6 +42,7 @@ export class RegisterClubComponent implements OnInit {
   club: Club = new Club();
   errorRegister: boolean = false;
   isLoading: boolean = false;
+  existingEmail: boolean = false;
   hide = true; // password visibility
   clubRequiredInfoFormGroup: FormGroup;
   trainingScheduleFormGroup: FormGroup;
@@ -367,6 +368,24 @@ export class RegisterClubComponent implements OnInit {
       this.openPositionsFormGroup.get("openPositionContract").setValue("");
       this.openPositionsFormGroup.get("openPositionName").setValue("");
     }
+  }
+
+  @ViewChild('stepper') stepper;
+  checkIfEmailExists() {
+    this.existingEmail = false;
+    this.registerService.checkIfEmailExists(this.clubRequiredInfoFormGroup.get('email').value ).subscribe(
+      (success) => {
+        if(success) {
+          this.existingEmail = true;
+        }
+        else {
+          this.stepper.next();
+        }
+      },
+      (error) => {
+        
+      }
+    );
   }
 
   registerClub() {

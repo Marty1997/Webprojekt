@@ -18,6 +18,7 @@
         <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
           Please enter a valid email address
         </mat-error>
+        <div *ngIf="existingEmail" style="color:red; font-size:13px; margin-top: 6px">Email already exists</div>
         <mat-error *ngIf="emailControl?.hasError('required')">
           Email is <strong>required</strong>
         </mat-error>
@@ -97,7 +98,7 @@
 
       <br>
       <hr><br>
-      <button mat-flat-button matStepperNext class="btn btn-primary firstNextBtn">Next</button>
+      <button mat-flat-button (click)="checkIfEmailExists()" class="btn btn-primary firstNextBtn">Next</button>
     </form>
   </mat-step>
 
