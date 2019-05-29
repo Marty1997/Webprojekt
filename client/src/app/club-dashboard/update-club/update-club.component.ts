@@ -19,35 +19,40 @@ import { MatCheckbox } from '@angular/material';
 export class UpdateClubComponent implements OnInit {
 
   clubBinding: Club;
+  clubLeague: string;
+  clubCountry: string;
   facilityImages: string[] = [];
-  fitnessMonTo: string;
-  fitnessMonFrom: string;
-  fitnessTueTo: string;
-  fitnessTueFrom: string;
-  fitnessWedTo: string;
-  fitnessWedFrom: string;
-  fitnessThuTo: string;
-  fitnessThuFrom: string;
-  fitnessFriTo: string;
-  fitnessFriFrom: string;
-  fitnessSatTo: string;
-  fitnessSatFrom: string;
-  fitnessSunTo: string;
-  fitnessSunFrom: string;
-  regularMonFrom: string;
-  regularMonTo: string;
-  regularTueFrom: string;
-  regularTueTo: string;
-  regularWedTo: string;
-  regularWedFrom: string;
-  regularThuFrom: string;
-  regularThuTo: string;
-  regularFriFrom: string;
-  regularFriTo: string;
-  regularSatFrom: string;
-  regularSatTo: string;
-  regularSunFrom: string;
-  regularSunTo: string;
+  regularHours = new TrainingHours();
+  fitnessHours = new TrainingHours();
+
+  fitnessMonTo = new FormControl("");
+  fitnessMonFrom = new FormControl("");
+  fitnessTueTo = new FormControl("");
+  fitnessTueFrom = new FormControl("");
+  fitnessWedTo = new FormControl("");
+  fitnessWedFrom = new FormControl("");
+  fitnessThuTo = new FormControl("");
+  fitnessThuFrom = new FormControl("");
+  fitnessFriTo = new FormControl("");
+  fitnessFriFrom = new FormControl("");
+  fitnessSatTo = new FormControl("");
+  fitnessSatFrom = new FormControl("");
+  fitnessSunTo = new FormControl("");
+  fitnessSunFrom = new FormControl("");
+  regularMonFrom = new FormControl("");
+  regularMonTo = new FormControl("");
+  regularTueFrom = new FormControl("");
+  regularTueTo = new FormControl("");
+  regularWedTo = new FormControl("");
+  regularWedFrom = new FormControl("");
+  regularThuFrom = new FormControl("");
+  regularThuTo = new FormControl("");
+  regularFriFrom = new FormControl("");
+  regularFriTo = new FormControl("");
+  regularSatFrom = new FormControl("");
+  regularSatTo = new FormControl("");
+  regularSunFrom = new FormControl("");
+  regularSunTo = new FormControl("");
   
   step: number = 0;
   positionList: string[] = ['Goalkeeper', 'Left wing', 'Left back', 'Playmaker', 'Pivot', 'Right back', 'Right wing', 'Defence'];
@@ -117,6 +122,15 @@ export class UpdateClubComponent implements OnInit {
   valueDescription = new FormControl("");
   preferenceDescription = new FormControl("");
 
+  openPositionName = new FormControl("");
+  openPositionLeague = new FormControl("");
+  openPositionSeason = new FormControl("");
+  openPositionContract = new FormControl("");
+  openPositionMinAge = new FormControl("");
+  openPositionMaxAge = new FormControl("");
+  openPositionHeight = new FormControl("");
+  openPositionHand = new FormControl("");
+
   deletedCurrentYearSquadPlayerList: SquadPlayer[] = [];
   deletedNextYearSquadPlayersList: SquadPlayer[] = [];
   deletedTrainingHoursList: TrainingHours[] = [];
@@ -144,6 +158,23 @@ export class UpdateClubComponent implements OnInit {
   @Input() nextYearPlayerShirtNumber: number;
   nextYearSquadPlayer = new SquadPlayer();
 
+  // open positions table
+  openPositionColumns: string[]= ['position', 'league', 'hand', 'height', 'age', 'season', 'contract', 'strengths'];
+  openPositionData: JobPosition[] = [];
+  openPositionSource = this.openPositionData;
+  openPosition = new JobPosition();
+  // open position strengths
+  @ViewChild("openPositionSpeedy") openPositionSpeedy: MatCheckbox;
+  @ViewChild("openPositionAthletic") openPositionAthletic: MatCheckbox;
+  @ViewChild("openPositionGreatShape") openPositionGreatShape: MatCheckbox;
+  @ViewChild("openPositionQuickShots") openPositionQuickShots: MatCheckbox;
+  @ViewChild("openPositionAccurateShooter") openPositionAccurateShooter: MatCheckbox;
+  @ViewChild("openPositionTactical") openPositionTactical: MatCheckbox;
+  @ViewChild("openPositionTeamplayer") openPositionTeamplayer: MatCheckbox;
+  @ViewChild("openPositionSocial") openPositionSocial: MatCheckbox;
+  @ViewChild("openPositionWinAtAllCosts") openPositionWinAtAllCosts: MatCheckbox;
+  @ViewChild("openPositionLongRangeShooter") openPositionLongRangeShooter: MatCheckbox;
+
   // values&preferences
   @ViewChild("hardWorking") hardWorking: MatCheckbox;
   @ViewChild("socialCohesion") socialCohesion: MatCheckbox;
@@ -162,6 +193,8 @@ export class UpdateClubComponent implements OnInit {
 
   ngOnInit() {
     this.clubBinding = this.loginService.clubInSession;
+    this.clubLeague = this.clubBinding.league;
+    this.clubCountry = this.clubBinding.country;
     this.clubBinding.trainingHoursList.forEach(element => {
       if(element.name == 'Handball') {
         this.buildRegularHours(element);
@@ -170,10 +203,16 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     if(this.clubBinding.currentSquadPlayersList.length > 0) {
-      this.elementData = this.clubBinding.currentSquadPlayersList;
+      this.clubBinding.currentSquadPlayersList.forEach(element => {
+        this.dataSource.push(element); //add the new model object to the dataSource
+        this.dataSource = [...this.dataSource]; //refresh the dataSource
+      });
     }
     if(this.clubBinding.nextYearSquadPlayersList.length > 0) {
-      this.nextYearSquadData = this.clubBinding.nextYearSquadPlayersList;
+      this.clubBinding.nextYearSquadPlayersList.forEach(element => {
+        this.nextYearSquadSource.push(element); //add the new model object to the dataSource
+        this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+      });
     }
     if(this.clubBinding.preferenceList.length > 0) {
       this.markPreferenceCheckboxes(this.clubBinding.preferenceList);
@@ -228,6 +267,94 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerNameCtrlNext.setValue("");
       this.squadPlayerPositionCtrlNext.setValue("");
       this.squadPlayerShirtNumberCtrlNext.setValue("");
+    }
+  }
+
+  onAddJobPosition() {
+    if (this.openPositionName.value !== "") {
+      this.openPosition = new JobPosition();
+      if(this.openPositionLeague.value !== "") {
+        this.openPosition.league = this.openPositionLeague.value;
+      } else {
+        this.openPosition.league = null;
+      }
+      if(this.openPositionHand.value !== "") {
+        this.openPosition.preferredHand = this.openPositionHand.value;
+      } else {
+        this.openPosition.preferredHand = null;
+      }
+      this.openPosition.height = this.openPositionHeight.value;
+      this.openPosition.maxAge = this.openPositionMaxAge.value;
+      this.openPosition.minAge = this.openPositionMinAge.value;
+      if(this.openPositionSeason.value !== "") {
+        this.openPosition.season = this.openPositionSeason.value;
+      } else {
+        this.openPosition.season = null;
+      }
+      if(this.openPositionContract.value !== "") {
+        this.openPosition.contractStatus = this.openPositionContract.value;
+      } else {
+        this.openPosition.contractStatus = null;
+      }
+      if(this.openPositionName.value !== "") {
+        this.openPosition.position = this.openPositionName.value;
+      } else {
+        this.openPosition.position = null;
+      }
+
+      if (this.openPositionSpeedy.checked) {
+        this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
+        this.openPositionSpeedy.toggle();
+      }
+      if (this.openPositionAthletic.checked) {
+        this.openPosition.strengthsList.push(this.openPositionAthletic.value);
+        this.openPositionAthletic.toggle();
+      }
+      if (this.openPositionGreatShape.checked) {
+        this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
+        this.openPositionGreatShape.toggle();
+      }
+      if (this.openPositionQuickShots.checked) {
+        this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
+        this.openPositionQuickShots.toggle();
+      }
+      if (this.openPositionAccurateShooter.checked) {
+        this.openPosition.strengthsList.push(this.openPositionAccurateShooter.value);
+        this.openPositionAccurateShooter.toggle();
+      }
+      if (this.openPositionTactical.checked) {
+        this.openPosition.strengthsList.push(this.openPositionTactical.value);
+        this.openPositionTactical.toggle();
+      }
+      if (this.openPositionTeamplayer.checked) {
+        this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
+        this.openPositionTeamplayer.toggle();
+      }
+      if (this.openPositionSocial.checked) {
+        this.openPosition.strengthsList.push(this.openPositionSocial.value);
+        this.openPositionSocial.toggle();
+      }
+      if (this.openPositionWinAtAllCosts.checked) {
+        this.openPosition.strengthsList.push(this.openPositionWinAtAllCosts.value);
+        this.openPositionWinAtAllCosts.toggle();
+      }
+      if (this.openPositionLongRangeShooter.checked) {
+        this.openPosition.strengthsList.push(this.openPositionLongRangeShooter.value);
+        this.openPositionLongRangeShooter.toggle();
+      }
+
+      this.openPositionSource.push(this.openPosition); // add the new model object to the dataSource
+      this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+
+      // reset input fields
+      this.openPositionLeague.setValue("");
+      this.openPositionHand.setValue("");
+      this.openPositionHeight.setValue("");
+      this.openPositionMaxAge.setValue("");
+      this.openPositionMinAge.setValue("");
+      this.openPositionSeason.setValue("");
+      this.openPositionContract.setValue("");
+      this.openPositionName.setValue("");
     }
   }
 
@@ -361,37 +488,67 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to split up regular traininghours into from and to
   buildRegularHours(element: any) {
-    this.regularMonFrom = element.mon.slice(0, 5);
-    this.regularMonTo = element.mon.slice(8, 13);
-    this.regularTueFrom = element.tue.slice(0, 5);
-    this.regularTueTo = element.tue.slice(8, 13);
-    this.regularWedFrom = element.wed.slice(0, 5);
-    this.regularWedTo = element.wed.slice(8, 13);
-    this.regularThuFrom = element.thu.slice(0, 5);
-    this.regularThuTo = element.thu.slice(8, 13);
-    this.regularFriFrom = element.fri.slice(0, 5);
-    this.regularFriTo = element.fri.slice(8, 13);
-    this.regularSatFrom = element.sat.slice(0, 5);
-    this.regularSatTo = element.sat.slice(8, 13);
-    this.regularSunFrom = element.sun.slice(0, 5);
-    this.regularSunTo = element.sun.slice(8, 13);
+    this.regularHours.id = element.id;
+    this.regularMonFrom.setValue(element.mon.slice(0, 5));
+    this.regularMonTo.setValue(element.mon.slice(8, 13));
+    this.regularTueFrom.setValue(element.tue.slice(0, 5));
+    this.regularTueTo.setValue(element.tue.slice(8, 13));
+    this.regularWedFrom.setValue(element.wed.slice(0, 5));
+    this.regularWedTo.setValue(element.wed.slice(8, 13));
+    this.regularThuFrom.setValue(element.thu.slice(0, 5));
+    this.regularThuTo.setValue(element.thu.slice(8, 13));
+    this.regularFriFrom.setValue(element.fri.slice(0, 5));
+    this.regularFriTo.setValue(element.fri.slice(8, 13));
+    this.regularSatFrom.setValue(element.sat.slice(0, 5));
+    this.regularSatTo.setValue(element.sat.slice(8, 13));
+    this.regularSunFrom.setValue(element.sun.slice(0, 5));
+    this.regularSunTo.setValue(element.sun.slice(8, 13));
   }
 
   // Helping method used to split up fitness traininghours into from and to
   buildFitnessHours(element: any) {
-    this.fitnessMonFrom = element.mon.slice(0, 5);
-    this.fitnessMonTo = element.mon.slice(8, 13);
-    this.fitnessTueFrom = element.tue.slice(0, 5);
-    this.fitnessTueTo = element.tue.slice(8, 13);
-    this.fitnessWedFrom = element.wed.slice(0, 5);
-    this.fitnessWedTo = element.wed.slice(8, 13);
-    this.fitnessThuFrom = element.thu.slice(0, 5);
-    this.fitnessThuTo = element.thu.slice(8, 13);
-    this.fitnessFriFrom = element.fri.slice(0, 5);
-    this.fitnessFriTo = element.fri.slice(8, 13);
-    this.fitnessSatFrom = element.sat.slice(0, 5);
-    this.fitnessSatTo = element.sat.slice(8, 13);
-    this.fitnessSunFrom = element.sun.slice(0, 5);
-    this.fitnessSunTo = element.sun.slice(8, 13);
+    this.fitnessHours.id = element.id;
+    this.fitnessMonFrom.setValue(element.mon.slice(0, 5));
+    this.fitnessMonTo.setValue(element.mon.slice(8, 13));
+    this.fitnessTueFrom.setValue(element.tue.slice(0, 5));
+    this.fitnessTueTo.setValue(element.tue.slice(8, 13));
+    this.fitnessWedFrom.setValue(element.wed.slice(0, 5));
+    this.fitnessWedTo.setValue(element.wed.slice(8, 13));
+    this.fitnessThuFrom.setValue(element.thu.slice(0, 5));
+    this.fitnessThuTo.setValue(element.thu.slice(8, 13));
+    this.fitnessFriFrom.setValue(element.fri.slice(0, 5));
+    this.fitnessFriTo.setValue(element.fri.slice(8, 13));
+    this.fitnessSatFrom.setValue(element.sat.slice(0, 5));
+    this.fitnessSatTo.setValue(element.sat.slice(8, 13));
+    this.fitnessSunFrom.setValue(element.sun.slice(0, 5));
+    this.fitnessSunTo.setValue(element.sun.slice(8, 13));
+  }
+
+  buildRegularTrainingHours() {
+    this.regularHours.name = 'Handball';
+
+    this.regularHours.mon = this.regularMonFrom.value + '-' + this.regularMonTo.value
+    this.regularHours.tue = this.regularTueFrom.value + '-' + this.regularTueTo.value
+    this.regularHours.wed = this.regularWedFrom.value + '-' + this.regularWedTo.value
+    this.regularHours.thu = this.regularThuFrom.value + '-' + this.regularThuTo.value
+    this.regularHours.fri = this.regularFriFrom.value + '-' + this.regularFriTo.value
+    this.regularHours.sat = this.regularSatFrom.value + '-' + this.regularSatTo.value
+    this.regularHours.sun = this.regularSunFrom.value + '-' + this.regularSunTo.value
+
+    return this.regularHours;
+  }
+
+  buildFitnessTrainingHours() {
+    this.fitnessHours.name = 'Fitness training';
+
+    this.fitnessHours.mon = this.fitnessMonFrom.value + '-' + this.fitnessMonTo.value
+    this.fitnessHours.tue = this.fitnessTueFrom.value + '-' + this.fitnessTueTo.value
+    this.fitnessHours.wed = this.fitnessWedFrom.value + '-' + this.fitnessWedTo.value
+    this.fitnessHours.thu = this.fitnessThuFrom.value + '-' + this.fitnessThuTo.value
+    this.fitnessHours.fri = this.fitnessFriFrom.value + '-' + this.fitnessFriTo.value
+    this.fitnessHours.sat = this.fitnessSatFrom.value + '-' + this.fitnessSatTo.value
+    this.fitnessHours.sun = this.fitnessSunFrom.value + '-' + this.fitnessSunTo.value
+
+    return this.regularHours;
   }
 }
