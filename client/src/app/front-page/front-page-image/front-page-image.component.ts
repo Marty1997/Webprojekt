@@ -58,10 +58,12 @@ export class FrontPageImageComponent implements OnInit {
         this.closeAllModals();
         if(succes.isPlayer) {
           this.loginService.setupPlayerLogin(succes);
+          window.scrollTo(0, 0)
           this.router.navigate(['/player-dashboard'])
         }
         else if(succes.isClub) {
           this.loginService.setupClubLogin(succes);
+          window.scrollTo(0, 0)
           this.router.navigate(['/club-dashboard'])
         }
 

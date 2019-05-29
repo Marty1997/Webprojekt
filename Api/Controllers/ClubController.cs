@@ -47,10 +47,12 @@ namespace Api.Controllers {
         [HttpGet("{id}")]
         [Route("[action]")]
         public IActionResult GetById([FromQuery]int id) {
-
-            Club club = _clubLogic.GetById(id);
-
-            return Ok(club);
+            if (id > 0) {
+                return Ok(_clubLogic.GetById(id));
+            }
+            else {
+                return StatusCode(404, "Resource not found");
+            }
         }
 
         // api/Club/SearchForClubs

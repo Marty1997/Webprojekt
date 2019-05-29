@@ -12,7 +12,7 @@ namespace Api.DAL.Entities {
         public string Password { get; set; }
         public string ErrorMessage { get; set; }
         public bool IsAvailable { get; set; }
-        public string  Token { get; set; }
+        public string Token { get; set; }
         public bool IsClub { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

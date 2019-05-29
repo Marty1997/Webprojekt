@@ -1,15 +1,15 @@
 <app-header></app-header>
-<section *ngIf="playerList.length === 0" class="well custom-container forPlayerClubBackgroundColor" style="height: 90vh">
+<section *ngIf="playerList.length === 0" class="well custom-container forPlayerClubBackgroundColor topMargin" style="height: 90vh">
   <h1 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
     No players were found <br><br><br> Try searching with different criterias</h1>
 </section>
-<section *ngIf="playerList.length === 1 || playerList.length === 2" class="well custom-container forPlayerClubBackgroundColor" style="height: 90vh">
+<section *ngIf="playerList.length === 1 || playerList.length === 2" class="well custom-container forPlayerClubBackgroundColor topMargin" style="height: 90vh">
         <div class="row searchRows" *ngFor="let player of playerList">
     
           <a (click)="selectedPlayer(player.id)" style="color: inherit;">
             <div class="col-md-3 " style="text-align:center;">
               
-              <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+              <img src={{player.imagePath}} height="150" width="150" />
               <h3 style="word-wrap: break-word;">{{player.firstName}} {{player.lastName}}</h3>
             </div>
             <div class="col-md-3">
@@ -73,14 +73,16 @@
             </div>
           </a>
         </div>
+        <h2 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+            Did not find what your were looking for? <br> Try searching with different criterias</h2>
 </section>
-<section *ngIf="playerList.length >= 3" class="well custom-container forPlayerClubBackgroundColor" >
+<section *ngIf="playerList.length >= 3" class="well custom-container forPlayerClubBackgroundColor topMargin" >
     <div class="row searchRows" *ngFor="let player of playerList">
 
       <a (click)="selectedPlayer(player.id)" style="color: inherit;">
         <div class="col-md-3 " style="text-align:center;">
           
-          <img src="../../assets/Images/basketball-icon.png" height="150" width="150" />
+          <img src={{player.imagePath}} height="150" width="150" />
           <h3 style="word-wrap: break-word;">{{player.firstName}} {{player.lastName}}</h3>
         </div>
         <div class="col-md-3">
@@ -144,4 +146,6 @@
         </div>
       </a>
     </div>
+    <h2 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+        Did not find what your were looking for? <br> Try searching with different criterias</h2>
 </section>

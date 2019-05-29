@@ -67,10 +67,6 @@ namespace Api {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            //.AddFacebook(facebookOptions => {
-            //    facebookOptions.AppId = "";
-            //    facebookOptions.AppSecret = "";
-            //})
             .AddJwtBearer(x => {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;

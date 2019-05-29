@@ -61,12 +61,10 @@ export class ClubSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();    
     this.searchService.searchForClubsResult = [];
     this.isLoading = true;
-    // some call to the searchService
     this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
       (success: Club[]) => {
         success.forEach(element => {
           this.club = element;
-          console.log(this.club);
           this.searchService.searchForClubsResult.push(this.club);
         });
         this.isLoading = false;
@@ -75,10 +73,8 @@ export class ClubSearchCriteriaComponent implements OnInit {
       (error) => {
         // redirect to error page
         this.isLoading
-        console.log(error);
       }
     );
-    console.log(this.searchCriteria);
   }
 
   validateSearchCriteria() {

@@ -139,11 +139,10 @@ namespace Api.BusinessLogic {
         * If criteria match with club, amountofMatches + 1
         */
         private List<Club> CalculateCriteriaMatchPercentage(List<Club> clubs, ClubSearchCriteria criterias, Player player) {
-            int amountOfCriterias = 0; // how many criterias is selected
-            int amountOfMatches = 0; // how many criterias matches with club
-
             foreach (Club club in clubs) {
-                if(criterias.Country != null) {
+                int amountOfCriterias = 0; // how many criterias is selected
+                int amountOfMatches = 0; // how many criterias matches with club
+                if (criterias.Country != null) {
                     amountOfCriterias++;
                     if(criterias.Country == club.Country) {
                         amountOfMatches++;
@@ -162,11 +161,17 @@ namespace Api.BusinessLogic {
                     foreach (JobPosition jobPosition in club.JobPositionsList) {
                         if(jobPosition.Position != null) {
                             amountOfCriterias++;
+                            if (player.PrimaryPosition == jobPosition.Position) {
+                                amountOfMatches++;
+                            }
+                        }
+                        if (criterias.Position != null) {
+                            amountOfCriterias++;
                             if (criterias.Position == jobPosition.Position) {
                                 amountOfMatches++;
                             }
                         }
-                        if(jobPosition.Season != null) {
+                        if (jobPosition.Season != null) {
                             amountOfCriterias++;
                             if (criterias.Season == jobPosition.Season) {
                                 amountOfMatches++;
