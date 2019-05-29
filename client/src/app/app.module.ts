@@ -91,7 +91,7 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
       { path: 'club-search-criteria', component: ClubSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService], },
       { path: 'club-how-to', component: ForClubsComponent },
-      { path: 'update-club', component: UpdateClubComponent, canActivate: [AuthGuardService] },
+      { path: 'update-club', component: UpdateClubComponent/*, canActivate: [AuthGuardService]*/ },
       { path: 'update-player', component: UpdatePlayerComponent, canActivate: [AuthGuardService] },
       { path: 'player-how-to', component: ForPlayersComponent }, 
     ], ),
