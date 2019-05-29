@@ -28,6 +28,10 @@ mat-form-field {
     margin: 0.5%;
 }
 
+.fourFieldsOnSameRow {
+    width: 24%;
+}
+
 .addPlayerFields {
     width: 28%;
 }
