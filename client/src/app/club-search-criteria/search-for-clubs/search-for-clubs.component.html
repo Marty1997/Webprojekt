@@ -4,44 +4,46 @@
       No clubs were found <br><br><br> Try searching with different criterias</h1>
   </section>
   <section *ngIf="clubList.length === 1 || clubList.length === 2" class="well custom-container forPlayerClubBackgroundColor topMargin" style="height: 90vh">
-        <div class="row searchRows" *ngFor="let club of clubList">
+        <div *ngFor="let club of clubList">
           <a (click)="selectedClub(club.id)" style="color: inherit;">
-            <div class="col-md-3 " style="text-align:center;">
-              <img src={{club.imagePath}} height="150" width="150" />
-              <h3 style="word-wrap: break-word;">{{club.name}}</h3>
-            </div>
-            <div class="col-md-3">
-              <table class="tableFixed">
-                <tr>
-                  <td>Country:</td>
-                  <td>{{club.country}}</td>
-                </tr>
-                <tr>
-                  <td>League:</td>
-                  <td>{{club.league}}</td>
-                </tr>
-                <tr>
-                  <td>Trainer:</td>
-                  <td>{{club.trainer}}</td>
-                </tr>
-                <!-- <tr>
-                      <td>Fitness facility:</td>
-                      <td>Yes/No</td>
-                    </tr> -->
-              </table>
-            </div>
-            <div class="col-md-3">
-              <table class="tableFixed">
-                <tr>
-                  <th>Open Positions</th>
-                </tr>
-                <tr *ngFor="let openPosition of club.jobPositionsList">
-                  <td>{{openPosition.position}}</td>
-                </tr>
-              </table>
-            </div>
-            <div class="col-md-3">
-              <div class="circle">{{club.searchPercentage}}%</div>
+            <div class="row searchRows" >
+              <div class="col-md-3 " style="text-align:center;">
+                <img src={{club.imagePath}} height="150" width="150" />
+                <h3 style="word-wrap: break-word;">{{club.name}}</h3>
+              </div>
+              <div class="col-md-3">
+                <table class="tableFixed">
+                  <tr>
+                    <td>Country:</td>
+                    <td>{{club.country}}</td>
+                  </tr>
+                  <tr>
+                    <td>League:</td>
+                    <td>{{club.league}}</td>
+                  </tr>
+                  <tr>
+                    <td>Trainer:</td>
+                    <td>{{club.trainer}}</td>
+                  </tr>
+                  <!-- <tr>
+                        <td>Fitness facility:</td>
+                        <td>Yes/No</td>
+                      </tr> -->
+                </table>
+              </div>
+              <div class="col-md-3">
+                <table class="tableFixed">
+                  <tr>
+                    <th>Open Positions</th>
+                  </tr>
+                  <tr *ngFor="let openPosition of club.jobPositionsList">
+                    <td>{{openPosition.position}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-md-3">
+                <div class="circle">{{club.searchPercentage}}%</div>
+              </div>
             </div>
           </a>
         </div>
@@ -49,44 +51,46 @@
             Did not find what your were looking for? <br> Try searching with different criterias</h2>
     </section>
 <section *ngIf="clubList.length >= 3" class="well custom-container forPlayerClubBackgroundColor topMargin">
-    <div class="row searchRows" *ngFor="let club of clubList">
+    <div *ngFor="let club of clubList">
       <a (click)="selectedClub(club.id)" style="color: inherit;">
-        <div class="col-md-3 " style="text-align:center;">
-          <img src={{club.imagePath}} height="150" width="150" />
-          <h3 style="word-wrap: break-word;">{{club.name}}</h3>
-        </div>
-        <div class="col-md-3">
-          <table class="tableFixed">
-            <tr>
-              <td>Country:</td>
-              <td>{{club.country}}</td>
-            </tr>
-            <tr>
-              <td>League:</td>
-              <td>{{club.league}}</td>
-            </tr>
-            <tr>
-              <td>Trainer:</td>
-              <td>{{club.trainer}}</td>
-            </tr>
-            <!-- <tr>
-                  <td>Fitness facility:</td>
-                  <td>Yes/No</td>
-                </tr> -->
-          </table>
-        </div>
-        <div class="col-md-3">
-          <table class="tableFixed">
-            <tr>
-              <th>Open Positions</th>
-            </tr>
-            <tr *ngFor="let openPosition of club.jobPositionsList">
-              <td>{{openPosition.position}}</td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-md-3">
-          <div class="circle">{{club.searchPercentage}}%</div>
+        <div class="row searchRows" >
+          <div class="col-md-3 " style="text-align:center;">
+            <img src={{club.imagePath}} height="150" width="150" />
+            <h3 style="word-wrap: break-word;">{{club.name}}</h3>
+          </div>
+          <div class="col-md-3">
+            <table class="tableFixed">
+              <tr>
+                <td>Country:</td>
+                <td>{{club.country}}</td>
+              </tr>
+              <tr>
+                <td>League:</td>
+                <td>{{club.league}}</td>
+              </tr>
+              <tr>
+                <td>Trainer:</td>
+                <td>{{club.trainer}}</td>
+              </tr>
+              <!-- <tr>
+                    <td>Fitness facility:</td>
+                    <td>Yes/No</td>
+                  </tr> -->
+            </table>
+          </div>
+          <div class="col-md-3">
+            <table class="tableFixed">
+              <tr>
+                <th>Open Positions</th>
+              </tr>
+              <tr *ngFor="let openPosition of club.jobPositionsList">
+                <td>{{openPosition.position}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-3">
+            <div class="circle">{{club.searchPercentage}}%</div>
+          </div>
         </div>
       </a>
     </div>
