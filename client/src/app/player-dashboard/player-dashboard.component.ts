@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
   selector: "app-player-dashboard",
   templateUrl: "./player-dashboard.component.html",
   styleUrls: ["./player-dashboard.component.css"],
+  encapsulation: ViewEncapsulation.None,
   providers: []
 })
 export class PlayerDashboardComponent implements OnInit {
@@ -30,7 +31,6 @@ export class PlayerDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    window.scrollTo(0, 0)
     if (this.loginService.typeOfLogin == "Player") {
       this.isPlayer = true;
       if (this.loginService.refreshValue) {
@@ -47,25 +47,8 @@ export class PlayerDashboardComponent implements OnInit {
         this.playerBinding = this.searchService.player;
         }
      else {
+      console.log("Den her");
       this.loginService.logout();
-    }
-  }
-
-  upload = (files, type: string) => {
-    if (files.length === 0) {
-      return;
-    }
-    else {
-      this.uploadFilesService.uploadFile(files).subscribe(res => {
-        if(type === 'profile') {
-          this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
-          this.playerBinding.imagePath = this.uploadFilesService.imagePath;
-        }
-        if(type === 'video') {
-          this.uploadFilesService.createPath(JSON.stringify(res.body), 'video');
-          this.playerBinding.videoPath = this.uploadFilesService.videoPath;
-        }
-      });
     }
   }
   

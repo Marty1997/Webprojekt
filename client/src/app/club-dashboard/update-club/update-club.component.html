@@ -1,34 +1,9 @@
 <app-header></app-header>
 
 <div class="well custom-container forPlayerClubBackgroundColor">
-  <!-- Upload profile button -->
-  <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-  <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
+  <!-- Update button -->
+  <input type="button" class="btn btn-success" value="Update" (click)="updateClub()">
 
-  <!-- Upload facility image button -->
-  <div style="text-align: center">
-    <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')"
-      style="display:none;">
-    <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
-  </div>
-
-  <!-- Delete Current year squadPlayer button -->
-  <input type="button" class="btn btn-success" value="Delete" (click)="deleteSquadPlayer('Current Year')">
-
-  <!-- Delete Next year squadPlayer button -->
-  <input type="button" class="btn btn-success" value="Delete" (click)="deleteSquadPlayer('Next Year')">
-
-  <!-- Delete Club value button -->
-  <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubValue()">
-
-  <!-- Delete Club preference button -->
-  <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubPreference()">
-
-  <!-- Delete Job position button -->
-  <input type="button" class="btn btn-success" value="Delete" (click)="deleteJobPosition()">
-
-  <!-- Delete Job position strength button -->
-  <input type="button" class="btn btn-success" value="Delete" (click)="deleteJobPositionStrength()">
   <mat-accordion class="example-headers-align">
     <!-- Club Info -->
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
@@ -220,6 +195,7 @@
 
       <!-- Delete TrainingHours button -->
       <input type="button" class="btn btn-success" value="Delete Schedule" (click)="deleteTrainingHours()">
+
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -336,6 +312,9 @@
         <mat-panel-title>Current Season Squad</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <!-- Delete Current year squadPlayer button -->
+      <input type="button" class="btn btn-success" value="Delete" (click)="deleteSquadPlayer('Current Year')">
+
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -348,6 +327,9 @@
         <mat-panel-title>Next Season Squad</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <!-- Delete Next year squadPlayer button -->
+      <input type="button" class="btn btn-success" value="Delete" (click)="deleteSquadPlayer('Next Year')">
+
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -359,6 +341,12 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Open Positions</mat-panel-title>
       </mat-expansion-panel-header>
+
+      <!-- Delete Job position button -->
+      <input type="button" class="btn btn-success" value="Delete" (click)="deleteJobPosition()">
+
+      <!-- Delete Job position strength button -->
+      <input type="button" class="btn btn-success" value="Delete" (click)="deleteJobPositionStrength()">
 
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -384,6 +372,14 @@
         <mat-panel-title>Values and Preferences</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <!-- Delete Club value button -->
+      <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubValue()">
+
+      <!-- Delete Club preference button -->
+      <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubPreference()">
+
+
+
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -396,6 +392,32 @@
         <mat-panel-title>Pictures</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <div class="row">
+        <div class="col-md-6" style="text-align: center;">
+          
+          <h3>Profile picture</h3>
+          <div>
+            <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
+          </div>
+          <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+          <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
+        </div>
+        <div class="col-md-6" style="text-align: center;">
+          <h3>Facility pictures</h3>
+          <div>
+            <carousel [interval]="myInterval">
+              <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
+                <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
+              </slide>
+            </carousel>
+          </div>
+          <div style="text-align: center">
+            <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
+            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
+          </div>
+        </div>       
+      </div>
+
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">End</button>
@@ -403,6 +425,4 @@
     </mat-expansion-panel>
   </mat-accordion>
   <br>
-  <!-- Update button -->
-  <input type="button" class="btn btn-success" value="Update" (click)="updateClub()">
 </div>
