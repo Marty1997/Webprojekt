@@ -176,10 +176,10 @@ export class UpdateClubComponent implements OnInit {
       this.nextYearSquadData = this.clubBinding.nextYearSquadPlayersList;
     }
     if(this.clubBinding.preferenceList.length > 0) {
-
+      this.markPreferenceCheckboxes(this.clubBinding.preferenceList);
     }
     if(this.clubBinding.valuesList.length > 0) {
-
+      this.markValueCheckboxes(this.clubBinding.valuesList);
     }
   }
 
@@ -361,37 +361,37 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to split up regular traininghours into from and to
   buildRegularHours(element: any) {
-    this.regularMonFrom = element.mon.slice(0, 4);
-    this.regularMonTo = element.mon.slice(8, 12);
-    this.regularTueFrom = element.tue.slice(0, 4);
-    this.regularTueTo = element.tue.slice(8, 12);
-    this.regularWedFrom = element.wed.slice(0, 4);
-    this.regularWedTo = element.wed.slice(8, 12);
-    this.regularThuFrom = element.thu.slice(0, 4);
-    this.regularThuTo = element.thu.slice(8, 12);
-    this.regularFriFrom = element.fri.slice(0, 4);
-    this.regularFriTo = element.fri.slice(8, 12);
-    this.regularSatFrom = element.sat.slice(0, 4);
-    this.regularSatTo = element.sat.slice(8, 12);
-    this.regularSunFrom = element.sun.slice(0, 4);
-    this.regularSunTo = element.sun.slice(8, 12);
+    this.regularMonFrom = element.mon.slice(0, 5);
+    this.regularMonTo = element.mon.slice(8, 13);
+    this.regularTueFrom = element.tue.slice(0, 5);
+    this.regularTueTo = element.tue.slice(8, 13);
+    this.regularWedFrom = element.wed.slice(0, 5);
+    this.regularWedTo = element.wed.slice(8, 13);
+    this.regularThuFrom = element.thu.slice(0, 5);
+    this.regularThuTo = element.thu.slice(8, 13);
+    this.regularFriFrom = element.fri.slice(0, 5);
+    this.regularFriTo = element.fri.slice(8, 13);
+    this.regularSatFrom = element.sat.slice(0, 5);
+    this.regularSatTo = element.sat.slice(8, 13);
+    this.regularSunFrom = element.sun.slice(0, 5);
+    this.regularSunTo = element.sun.slice(8, 13);
   }
 
   // Helping method used to split up fitness traininghours into from and to
   buildFitnessHours(element: any) {
-    this.fitnessMonFrom = element.mon.slice(0, 4);
-    this.fitnessMonTo = element.mon.slice(8, 12);
-    this.fitnessTueFrom = element.tue.slice(0, 4);
-    this.fitnessTueTo = element.tue.slice(8, 12);
-    this.fitnessWedFrom = element.wed.slice(0, 4);
-    this.fitnessWedTo = element.wed.slice(8, 12);
-    this.fitnessThuFrom = element.thu.slice(0, 4);
-    this.fitnessThuTo = element.thu.slice(8, 12);
-    this.fitnessFriFrom = element.fri.slice(0, 4);
-    this.fitnessFriTo = element.fri.slice(8, 12);
-    this.fitnessSatFrom = element.sat.slice(0, 4);
-    this.fitnessSatTo = element.sat.slice(8, 12);
-    this.fitnessSunFrom = element.sun.slice(0, 4);
-    this.fitnessSunTo = element.sun.slice(8, 12);
+    this.fitnessMonFrom = element.mon.slice(0, 5);
+    this.fitnessMonTo = element.mon.slice(8, 13);
+    this.fitnessTueFrom = element.tue.slice(0, 5);
+    this.fitnessTueTo = element.tue.slice(8, 13);
+    this.fitnessWedFrom = element.wed.slice(0, 5);
+    this.fitnessWedTo = element.wed.slice(8, 13);
+    this.fitnessThuFrom = element.thu.slice(0, 5);
+    this.fitnessThuTo = element.thu.slice(8, 13);
+    this.fitnessFriFrom = element.fri.slice(0, 5);
+    this.fitnessFriTo = element.fri.slice(8, 13);
+    this.fitnessSatFrom = element.sat.slice(0, 5);
+    this.fitnessSatTo = element.sat.slice(8, 13);
+    this.fitnessSunFrom = element.sun.slice(0, 5);
+    this.fitnessSunTo = element.sun.slice(8, 13);
   }
 }
