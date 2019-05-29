@@ -249,7 +249,6 @@ namespace Api.DAL.Repos {
         public Club GetByEmail(string email) {
             Club c = new Club();
             string sql = SqlSelectWithEmail(email);
-
             using (var connection = Connection()) {
                 using (var multi = connection.QueryMultiple(sql, new { email })) {
                     c = multi.Read<Club>().First();
@@ -628,6 +627,24 @@ namespace Api.DAL.Repos {
 
         public UserCredentials getCredentialsByEmail(string email) {
             throw new NotImplementedException();
+        }
+
+        public bool CheckIfEmailExists(string email) {
+            string clubEmail = "";
+            string playerEmail = "";
+            using (var connection = Connection()) {
+                using (var multi = connection.QueryMultiple("select email from player where email = '" + email + "' ; " +
+                    "select email from club where email = '" + email +"'", new { email })) {
+                    playerEmail = multi.Read<string>().FirstOrDefault();
+                    clubEmail = multi.Read<string>().FirstOrDefault();
+                }
+            }
+            if(clubEmail == null && playerEmail == null) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 
         public Club Update(Club entity) {

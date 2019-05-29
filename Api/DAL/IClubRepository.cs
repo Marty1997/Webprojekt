@@ -19,5 +19,7 @@ namespace Api.DAL {
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
         IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
+
+        bool CheckIfEmailExists(string email);
     }
 }

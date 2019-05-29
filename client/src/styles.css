@@ -180,6 +180,10 @@ accordion-group h5 {
     float: right;
 }
 
+.mat-horizontal-stepper-header{
+  pointer-events: none !important;
+}
+
   .tableFixed {
     width: 90%;
     margin: 0 auto;

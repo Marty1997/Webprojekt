@@ -633,42 +633,21 @@
 
 
   <!-- CLUB PICTURES -->
-  <mat-step [stepControl]="clubPicturesFormGroup">
-    <form [formGroup]="clubPicturesFormGroup">
-      <h2 class="stepHeadline">Pictures</h2>
-      <p>
+  <mat-step [stepControl]="clubRegister">
+    <app-loading-icon [isLoading]="isLoading"></app-loading-icon>
+    <form [formGroup]="clubRegister">
+      <h2 class="stepHeadline">Register</h2>
+      <p style="text-align: center">
         Please hit the register button down below to sign up as a club.
         <br>
         You can also go back to any step you would like and change your info.
       </p>
       <hr>
-
+        <div style="color:red; font-size:20px; text-align: center;" *ngIf="errorRegister">Something went wrong. Try again</div>
       <br>
       <hr><br>
       <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
       <button mat-flat-button matStepperNext class="btn btn-primary nextBtn" (click)="registerClub()">Register</button>
     </form>
-  </mat-step>
-
-  
-  <!-- LAST STEP -->
-  <mat-step>
-    <div *ngIf="errorMessage === ''">
-      <h1 class="stepHeadline lastStepHeadline">
-        Thank you!
-      </h1>
-      <p class="lastStepInfo">
-        Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
-        <br>
-        Please click the link in the email to confirm your email.
-      </p>
-    </div>
-    <p class="lastStepInfo" *ngIf="errorMessage !== ''">
-      {{ errorMessage }}
-    </p>
-
-    <hr>
-
-    <button mat-flat-button class="btn btn-primary doneBtn" (click)="modalRef.hide()">Done</button>
   </mat-step>
 </mat-horizontal-stepper>

@@ -9,11 +9,11 @@ import {
 } from "@angular/forms";
 import { ErrorStateMatcher, MatCheckbox } from "@angular/material";
 import { registerService } from "src/app/services/registerService";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { Club } from "../../../models/club.model";
 import { SquadPlayer } from "../../../models/squadPlayer.model";
 import { TrainingHours } from "../../../models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
+import { viewParentEl } from '@angular/core/src/view/util';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -34,11 +34,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: "app-register-club",
   templateUrl: "./register-club.component.html",
   styleUrls: ["./register-club.component.css"],
-  providers: [registerService, uploadFilesService]
+  providers: [registerService]
 })
 export class RegisterClubComponent implements OnInit {
   @Input() modalRef: any;
+
   club: Club = new Club();
+  errorRegister: boolean = false;
+  isLoading: boolean = false;
   hide = true; // password visibility
   clubRequiredInfoFormGroup: FormGroup;
   trainingScheduleFormGroup: FormGroup;
@@ -46,10 +49,8 @@ export class RegisterClubComponent implements OnInit {
   nextYearSquadFormGroup: FormGroup;
   openPositionsFormGroup: FormGroup;
   clubStaffFormGroup: FormGroup;
-  clubPicturesFormGroup: FormGroup;
+  clubRegister: FormGroup;
   valuesAndPreferencesFormGroup: FormGroup;
-  clubLogo: File = null;
-  facilityPictures: FileList = null;
 
   // training hours
   regular: TrainingHours = new TrainingHours();
@@ -143,8 +144,7 @@ export class RegisterClubComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private registerService: registerService,
-    private uploadFilesService: uploadFilesService
+    private registerService: registerService
   ) {}
 
   ngOnInit() {
@@ -216,10 +216,7 @@ export class RegisterClubComponent implements OnInit {
       assistantPhysiotherapistControl: [""],
       managerControl: [""]
     });
-    this.clubPicturesFormGroup = this._formBuilder.group({
-      clubLogoControl: [""],
-      facilityPicturesControl: [""]
-    });
+    this.clubRegister = this._formBuilder.group({});
     this.valuesAndPreferencesFormGroup = this._formBuilder.group({
       valuesControl: [""],
       preferencesControl: [""]
@@ -372,35 +369,20 @@ export class RegisterClubComponent implements OnInit {
     }
   }
 
-  onClubLogoSelected(event) {
-    this.clubLogo = <File>event.target.files[0];
-  }
-
-  onFacilityPicturesSelected(event) {
-    this.facilityPictures = <FileList>event.target.FileList;
-  }
-
-  onUpload() {
-    if (this.clubLogo != null) {
-      this.uploadFilesService.uploadFile(this.clubLogo);
-    }
-    if (this.facilityPictures != null) {
-      this.uploadFilesService.uploadFile(this.facilityPictures);
-    }
-  }
-
   registerClub() {
-    this.onUpload();
-    if (this.registerService.registerClub(this.buildClub())) {
-      this.sendEmailConfirmation(this.emailControl.value);
-    } else {
-      this.errorMessage = "Something went wrong with the registration.";
-    }
-    console.log(this.club);
-  }
-
-  sendEmailConfirmation(clubEmail: string) {
-    this.registerService.sendConfirmationEmail(clubEmail);
+    this.isLoading = true;
+    this.registerService.registerClub(this.buildClub()).subscribe(
+      (success) => {
+        this.modalRef.hide();
+        this.modalRef = null;
+        this.isLoading = false;
+        this.errorRegister = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.errorRegister = true;
+      }
+    ); 
   }
 
   buildClub() {
@@ -742,19 +724,6 @@ export class RegisterClubComponent implements OnInit {
       this.club.manager = this.clubStaffFormGroup.value.managerControl;
     } else {
       this.club.manager = null;
-    }
-
-    // files
-    if (this.clubPicturesFormGroup.value.clubLogoControl !== "") {
-      this.club.imagePath = this.clubPicturesFormGroup.value.clubLogoControl;
-    } else {
-      this.club.imagePath = null;
-    }
-
-    if (this.clubPicturesFormGroup.value.facilityPicturesControl !== "") {
-      this.club.facilityImagesList = this.clubPicturesFormGroup.value.facilityPicturesControl;
-    } else {
-      this.club.facilityImagesList = null;
     }
 
     // values
