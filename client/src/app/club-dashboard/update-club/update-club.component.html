@@ -1,16 +1,7 @@
 <app-header></app-header>
 
 <div class="well custom-container forPlayerClubBackgroundColor">
-  <!-- Upload profile button -->
-  <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-  <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
-
-  <!-- Upload facility image button -->
-  <div style="text-align: center">
-    <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')"
-      style="display:none;">
-    <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
-  </div>
+  
 
   <!-- Delete Next year squadPlayer button -->
   <input type="button" class="btn btn-success" value="Delete" (click)="deleteSquadPlayer('Next Year')">
@@ -26,6 +17,8 @@
 
   <!-- Delete Job position strength button -->
   <input type="button" class="btn btn-success" value="Delete" (click)="deleteJobPositionStrength()">
+
+  
   <mat-accordion class="example-headers-align">
     <!-- Club Info -->
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
