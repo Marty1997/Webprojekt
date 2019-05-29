@@ -9,7 +9,8 @@ import { Router } from "@angular/router";
   selector: "app-club-dashboard",
   templateUrl: "./club-dashboard.component.html",
   styleUrls: ["./club-dashboard.component.css"],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: []
 })
 export class ClubDashboardComponent implements OnInit {
   clubBinding: Club;
@@ -30,16 +31,17 @@ export class ClubDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (this.loginService.typeOfLogin == "Club") {
       this.isClub = true;
       if (this.loginService.refreshValue) {
         this.loginService.LoginUserIfValidTokenOnRefresh(
           this.loginService.getDecodeToken()
         );
+        this.loginService.refreshValue = false;
       }
       this.clubBinding = this.loginService.clubInSession;
-      console.log(this.isClub);
+
       this.clubBinding.trainingHoursList.forEach(elm => {
         if (elm.mon == null) {
           elm.mon = "-";
@@ -87,7 +89,6 @@ export class ClubDashboardComponent implements OnInit {
   }
 
   updateClub() {
-    console.log("ramt");
     this.router.navigate(['/update-club'])
   }
 }

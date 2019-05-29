@@ -641,7 +641,7 @@ namespace Api.DAL.Repos {
 
 
                     using (IDbTransaction tran = conn.BeginTransaction()) {
-                        try {
+                        //try {
 
                             //Return row ID
                             string rowIDSQL = @"Select rowID from Club where email = @Email";
@@ -771,7 +771,7 @@ namespace Api.DAL.Repos {
                                         ContractStatus = jp.ContractStatus,
                                         Position = jp.Position,
                                         ID = jp.Id
-                                    }, transaction: tran).Single();
+                                    }, transaction: tran).FirstOrDefault();
 
 
                                     if (jp.StrengthsList.Count > 0) {
@@ -799,7 +799,6 @@ namespace Api.DAL.Repos {
 
                                 }
                             }
-
 
                             //Values
                             if (entity.ValuesList.Count > 0) {
@@ -881,12 +880,12 @@ namespace Api.DAL.Repos {
                                 tran.Commit();
                                 break;
                             }
-                        }
-                        catch (SqlException e) {
+                        //}
+                        //catch (SqlException e) {
 
-                            tran.Rollback();
-                            c.ErrorMessage = ErrorHandling.Exception(e);
-                        }
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
                     }
                 }
             }

@@ -17,6 +17,7 @@ export class loginService {
   playerInSession: Player;
 
   constructor(private http: HttpClient, public router: Router) {
+    console.log("Constructor");
     this.isAuthenticated();
     this.clubInSession = new Club();
     this.playerInSession = new Player();
@@ -68,13 +69,18 @@ export class loginService {
         }
       },
       error => {
+        console.log("LoginUserIfValidTokenOnRefresh failed");
           this.logout();
       })
   }
 
   revocerPassword(email: string) {
-    let url = "WEB API controller metode";
-    return this.http.post(url, email);
+    let url = "https://localhost:44310/api/email/"
+        const body = {
+            email: email,
+            message: "lkmasdlkmasdlmk"
+        }
+    return this.http.post(url, body);
   }
 
   loginUser(form: NgForm) {
@@ -98,11 +104,13 @@ export class loginService {
       localStorage.setItem('token', succes.token);
     }
     this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
+    console.log(this.clubInSession);
 
   }
 
   logout() {
     // remove token from local storage to log user out
+    console.log("Logget ud"),
     localStorage.removeItem('token');
     this.typeOfLogin = "";
     this.clubInSession = new Club();
