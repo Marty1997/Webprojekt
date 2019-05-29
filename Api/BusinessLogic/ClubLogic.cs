@@ -27,8 +27,8 @@ namespace Api.BusinessLogic {
             return _clubRepos.Create(entity);
         }
 
-        public Club Update(Club entity) {
-            return _clubRepos.Update(entity);
+        public Club UpdateClubInfo(Club entity) {
+            return _clubRepos.UpdateClubInfo(entity);
         }
 
         public Club GetById(int id) {

@@ -117,14 +117,6 @@ export class UpdateClubComponent implements OnInit {
   valueDescription = new FormControl("");
   preferenceDescription = new FormControl("");
 
-  deletedCurrentYearSquadPlayerList: SquadPlayer[] = [];
-  deletedNextYearSquadPlayersList: SquadPlayer[] = [];
-  deletedTrainingHoursList: TrainingHours[] = [];
-  deletedClubValueList: string[] = [];
-  deletedClubPreferenceList: string[] = [];
-  deletedJobPositionList: JobPosition[] = [];
-  deletedJobPositionStrengthList: string[] = [];
-
   // squad table
   displayedColumns: string[] = ["shirtNumber", "name", "position", "delete"];
   elementData: SquadPlayer[] = [];
@@ -252,6 +244,7 @@ export class UpdateClubComponent implements OnInit {
         this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
         if(type === 'profile') {
           this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+          this.updateClubProfile(); 
         }
         if(type === 'facility') {
           if(this.clubBinding.facilityImagesList != null) {
@@ -259,78 +252,85 @@ export class UpdateClubComponent implements OnInit {
           }
         this.facilityImages.push(this.uploadFilesService.imagePath);
         this.clubBinding.facilityImagesList = this.facilityImages;
+        this.updateClubFacility();
         }
       });
     }
   }
 
-  updateClub() {
-
-    // Check if lists with deleted content are empty
-    if(this.deletedTrainingHoursList.length > 0) {
-      this.deleteService.deleteTrainingHours(this.deletedTrainingHoursList);
-    }
-    if(this.deletedCurrentYearSquadPlayerList.length > 0) {
-      this.deleteService.deleteSquadPlayer(this.deletedCurrentYearSquadPlayerList);
-    }
-    if(this.deletedNextYearSquadPlayersList.length > 0) {
-      this.deleteService.deleteSquadPlayer(this.deletedNextYearSquadPlayersList);
-    }
-    if(this.deletedClubValueList.length > 0) {
-      this.deleteService.deleteClubValue(this.deletedClubValueList);
-    }
-    if(this.deletedClubPreferenceList.length > 0) {
-      this.deleteService.deleteClubPreference(this.deletedClubPreferenceList);
-    }
-    if(this.deletedJobPositionList.length > 0) {
-      this.deleteService.deleteJobPosition(this.deletedJobPositionList);
-    }
-    if(this.deletedJobPositionStrengthList.length > 0) {
-      this.deleteService.deleteJobPositionStrength(this.deletedJobPositionStrengthList);
-    }
-
-    // Update club
-    this.updateService.updateClub(this.clubBinding);
+  updateClubInfo() {
+    this.updateService.updateClubInfo(this.buildClubInfo());
   }
 
-  deleteSquadPlayer(type: string, index: number) {
-    if(type == 'Current Year') {
-      var removed = this.clubBinding.currentSquadPlayersList.splice(index, 1);
-      this.deletedCurrentYearSquadPlayerList.push(removed[0]);   
-    }
-    if(type == 'Next Year') {
-      var removed = this.clubBinding.nextYearSquadPlayersList.splice(index, 1);
-      this.deletedNextYearSquadPlayersList.push(removed[0]);
-    }
+  updateClubRegularTrainingSchedule() {
+    this.updateService.updateClubRegularTrainingSchedule(this.buildClubRegularTrainingSchedule());
   }
 
-  deleteTrainingHours(index: number) {
-    // Remove selected element from clubBinding.trainingHoursList
-    var removed = this.clubBinding.trainingHoursList.splice(index, 1);
-    // Add selected element to deletedTrainingHoursList
-    this.deletedTrainingHoursList.push(removed[0]);   
+  deleteClubRegularTrainingSchedule() {
+    this.deleteService.deleteClubRegularTrainingSchedule(); 
+  }
+
+  updateClubFitnessTrainingSchedule() {
+    this.updateService.updateClubFitnessTrainingSchedule();
+  }
+
+  deleteClubFitnessTrainingSchedule() {
+    this.deleteService.deleteClubFitnessTrainingSchedule(); 
+  }
+
+  updateCurrentSeasonSquad() {
+    this.updateService.updateCurrentSeasonSquad();
+  }
+
+  deleteCurrentSeasonSquad() {
+    this.deleteService.deleteCurrentSeasonSquad();
+  }
+
+  updateNextSeasonSquad() {
+    this.updateService.updateNextSeasonSquad();
+  }
+
+  deleteNextSeasonSquad() {
+    this.deleteService.deleteNextSeasonSquad();
+  }
+
+  updateOpenPosition() {
+    this.updateService.updateOpenPosition();
+  }
+
+  deleteOpenPosition() {
+    this.deleteService.deleteOpenPosition();
+  }
+
+  updateStaff() {
+    this.updateService.updateStaff();
+  }
+
+  updateValuesAndPreferences() {
+    this.updateService.updateValuesAndPreferences(this.clubBinding);
+  }
+
+  updateClubProfile() {
+    this.updateService.updateProfile(this.clubBinding);
+  }
+
+  updateClubFacility() {
+    this.updateService.updateFacility(this.clubBinding);
   }
 
   deleteClubValue(index: number) {
-    var removed = this.clubBinding.valuesList.splice(index, 1);
-    this.deletedClubValueList.push(removed[0]);  
+    
   }
 
   deleteClubPreference(index: number) {
-    var removed = this.clubBinding.preferenceList.splice(index, 1);
-    this.deletedClubPreferenceList.push(removed[0]);  
+    
   }
 
   deleteJobPosition(index: number) {
-    var removed = this.clubBinding.jobPositionsList.splice(index, 1);
-    this.deletedJobPositionList.push(removed[0]);  
+    
   }
 
   deleteJobPositionStrength(index: number) {
-  }
-
-  cancel() {
-    this.clubBinding = this.loginService.clubInSession;
   }
 
   markPreferenceCheckboxes(preferenceList: any) {
@@ -357,6 +357,20 @@ export class UpdateClubComponent implements OnInit {
         this.winningMentality.checked = true;
       }
     });
+  }
+
+  buildClubInfo() {
+    let club: Club;
+    club.password = this.currentPassword.value;
+    club.newPassword = this.password.value;
+    club.name = this.name.value;
+    club.league = this.league.value;
+    club.streetAddress = this.streetAddress.value;
+    club.streetNumber = this.streetNumber.value;
+    club.country = this.country.value;
+    club.city = this.city.value;
+    club.zipcode = this.zipcode.value;
+    return club;
   }
 
   // Helping method used to split up regular traininghours into from and to

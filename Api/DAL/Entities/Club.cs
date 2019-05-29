@@ -10,6 +10,7 @@ namespace Api.DAL.Entities {
         [JsonIgnore]
         public UserCredentials UserCredentials { get; set; }
         public string Password { get; set; }
+        public string NewPassword { get; set; }
         public string ErrorMessage { get; set; }
         public bool IsAvailable { get; set; }
         public string Token { get; set; }

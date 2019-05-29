@@ -629,6 +629,67 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
+        public Club UpdateClubInfo(Club entity) {
+            Club c = new Club();
+
+            for (int i = 0; i < 5; i++) {
+
+                List<int> _rowCountList = new List<int>();
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Club where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+
+                        //Return zipcodeCity ID
+                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                                        SELECT CAST(SCOPE_IDENTITY() as int)";
+                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+
+                        //Update club
+                        string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, 
+                                                                    StreetNumber = @StreetNumber, ZipcodeCity_ID = @ZipcodeCity_ID
+                                                             Where Email = @Email AND RowID = @RowID";
+                        
+                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                            entity.Name,
+                            entity.League,
+                            entity.Country,
+                            entity.StreetAddress,
+                            entity.StreetNumber,
+                            entity.Email,
+                            ZipcodeCity_ID = zipcodeCity_ID,
+                            RowID = row_ID
+                        }, transaction: tran));
+
+                        //Update password
+                        
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                            c.ErrorMessage = "The club was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
+        }
+        
         public Club Update(Club entity) {
 
             Club c = new Club();

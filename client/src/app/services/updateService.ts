@@ -21,16 +21,8 @@ export class updateService {
     );
   }
 
-  updateClub(club: Club) {
-    let url = "https://localhost:44310/api/Club/Update";
-    return this.http.post(url, club).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+  updateClubInfo(club: Club) {
+    let url = "https://localhost:44310/api/Club/UpdateClubInfo";
+    return this.http.post(url, club).subscribe();
   }
 }
