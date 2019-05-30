@@ -6,7 +6,13 @@
       <a class="editProfileButton" *ngIf="isClub">Edit Profile</a>
     </div>
     <div class="col-md-8" style="text-align: center; margin-top: 15px;">
-      <a class="contactClubButton" *ngIf="!isClub">Contact Club</a>
+      <!-- <a class="contactClubButton" *ngIf="!isClub">Contact Club</a> -->
+      <button type="button" *ngIf="!isClub" class="contactButton"
+        popover="This club can be contact on {{clubBinding.email}}"
+        popoverTitle="Contact Information" [outsideClick]="true" 
+        placement="bottom">
+      Contact Club
+</button>
     </div>
     <div class="col-md-2"></div>
   </div>

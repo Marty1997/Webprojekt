@@ -9,6 +9,37 @@
     font-style: normal;
 }
 
+.popover {
+  z-index: 20;
+}
+
+.contactButton {
+	background-color:#3b8782;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #45a29d;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:8px 76px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #45a29d;
+}
+.contactButton:hover {
+	background-color:#5cb0aa;
+}
+.contactButton:active {
+  position:relative;
+	top:1px;
+}
+ .contactButton:focus:not(.focus-visible) {
+  outline: none;
+} 
+
+
 /* GLOBAL REGISTER STYLES */
 .mat-checkbox-layout {
   font-weight: normal;
