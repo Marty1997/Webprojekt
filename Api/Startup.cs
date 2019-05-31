@@ -103,8 +103,8 @@ namespace Api {
             });
             app.UseAuthentication();
             app.UseHttpsRedirection();
-            app.UseMvc();
             app.UseCors(AllowOrigin);
+            app.UseMvc();
         }
     }
 }
