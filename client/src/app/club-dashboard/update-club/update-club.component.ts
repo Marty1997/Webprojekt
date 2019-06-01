@@ -492,7 +492,7 @@ export class UpdateClubComponent implements OnInit {
     });
   }
 
-  // Helping method used to split up regular traininghours into from and to
+  // Helping method used to display current regular traininghours
   buildRegularHours(element: any) {
     this.regularHours.id = element.id;
     this.regularMonFrom.setValue(element.mon.slice(0, 5));
@@ -511,7 +511,7 @@ export class UpdateClubComponent implements OnInit {
     this.regularSunTo.setValue(element.sun.slice(8, 13));
   }
 
-  // Helping method used to split up fitness traininghours into from and to
+  // Helping method used to display current fitness traininghours
   buildFitnessHours(element: any) {
     this.fitnessHours.id = element.id;
     this.fitnessMonFrom.setValue(element.mon.slice(0, 5));
@@ -530,6 +530,7 @@ export class UpdateClubComponent implements OnInit {
     this.fitnessSunTo.setValue(element.sun.slice(8, 13));
   }
 
+  // Helping method used to get updated regular training hours
   buildRegularTrainingHours() {
     this.regularHours.name = 'Handball';
 
@@ -544,6 +545,7 @@ export class UpdateClubComponent implements OnInit {
     return this.regularHours;
   }
 
+  // Helping method used to get updated fitness training hours
   buildFitnessTrainingHours() {
     this.fitnessHours.name = 'Fitness training';
 
