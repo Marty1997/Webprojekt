@@ -400,7 +400,8 @@
 
       <!-- Add squad player fields -->
       <mat-form-field class="addPlayerFields">
-        <input matInput placeholder="Player name" [formControl]="squadPlayerNameCtrlNext" [errorStateMatcher]="validate">
+        <input matInput placeholder="Player name" [formControl]="squadPlayerNameCtrlNext"
+          [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
         <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrlNext" [errorStateMatcher]='validate'>
@@ -449,7 +450,7 @@
 
         <tr mat-header-row *matHeaderRowDef="nextYearSquadColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: nextYearSquadColumns;"></tr>
-      </table>      
+      </table>
 
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -463,134 +464,134 @@
         <mat-panel-title>Open Positions</mat-panel-title>
       </mat-expansion-panel-header>
 
-      <!-- <mat-form-field class="fourFieldsOnSameRow">
-          <mat-select placeholder="Position" [formControl]="openPositionName" [errorStateMatcher]="validate">
-            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-            <mat-option value="Left wing">Left wing</mat-option>
-            <mat-option value="Left back">Left back</mat-option>
-            <mat-option value="Playmaker">Playmaker</mat-option>
-            <mat-option value="Pivot">Pivot</mat-option>
-            <mat-option value="Right back">Right back</mat-option>
-            <mat-option value="Right wing">Right wing</mat-option>
-            <mat-option value="Defence">Defence</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="fourFieldsOnSameRow">
-          <mat-select placeholder="League" [formControl]="openPositionLeague" [errorStateMatcher]='validate'>
-            <mat-option value="First League">First League</mat-option>
-            <mat-option value="Second League">Second League</mat-option>
-            <mat-option value="Third League">Third League</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="fourFieldsOnSameRow">
-          <mat-select placeholder="Season" [formControl]="openPositionSeason" [errorStateMatcher]="validate">
-            <mat-option value="Current year">Current Season</mat-option>
-            <mat-option value="Next year">Next Season</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="fourFieldsOnSameRow">
-          <mat-select placeholder="Contract Status" [formControl]="openPositionContract" [errorStateMatcher]='validate'>
-            <mat-option value="None">None</mat-option>
-            <mat-option value="Active">Active</mat-option>
-            <mat-option value="Open for Offers">Open for Offers</mat-option>
-            <mat-option value="Contract Expired">Contract Expired</mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field class="fourFieldsOnSameRow">
-          <input matInput placeholder="Minimum Age" [formControl]="openPositionMinAge" [errorStateMatcher]='validate'>
-          <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-            Age must be a number
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="fourFieldsOnSameRow">
-          <input matInput placeholder="Maximum Age" [formControl]="openPositionMaxAge" [errorStateMatcher]='validate'>
-          <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-            Age must be a number
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="fourFieldsOnSameRow">
-          <input matInput placeholder="Height" [formControl]="openPositionHeight" [errorStateMatcher]='validate'>
-          <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-            Height must be a number
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="fourFieldsOnSameRow">
-          <mat-select placeholder="Hand Preference" [formControl]="openPositionHand" [errorStateMatcher]='validate'>
-            <mat-option value="None">No Preference</mat-option>
-            <mat-option value="Right">Right Hand</mat-option>
-            <mat-option value="Left">Left Hand</mat-option>
-            <mat-option value="Both">Both Hands</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <br>
-        <mat-checkbox #openPositionSpeedy value="Speedy">Speedy</mat-checkbox>
-        <mat-checkbox #openPositionAthletic value="Athletic">Athletic</mat-checkbox>
-        <mat-checkbox #openPositionGreatShape value="Great shape">Great shape</mat-checkbox>
-        <mat-checkbox #openPositionQuickShots value="Quick shots">Quick shots</mat-checkbox>
-        <mat-checkbox #openPositionAccurateShooter value="Accurate shooter">Accurate shooter</mat-checkbox>
-        <mat-checkbox #openPositionTactical value="Tactical">Tactical</mat-checkbox>
-        <mat-checkbox #openPositionTeamplayer value="Teamplayer">Team player</mat-checkbox>
-        <mat-checkbox #openPositionSocial value="Social">Social</mat-checkbox>
-        <mat-checkbox #openPositionWinAtAllCosts value="Win at all costs">Win at all costs</mat-checkbox>
-        <mat-checkbox #openPositionLongRangeShooter value="Long range shooter">Long range shooter</mat-checkbox>
-  
-        <br><br>
-        <button class="btn btn-success">Add</button><br><br><br> -->
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Position" [formControl]="openPositionName" [errorStateMatcher]="validate">
+          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+          <mat-option value="Left wing">Left wing</mat-option>
+          <mat-option value="Left back">Left back</mat-option>
+          <mat-option value="Playmaker">Playmaker</mat-option>
+          <mat-option value="Pivot">Pivot</mat-option>
+          <mat-option value="Right back">Right back</mat-option>
+          <mat-option value="Right wing">Right wing</mat-option>
+          <mat-option value="Defence">Defence</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="League" [formControl]="openPositionLeague" [errorStateMatcher]='validate'>
+          <mat-option value="First League">First League</mat-option>
+          <mat-option value="Second League">Second League</mat-option>
+          <mat-option value="Third League">Third League</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Season" [formControl]="openPositionSeason" [errorStateMatcher]="validate">
+          <mat-option value="Current year">Current Season</mat-option>
+          <mat-option value="Next year">Next Season</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Contract Status" [formControl]="openPositionContract" [errorStateMatcher]='validate'>
+          <mat-option value="None">None</mat-option>
+          <mat-option value="Active">Active</mat-option>
+          <mat-option value="Open for Offers">Open for Offers</mat-option>
+          <mat-option value="Contract Expired">Contract Expired</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <!-- <table mat-table [dataSource]="openPositionSource" class="mat-elevation-z8"> -->
+      <mat-form-field class="fourFieldsOnSameRow">
+        <input matInput placeholder="Minimum Age" [formControl]="openPositionMinAge" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Age must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <input matInput placeholder="Maximum Age" [formControl]="openPositionMaxAge" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Age must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <input matInput placeholder="Height" [formControl]="openPositionHeight" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Height must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fourFieldsOnSameRow">
+        <mat-select placeholder="Hand Preference" [formControl]="openPositionHand" [errorStateMatcher]='validate'>
+          <mat-option value="None">No Preference</mat-option>
+          <mat-option value="Right">Right Hand</mat-option>
+          <mat-option value="Left">Left Hand</mat-option>
+          <mat-option value="Both">Both Hands</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-checkbox #openPositionSpeedy value="Speedy">Speedy</mat-checkbox>
+      <mat-checkbox #openPositionAthletic value="Athletic">Athletic</mat-checkbox>
+      <mat-checkbox #openPositionGreatShape value="Great shape">Great shape</mat-checkbox>
+      <mat-checkbox #openPositionQuickShots value="Quick shots">Quick shots</mat-checkbox>
+      <mat-checkbox #openPositionAccurateShooter value="Accurate shooter">Accurate shooter</mat-checkbox>
+      <mat-checkbox #openPositionTactical value="Tactical">Tactical</mat-checkbox>
+      <mat-checkbox #openPositionTeamplayer value="Teamplayer">Team player</mat-checkbox>
+      <mat-checkbox #openPositionSocial value="Social">Social</mat-checkbox>
+      <mat-checkbox #openPositionWinAtAllCosts value="Win at all costs">Win at all costs</mat-checkbox>
+      <mat-checkbox #openPositionLongRangeShooter value="Long range shooter">Long range shooter</mat-checkbox>
 
-            <!-- Position Column -->
-            <!-- <ng-container matColumnDef="Position">
-              <th mat-header-cell *matHeaderCellDef> Position </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.position}} </td>
-            </ng-container> -->
-    
-            <!-- League Column -->
-            <!-- <ng-container matColumnDef="League">
-              <th mat-header-cell *matHeaderCellDef> League </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.leauge}} </td>
-            </ng-container> -->
-    
-            <!-- Hand Column -->
-            <!-- <ng-container matColumnDef="Hand">
-              <th mat-header-cell *matHeaderCellDef> Hand </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.preferredHand}} </td>
-            </ng-container> -->
-    
-            <!-- Height Column -->
-            <!-- <ng-container matColumnDef="Height">
-              <th mat-header-cell *matHeaderCellDef> Height </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.height}} </td>
-            </ng-container> -->
-    
-            <!-- Age Column -->
-            <!-- <ng-container matColumnDef="Age">
-              <th mat-header-cell *matHeaderCellDef> Age </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
-            </ng-container> -->
-    
-            <!-- Season Column -->
-            <!-- <ng-container matColumnDef="Season">
-              <th mat-header-cell *matHeaderCellDef> Season </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.season}}</td>
-            </ng-container> -->
-    
-            <!-- Contract Column -->
-            <!-- <ng-container matColumnDef="Contract">
-              <th mat-header-cell *matHeaderCellDef> Contract </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.contractStatus}} </td>
-            </ng-container> -->
-    
-            <!-- Strengths Column -->
-            <!-- <ng-container matColumnDef="Strengths">
-              <th mat-header-cell *matHeaderCellDef> Strengths </th>
-              <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.strengthsList.length}} </td>
-            </ng-container> -->
-    
-            <!-- <tr mat-header-row *matHeaderRowDef="openPositionColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: openPositionColumns;"></tr> -->
-          <!-- </table> -->
+      <br><br>
+      <button class="btn btn-success" (click)="onAddJobPosition()">Add</button><br><br><br>
+
+      <table mat-table [dataSource]="openPositionSource" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> Position </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.position}} </td>
+        </ng-container>
+
+        <!-- League Column -->
+        <ng-container matColumnDef="league">
+          <th mat-header-cell *matHeaderCellDef> League </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.league}} </td>
+        </ng-container>
+
+        <!-- Hand Column -->
+        <ng-container matColumnDef="hand">
+          <th mat-header-cell *matHeaderCellDef> Hand </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.preferredHand}} </td>
+        </ng-container>
+
+        <!-- Height Column -->
+        <ng-container matColumnDef="height">
+          <th mat-header-cell *matHeaderCellDef> Height </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.height}} </td>
+        </ng-container>
+
+        <!-- Age Column -->
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef> Age </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
+        </ng-container>
+
+        <!-- Season Column -->
+        <ng-container matColumnDef="season">
+          <th mat-header-cell *matHeaderCellDef> Season </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.season}}</td>
+        </ng-container>
+
+        <!-- Contract Column -->
+        <ng-container matColumnDef="contract">
+          <th mat-header-cell *matHeaderCellDef> Contract </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.contractStatus}} </td>
+        </ng-container>
+
+        <!-- Strengths Column -->
+        <ng-container matColumnDef="strengths">
+          <th mat-header-cell *matHeaderCellDef> Strengths </th>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.strengthsList.length}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="openPositionColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: openPositionColumns;"></tr>
+      </table>
 
       <!-- Delete Job position button -->
       <input type="button" class="btn btn-success" value="Delete" (click)="deleteJobPosition()">
@@ -615,13 +616,16 @@
         <input matInput placeholder="Trainer" [value]="clubBinding.trainer" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Trainer" [value]="clubBinding.assistantTrainer" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Trainer" [value]="clubBinding.assistantTrainer"
+          [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Physiotherapist" [value]="clubBinding.physiotherapist" [errorStateMatcher]="validate">
+        <input matInput placeholder="Physiotherapist" [value]="clubBinding.physiotherapist"
+          [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Physiotherapist" [value]="clubBinding.assistantPhysiotherapist" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Physiotherapist" [value]="clubBinding.assistantPhysiotherapist"
+          [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
         <input matInput placeholder="Team Manager" [value]="clubBinding.manager" [errorStateMatcher]="validate">
@@ -640,32 +644,35 @@
       </mat-expansion-panel-header>
 
       <div class="row">
-          <div class="col-xs-6">
-            <mat-label>Values</mat-label><br>
-            <mat-checkbox #hardWorking value="Hard working">Hard Working</mat-checkbox><br>
-            <mat-checkbox #socialCohesion value="Social cohesion">Social Cohesion</mat-checkbox><br>
-            <mat-checkbox #winningMentality value="Winning mentality">Winning Mentality</mat-checkbox><br>
-            <br><br>
-          </div>
-          <div class="col-xs-6">
-            <mat-label>Preferences</mat-label><br>
-            <mat-checkbox #talentDevelopmentClub value="Talent development club">Talent Development Club</mat-checkbox><br>
-            <mat-checkbox #strivesForTitles value="Strives for titles">Strives for Titles</mat-checkbox><br>
-            <mat-checkbox #resultOriented value="Result oriented">Result Oriented</mat-checkbox><br>
-            <mat-checkbox #processOriented value="Process oriented">Process Oriented</mat-checkbox><br>
-            <br><br>
-          </div>
+        <div class="col-xs-6">
+          <mat-label>Values</mat-label><br>
+          <mat-checkbox #hardWorking value="Hard working">Hard Working</mat-checkbox><br>
+          <mat-checkbox #socialCohesion value="Social cohesion">Social Cohesion</mat-checkbox><br>
+          <mat-checkbox #winningMentality value="Winning mentality">Winning Mentality</mat-checkbox><br>
+          <br><br>
         </div>
-        <div class="row">
-          <mat-form-field>
-            <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="clubBinding.valueDescription" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
-          <mat-form-field>
-            <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="clubBinding.preferenceDescription" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
+        <div class="col-xs-6">
+          <mat-label>Preferences</mat-label><br>
+          <mat-checkbox #talentDevelopmentClub value="Talent development club">Talent Development Club</mat-checkbox>
+          <br>
+          <mat-checkbox #strivesForTitles value="Strives for titles">Strives for Titles</mat-checkbox><br>
+          <mat-checkbox #resultOriented value="Result oriented">Result Oriented</mat-checkbox><br>
+          <mat-checkbox #processOriented value="Process oriented">Process Oriented</mat-checkbox><br>
+          <br><br>
         </div>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" [value]="clubBinding.valueDescription" [formControl]="valueDescription"
+            [errorStateMatcher]='validate'></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
+            matAutosizeMaxRows="10" [value]="clubBinding.preferenceDescription" [formControl]="preferenceDescription"
+            [errorStateMatcher]='validate'></textarea>
+        </mat-form-field>
+      </div>
 
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -681,7 +688,7 @@
 
       <div class="row">
         <div class="col-md-6" style="text-align: center;">
-          
+
           <h3>Profile picture</h3>
           <div>
             <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
@@ -702,7 +709,7 @@
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
             <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload facility image</button>
           </div>
-        </div>       
+        </div>
       </div>
 
       <mat-action-row>

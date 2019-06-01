@@ -214,6 +214,12 @@ export class UpdateClubComponent implements OnInit {
         this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
       });
     }
+    if(this.clubBinding.jobPositionsList.length > 0) {
+      this.clubBinding.jobPositionsList.forEach(element => {
+        this.openPositionSource.push(element);
+        this.openPositionSource = [...this.openPositionSource];
+      });
+    }
     if(this.clubBinding.preferenceList.length > 0) {
       this.markPreferenceCheckboxes(this.clubBinding.preferenceList);
     }
