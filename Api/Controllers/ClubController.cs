@@ -33,14 +33,15 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
-        // api/Club/Update
+        // api/Club/UpdateClubInfo
         [HttpPost]
         [Route("[action]")]
-        public IActionResult Update([FromBody] Club entity) {
+        public IActionResult UpdateClubInfo([FromBody] Club entity) {
 
-            var club = _clubLogic.Update(entity);
+            //var club = _clubLogic.UpdateClubInfo(entity);
 
-            return Ok(club);
+            //return Ok(club);
+            return null;
         }
 
         // api/Club/GetById
