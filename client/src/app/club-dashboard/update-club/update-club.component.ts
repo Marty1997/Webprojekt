@@ -131,14 +131,6 @@ export class UpdateClubComponent implements OnInit {
   openPositionHeight = new FormControl("");
   openPositionHand = new FormControl("");
 
-  deletedCurrentYearSquadPlayerList: SquadPlayer[] = [];
-  deletedNextYearSquadPlayersList: SquadPlayer[] = [];
-  deletedTrainingHoursList: TrainingHours[] = [];
-  deletedClubValueList: string[] = [];
-  deletedClubPreferenceList: string[] = [];
-  deletedJobPositionList: JobPosition[] = [];
-  deletedJobPositionStrengthList: string[] = [];
-
   // squad table
   displayedColumns: string[] = ["shirtNumber", "name", "position", "delete"];
   elementData: SquadPlayer[] = [];
@@ -212,12 +204,6 @@ export class UpdateClubComponent implements OnInit {
       this.clubBinding.nextYearSquadPlayersList.forEach(element => {
         this.nextYearSquadSource.push(element); //add the new model object to the dataSource
         this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
-      });
-    }
-    if(this.clubBinding.jobPositionsList.length > 0) {
-      this.clubBinding.jobPositionsList.forEach(element => {
-        this.openPositionSource.push(element);
-        this.openPositionSource = [...this.openPositionSource];
       });
     }
     if(this.clubBinding.preferenceList.length > 0) {
@@ -385,7 +371,7 @@ export class UpdateClubComponent implements OnInit {
         this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
         if(type === 'profile') {
           this.clubBinding.imagePath = this.uploadFilesService.imagePath;
-          this.updateClubProfile(); 
+          // this.updateClubProfile(); 
         }
         if(type === 'facility') {
           if(this.clubBinding.facilityImagesList != null) {
@@ -393,7 +379,7 @@ export class UpdateClubComponent implements OnInit {
           }
         this.facilityImages.push(this.uploadFilesService.imagePath);
         this.clubBinding.facilityImagesList = this.facilityImages;
-        this.updateClubFacility();
+        // this.updateClubFacility();
         }
       });
     }
@@ -404,75 +390,75 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubRegularTrainingSchedule() {
-    this.updateService.updateClubRegularTrainingSchedule(this.buildClubRegularTrainingSchedule());
+    this.updateService.updateClubRegularTrainingSchedule(this.buildRegularTrainingHours());
   }
 
   deleteClubRegularTrainingSchedule() {
-    this.deleteService.deleteClubRegularTrainingSchedule(); 
+    this.deleteService.deleteClubRegularTrainingSchedule(this.regularHours.id); 
   }
 
   updateClubFitnessTrainingSchedule() {
-    this.updateService.updateClubFitnessTrainingSchedule();
+    this.updateService.updateClubFitnessTrainingSchedule(this.buildFitnessTrainingHours());
   }
 
   deleteClubFitnessTrainingSchedule() {
-    this.deleteService.deleteClubFitnessTrainingSchedule(); 
+    this.deleteService.deleteClubFitnessTrainingSchedule(this.fitnessHours.id); 
   }
 
-  updateCurrentSeasonSquad() {
-    this.updateService.updateCurrentSeasonSquad();
-  }
+  // updateCurrentSeasonSquad() {
+  //   this.updateService.updateCurrentSeasonSquad(this.buildCurrentSeasonSquad());
+  // }
 
-  deleteCurrentSeasonSquad() {
-    this.deleteService.deleteCurrentSeasonSquad();
-  }
+  // deleteCurrentSeasonSquad() {
+  //   this.deleteService.deleteCurrentSeasonSquad(this.currentSeasonSquad.id);
+  // }
 
-  updateNextSeasonSquad() {
-    this.updateService.updateNextSeasonSquad();
-  }
+  // updateNextSeasonSquad() {
+  //   this.updateService.updateNextSeasonSquad(this.buildNextSeasonSquad());
+  // }
 
-  deleteNextSeasonSquad() {
-    this.deleteService.deleteNextSeasonSquad();
-  }
+  // deleteNextSeasonSquad() {
+  //   this.deleteService.deleteNextSeasonSquad(this.nextSeasonSquad.id);
+  // }
 
-  updateOpenPosition() {
-    this.updateService.updateOpenPosition();
-  }
+  // updateOpenPosition() {
+  //   this.updateService.updateOpenPosition(this.);
+  // }
 
-  deleteOpenPosition() {
-    this.deleteService.deleteOpenPosition();
-  }
+  // deleteOpenPosition() {
+  //   this.deleteService.deleteOpenPosition();
+  // }
 
-  updateStaff() {
-    this.updateService.updateStaff();
-  }
+  // updateStaff() {
+  //   this.updateService.updateStaff();
+  // }
 
-  updateValuesAndPreferences() {
-    this.updateService.updateValuesAndPreferences(this.clubBinding);
-  }
+  // updateValuesAndPreferences() {
+  //   this.updateService.updateValuesAndPreferences(this.clubBinding);
+  // }
 
-  updateClubProfile() {
-    this.updateService.updateProfile(this.clubBinding);
-  }
+  // updateClubProfile() {
+  //   this.updateService.updateProfile(this.clubBinding);
+  // }
 
-  updateClubFacility() {
-    this.updateService.updateFacility(this.clubBinding);
-  }
+  // updateClubFacility() {
+  //   this.updateService.updateFacility(this.clubBinding);
+  // }
 
-  deleteClubValue(index: number) {
+  // deleteClubValue(index: number) {
     
-  }
+  // }
 
-  deleteClubPreference(index: number) {
+  // deleteClubPreference(index: number) {
     
-  }
+  // }
 
-  deleteJobPosition(index: number) {
+  // deleteJobPosition(index: number) {
     
-  }
+  // }
 
-  deleteJobPositionStrength(index: number) {
-  }
+  // deleteJobPositionStrength(index: number) {
+  // }
 
   markPreferenceCheckboxes(preferenceList: any) {
     preferenceList.forEach(element => {
@@ -555,13 +541,13 @@ export class UpdateClubComponent implements OnInit {
   buildRegularTrainingHours() {
     this.regularHours.name = 'Handball';
 
-    this.regularHours.mon = this.regularMonFrom.value + '-' + this.regularMonTo.value
-    this.regularHours.tue = this.regularTueFrom.value + '-' + this.regularTueTo.value
-    this.regularHours.wed = this.regularWedFrom.value + '-' + this.regularWedTo.value
-    this.regularHours.thu = this.regularThuFrom.value + '-' + this.regularThuTo.value
-    this.regularHours.fri = this.regularFriFrom.value + '-' + this.regularFriTo.value
-    this.regularHours.sat = this.regularSatFrom.value + '-' + this.regularSatTo.value
-    this.regularHours.sun = this.regularSunFrom.value + '-' + this.regularSunTo.value
+    this.regularHours.mon = this.regularMonFrom.value + '-' + this.regularMonTo.value;
+    this.regularHours.tue = this.regularTueFrom.value + '-' + this.regularTueTo.value;
+    this.regularHours.wed = this.regularWedFrom.value + '-' + this.regularWedTo.value;
+    this.regularHours.thu = this.regularThuFrom.value + '-' + this.regularThuTo.value;
+    this.regularHours.fri = this.regularFriFrom.value + '-' + this.regularFriTo.value;
+    this.regularHours.sat = this.regularSatFrom.value + '-' + this.regularSatTo.value;
+    this.regularHours.sun = this.regularSunFrom.value + '-' + this.regularSunTo.value;
 
     return this.regularHours;
   }
@@ -569,13 +555,13 @@ export class UpdateClubComponent implements OnInit {
   buildFitnessTrainingHours() {
     this.fitnessHours.name = 'Fitness training';
 
-    this.fitnessHours.mon = this.fitnessMonFrom.value + '-' + this.fitnessMonTo.value
-    this.fitnessHours.tue = this.fitnessTueFrom.value + '-' + this.fitnessTueTo.value
-    this.fitnessHours.wed = this.fitnessWedFrom.value + '-' + this.fitnessWedTo.value
-    this.fitnessHours.thu = this.fitnessThuFrom.value + '-' + this.fitnessThuTo.value
-    this.fitnessHours.fri = this.fitnessFriFrom.value + '-' + this.fitnessFriTo.value
-    this.fitnessHours.sat = this.fitnessSatFrom.value + '-' + this.fitnessSatTo.value
-    this.fitnessHours.sun = this.fitnessSunFrom.value + '-' + this.fitnessSunTo.value
+    this.fitnessHours.mon = this.fitnessMonFrom.value + '-' + this.fitnessMonTo.value;
+    this.fitnessHours.tue = this.fitnessTueFrom.value + '-' + this.fitnessTueTo.value;
+    this.fitnessHours.wed = this.fitnessWedFrom.value + '-' + this.fitnessWedTo.value;
+    this.fitnessHours.thu = this.fitnessThuFrom.value + '-' + this.fitnessThuTo.value;
+    this.fitnessHours.fri = this.fitnessFriFrom.value + '-' + this.fitnessFriTo.value;
+    this.fitnessHours.sat = this.fitnessSatFrom.value + '-' + this.fitnessSatTo.value;
+    this.fitnessHours.sun = this.fitnessSunFrom.value + '-' + this.fitnessSunTo.value;
 
     return this.regularHours;
   }

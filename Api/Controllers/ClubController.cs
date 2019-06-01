@@ -38,9 +38,10 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult UpdateClubInfo([FromBody] Club entity) {
 
-            var club = _clubLogic.UpdateClubInfo(entity);
+            //var club = _clubLogic.UpdateClubInfo(entity);
 
-            return Ok(club);
+            //return Ok(club);
+            return null;
         }
 
         // api/Club/GetById

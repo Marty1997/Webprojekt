@@ -667,6 +667,7 @@ namespace Api.DAL.Repos {
                         }, transaction: tran));
 
                         //Update password
+
                         
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
@@ -690,6 +691,56 @@ namespace Api.DAL.Repos {
             return c;
         }
         
+        public string UpdateClubRegularTrainingSchedule(TrainingHours entity) {
+
+            string errorMessage = "";
+
+            for (int i = 0; i < 5; i++) {
+
+                List<int> _rowCountList = new List<int>();
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+                        
+                            string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
+                                                                 Where ID = @ID";
+
+                            _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
+                                entity.Name,
+                                entity.Mon,
+                                entity.Tue,
+                                entity.Wed,
+                                entity.Thu,
+                                entity.Fri,
+                                entity.Sat,
+                                entity.Sun,
+                                ID = entity.Id
+                            }, transaction: tran));
+                        
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                                errorMessage = "Training hours was not updated";
+                                tran.Rollback();
+                            }
+                            else {
+                                tran.Commit();
+                                break;
+                            }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return errorMessage;
+        }
+
+
         public Club Update(Club entity) {
 
             Club c = new Club();
@@ -704,243 +755,243 @@ namespace Api.DAL.Repos {
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
 
-                            //Return row ID
-                            string rowIDSQL = @"Select rowID from Club where email = @Email";
-                            byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Club where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
 
-                            //Return zipcodeCity ID
-                            string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
+                        //Return zipcodeCity ID
+                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
-                            int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
 
-                            //Update club
-                            string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
+                        //Update club
+                        string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, StreetNumber = @StreetNumber, Trainer = @Trainer,
                                                                     AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager,
                                                                     ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription, ImagePath = @ImagePath, IsAvailable = @IsAvailable, ZipcodeCity_ID = @ZipcodeCity_ID
                                                                  Where Email = @Email AND RowID = @RowID";
 
 
-                            _rowCountList.Add(conn.Execute(updateClubSQL, new {
-                                entity.Name,
-                                entity.League,
-                                entity.Country,
-                                entity.StreetAddress,
-                                entity.StreetNumber,
-                                entity.Trainer,
-                                entity.AssistantTrainer,
-                                entity.Physiotherapist,
-                                entity.AssistantPhysiotherapist,
-                                entity.Manager,
-                                entity.ValueDescription,
-                                entity.PreferenceDescription,
-                                entity.ImagePath,
-                                entity.Email,
-                                entity.IsAvailable,
-                                ZipcodeCity_ID = zipcodeCity_ID,
-                                RowID = row_ID
-                            }, transaction: tran));
+                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                            entity.Name,
+                            entity.League,
+                            entity.Country,
+                            entity.StreetAddress,
+                            entity.StreetNumber,
+                            entity.Trainer,
+                            entity.AssistantTrainer,
+                            entity.Physiotherapist,
+                            entity.AssistantPhysiotherapist,
+                            entity.Manager,
+                            entity.ValueDescription,
+                            entity.PreferenceDescription,
+                            entity.ImagePath,
+                            entity.Email,
+                            entity.IsAvailable,
+                            ZipcodeCity_ID = zipcodeCity_ID,
+                            RowID = row_ID
+                        }, transaction: tran));
 
-                            //Return club ID
-                            string clubIDSQL = @"Select id from Club where email = @Email";
-                            int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
+                        //Return club ID
+                        string clubIDSQL = @"Select id from Club where email = @Email";
+                        int club_ID = conn.Query<int>(clubIDSQL, new { Email = entity.Email }, transaction: tran).FirstOrDefault();
 
 
-                            //Facility image
-                            if (entity.FacilityImagesList.Count > 0) {
+                        //Facility image
+                        if (entity.FacilityImagesList.Count > 0) {
 
-                                foreach (string imagePath in entity.FacilityImagesList) {
+                            foreach (string imagePath in entity.FacilityImagesList) {
 
-                                    if (club_ID != 0) {
+                                if (club_ID != 0) {
 
-                                        //Check if imagePath already exist in DB
-                                        string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
-                                        int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
+                                    //Check if imagePath already exist in DB
+                                    string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
+                                    int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
 
-                                        if (id == 0) {
-                                            //Insert facility image
-                                            string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+                                    if (id == 0) {
+                                        //Insert facility image
+                                        string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
                                             VALUES (@ImagePath, @Club_ID)";
 
-                                            _rowCountList.Add(conn.Execute(facilityImageSQL, new {
-                                                ImagePath = imagePath,
-                                                Club_ID = club_ID
+                                        _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                            ImagePath = imagePath,
+                                            Club_ID = club_ID
+                                        }, transaction: tran));
+                                    }
+
+                                }
+                            }
+                        }
+
+                        // CurrentSquadPlayers
+                        if (entity.CurrentSquadPlayersList.Count > 0) {
+
+                            foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
+
+                                //Update SquadPlayer
+                                string updateCurrentSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
+                                                                 Where ID = @ID";
+
+                                _rowCountList.Add(conn.Execute(updateCurrentSquadPlayersSQL, new {
+                                    csp.ShirtNumber,
+                                    csp.Season,
+                                    csp.Name,
+                                    csp.Position,
+                                    ID = csp.Id,
+                                }, transaction: tran));
+                            }
+                        }
+
+                        // NextYearSquadPlayers
+                        if (entity.NextYearSquadPlayersList.Count > 0) {
+
+                            foreach (SquadPlayer csp in entity.NextYearSquadPlayersList) {
+
+                                //Update SquadPlayer
+                                string updateNextYearSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
+                                                                 Where ID = @ID";
+
+                                _rowCountList.Add(conn.Execute(updateNextYearSquadPlayersSQL, new {
+                                    csp.ShirtNumber,
+                                    csp.Season,
+                                    csp.Name,
+                                    csp.Position,
+                                    ID = csp.Id
+                                }, transaction: tran));
+
+                            }
+                        }
+
+
+                        //Job position
+                        if (entity.JobPositionsList.Count > 0) {
+                            foreach (JobPosition jp in entity.JobPositionsList) {
+
+                                var jobPosition_ID = 0;
+
+                                //Update JobPosition
+                                string jobPositionSQL = @"Update JobPosition Set League = @League, PreferredHand = @PreferredHand, Height = @Height, MinAge = @MinAge, MaxAge = @MaxAge, Season = @Season, 
+                                                                    ContractStatus = @ContractStatus, Position = @Position
+                                                          Where ID = @ID";
+
+                                jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
+                                    League = jp.League,
+                                    PreferredHand = jp.PreferredHand,
+                                    Height = jp.Height,
+                                    MinAge = jp.MinAge,
+                                    MaxAge = jp.MaxAge,
+                                    Season = jp.Season,
+                                    ContractStatus = jp.ContractStatus,
+                                    Position = jp.Position,
+                                    ID = jp.Id
+                                }, transaction: tran).FirstOrDefault();
+
+
+                                if (jp.StrengthsList.Count > 0) {
+                                    foreach (string strength in jp.StrengthsList) {
+
+                                        //Return strength ID
+                                        string strengthSQL = @"Select id from Strength where name = @Name";
+                                        int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
+
+                                        if (strength_ID != 0) {
+
+                                            //Update JobPositionStrength
+                                            string updateJobPositionStrengthSQL = @"Update JobPositionStrength Set Strength_ID = @Strength_ID
+                                                                 Where JobPosition_ID = @ID";
+
+                                            _rowCountList.Add(conn.Execute(updateJobPositionStrengthSQL, new {
+                                                Strength_ID = strength_ID,
+                                                ID = jp.Id
                                             }, transaction: tran));
                                         }
 
                                     }
-                                }
-                            }
-
-                            // CurrentSquadPlayers
-                            if (entity.CurrentSquadPlayersList.Count > 0) {
-
-                                foreach (SquadPlayer csp in entity.CurrentSquadPlayersList) {
-
-                                    //Update SquadPlayer
-                                    string updateCurrentSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
-                                                                 Where ID = @ID";
-
-                                    _rowCountList.Add(conn.Execute(updateCurrentSquadPlayersSQL, new {
-                                        csp.ShirtNumber,
-                                        csp.Season,
-                                        csp.Name,
-                                        csp.Position,
-                                        ID = csp.Id,
-                                    }, transaction: tran));
-                                }
-                            }
-
-                            // NextYearSquadPlayers
-                            if (entity.NextYearSquadPlayersList.Count > 0) {
-
-                                foreach (SquadPlayer csp in entity.NextYearSquadPlayersList) {
-
-                                    //Update SquadPlayer
-                                    string updateNextYearSquadPlayersSQL = @"Update SquadPlayers Set ShirtNumber = @ShirtNumber, Season = @Season, Name = @Name, Position = @Position
-                                                                 Where ID = @ID";
-
-                                    _rowCountList.Add(conn.Execute(updateNextYearSquadPlayersSQL, new {
-                                        csp.ShirtNumber,
-                                        csp.Season,
-                                        csp.Name,
-                                        csp.Position,
-                                        ID = csp.Id
-                                    }, transaction: tran));
 
                                 }
+
                             }
+                        }
 
+                        //Values
+                        if (entity.ValuesList.Count > 0) {
 
-                            //Job position
-                            if (entity.JobPositionsList.Count > 0) {
-                                foreach (JobPosition jp in entity.JobPositionsList) {
+                            foreach (string value in entity.ValuesList) {
 
-                                    var jobPosition_ID = 0;
+                                //Return value ID
+                                string valueSQL = @"Select id from Value where name = @Name";
+                                int value_ID = conn.Query<int>(valueSQL, new { Name = value }, transaction: tran).FirstOrDefault();
 
-                                    //Update JobPosition
-                                    string jobPositionSQL = @"Update JobPosition Set League = @League, PreferredHand = @PreferredHand, Height = @Height, MinAge = @MinAge, MaxAge = @MaxAge, Season = @Season, 
-                                                                    ContractStatus = @ContractStatus, Position = @Position
-                                                          Where ID = @ID";
+                                if (value_ID != 0 && club_ID != 0) {
 
-                                    jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
-                                        League = jp.League,
-                                        PreferredHand = jp.PreferredHand,
-                                        Height = jp.Height,
-                                        MinAge = jp.MinAge,
-                                        MaxAge = jp.MaxAge,
-                                        Season = jp.Season,
-                                        ContractStatus = jp.ContractStatus,
-                                        Position = jp.Position,
-                                        ID = jp.Id
-                                    }, transaction: tran).FirstOrDefault();
-
-
-                                    if (jp.StrengthsList.Count > 0) {
-                                        foreach (string strength in jp.StrengthsList) {
-
-                                            //Return strength ID
-                                            string strengthSQL = @"Select id from Strength where name = @Name";
-                                            int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
-
-                                            if (strength_ID != 0) {
-
-                                                //Update JobPositionStrength
-                                                string updateJobPositionStrengthSQL = @"Update JobPositionStrength Set Strength_ID = @Strength_ID
-                                                                 Where JobPosition_ID = @ID";
-
-                                                _rowCountList.Add(conn.Execute(updateJobPositionStrengthSQL, new {
-                                                    Strength_ID = strength_ID,
-                                                    ID = jp.Id
-                                                }, transaction: tran));
-                                            }
-
-                                        }
-
-                                    }
-
-                                }
-                            }
-
-                            //Values
-                            if (entity.ValuesList.Count > 0) {
-
-                                foreach (string value in entity.ValuesList) {
-
-                                    //Return value ID
-                                    string valueSQL = @"Select id from Value where name = @Name";
-                                    int value_ID = conn.Query<int>(valueSQL, new { Name = value }, transaction: tran).FirstOrDefault();
-
-                                    if (value_ID != 0 && club_ID != 0) {
-
-                                        //Update ClubValue
-                                        string updateClubValueSQL = @"Update ClubValue Set Value_ID = @Value_ID
+                                    //Update ClubValue
+                                    string updateClubValueSQL = @"Update ClubValue Set Value_ID = @Value_ID
                                                                  Where Club_ID = @Club_ID";
 
-                                        _rowCountList.Add(conn.Execute(updateClubValueSQL, new {
-                                            Value_ID = value_ID,
-                                            Club_ID = club_ID
-                                        }, transaction: tran));
-                                    }
-                                }
-                            }
-
-                            //Preference
-                            if (entity.PreferenceList.Count > 0) {
-
-                                foreach (string preference in entity.PreferenceList) {
-
-                                    //Return preference ID
-                                    string preferenceSQL = @"Select id from Preference where name = @Name";
-                                    int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
-
-                                    if (preference_ID != 0 && club_ID != 0) {
-
-                                        //Update ClubPreference
-                                        string updateClubPreferenceSQL = @"Update ClubPreference Set Preference_ID = @Preference_ID
-                                                                 Where Club_ID = @Club_ID";
-
-                                        _rowCountList.Add(conn.Execute(updateClubPreferenceSQL, new {
-                                            Preference_ID = preference_ID,
-                                            Club_ID = club_ID
-                                        }, transaction: tran));
-                                    }
-                                }
-                            }
-
-                            // TrainingHours
-                            if (entity.TrainingHoursList.Count > 0) {
-
-                                foreach (TrainingHours th in entity.TrainingHoursList) {
-
-
-                                    //Update TrainingHours
-                                    string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
-                                                                 Where ID = @ID";
-
-                                    _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
-                                        th.Name,
-                                        th.Mon,
-                                        th.Tue,
-                                        th.Wed,
-                                        th.Thu,
-                                        th.Fri,
-                                        th.Sat,
-                                        th.Sun,
-                                        ID = th.Id
+                                    _rowCountList.Add(conn.Execute(updateClubValueSQL, new {
+                                        Value_ID = value_ID,
+                                        Club_ID = club_ID
                                     }, transaction: tran));
                                 }
                             }
+                        }
 
-                            //Check for 0 in rowcount list
-                            if (_rowCountList.Contains(0)) {
-                                c.ErrorMessage = "The club was not updated";
-                                tran.Rollback();
+                        //Preference
+                        if (entity.PreferenceList.Count > 0) {
+
+                            foreach (string preference in entity.PreferenceList) {
+
+                                //Return preference ID
+                                string preferenceSQL = @"Select id from Preference where name = @Name";
+                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
+
+                                if (preference_ID != 0 && club_ID != 0) {
+
+                                    //Update ClubPreference
+                                    string updateClubPreferenceSQL = @"Update ClubPreference Set Preference_ID = @Preference_ID
+                                                                 Where Club_ID = @Club_ID";
+
+                                    _rowCountList.Add(conn.Execute(updateClubPreferenceSQL, new {
+                                        Preference_ID = preference_ID,
+                                        Club_ID = club_ID
+                                    }, transaction: tran));
+                                }
                             }
-                            else {
-                                c.ErrorMessage = "";
-                                tran.Commit();
-                                break;
+                        }
+
+                        // TrainingHours
+                        if (entity.TrainingHoursList.Count > 0) {
+
+                            foreach (TrainingHours th in entity.TrainingHoursList) {
+
+
+                                //Update TrainingHours
+                                string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
+                                                                 Where ID = @ID";
+
+                                _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
+                                    th.Name,
+                                    th.Mon,
+                                    th.Tue,
+                                    th.Wed,
+                                    th.Thu,
+                                    th.Fri,
+                                    th.Sat,
+                                    th.Sun,
+                                    ID = th.Id
+                                }, transaction: tran));
                             }
+                        }
+
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                            c.ErrorMessage = "The club was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
                         //}
                         //catch (SqlException e) {
 
