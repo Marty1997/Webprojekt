@@ -1,4 +1,5 @@
 export class JobPosition {
+    id: number;
     league: string = "";
     preferredHand: string = "";
     height: string ="";
