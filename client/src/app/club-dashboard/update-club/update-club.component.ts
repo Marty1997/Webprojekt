@@ -11,6 +11,8 @@ import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox } from "@angular/material";
 
+/* pls virk */
+
 @Component({
   selector: "app-update-club",
   templateUrl: "./update-club.component.html",
