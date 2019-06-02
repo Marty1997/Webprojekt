@@ -57,6 +57,12 @@ export class UpdateClubComponent implements OnInit {
   regularSunFrom = new FormControl("");
   regularSunTo = new FormControl("");
 
+  trainerCtrl = new FormControl("");
+  assistantTrainerCtrl = new FormControl("");
+  physiotherapistCtrl = new FormControl("");
+  assistantPhysiotherapistCtrl = new FormControl("");
+  managerCtrl = new FormControl("");
+
   step: number = 0;
   positionList: string[] = [
     "Goalkeeper",
@@ -349,8 +355,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   onAddJobPosition() {
-    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
-    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+    this.updateOpenPositionList();
 
     // reset input fields
     this.openPositionLeague.setValue("");
@@ -473,6 +478,50 @@ export class UpdateClubComponent implements OnInit {
         this.winningMentality.checked = true;
       }
     });
+  }
+   // Helping method used to build staff
+   buildStaff() {
+    let club = new Club();
+
+    club.trainer = this.trainerCtrl.value;
+    club.assistantTrainer = this.assistantTrainerCtrl.value;
+    club.physiotherapist = this.physiotherapistCtrl.value;
+    club.assistantPhysiotherapist = this.assistantPhysiotherapistCtrl.value;
+    club.manager = this.managerCtrl.value;
+
+    return club;
+  }
+
+  // Helping method used to build values and preferences
+  buildValuesAndPreferences() {
+    let club = new Club();
+
+    // values
+    if (this.hardWorking.checked) {
+      club.valuesList.push(this.hardWorking.value);
+    }
+    if (this.socialCohesion.checked) {
+      club.valuesList.push(this.socialCohesion.value);
+    }
+    if (this.winningMentality.checked) {
+      club.valuesList.push(this.winningMentality.value);
+    }
+
+    // preferences
+    if (this.talentDevelopmentClub.checked) {
+      club.preferenceList.push(this.talentDevelopmentClub.value);
+    }
+    if (this.strivesForTitles.checked) {
+      club.preferenceList.push(this.strivesForTitles.value);
+    }
+    if (this.resultOriented.checked) {
+      club.preferenceList.push(this.resultOriented.value);
+    }
+    if (this.processOriented.checked) {
+      club.preferenceList.push(this.processOriented.value);
+    }
+
+    return club;
   }
 
   // Helping method used to build current season squadplayer
@@ -683,5 +732,11 @@ export class UpdateClubComponent implements OnInit {
       this.fitnessSunFrom.value + "-" + this.fitnessSunTo.value;
 
     return this.regularHours;
+  }
+
+  // Helping method used to update open position list
+  updateOpenPositionList() {
+    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
+    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
   }
 }
