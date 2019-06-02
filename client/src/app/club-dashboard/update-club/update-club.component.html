@@ -377,7 +377,7 @@
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let squadPlayer">
             <!-- Delete Current year squadPlayer button -->
-            <button mat-button color="warn" (click)="deleteSquadPlayer('Current Year')">Delete</button>
+            <button mat-button color="warn" (click)="deleteSquadPlayer(squadPlayer.id)">Delete</button>
           </td>
         </ng-container>
 
@@ -441,7 +441,7 @@
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let nextYearSquadPlayer">
             <!-- Delete Current year squadPlayer button -->
-            <button mat-button color="warn" (click)="deleteSquadPlayer('Next Year')">Delete</button>
+            <button mat-button color="warn" (click)="deleteSquadPlayer(nextYearSquadPlayer.id)">Delete</button>
           </td>
         </ng-container>
 

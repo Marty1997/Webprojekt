@@ -237,13 +237,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrl.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrl.value)
     ) {
-      this.squadPlayer = new SquadPlayer();
-      this.squadPlayer.season = "Current year";
-      this.squadPlayer.name = this.squadPlayerNameCtrl.value;
-      this.squadPlayer.position = this.squadPlayerPositionCtrl.value;
-      this.squadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrl.value;
-
-      this.dataSource.push(this.squadPlayer); //add the new model object to the dataSource
+      this.dataSource.push(this.buildCurrentSquadplayer()); //add the new model object to the dataSource
       this.dataSource = [...this.dataSource]; //refresh the dataSource
 
       // reset input fields
@@ -261,13 +255,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrlNext.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrlNext.value)
     ) {
-      this.nextYearSquadPlayer = new SquadPlayer();
-      this.nextYearSquadPlayer.season = "Next year";
-      this.nextYearSquadPlayer.name = this.squadPlayerNameCtrlNext.value;
-      this.nextYearSquadPlayer.position = this.squadPlayerPositionCtrlNext.value;
-      this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
-
-      this.nextYearSquadSource.push(this.nextYearSquadPlayer); //add the new model object to the dataSource
+      this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
       this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
 
       // reset input fields
@@ -427,7 +415,7 @@ export class UpdateClubComponent implements OnInit {
     // this.updateService.updateClub(this.clubBinding);
   }
 
-  deleteSquadPlayer(type: string, index: number) {
+  deleteSquadPlayer(index: number) {
     if(type == 'Current Year') {
       var removed = this.clubBinding.currentSquadPlayersList.splice(index, 1);
       this.deletedCurrentYearSquadPlayerList.push(removed[0]);   
@@ -491,6 +479,28 @@ export class UpdateClubComponent implements OnInit {
         this.winningMentality.checked = true;
       }
     });
+  }
+
+  // Helping method used to build current season squadplayer
+  buildCurrentSquadplayer() {
+    this.squadPlayer = new SquadPlayer();
+    this.squadPlayer.season = 'Current year';
+    this.squadPlayer.name = this.squadPlayerNameCtrl.value;
+    this.squadPlayer.position = this.squadPlayerPositionCtrl.value;
+    this.squadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrl.value;
+
+    return this.squadPlayer;
+  }
+
+  // Helping method used to build current season squadplayer
+  buildNextSquadplayer() {
+    this.nextYearSquadPlayer = new SquadPlayer();
+    this.nextYearSquadPlayer.season = "Next year";
+    this.nextYearSquadPlayer.name = this.squadPlayerNameCtrlNext.value;
+    this.nextYearSquadPlayer.position = this.squadPlayerPositionCtrlNext.value;
+    this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
+
+    return this.nextYearSquadPlayer;
   }
 
   // Helping method used to display current regular traininghours
