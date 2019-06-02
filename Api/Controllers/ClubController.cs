@@ -37,6 +37,7 @@ namespace Api.Controllers {
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateClubInfo([FromBody] Club entity) {
+            var accessToken = Request.Headers["Authorization"];
 
             var club = _clubLogic.UpdateClubInfo(entity);
 
