@@ -507,6 +507,7 @@ export class UpdateClubComponent implements OnInit {
     return this.nextYearSquadPlayer;
   }
 
+  // Helping method used to update next squadplayers
   updateNextSquadplayerList() {
     this.dataSource.push(this.buildCurrentSquadplayer()); //add the new model object to the dataSource
     this.dataSource = [...this.dataSource]; //refresh the dataSource
