@@ -237,8 +237,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrl.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrl.value)
     ) {
-      this.dataSource.push(this.buildCurrentSquadplayer()); //add the new model object to the dataSource
-      this.dataSource = [...this.dataSource]; //refresh the dataSource
+      this.updateCurrentSquadplayerList();
 
       // reset input fields
       this.squadPlayerNameCtrl.setValue("");
@@ -255,8 +254,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrlNext.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrlNext.value)
     ) {
-      this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
-      this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+      this.updateNextSquadplayerList();
 
       // reset input fields
       this.squadPlayerNameCtrlNext.setValue("");
@@ -492,6 +490,12 @@ export class UpdateClubComponent implements OnInit {
     return this.squadPlayer;
   }
 
+  // Helping method used to update current squadplayers
+  updateCurrentSquadplayerList() {
+    this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
+    this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+  }
+
   // Helping method used to build current season squadplayer
   buildNextSquadplayer() {
     this.nextYearSquadPlayer = new SquadPlayer();
@@ -501,6 +505,11 @@ export class UpdateClubComponent implements OnInit {
     this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
 
     return this.nextYearSquadPlayer;
+  }
+
+  updateNextSquadplayerList() {
+    this.dataSource.push(this.buildCurrentSquadplayer()); //add the new model object to the dataSource
+    this.dataSource = [...this.dataSource]; //refresh the dataSource
   }
 
   // Helping method used to display current regular traininghours
