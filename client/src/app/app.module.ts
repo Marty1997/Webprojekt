@@ -37,7 +37,7 @@ import { updateService } from './services/updateService';
 import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
-import { Errorshandling } from './services/errorsHandling';
+import { ErrorsHandler } from './services/errorsHandling';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -110,7 +110,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     updateService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: errorsHandler}
+    { provide: ErrorHandler, useClass: ErrorsHandler},
     AuthGuardService
   ],
   bootstrap: [AppComponent]
