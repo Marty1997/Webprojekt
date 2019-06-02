@@ -12,6 +12,7 @@ import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/registe
 import { MatCheckbox } from "@angular/material";
 
 /* pls virk */
+/* pls virk #2 */
 
 @Component({
   selector: "app-update-club",
