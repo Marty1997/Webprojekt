@@ -53,6 +53,12 @@ export class UpdateClubComponent implements OnInit {
   regularSunFrom = new FormControl("");
   regularSunTo = new FormControl("");
 
+  trainerCtrl = new FormControl("");
+  assistantTrainerCtrl = new FormControl("");
+  physiotherapistCtrl = new FormControl("");
+  assistantPhysiotherapistCtrl = new FormControl("");
+  managerCtrl = new FormControl("");
+
   step: number = 0;
   positionList: string[] = [
     "Goalkeeper",
@@ -222,7 +228,12 @@ export class UpdateClubComponent implements OnInit {
   squadPlayer = new SquadPlayer();
 
   // next year squad table
-  nextYearSquadColumns: string[] = ["shirtNumber", "name", "position", "delete"];
+  nextYearSquadColumns: string[] = [
+    "shirtNumber",
+    "name",
+    "position",
+    "delete"
+  ];
   nextYearSquadData: SquadPlayer[] = [];
   nextYearSquadSource = this.nextYearSquadData;
   @Input() nextYearPlayerName: string;
@@ -250,12 +261,15 @@ export class UpdateClubComponent implements OnInit {
   @ViewChild("openPositionAthletic") openPositionAthletic: MatCheckbox;
   @ViewChild("openPositionGreatShape") openPositionGreatShape: MatCheckbox;
   @ViewChild("openPositionQuickShots") openPositionQuickShots: MatCheckbox;
-  @ViewChild("openPositionAccurateShooter") openPositionAccurateShooter: MatCheckbox;
+  @ViewChild("openPositionAccurateShooter")
+  openPositionAccurateShooter: MatCheckbox;
   @ViewChild("openPositionTactical") openPositionTactical: MatCheckbox;
   @ViewChild("openPositionTeamplayer") openPositionTeamplayer: MatCheckbox;
   @ViewChild("openPositionSocial") openPositionSocial: MatCheckbox;
-  @ViewChild("openPositionWinAtAllCosts") openPositionWinAtAllCosts: MatCheckbox;
-  @ViewChild("openPositionLongRangeShooter") openPositionLongRangeShooter: MatCheckbox;
+  @ViewChild("openPositionWinAtAllCosts")
+  openPositionWinAtAllCosts: MatCheckbox;
+  @ViewChild("openPositionLongRangeShooter")
+  openPositionLongRangeShooter: MatCheckbox;
 
   // values&preferences
   @ViewChild("hardWorking") hardWorking: MatCheckbox;
@@ -345,8 +359,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   onAddJobPosition() {
-    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
-    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+    this.updateOpenPositionList();
 
     // reset input fields
     this.openPositionLeague.setValue("");
@@ -379,15 +392,15 @@ export class UpdateClubComponent implements OnInit {
         this.uploadFilesService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {
           this.clubBinding.imagePath = this.uploadFilesService.imagePath;
-          // this.updateClubProfile(); 
+          // this.updateClubProfile();
         }
         if (type === "facility") {
           if (this.clubBinding.facilityImagesList != null) {
             this.facilityImages = this.clubBinding.facilityImagesList;
           }
-        this.facilityImages.push(this.uploadFilesService.imagePath);
-        this.clubBinding.facilityImagesList = this.facilityImages;
-        // this.updateClubFacility();
+          this.facilityImages.push(this.uploadFilesService.imagePath);
+          this.clubBinding.facilityImagesList = this.facilityImages;
+          // this.updateClubFacility();
         }
       });
     }
@@ -402,7 +415,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClubRegularTrainingSchedule() {
-    this.deleteService.deleteClubRegularTrainingSchedule(this.regularHours.id); 
+    this.deleteService.deleteClubRegularTrainingSchedule(this.regularHours.id);
   }
 
   updateClubFitnessTrainingSchedule() {
@@ -410,7 +423,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClubFitnessTrainingSchedule() {
-    this.deleteService.deleteClubFitnessTrainingSchedule(this.fitnessHours.id); 
+    this.deleteService.deleteClubFitnessTrainingSchedule(this.fitnessHours.id);
   }
 
   addClubCurrentSeasonSquadPlayer() {
@@ -434,17 +447,17 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubStaff() {
-     this.updateService.updateClubStaff(this.buildClubStaff());
+    this.updateService.updateClubStaff(this.buildClubStaff());
   }
 
   //Updatevaluesandprefs
 
   updateClubProfile() {
-     this.updateService.updateProfile();
+    this.updateService.updateProfile();
   }
 
   updateClubFacility() {
-     this.updateService.updateFacility();
+    this.updateService.updateFacility();
   }
 
   markPreferenceCheckboxes(preferenceList: any) {
@@ -471,6 +484,50 @@ export class UpdateClubComponent implements OnInit {
         this.winningMentality.checked = true;
       }
     });
+  }
+  // Helping method used to build staff
+  buildStaff() {
+    let club = new Club();
+
+    club.trainer = this.trainerCtrl.value;
+    club.assistantTrainer = this.assistantTrainerCtrl.value;
+    club.physiotherapist = this.physiotherapistCtrl.value;
+    club.assistantPhysiotherapist = this.assistantPhysiotherapistCtrl.value;
+    club.manager = this.managerCtrl.value;
+
+    return club;
+  }
+
+  // Helping method used to build values and preferences
+  buildValuesAndPreferences() {
+    let club = new Club();
+
+    // values
+    if (this.hardWorking.checked) {
+      club.valuesList.push(this.hardWorking.value);
+    }
+    if (this.socialCohesion.checked) {
+      club.valuesList.push(this.socialCohesion.value);
+    }
+    if (this.winningMentality.checked) {
+      club.valuesList.push(this.winningMentality.value);
+    }
+
+    // preferences
+    if (this.talentDevelopmentClub.checked) {
+      club.preferenceList.push(this.talentDevelopmentClub.value);
+    }
+    if (this.strivesForTitles.checked) {
+      club.preferenceList.push(this.strivesForTitles.value);
+    }
+    if (this.resultOriented.checked) {
+      club.preferenceList.push(this.resultOriented.value);
+    }
+    if (this.processOriented.checked) {
+      club.preferenceList.push(this.processOriented.value);
+    }
+
+    return club;
   }
 
   // Helping method used to build current season squadplayer
@@ -601,6 +658,12 @@ export class UpdateClubComponent implements OnInit {
       }
     }
     return this.openPosition;
+  }
+
+  // Helping method used to update open position list
+  updateOpenPositionList() {
+    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
+    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
   }
 
   // Helping method used to display current regular traininghours
