@@ -1,24 +1,111 @@
 <app-header></app-header>
+<div class="well custom-container forPlayerClubBackgroundColor">
+  <mat-accordion class="example-headers-align">
+    <!-- Personal Info -->
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Personal Info</mat-panel-title>
+      </mat-expansion-panel-header>
 
-<!-- Upload profile button -->
-<input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-<button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
 
-<!-- Upload video button -->
-<div style="text-align: center">
-  <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
-  <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Additional Info -->
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Additional Info</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Strengths and Weaknesses -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Strengths and Weaknesses</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Sport CV -->
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Sport CV</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- National Team -->
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>National Team</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Profile Picture -->
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Profile Picture</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  
+  <!-- Upload profile button -->
+  <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+  <button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
+
+  <!-- Upload video button -->
+  <div style="text-align: center">
+    <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
+    <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
+  </div>
+
+  <!-- Delete NationalTeam button -->
+  <input type="button" class="btn btn-success" value="Delete" (click)="deleteNationalTeam()">
+
+  <!-- Delete Player weakness button -->
+  <input type="button" class="btn btn-success" value="Delete" (click)="deletePlayerWeakness()">
+
+  <!-- Delete Player strength button -->
+  <input type="button" class="btn btn-success" value="Delete" (click)="deletePlayerStrength()">
+
+  <!-- Update button -->
+  <input type="button" class="btn btn-success" value="Update" (click)="updatePlayer()">
 </div>
-
-<!-- Delete NationalTeam button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="deleteNationalTeam()">
-
-<!-- Delete Player weakness button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="deletePlayerWeakness()">
-
-<!-- Delete Player strength button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="deletePlayerStrength()">
-
-<!-- Update button -->
-<input type="button" class="btn btn-success" value="Update" (click) ="updatePlayer()">
-

@@ -13,6 +13,7 @@ import { uploadFilesService} from "src/app/services/uploadFilesService";
 export class UpdatePlayerComponent implements OnInit {
 
   playerBinding: Player;
+  step: number;
 
   constructor(
     private loginService: loginService,
@@ -22,7 +23,20 @@ export class UpdatePlayerComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.setStep(-1); // start with closed accordions
     this.playerBinding = this.loginService.playerInSession;
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 
   upload = (files, type: string) => {
