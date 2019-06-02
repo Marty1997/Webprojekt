@@ -525,6 +525,38 @@ export class UpdateClubComponent implements OnInit {
     return club;
   }
 
+  // Helping method used to build values and preferences
+  buildValuesAndPreferences() {
+    let club = new Club();
+    
+    // values
+    if(this.hardWorking.checked) {
+      club.valuesList.push(this.hardWorking.value);
+    }
+    if(this.socialCohesion.checked) {
+      club.valuesList.push(this.socialCohesion.value);
+    }
+    if(this.winningMentality.checked) {
+      club.valuesList.push(this.winningMentality.value);
+    }
+
+    // preferences
+    if(this.talentDevelopmentClub.checked) {
+      club.preferenceList.push(this.talentDevelopmentClub.value);
+    }
+    if(this.strivesForTitles.checked) {
+      club.preferenceList.push(this.strivesForTitles.value);
+    }
+    if(this.resultOriented.checked) {
+      club.preferenceList.push(this.resultOriented.value);
+    }
+    if(this.processOriented.checked) {
+      club.preferenceList.push(this.processOriented.value);
+    }
+
+    return club;
+  }
+
   // Helping method used to build current season squadplayer
   buildCurrentSquadplayer() {
     this.squadPlayer = new SquadPlayer();
