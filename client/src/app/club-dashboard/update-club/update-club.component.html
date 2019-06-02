@@ -619,19 +619,19 @@
 
       <mat-label>Technical Staff</mat-label><br>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Trainer" [value]="clubBinding.trainer" [errorStateMatcher]="validate">
+        <input matInput placeholder="Trainer" [value]="clubBinding.trainer" [formControl]="trainerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Trainer" [value]="clubBinding.assistantTrainer" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Trainer" [value]="clubBinding.assistantTrainer" [formControl]="assistantTrainerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Physiotherapist" [value]="clubBinding.physiotherapist" [errorStateMatcher]="validate">
+        <input matInput placeholder="Physiotherapist" [value]="clubBinding.physiotherapist" [formControl]="physiotherapistCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Physiotherapist" [value]="clubBinding.assistantPhysiotherapist" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Physiotherapist" [value]="clubBinding.assistantPhysiotherapist" [formControl]="assistantPhysiotherapistCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Team Manager" [value]="clubBinding.manager" [errorStateMatcher]="validate">
+        <input matInput placeholder="Team Manager" [value]="clubBinding.manager" [formControl]="managerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
 
       <mat-action-row>
