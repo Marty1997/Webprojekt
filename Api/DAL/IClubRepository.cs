@@ -16,6 +16,8 @@ namespace Api.DAL {
                                                                    string sqlWhereStatementValue);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
                                                                  string sqlWhereStatementValue);
+        Club UpdateClubInfo(Club entity);
+        Club UpdateTrainingHours(TrainingHours entity);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
         IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
