@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -37,6 +37,7 @@ import { updateService } from './services/updateService';
 import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
+import { Errorshandling } from './services/errorsHandling';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -109,6 +110,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     updateService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: errorsHandler}
     AuthGuardService
   ],
   bootstrap: [AppComponent]
