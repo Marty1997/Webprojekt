@@ -634,7 +634,7 @@ namespace Api.DAL.Repos {
 
             for (int i = 0; i < 5; i++) {
 
-                List<int> _rowCountList = new List<int>();
+                int rowCount = 0;
 
                 using (var conn = Connection()) {
 
@@ -655,7 +655,7 @@ namespace Api.DAL.Repos {
                                                                     StreetNumber = @StreetNumber, ZipcodeCity_ID = @ZipcodeCity_ID
                                                              Where Email = @Email AND RowID = @RowID";
                         
-                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                        rowCount = conn.Execute(updateClubSQL, new {
                             entity.Name,
                             entity.League,
                             entity.Country,
@@ -664,14 +664,14 @@ namespace Api.DAL.Repos {
                             entity.Email,
                             ZipcodeCity_ID = zipcodeCity_ID,
                             RowID = row_ID
-                        }, transaction: tran));
+                        }, transaction: tran);
 
                         //Update password
 
                         
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            c.ErrorMessage = "The club was not updated";
+                        
+                        if (rowCount == 0) {
+                            c.ErrorMessage = "The club info was not updated";
                             tran.Rollback();
                         }
                         else {
@@ -691,13 +691,13 @@ namespace Api.DAL.Repos {
             return c;
         }
         
-        public string UpdateClubRegularTrainingSchedule(TrainingHours entity) {
+        public string UpdateTrainingHours(TrainingHours entity) {
 
             string errorMessage = "";
 
             for (int i = 0; i < 5; i++) {
 
-                List<int> _rowCountList = new List<int>();
+                int rowCount = 0;
 
                 using (var conn = Connection()) {
 
@@ -707,7 +707,7 @@ namespace Api.DAL.Repos {
                             string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
                                                                  Where ID = @ID";
 
-                            _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
+                            rowCount = conn.Execute(trainingHoursSQL, new {
                                 entity.Name,
                                 entity.Mon,
                                 entity.Tue,
@@ -717,10 +717,9 @@ namespace Api.DAL.Repos {
                                 entity.Sat,
                                 entity.Sun,
                                 ID = entity.Id
-                            }, transaction: tran));
+                            }, transaction: tran);
                         
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
+                            if (rowCount == 0) {
                                 errorMessage = "Training hours was not updated";
                                 tran.Rollback();
                             }
@@ -740,6 +739,177 @@ namespace Api.DAL.Repos {
             return errorMessage;
         }
 
+        public string AddClubSquadPlayer(SquadPlayer entity, int club_ID) {
+            string errorMessage = "";
+
+            for (int i = 0; i < 5; i++) {
+
+                int rowCount = 0;
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        //Insert Squad Player
+                        string squadPlayerSQL = @"INSERT INTO SquadPlayers (ShirtNumber, Season, Name, Position, Club_ID) 
+                                        VALUES (@ShirtNumber, @Season, @Name, @Position, @Club_ID)";
+
+                        rowCount = conn.Execute(squadPlayerSQL, new {
+                            ShirtNumber = entity.ShirtNumber,
+                            Season = entity.Season,
+                            Name = entity.Name,
+                            Position = entity.Position,
+                            Club_ID = club_ID
+                        }, transaction: tran);
+
+                        if (rowCount == 0) {
+                            errorMessage = "Training hours was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return errorMessage;
+            
+        }
+
+        public string AddClubOpenPosition(JobPosition entity, int club_ID) {
+            string errorMessage = "";
+
+            for (int i = 0; i < 5; i++) {
+
+                int rowCount = 0;
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        var jobPosition_ID = 0;
+
+                        //Insert JobPosition
+                        string jobPositionSQL = @"INSERT INTO JobPosition (League, PreferredHand, Height, MinAge, MaxAge, Season, ContractStatus, Position, Club_ID) 
+                                        VALUES (@League, @PreferredHand, @Height, @MinAge, @MaxAge, @Season, @ContractStatus, @Position, @Club_ID);
+                                            SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                        jobPosition_ID = conn.Query<int>(jobPositionSQL, new {
+                            League = entity.League,
+                            PreferredHand = entity.PreferredHand,
+                            Height = entity.Height,
+                            MinAge = entity.MinAge,
+                            MaxAge = entity.MaxAge,
+                            Season = entity.Season,
+                            ContractStatus = entity.ContractStatus,
+                            Position = entity.Position,
+                            Club_ID = club_ID
+                        }, transaction: tran).Single();
+
+                        if (entity.StrengthsList.Count > 0) {
+                            foreach (string strength in entity.StrengthsList) {
+
+                                //Return strength ID
+                                string strengthSQL = @"Select id from Strength where name = @Name";
+                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
+
+                                if (strength_ID != 0) {
+
+                                    //Insert JobPositionStrength
+                                    string jobPositionStrengthSQL = @"INSERT INTO JobPositionStrength (JobPosition_ID, Strength_ID) 
+                                        VALUES (@JobPosition_ID, @Strength_ID)";
+
+                                    rowCount = conn.Execute(jobPositionStrengthSQL, new {
+                                        JobPosition_ID = jobPosition_ID,
+                                        Strength_ID = strength_ID
+                                    }, transaction: tran);
+                                }
+                            }
+                        }
+
+                        if (rowCount == 0) {
+                            errorMessage = "Training hours was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return errorMessage;
+
+        }
+
+        public Club UpdateClubStaff(Club entity) {
+
+            Club c = new Club();
+
+            for (int i = 0; i < 5; i++) {
+
+                int rowCount = 0;
+
+                using (var conn = Connection()) {
+                    
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Club where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+                        
+                        //Update club staff
+                        string updateClubSQL = @"Update Club Set Trainer = @Trainer, AssistantTrainer = @AssistantTrainer, Physiotherapist = @Physiotherapist, 
+                                                            AssistantPhysiotherapist = @AssistantPhysiotherapist, Manager = @Manager, 
+                                                                 Where Email = @Email AND RowID = @RowID";
+                        
+                        rowCount = conn.Execute(updateClubSQL, new {
+                            entity.Trainer,
+                            entity.AssistantTrainer,
+                            entity.Physiotherapist,
+                            entity.AssistantPhysiotherapist,
+                            entity.Manager,
+                            entity.Email,
+                            RowID = row_ID
+                        }, transaction: tran);
+                        
+                       
+                        if (rowCount == 0) {
+                            c.ErrorMessage = "The club staff was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
+        }
 
         public Club Update(Club entity) {
 
@@ -1017,11 +1187,10 @@ namespace Api.DAL.Repos {
                     using (IDbTransaction tran = conn.BeginTransaction()) {
                         //try {
 
-
                         if (jpl.Count > 0) {
 
                             foreach (JobPosition jp in jpl) {
-
+                                
                                 //Return row ID
                                 string rowIDSQL = @"Select rowID from JobPosition where ID = @ID";
                                 byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = jp.Id }, transaction: tran).Single();

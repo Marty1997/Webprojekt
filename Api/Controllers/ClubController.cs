@@ -38,10 +38,19 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult UpdateClubInfo([FromBody] Club entity) {
 
-            //var club = _clubLogic.UpdateClubInfo(entity);
+            var club = _clubLogic.UpdateClubInfo(entity);
 
-            //return Ok(club);
-            return null;
+            return Ok(club);
+        }
+
+        // api/Club/UpdateTrainingHours
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateTrainingHours([FromBody] TrainingHours entity) {
+
+            var response = _clubLogic.UpdateTrainingHours(entity);
+
+            return Ok(response);
         }
 
         // api/Club/GetById
