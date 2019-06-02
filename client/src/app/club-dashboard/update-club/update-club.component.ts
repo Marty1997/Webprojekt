@@ -1,23 +1,22 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Club } from 'src/app/models/club.model';
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Club } from "src/app/models/club.model";
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
-import { uploadFilesService} from "src/app/services/uploadFilesService";
-import { SquadPlayer } from 'src/app/models/squadPlayer.model';
-import { TrainingHours } from 'src/app/models/trainingHours.model';
-import { JobPosition } from 'src/app/models/jobPosition';
-import { FormControl, Validators } from '@angular/forms';
-import { MyErrorStateMatcher } from 'src/app/front-page/front-page-image/register-player/register-player.component';
-import { MatCheckbox } from '@angular/material';
+import { uploadFilesService } from "src/app/services/uploadFilesService";
+import { SquadPlayer } from "src/app/models/squadPlayer.model";
+import { TrainingHours } from "src/app/models/trainingHours.model";
+import { JobPosition } from "src/app/models/jobPosition";
+import { FormControl, Validators } from "@angular/forms";
+import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
+import { MatCheckbox } from "@angular/material";
 
 @Component({
-  selector: 'app-update-club',
-  templateUrl: './update-club.component.html',
-  styleUrls: ['./update-club.component.css']
+  selector: "app-update-club",
+  templateUrl: "./update-club.component.html",
+  styleUrls: ["./update-club.component.css"]
 })
 export class UpdateClubComponent implements OnInit {
-
   clubBinding: Club;
   clubLeague: string;
   clubCountry: string;
@@ -53,37 +52,118 @@ export class UpdateClubComponent implements OnInit {
   regularSatTo = new FormControl("");
   regularSunFrom = new FormControl("");
   regularSunTo = new FormControl("");
-  
+
   step: number = 0;
-  positionList: string[] = ['Goalkeeper', 'Left wing', 'Left back', 'Playmaker', 'Pivot', 'Right back', 'Right wing', 'Defence'];
-  leagueList: string[] = ['First League', 'Second League', 'Third League'];
-  countryList: string[] = ['Denmark', 'Sweden', 'Norway'];
+  positionList: string[] = [
+    "Goalkeeper",
+    "Left wing",
+    "Left back",
+    "Playmaker",
+    "Pivot",
+    "Right back",
+    "Right wing",
+    "Defence"
+  ];
+  leagueList: string[] = ["First League", "Second League", "Third League"];
+  countryList: string[] = ["Denmark", "Sweden", "Norway"];
   trainingHours: any[] = [
-    {value: 'Rest'},
-    {value: '00:00'}, {value: '00:15'}, {value: '00:30'}, {value: '00:45'},
-    {value: '01:00'}, {value: '01:15'}, {value: '01:30'}, {value: '01:45'},
-    {value: '02:00'}, {value: '02:15'}, {value: '02:30'}, {value: '02:45'},
-    {value: '03:00'}, {value: '03:15'}, {value: '03:30'}, {value: '03:45'},
-    {value: '04:00'}, {value: '04:15'}, {value: '04:30'}, {value: '04:45'},
-    {value: '05:00'}, {value: '05:15'}, {value: '05:30'}, {value: '05:45'},
-    {value: '06:00'}, {value: '06:15'}, {value: '06:30'}, {value: '06:45'},
-    {value: '07:00'}, {value: '07:15'}, {value: '07:30'}, {value: '07:45'},
-    {value: '08:00'}, {value: '08:15'}, {value: '08:30'}, {value: '08:45'},
-    {value: '09:00'}, {value: '09:15'}, {value: '09:30'}, {value: '09:45'},
-    {value: '10:00'}, {value: '10:15'}, {value: '10:30'}, {value: '10:45'},
-    {value: '11:00'}, {value: '11:15'}, {value: '11:30'}, {value: '11:45'},
-    {value: '12:00'}, {value: '12:15'}, {value: '12:30'}, {value: '12:45'},
-    {value: '13:00'}, {value: '13:15'}, {value: '13:30'}, {value: '13:45'},
-    {value: '14:00'}, {value: '14:15'}, {value: '14:30'}, {value: '14:45'},
-    {value: '15:00'}, {value: '15:15'}, {value: '15:30'}, {value: '15:45'},
-    {value: '16:00'}, {value: '16:15'}, {value: '16:30'}, {value: '16:45'},
-    {value: '17:00'}, {value: '17:15'}, {value: '17:30'}, {value: '17:45'},
-    {value: '18:00'}, {value: '18:15'}, {value: '18:30'}, {value: '18:45'},
-    {value: '19:00'}, {value: '19:15'}, {value: '19:30'}, {value: '19:45'},
-    {value: '20:00'}, {value: '20:15'}, {value: '20:30'}, {value: '20:45'},
-    {value: '21:00'}, {value: '21:15'}, {value: '21:30'}, {value: '21:45'},
-    {value: '22:00'}, {value: '22:15'}, {value: '22:30'}, {value: '22:45'},
-    {value: '23:00'}, {value: '23:15'}, {value: '23:30'}, {value: '23:45'}
+    { value: "Rest" },
+    { value: "00:00" },
+    { value: "00:15" },
+    { value: "00:30" },
+    { value: "00:45" },
+    { value: "01:00" },
+    { value: "01:15" },
+    { value: "01:30" },
+    { value: "01:45" },
+    { value: "02:00" },
+    { value: "02:15" },
+    { value: "02:30" },
+    { value: "02:45" },
+    { value: "03:00" },
+    { value: "03:15" },
+    { value: "03:30" },
+    { value: "03:45" },
+    { value: "04:00" },
+    { value: "04:15" },
+    { value: "04:30" },
+    { value: "04:45" },
+    { value: "05:00" },
+    { value: "05:15" },
+    { value: "05:30" },
+    { value: "05:45" },
+    { value: "06:00" },
+    { value: "06:15" },
+    { value: "06:30" },
+    { value: "06:45" },
+    { value: "07:00" },
+    { value: "07:15" },
+    { value: "07:30" },
+    { value: "07:45" },
+    { value: "08:00" },
+    { value: "08:15" },
+    { value: "08:30" },
+    { value: "08:45" },
+    { value: "09:00" },
+    { value: "09:15" },
+    { value: "09:30" },
+    { value: "09:45" },
+    { value: "10:00" },
+    { value: "10:15" },
+    { value: "10:30" },
+    { value: "10:45" },
+    { value: "11:00" },
+    { value: "11:15" },
+    { value: "11:30" },
+    { value: "11:45" },
+    { value: "12:00" },
+    { value: "12:15" },
+    { value: "12:30" },
+    { value: "12:45" },
+    { value: "13:00" },
+    { value: "13:15" },
+    { value: "13:30" },
+    { value: "13:45" },
+    { value: "14:00" },
+    { value: "14:15" },
+    { value: "14:30" },
+    { value: "14:45" },
+    { value: "15:00" },
+    { value: "15:15" },
+    { value: "15:30" },
+    { value: "15:45" },
+    { value: "16:00" },
+    { value: "16:15" },
+    { value: "16:30" },
+    { value: "16:45" },
+    { value: "17:00" },
+    { value: "17:15" },
+    { value: "17:30" },
+    { value: "17:45" },
+    { value: "18:00" },
+    { value: "18:15" },
+    { value: "18:30" },
+    { value: "18:45" },
+    { value: "19:00" },
+    { value: "19:15" },
+    { value: "19:30" },
+    { value: "19:45" },
+    { value: "20:00" },
+    { value: "20:15" },
+    { value: "20:30" },
+    { value: "20:45" },
+    { value: "21:00" },
+    { value: "21:15" },
+    { value: "21:30" },
+    { value: "21:45" },
+    { value: "22:00" },
+    { value: "22:15" },
+    { value: "22:30" },
+    { value: "22:45" },
+    { value: "23:00" },
+    { value: "23:15" },
+    { value: "23:30" },
+    { value: "23:45" }
   ];
   // validate inputs
   errorMessage = "";
@@ -151,7 +231,17 @@ export class UpdateClubComponent implements OnInit {
   nextYearSquadPlayer = new SquadPlayer();
 
   // open positions table
-  openPositionColumns: string[]= ['position', 'league', 'hand', 'height', 'age', 'season', 'contract', 'strengths'];
+  openPositionColumns: string[] = [
+    "position",
+    "league",
+    "hand",
+    "height",
+    "age",
+    "season",
+    "contract",
+    "strengths",
+    "actions"
+  ];
   openPositionData: JobPosition[] = [];
   openPositionSource = this.openPositionData;
   openPosition = new JobPosition();
@@ -181,35 +271,41 @@ export class UpdateClubComponent implements OnInit {
     private updateService: updateService,
     private uploadFilesService: uploadFilesService,
     private deleteService: deleteService
-    ) { }
+  ) {}
 
   ngOnInit() {
     this.clubBinding = this.loginService.clubInSession;
     this.clubLeague = this.clubBinding.league;
     this.clubCountry = this.clubBinding.country;
     this.clubBinding.trainingHoursList.forEach(element => {
-      if(element.name == 'Handball') {
+      if (element.name == "Handball") {
         this.buildRegularHours(element);
-      } else if(element.name == 'Fitness training') {
+      } else if (element.name == "Fitness training") {
         this.buildFitnessHours(element);
       }
     });
-    if(this.clubBinding.currentSquadPlayersList.length > 0) {
+    if (this.clubBinding.currentSquadPlayersList.length > 0) {
       this.clubBinding.currentSquadPlayersList.forEach(element => {
         this.dataSource.push(element); //add the new model object to the dataSource
         this.dataSource = [...this.dataSource]; //refresh the dataSource
       });
     }
-    if(this.clubBinding.nextYearSquadPlayersList.length > 0) {
+    if (this.clubBinding.nextYearSquadPlayersList.length > 0) {
       this.clubBinding.nextYearSquadPlayersList.forEach(element => {
         this.nextYearSquadSource.push(element); //add the new model object to the dataSource
         this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
       });
     }
-    if(this.clubBinding.preferenceList.length > 0) {
+    if (this.clubBinding.jobPositionsList.length > 0) {
+      this.clubBinding.jobPositionsList.forEach(element => {
+        this.openPositionSource.push(element);
+        this.openPositionSource = [...this.openPositionSource];
+      });
+    }
+    if (this.clubBinding.preferenceList.length > 0) {
       this.markPreferenceCheckboxes(this.clubBinding.preferenceList);
     }
-    if(this.clubBinding.valuesList.length > 0) {
+    if (this.clubBinding.valuesList.length > 0) {
       this.markValueCheckboxes(this.clubBinding.valuesList);
     }
   }
@@ -222,14 +318,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrl.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrl.value)
     ) {
-      this.squadPlayer = new SquadPlayer();
-      this.squadPlayer.season = "Current year";
-      this.squadPlayer.name = this.squadPlayerNameCtrl.value;
-      this.squadPlayer.position = this.squadPlayerPositionCtrl.value;
-      this.squadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrl.value;
-
-      this.dataSource.push(this.squadPlayer); //add the new model object to the dataSource
-      this.dataSource = [...this.dataSource]; //refresh the dataSource
+      this.updateCurrentSquadplayerList();
 
       // reset input fields
       this.squadPlayerNameCtrl.setValue("");
@@ -246,14 +335,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrlNext.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrlNext.value)
     ) {
-      this.nextYearSquadPlayer = new SquadPlayer();
-      this.nextYearSquadPlayer.season = "Next year";
-      this.nextYearSquadPlayer.name = this.squadPlayerNameCtrlNext.value;
-      this.nextYearSquadPlayer.position = this.squadPlayerPositionCtrlNext.value;
-      this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
-
-      this.nextYearSquadSource.push(this.nextYearSquadPlayer); //add the new model object to the dataSource
-      this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+      this.updateNextSquadplayerList();
 
       // reset input fields
       this.squadPlayerNameCtrlNext.setValue("");
@@ -263,91 +345,18 @@ export class UpdateClubComponent implements OnInit {
   }
 
   onAddJobPosition() {
-    if (this.openPositionName.value !== "") {
-      this.openPosition = new JobPosition();
-      if(this.openPositionLeague.value !== "") {
-        this.openPosition.league = this.openPositionLeague.value;
-      } else {
-        this.openPosition.league = null;
-      }
-      if(this.openPositionHand.value !== "") {
-        this.openPosition.preferredHand = this.openPositionHand.value;
-      } else {
-        this.openPosition.preferredHand = null;
-      }
-      this.openPosition.height = this.openPositionHeight.value;
-      this.openPosition.maxAge = this.openPositionMaxAge.value;
-      this.openPosition.minAge = this.openPositionMinAge.value;
-      if(this.openPositionSeason.value !== "") {
-        this.openPosition.season = this.openPositionSeason.value;
-      } else {
-        this.openPosition.season = null;
-      }
-      if(this.openPositionContract.value !== "") {
-        this.openPosition.contractStatus = this.openPositionContract.value;
-      } else {
-        this.openPosition.contractStatus = null;
-      }
-      if(this.openPositionName.value !== "") {
-        this.openPosition.position = this.openPositionName.value;
-      } else {
-        this.openPosition.position = null;
-      }
+    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
+    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
 
-      if (this.openPositionSpeedy.checked) {
-        this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
-        this.openPositionSpeedy.toggle();
-      }
-      if (this.openPositionAthletic.checked) {
-        this.openPosition.strengthsList.push(this.openPositionAthletic.value);
-        this.openPositionAthletic.toggle();
-      }
-      if (this.openPositionGreatShape.checked) {
-        this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
-        this.openPositionGreatShape.toggle();
-      }
-      if (this.openPositionQuickShots.checked) {
-        this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
-        this.openPositionQuickShots.toggle();
-      }
-      if (this.openPositionAccurateShooter.checked) {
-        this.openPosition.strengthsList.push(this.openPositionAccurateShooter.value);
-        this.openPositionAccurateShooter.toggle();
-      }
-      if (this.openPositionTactical.checked) {
-        this.openPosition.strengthsList.push(this.openPositionTactical.value);
-        this.openPositionTactical.toggle();
-      }
-      if (this.openPositionTeamplayer.checked) {
-        this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
-        this.openPositionTeamplayer.toggle();
-      }
-      if (this.openPositionSocial.checked) {
-        this.openPosition.strengthsList.push(this.openPositionSocial.value);
-        this.openPositionSocial.toggle();
-      }
-      if (this.openPositionWinAtAllCosts.checked) {
-        this.openPosition.strengthsList.push(this.openPositionWinAtAllCosts.value);
-        this.openPositionWinAtAllCosts.toggle();
-      }
-      if (this.openPositionLongRangeShooter.checked) {
-        this.openPosition.strengthsList.push(this.openPositionLongRangeShooter.value);
-        this.openPositionLongRangeShooter.toggle();
-      }
-
-      this.openPositionSource.push(this.openPosition); // add the new model object to the dataSource
-      this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
-
-      // reset input fields
-      this.openPositionLeague.setValue("");
-      this.openPositionHand.setValue("");
-      this.openPositionHeight.setValue("");
-      this.openPositionMaxAge.setValue("");
-      this.openPositionMinAge.setValue("");
-      this.openPositionSeason.setValue("");
-      this.openPositionContract.setValue("");
-      this.openPositionName.setValue("");
-    }
+    // reset input fields
+    this.openPositionLeague.setValue("");
+    this.openPositionHand.setValue("");
+    this.openPositionHeight.setValue("");
+    this.openPositionMaxAge.setValue("");
+    this.openPositionMinAge.setValue("");
+    this.openPositionSeason.setValue("");
+    this.openPositionContract.setValue("");
+    this.openPositionName.setValue("");
   }
 
   setStep(index: number) {
@@ -365,16 +374,15 @@ export class UpdateClubComponent implements OnInit {
   upload = (files, type: string) => {
     if (files.length === 0) {
       return;
-    }
-    else {
+    } else {
       this.uploadFilesService.uploadFile(files).subscribe(res => {
-        this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
-        if(type === 'profile') {
+        this.uploadFilesService.createPath(JSON.stringify(res.body), "image");
+        if (type === "profile") {
           this.clubBinding.imagePath = this.uploadFilesService.imagePath;
           // this.updateClubProfile(); 
         }
-        if(type === 'facility') {
-          if(this.clubBinding.facilityImagesList != null) {
+        if (type === "facility") {
+          if (this.clubBinding.facilityImagesList != null) {
             this.facilityImages = this.clubBinding.facilityImagesList;
           }
         this.facilityImages.push(this.uploadFilesService.imagePath);
@@ -383,7 +391,7 @@ export class UpdateClubComponent implements OnInit {
         }
       });
     }
-  }
+  };
 
   updateClubInfo() {
     this.updateService.updateClubInfo(this.buildClubInfo());
@@ -441,11 +449,11 @@ export class UpdateClubComponent implements OnInit {
 
   markPreferenceCheckboxes(preferenceList: any) {
     preferenceList.forEach(element => {
-      if(element == 'Talent development club') {
+      if (element == "Talent development club") {
         this.talentDevelopmentClub.checked = true;
-      } else if(element == 'Strives for titles') {
+      } else if (element == "Strives for titles") {
         this.strivesForTitles.checked = true;
-      } else if(element == 'Result oriented') {
+      } else if (element == "Result oriented") {
         this.resultOriented.checked = true;
       } else {
         this.processOriented.checked = true;
@@ -455,9 +463,9 @@ export class UpdateClubComponent implements OnInit {
 
   markValueCheckboxes(valuesList: any) {
     valuesList.forEach(element => {
-      if(element == 'Hard working') {
+      if (element == "Hard working") {
         this.hardWorking.checked = true;
-      } else if(element == 'Social cohesion') {
+      } else if (element == "Social cohesion") {
         this.socialCohesion.checked = true;
       } else {
         this.winningMentality.checked = true;
@@ -465,6 +473,38 @@ export class UpdateClubComponent implements OnInit {
     });
   }
 
+  // Helping method used to build current season squadplayer
+  buildCurrentSquadplayer() {
+    this.squadPlayer = new SquadPlayer();
+    this.squadPlayer.season = "Current year";
+    this.squadPlayer.name = this.squadPlayerNameCtrl.value;
+    this.squadPlayer.position = this.squadPlayerPositionCtrl.value;
+    this.squadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrl.value;
+
+    return this.squadPlayer;
+  }
+
+  // Helping method used to update current squadplayers
+  updateCurrentSquadplayerList() {
+    this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
+    this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+  }
+
+  // Helping method used to build current season squadplayer
+  buildNextSquadplayer() {
+    this.nextYearSquadPlayer = new SquadPlayer();
+    this.nextYearSquadPlayer.season = "Next year";
+    this.nextYearSquadPlayer.name = this.squadPlayerNameCtrlNext.value;
+    this.nextYearSquadPlayer.position = this.squadPlayerPositionCtrlNext.value;
+    this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
+
+    return this.nextYearSquadPlayer;
+  }
+
+  // Helping method used to update next squadplayers
+  updateNextSquadplayerList() {
+    this.dataSource.push(this.buildCurrentSquadplayer()); //add the new model object to the dataSource
+    this.dataSource = [...this.dataSource]; //refresh the dataSource
   buildClubInfo() {
     let club: Club;
     club.password = this.currentPassword.value;
@@ -479,7 +519,89 @@ export class UpdateClubComponent implements OnInit {
     return club;
   }
 
-  // Helping method used to split up regular traininghours into from and to
+  buildJobPosition() {
+    if (this.openPositionName.value !== "") {
+      this.openPosition = new JobPosition();
+      if (this.openPositionLeague.value !== "") {
+        this.openPosition.league = this.openPositionLeague.value;
+      } else {
+        this.openPosition.league = null;
+      }
+      if (this.openPositionHand.value !== "") {
+        this.openPosition.preferredHand = this.openPositionHand.value;
+      } else {
+        this.openPosition.preferredHand = null;
+      }
+      this.openPosition.height = this.openPositionHeight.value;
+      this.openPosition.maxAge = this.openPositionMaxAge.value;
+      this.openPosition.minAge = this.openPositionMinAge.value;
+      if (this.openPositionSeason.value !== "") {
+        this.openPosition.season = this.openPositionSeason.value;
+      } else {
+        this.openPosition.season = null;
+      }
+      if (this.openPositionContract.value !== "") {
+        this.openPosition.contractStatus = this.openPositionContract.value;
+      } else {
+        this.openPosition.contractStatus = null;
+      }
+      if (this.openPositionName.value !== "") {
+        this.openPosition.position = this.openPositionName.value;
+      } else {
+        this.openPosition.position = null;
+      }
+
+      if (this.openPositionSpeedy.checked) {
+        this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
+        this.openPositionSpeedy.toggle();
+      }
+      if (this.openPositionAthletic.checked) {
+        this.openPosition.strengthsList.push(this.openPositionAthletic.value);
+        this.openPositionAthletic.toggle();
+      }
+      if (this.openPositionGreatShape.checked) {
+        this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
+        this.openPositionGreatShape.toggle();
+      }
+      if (this.openPositionQuickShots.checked) {
+        this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
+        this.openPositionQuickShots.toggle();
+      }
+      if (this.openPositionAccurateShooter.checked) {
+        this.openPosition.strengthsList.push(
+          this.openPositionAccurateShooter.value
+        );
+        this.openPositionAccurateShooter.toggle();
+      }
+      if (this.openPositionTactical.checked) {
+        this.openPosition.strengthsList.push(this.openPositionTactical.value);
+        this.openPositionTactical.toggle();
+      }
+      if (this.openPositionTeamplayer.checked) {
+        this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
+        this.openPositionTeamplayer.toggle();
+      }
+      if (this.openPositionSocial.checked) {
+        this.openPosition.strengthsList.push(this.openPositionSocial.value);
+        this.openPositionSocial.toggle();
+      }
+      if (this.openPositionWinAtAllCosts.checked) {
+        this.openPosition.strengthsList.push(
+          this.openPositionWinAtAllCosts.value
+        );
+        this.openPositionWinAtAllCosts.toggle();
+      }
+      if (this.openPositionLongRangeShooter.checked) {
+        this.openPosition.strengthsList.push(
+          this.openPositionLongRangeShooter.value
+        );
+        this.openPositionLongRangeShooter.toggle();
+      }
+    }
+    return this.openPosition;
+  }
+
+  // Helping method used to display current regular traininghours
   buildRegularHours(element: any) {
     this.regularHours.id = element.id;
     this.regularMonFrom.setValue(element.mon.slice(0, 5));
@@ -518,29 +640,43 @@ export class UpdateClubComponent implements OnInit {
   }
 
   buildRegularTrainingHours() {
-    this.regularHours.name = 'Handball';
+    this.regularHours.name = "Handball";
 
-    this.regularHours.mon = this.regularMonFrom.value + '-' + this.regularMonTo.value;
-    this.regularHours.tue = this.regularTueFrom.value + '-' + this.regularTueTo.value;
-    this.regularHours.wed = this.regularWedFrom.value + '-' + this.regularWedTo.value;
-    this.regularHours.thu = this.regularThuFrom.value + '-' + this.regularThuTo.value;
-    this.regularHours.fri = this.regularFriFrom.value + '-' + this.regularFriTo.value;
-    this.regularHours.sat = this.regularSatFrom.value + '-' + this.regularSatTo.value;
-    this.regularHours.sun = this.regularSunFrom.value + '-' + this.regularSunTo.value;
+    this.regularHours.mon =
+      this.regularMonFrom.value + "-" + this.regularMonTo.value;
+    this.regularHours.tue =
+      this.regularTueFrom.value + "-" + this.regularTueTo.value;
+    this.regularHours.wed =
+      this.regularWedFrom.value + "-" + this.regularWedTo.value;
+    this.regularHours.thu =
+      this.regularThuFrom.value + "-" + this.regularThuTo.value;
+    this.regularHours.fri =
+      this.regularFriFrom.value + "-" + this.regularFriTo.value;
+    this.regularHours.sat =
+      this.regularSatFrom.value + "-" + this.regularSatTo.value;
+    this.regularHours.sun =
+      this.regularSunFrom.value + "-" + this.regularSunTo.value;
 
     return this.regularHours;
   }
 
   buildFitnessTrainingHours() {
-    this.fitnessHours.name = 'Fitness training';
+    this.fitnessHours.name = "Fitness training";
 
-    this.fitnessHours.mon = this.fitnessMonFrom.value + '-' + this.fitnessMonTo.value;
-    this.fitnessHours.tue = this.fitnessTueFrom.value + '-' + this.fitnessTueTo.value;
-    this.fitnessHours.wed = this.fitnessWedFrom.value + '-' + this.fitnessWedTo.value;
-    this.fitnessHours.thu = this.fitnessThuFrom.value + '-' + this.fitnessThuTo.value;
-    this.fitnessHours.fri = this.fitnessFriFrom.value + '-' + this.fitnessFriTo.value;
-    this.fitnessHours.sat = this.fitnessSatFrom.value + '-' + this.fitnessSatTo.value;
-    this.fitnessHours.sun = this.fitnessSunFrom.value + '-' + this.fitnessSunTo.value;
+    this.fitnessHours.mon =
+      this.fitnessMonFrom.value + "-" + this.fitnessMonTo.value;
+    this.fitnessHours.tue =
+      this.fitnessTueFrom.value + "-" + this.fitnessTueTo.value;
+    this.fitnessHours.wed =
+      this.fitnessWedFrom.value + "-" + this.fitnessWedTo.value;
+    this.fitnessHours.thu =
+      this.fitnessThuFrom.value + "-" + this.fitnessThuTo.value;
+    this.fitnessHours.fri =
+      this.fitnessFriFrom.value + "-" + this.fitnessFriTo.value;
+    this.fitnessHours.sat =
+      this.fitnessSatFrom.value + "-" + this.fitnessSatTo.value;
+    this.fitnessHours.sun =
+      this.fitnessSunFrom.value + "-" + this.fitnessSunTo.value;
 
     return this.regularHours;
   }
