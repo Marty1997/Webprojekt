@@ -1,12 +1,16 @@
-import { ErrorHandler, Injectable} from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-
+import { ErrorHandler, Injectable, Injector} from '@angular/core';
+import { loginService } from "./loginService";
+import { Router } from "@angular/router";
 @Injectable()
 
 export class ErrorsHandler implements ErrorHandler {
+   constructor(private injector: Injector) {}
   handleError(error: Error) {
-     // Handle Client Error (Angular Error, ReferenceError...) 
-     console.error('It happens: ', error);
+      let service = this.injector.get(loginService);
+    //  // Handle Client Error (Angular Error, ReferenceError...) 
+      if(error.name == 'TypeError' || 'SyntaxError' || 'ReferenceError' || 'RangeError' || 'InternalError') {
+           service.logout(); 
+      }
 
   }
 }
