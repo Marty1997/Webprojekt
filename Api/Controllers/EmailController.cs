@@ -27,7 +27,7 @@ namespace Api.Controllers {
             message.To.Add(new MailboxAddress("albertsen96@gmail.com"));
             message.Subject = "Contact Adviser question";
             message.Body = new TextPart("html") {
-                Text = "From " + body.Email + "<br>" +
+                Text = "From " /*+ *//*body.Email*/ + "<br>" +
                 "Message " + body.Message
                 //Text = "lkmasdlkmasdlmk"
             };

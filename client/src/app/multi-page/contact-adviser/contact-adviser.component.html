@@ -5,40 +5,13 @@
 <div *ngIf="!isCollapsed" class="chat-popup">
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container" novalidate>
     <h1>Contact Advisor</h1>
-    <div style="height: 50px">
-      <table [ngClass]="{
-      'has-danger': email.invalid && (email.dirty || email.touched),
-      'has-success': email.valid && (email.dirty || email.touched)}">
-        <tr>
-          <td id="labelwidth">
-            <label>E-mail:</label>
-          </td>
-          <td id="inputwidth">
-            <ng-template [ngIf]="isPlayer" [ngIfElse]="clubEmail">
-              <input type="email" formControlName="email" placeholder="Enter your e-mail here..."
-                onfocus="this.placeholder =''" onblur="this.placeholder='Enter your e-mail here...'"
-                value="{{playerBinding.email}}" required style="border: 1px solid #cccccc;" />
-            </ng-template>
-
-            <ng-template #clubEmail>
-              <input type="email" formControlName="email" placeholder="Enter your e-mail here..."
-                onfocus="this.placeholder =''" onblur="this.placeholder='Enter your e-mail here...'"
-                value="{{clubBinding.email}}" required style="border: 1px solid #cccccc;" />
-            </ng-template>
-          </td>
-        </tr>
-        <tr *ngIf="email.errors && (email.dirty || email.touched)">
-          <td></td>
-          <td id="ee">
-            <p *ngIf="email.errors.required">E-mail is required</p>
-            <p *ngIf="email.errors.pattern">The e-mail address must contain @ character</p>
-          </td>
-        </tr>
-      </table>
+    <div style="height: 40px; text-align: center">
+        <h4 style="color: green;" *ngIf="succesMessage">Your message has been sent</h4>
+        <h4 style="color: red;" *ngIf="errorMessage">Something went wrong. Try again.</h4>
     </div>
     <div>
       <label>Message</label><br>
-      <textarea name="message" placeholder="Type your message here..." onfocus="this.placeholder =''"
+      <textarea formControlName="message" placeholder="Type your message here..." onfocus="this.placeholder =''"
         onblur="this.placeholder='Type your message here...'" required></textarea>
     </div>
 
