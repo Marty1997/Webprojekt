@@ -27,36 +27,36 @@ namespace Api.BusinessLogic {
             return _clubRepos.Create(entity);
         }
 
-        public Club UpdateInfo(Club entity) {
-            return _clubRepos.UpdateInfo(entity);
+        public void UpdateInfo(Club entity) {
+            _clubRepos.UpdateInfo(entity);
         }
 
-        public Club UpdateTrainingHours(TrainingHours entity, int club_ID) {
-            return _clubRepos.UpdateTrainingHours(entity, club_ID);
+        public void UpdateTrainingHours(TrainingHours entity, int club_ID) {
+            _clubRepos.UpdateTrainingHours(entity, club_ID);
         }
 
-        public SquadPlayer AddSquadPlayer(SquadPlayer entity, int club_ID) {
-            return _clubRepos.AddSquadPlayer(entity, club_ID);
+        public void AddSquadPlayer(SquadPlayer entity, int club_ID) {
+            _clubRepos.AddSquadPlayer(entity, club_ID);
         }
 
-        public JobPosition AddOpenPosition(JobPosition entity, int club_ID) {
-            return _clubRepos.AddOpenPosition(entity, club_ID);
+        public void AddOpenPosition(JobPosition entity, int club_ID) {
+            _clubRepos.AddOpenPosition(entity, club_ID);
         }
 
-        public Club UpdateStaff(Club entity) {
-            return _clubRepos.UpdateStaff(entity);
+        public void UpdateStaff(Club entity) {
+            _clubRepos.UpdateStaff(entity);
         }
 
-        public Club UpdateValuesAndPreferences(Club entity) {
-            return _clubRepos.UpdateValuesAndPreferences(entity);
+        public void UpdateValuesAndPreferences(Club entity) {
+            _clubRepos.UpdateValuesAndPreferences(entity);
         }
 
-        public Club UpdateProfile(Club entity) {
-            return _clubRepos.UpdateProfile(entity);
+        public void UpdateProfile(Club entity) {
+            _clubRepos.UpdateProfile(entity);
         }
 
-        public Club UpdateFacility(Club entity) {
-            return _clubRepos.UpdateFacility(entity);
+        public void UpdateFacility(Club entity) {
+            _clubRepos.UpdateFacility(entity);
         }
 
         public Club GetById(int id) {

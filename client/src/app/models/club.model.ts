@@ -6,6 +6,7 @@ export class Club {
     // required info
     id: number;
     password: string;
+    newPassword: string;
     isAvailable: boolean;
     name: string = "";
     email: string = "";
@@ -19,8 +20,6 @@ export class Club {
     currentSquadPlayersList : SquadPlayer[] = [];
     nextYearSquadPlayersList : SquadPlayer[] = [];
     jobPositionsList : JobPosition[] = [];
-
-    searchPercentage: number;
 
     // staff
     trainer: string = "";
@@ -43,7 +42,6 @@ export class Club {
 
     buildClub(succes:any, club: Club)  {
         this.isAvailable = succes.isAvailable;
-        console.log(this.isAvailable);
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;

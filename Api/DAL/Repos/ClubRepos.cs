@@ -800,9 +800,7 @@ namespace Api.DAL.Repos {
                         }
                         }
                         catch (SqlException e) {
-
                             tran.Rollback();
-                            c.ErrorMessage = ErrorHandling.Exception(e);
                         }
                     }
                 }
@@ -1785,7 +1783,7 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        Club IClubRepository<Club>.UpdateTrainingHours(TrainingHours entity) {
+        public Club Update(Club entity) {
             throw new NotImplementedException();
         }
     }

@@ -13,46 +13,46 @@ export class updateService {
   updatePlayer(player: Player) {
     let url = "https://localhost:44310/api/Player/Update";
     console.log(player);
-    return this.http.post(url, player).subscribe();
+    return this.http.post(url, player);
   }
 
   updateClubInfo(club: Club) {
     let url = "https://localhost:44310/api/Club/UpdateClubInfo";
-    return this.http.post(url, club).subscribe();
+    return this.http.post(url, club);
   }
 
   updateTrainingSchedule(trainingHours: TrainingHours) {
     let url = "https://localhost:44310/api/Club/UpdateTrainingHours";
-    return this.http.post(url, trainingHours).subscribe();
+    return this.http.post(url, trainingHours);
   }
 
   addClubSquadPlayer(squadPlayer: SquadPlayer) {
     let url = "https://localhost:44310/api/Club/AddSquadPlayer";
-    return this.http.post(url, squadPlayer).subscribe();
+    return this.http.post(url, squadPlayer);
   }
 
   addClubOpenPosition(jobPosition: JobPosition) {
     let url = "https://localhost:44310/api/Club/AddJobPosition";
-    return this.http.post(url, jobPosition).subscribe();
+    return this.http.post(url, jobPosition);
   }
 
   updateClubStaff(club: Club) {
      let url = "https://localhost:44310/api/Club/UpdateClubStaff";
-     return this.http.post(url, club).subscribe();
+     return this.http.post(url, club);
   }
 
    updateValuesAndPreferences(club: Club) {
      let url = "https://localhost:44310/api/Club/UpdateClubValuesAndPreferences";
-     return this.http.post(url, club).subscribe();
+     return this.http.post(url, club);
    }
 
    updateClubProfile(club: Club) {
      let url = "https://localhost:44310/api/Club/UpdateClubProfile";
-     return this.http.post(url, club).subscribe();
+     return this.http.post(url, club);
    }
 
    updateClubFacility(club: Club) {
      let url = "https://localhost:44310/api/Club/UpdateClubFacility";
-     return this.http.post(url, club).subscribe();
+     return this.http.post(url, club);
    }
 }

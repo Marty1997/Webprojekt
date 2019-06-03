@@ -321,14 +321,14 @@ export class UpdateClubComponent implements OnInit {
   }
 
   // Add player to the squad player table for current season
-  onAddPlayerToSquad() {
+  onAddPlayerToCurrentYearSquad() {
     if (
       this.squadPlayerNameCtrl.value !== "" &&
       this.squadPlayerPositionCtrl.value !== "" &&
       this.squadPlayerShirtNumberCtrl.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrl.value)
     ) {
-      this.updateCurrentSquadplayerList();
+      this.addClubCurrentSeasonSquadPlayer()
 
       // reset input fields
       this.squadPlayerNameCtrl.setValue("");
@@ -338,7 +338,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   // Delete player from squad player table for current season
-  onDeletePlayerFromSquad(squadPlayer: SquadPlayer) {
+  deletePlayerFromCurrentYearSquad(squadPlayer: SquadPlayer) {
     this.dataSource.forEach( (sp, index) => {
       if(sp === squadPlayer) {
         this.dataSource.splice(index, 1);
@@ -355,7 +355,7 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrlNext.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrlNext.value)
     ) {
-      this.updateNextSquadplayerList();
+      this.addClubNextSeasonSquadPlayer();
 
       // reset input fields
       this.squadPlayerNameCtrlNext.setValue("");
@@ -365,7 +365,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   // Delete player from squad player table for current season
-  onDeletePlayerFromNextYearSquad(squadPlayer: SquadPlayer) {
+  deletePlayerFromNextYearSquad(squadPlayer: SquadPlayer) {
     this.nextYearSquadSource.forEach( (sp, index) => {
       if(sp === squadPlayer) {
         this.nextYearSquadSource.splice(index, 1);
@@ -375,7 +375,8 @@ export class UpdateClubComponent implements OnInit {
   }
 
   onAddJobPosition() {
-    this.updateOpenPositionList();
+    
+    this.addClubOpenPosition();
 
     // reset input fields
     this.openPositionLeague.setValue("");
@@ -388,7 +389,7 @@ export class UpdateClubComponent implements OnInit {
     this.openPositionName.setValue("");
   }
 
-  onDeleteJobPosition(jobPosition: JobPosition) {
+  deleteOpenPosition(jobPosition: JobPosition) {
     this.openPositionSource.forEach( (jp, index) => {
       if(jp === jobPosition) {
         this.openPositionSource.splice(index, 1);
@@ -417,7 +418,8 @@ export class UpdateClubComponent implements OnInit {
         this.uploadFilesService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {
           this.clubBinding.imagePath = this.uploadFilesService.imagePath;
-          // this.updateClubProfile(); 
+          // Update club profile
+          this.updateClubProfile(); 
         }
         if (type === "facility") {
           if (this.clubBinding.facilityImagesList != null) {
@@ -425,62 +427,154 @@ export class UpdateClubComponent implements OnInit {
           }
         this.facilityImages.push(this.uploadFilesService.imagePath);
         this.clubBinding.facilityImagesList = this.facilityImages;
-        // this.updateClubFacility();
+        // Update club facility
+        this.updateClubFacility();
         }
-      });
+      },
+      error => {
+
+      });;
     }
   };
 
   updateClubInfo() {
-    this.updateService.updateClubInfo(this.buildClubInfo());
+    this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });
   }
 
   updateClubRegularTrainingSchedule() {
-    this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours());
+    this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });
   }
 
   updateClubFitnessTrainingSchedule() {
-    this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours());
+    this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });;
   }
 
   updateClubStaff() {
-    this.updateService.updateClubStaff(this.buildClubStaff());
+    this.updateService.updateClubStaff(this.buildClubStaff()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });;
   }
 
   updateClubProfile() {
-    this.updateService.updateClubProfile(this.buildClubProfile());
+    this.updateService.updateClubProfile(this.buildClubProfile()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+        // Delete image from filesystem
+      });;
   }
 
   updateClubFacility() {
-    this.updateService.updateClubFacility(this.buildClubFacility());
+    this.updateService.updateClubFacility(this.buildClubFacility()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });;
   }
 
   addClubCurrentSeasonSquadPlayer() {
-    this.updateService.addClubSquadPlayer(this.buildCurrentSquadplayer());
+    this.updateService.addClubSquadPlayer(this.buildCurrentSquadplayer()).subscribe(
+      (succes:any) => {      
+        this.updateCurrentSquadplayerList();
+      },
+      error => {
+        
+      });
   }
 
   addClubNextSeasonSquadPlayer() {
-    this.updateService.addClubSquadPlayer(this.buildNextSquadplayer());
+    this.updateService.addClubSquadPlayer(this.buildNextSquadplayer()).subscribe(
+      (succes:any) => {      
+        this.updateNextSquadplayerList();
+      },
+      error => {
+        
+      })
   }
 
   addClubOpenPosition() {
-    this.updateService.addClubOpenPosition(this.buildJobPosition());
+    this.updateService.addClubOpenPosition(this.buildJobPosition()).subscribe(
+      (succes:any) => {      
+        this.updateOpenPositionList();
+      },
+      error => {
+        
+      })
   }
-
+  
   deleteClubRegularTrainingSchedule() {
-    this.deleteService.deleteTrainingHours(this.regularHours.id); 
+    this.deleteService.deleteTrainingHours(this.regularHours.id).subscribe(
+      (succes:any) => {      
+        this.deleteTraininghours();
+      },
+      error => {
+        
+      });; 
   }
-
+  
   deleteClubFitnessTrainingSchedule() {
-    this.deleteService.deleteTrainingHours(this.fitnessHours.id); 
+    this.deleteService.deleteTrainingHours(this.fitnessHours.id).subscribe(
+      (succes:any) => {      
+        this.deleteTraininghours();
+      },
+      error => {
+        
+      });; ; 
   }
 
-  deleteClubSquadPlayer(id: number) {
-    this.deleteService.deleteSquadPlayer(id);
+  deleteClubCurrentSquadPlayer(squadPlayer: SquadPlayer) {
+    this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
+    (succes:any) => {      
+      this.deletePlayerFromCurrentYearSquad(squadPlayer);
+    },
+    error => {
+      
+    });
   }
 
-  deleteClubOpenPosition(id: number) {
-    this.deleteService.deleteOpenPosition(id);
+  deleteClubNextYearSquadPlayer(squadPlayer: SquadPlayer) {
+    this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
+    (succes:any) => {      
+      this.deletePlayerFromNextYearSquad(squadPlayer);
+    },
+    error => {
+      
+    });
+  }
+
+  deleteClubOpenPosition(jobPosition: JobPosition) {
+    this.deleteService.deleteOpenPosition(jobPosition.id).subscribe(
+      (succes:any) => {      
+        this.deleteOpenPosition(jobPosition);
+      },
+      error => {
+        
+      });
   }
 
   markPreferenceCheckboxes(preferenceList: any) {
@@ -600,7 +694,7 @@ export class UpdateClubComponent implements OnInit {
     this.dataSource = [...this.dataSource]; //refresh the dataSource
   }
 
-  onDeleteTraininghours() {
+  deleteTraininghours() {
     this.clubBinding.trainingHoursList.forEach( (elm, index) => {
       if(elm.name === 'Handball') {
         this.clubBinding.trainingHoursList.splice(index, 1);
@@ -825,4 +919,6 @@ export class UpdateClubComponent implements OnInit {
     this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
     this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
   }
+
+  
 }

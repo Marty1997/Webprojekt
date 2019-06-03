@@ -15,125 +15,31 @@ export class deleteService {
   deletePlayer(player: Player) {
     let url = "https://localhost:44310/api/Player/Delete";
     console.log(player);
-    return this.http.post(url, player).subscribe();
+    return this.http.post(url, player);
   }
 
   deleteClub(club: Club) {
     let url = "https://localhost:44310/api/Club/Delete";
-    return this.http.post(url, club).subscribe();
+    return this.http.post(url, club);
   }
   
   deleteSquadPlayer(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteSquadPlayer";
-    return this.http.post(url, id).subscribe();
+    return this.http.post(url, id);
   }
 
   deleteTrainingHours(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteTrainingHours";
-    return this.http.post(url, id).subscribe();
+    return this.http.post(url, id);
   }
 
-  deleteClubValue(clubValueList: string[]) {
-    let url = "https://localhost:44310/api/Club/DeleteClubValue";
-    return this.http.post(url, clubValueList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
-
-  deleteClubPreference(clubPreferenceList: string[]) {
-    let url = "https://localhost:44310/api/Club/DeleteClubPreference";
-    return this.http.post(url, clubPreferenceList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
-
-  deleteJobPosition(jobPositionList: JobPosition[]) {
+  deleteOpenPosition(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteJobPosition";
-    return this.http.post(url, jobPositionList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, id);
   }
 
-  deleteJobPositionStrength(jobPositionStrengthList: string[]) {
-    let url = "https://localhost:44310/api/Club/DeleteJobPositionStrength";
-    return this.http.post(url, jobPositionStrengthList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
-
-  
-  deleteNationalTeam(nationalTeamList: NationalTeam[]) {
+  deleteNationalTeam(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteNationalTeam";
-    return this.http.post(url, nationalTeamList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, id);
   }
-
-  deletePlayerWeakness(playerWeaknessList: string[]) {
-    let url = "https://localhost:44310/api/Club/DeletePlayerWeakness";
-    return this.http.post(url, playerWeaknessList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
-
-  deletePlayerStrength(playerStrengthList: string[]) {
-    let url = "https://localhost:44310/api/Club/DeletePlayerStrength";
-    return this.http.post(url, playerStrengthList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
-
-  deleteClubRegularTrainingSchedule(id: number) {
-    let url = "https://localhost:44310/api/Club/DeleteClubRegularTrainingSchedule";
-    return this.http.post(url, id).subscribe();
-  }
-
-  deleteClubFitnessTrainingSchedule(id: number) {
-    let url = "https://localhost:44310/api/Club/DeleteClubFitnessTrainingSchedule";
-    return this.http.post(url, id).subscribe();
-  }
-
-
 }

@@ -16,10 +16,17 @@ namespace Api.DAL {
                                                                    string sqlWhereStatementValue);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
                                                                  string sqlWhereStatementValue);
+        void UpdateInfo(Club entity);
+        void UpdateTrainingHours(TrainingHours entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
+        void AddSquadPlayer(SquadPlayer entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
+        void AddOpenPosition(JobPosition entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
-
+        void UpdateStaff(Club entity);
         bool CheckIfEmailExists(string email);
+        void UpdateValuesAndPreferences(Club entity);
+        void UpdateProfile(Club entity);
+        void UpdateFacility(Club entity);
     }
 }
