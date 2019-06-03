@@ -337,6 +337,16 @@ export class UpdateClubComponent implements OnInit {
     }
   }
 
+  // Delete player from squad player table for current season
+  onDeletePlayerFromSquad(squadPlayer: SquadPlayer) {
+    this.dataSource.forEach( (sp, index) => {
+      if(sp === squadPlayer) {
+        this.dataSource.splice(index, 1);
+      }
+    });
+    this.dataSource = [...this.dataSource]; //refresh the dataSource
+  }
+
   // Add player to the squad player table for next season
   onAddPlayerToNextYearSquad() {
     if (
@@ -352,6 +362,16 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerPositionCtrlNext.setValue("");
       this.squadPlayerShirtNumberCtrlNext.setValue("");
     }
+  }
+
+  // Delete player from squad player table for current season
+  onDeletePlayerFromNextYearSquad(squadPlayer: SquadPlayer) {
+    this.nextYearSquadSource.forEach( (sp, index) => {
+      if(sp === squadPlayer) {
+        this.nextYearSquadSource.splice(index, 1);
+      }
+    });
+    this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
   }
 
   onAddJobPosition() {
