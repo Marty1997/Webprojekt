@@ -79,6 +79,13 @@ export class UpdatePlayerComponent implements OnInit {
   );
   primaryPositionCtrl = new FormControl("");
   secondaryPositionCtrl = new FormControl("");
+  preferredHandCtrl = new FormControl("");
+  leagueCtrl = new FormControl("");
+  contractStatusCtrl = new FormControl("");
+  contractExpiredCtrl = new FormControl("");
+  injuryStatusCtrl = new FormControl("");
+  injuryDescriptionCtrl = new FormControl("");
+  injuryRecoveryDateCtrl = new FormControl("");
 
   constructor(
     private loginService: loginService,
