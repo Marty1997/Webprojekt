@@ -21,48 +21,38 @@ export class updateService {
     return this.http.post(url, club).subscribe();
   }
 
-  updateClubRegularTrainingSchedule(trainingHours: TrainingHours) {
-    let url = "https://localhost:44310/api/Club/UpdateClubRegularTrainingSchedule";
+  updateTrainingSchedule(trainingHours: TrainingHours) {
+    let url = "https://localhost:44310/api/Club/UpdateTrainingHours";
     return this.http.post(url, trainingHours).subscribe();
   }
 
-  updateClubFitnessTrainingSchedule(trainingHours: TrainingHours) {
-    let url = "https://localhost:44310/api/Club/UpdateClubFitnessTrainingSchedule";
-    return this.http.post(url, trainingHours).subscribe();
+  addClubSquadPlayer(squadPlayer: SquadPlayer) {
+    let url = "https://localhost:44310/api/Club/AddSquadPlayer";
+    return this.http.post(url, squadPlayer).subscribe();
   }
 
-  updateClubCurrentSeasonSquad(currentSeasonSquad: SquadPlayer[]) {
-    let url = "https://localhost:44310/api/Club/UpdateClubCurrentSeasonSquad";
-    return this.http.post(url, currentSeasonSquad).subscribe();
+  addClubOpenPosition(jobPosition: JobPosition) {
+    let url = "https://localhost:44310/api/Club/AddJobPosition";
+    return this.http.post(url, jobPosition).subscribe();
   }
 
-  updateNextSeasonSquad(nextSeasonSquad: SquadPlayer[]) {
-    let url = "https://localhost:44310/api/Club/UpdateClubNextSeasonSquad";
-    return this.http.post(url, nextSeasonSquad).subscribe();
+  updateClubStaff(club: Club) {
+     let url = "https://localhost:44310/api/Club/UpdateClubStaff";
+     return this.http.post(url, club).subscribe();
   }
 
-  // updateOpenPosition(jobPositions: JobPosition[]) {
-  //   let url = "https://localhost:44310/api/Club/UpdateClubCurrentSeasonSquad";
-  //   return this.http.post(url, jobPosition).subscribe();
-  // }
+   updateValuesAndPreferences(club: Club) {
+     let url = "https://localhost:44310/api/Club/UpdateClubValuesAndPreferences";
+     return this.http.post(url, club).subscribe();
+   }
 
-  // updateStaff() {
-  //   let url = "https://localhost:44310/api/Club/UpdateClubCurrentSeasonSquad";
-  //   return this.http.post(url, currentSeasonSquad).subscribe();
-  // }
+   updateClubProfile(club: Club) {
+     let url = "https://localhost:44310/api/Club/UpdateClubProfile";
+     return this.http.post(url, club).subscribe();
+   }
 
-  // updateValuesAndPreferences() {
-  //   let url = "https://localhost:44310/api/Club/UpdateClubCurrentSeasonSquad";
-  //   return this.http.post(url, currentSeasonSquad).subscribe();
-  // }
-
-  // updateClubProfile() {
-  //   let url = "https://localhost:44310/api/Club/UpdateClubCurrentSeasonSquad";
-  //   return this.http.post(url, currentSeasonSquad).subscribe();
-  // }
-
-  // updateClubFacility() {
-  //   let url = "https://localhost:44310/api/Club/UpdateClubCurrentSeasonSquad";
-  //   return this.http.post(url, currentSeasonSquad).subscribe();
-  // }
+   updateClubFacility(club: Club) {
+     let url = "https://localhost:44310/api/Club/UpdateClubFacility";
+     return this.http.post(url, club).subscribe();
+   }
 }

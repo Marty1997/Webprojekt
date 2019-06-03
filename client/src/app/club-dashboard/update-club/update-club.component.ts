@@ -419,11 +419,11 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubProfile() {
-    this.updateService.updateProfile(this.buildClubProfile());
+    this.updateService.updateClubProfile(this.buildClubProfile());
   }
 
   updateClubFacility() {
-    this.updateService.updateFacility(this.buildClubFacility());
+    this.updateService.updateClubFacility(this.buildClubFacility());
   }
 
   addClubCurrentSeasonSquadPlayer() {
@@ -454,6 +454,18 @@ export class UpdateClubComponent implements OnInit {
     this.deleteService.deleteClubOpenPosition(id);
   }
 
+  buildClubProfile() {
+    let club: Club;
+    club.imagePath = this.clubBinding.imagePath;
+    return club;
+  }
+
+  buildClubFacility() {
+    let club: Club;
+    club.facilityImagesList = this.clubBinding.facilityImagesList;
+    return club;
+  }
+
   markPreferenceCheckboxes(preferenceList: any) {
     preferenceList.forEach(element => {
       if (element == "Talent development club") {
@@ -480,7 +492,7 @@ export class UpdateClubComponent implements OnInit {
     });
   }
    // Helping method used to build staff
-   buildStaff() {
+   buildClubStaff() {
     let club = new Club();
 
     club.trainer = this.trainerCtrl.value;
@@ -493,7 +505,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   // Helping method used to build values and preferences
-  buildValuesAndPreferences() {
+  buildClubValuesAndPreferences() {
     let club = new Club();
 
     // values
