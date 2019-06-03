@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Player } from 'src/app/models/player.model';
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
@@ -6,6 +6,7 @@ import { deleteService } from "src/app/services/deleteService";
 import { uploadFilesService} from "src/app/services/uploadFilesService";
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/front-page/front-page-image/register-player/register-player.component';
+import { MatCheckbox } from '@angular/material';
 
 @Component({
   selector: 'app-update-player',
@@ -86,6 +87,24 @@ export class UpdatePlayerComponent implements OnInit {
   injuryStatusCtrl = new FormControl("");
   injuryDescriptionCtrl = new FormControl("");
   injuryRecoveryDateCtrl = new FormControl("");
+  strengthsCtrl = new FormControl("");
+  weaknessesCtrl = new FormControl("");
+
+  // strengths and weaknesses
+  @ViewChild("speedy") private speedy: MatCheckbox;
+  @ViewChild("athletic") private athletic: MatCheckbox;
+  @ViewChild("greatShape") private greatShape: MatCheckbox;
+  @ViewChild("quickShots") private quickShots: MatCheckbox;
+  @ViewChild("accurateShooter") private accurateShooter: MatCheckbox;
+  @ViewChild("tactical") private tactical: MatCheckbox;
+  @ViewChild("teamPlayer") private teamPlayer: MatCheckbox;
+  @ViewChild("social") private social: MatCheckbox;
+  @ViewChild("winAtAllCosts") private winAtAllCosts: MatCheckbox;
+  @ViewChild("longRangeShooter") private longRangeShooter: MatCheckbox;
+  @ViewChild("slowMoving") private slowMoving: MatCheckbox;
+  @ViewChild("badEndurance") private badEndurance: MatCheckbox;
+  @ViewChild("historyOfInjuries") private historyOfInjuries: MatCheckbox;
+  @ViewChild("badDefencePlayer") private badDefencePlayer: MatCheckbox;
 
   constructor(
     private loginService: loginService,
@@ -97,6 +116,14 @@ export class UpdatePlayerComponent implements OnInit {
   ngOnInit() {
     this.setStep(-1); // start with closed accordions
     this.playerBinding = this.loginService.playerInSession;
+
+    // set strengths and weaknesses
+    if(this.playerBinding.strengthList.length > 0) {
+      this.checkStrengthBoxes(this.playerBinding.strengthList);
+    }
+    if(this.playerBinding.weaknessList.length > 0) {
+      this.checkWeaknessBoxes(this.playerBinding.weaknessList);
+    }
   }
 
   setStep(index: number) {
@@ -163,6 +190,122 @@ export class UpdatePlayerComponent implements OnInit {
 
   cancel() {
     this.playerBinding = this.loginService.playerInSession;
+  }
+
+  checkStrengthBoxes(strengths: string[]) {
+    strengths.forEach(str => {
+      if(str === 'Speedy') {
+        this.speedy.checked = true;
+      } else if(str === 'Athletic') {
+        this.athletic.checked = true;
+      } else if(str === 'Great shape') {
+        this.greatShape.checked = true;
+      } else if(str === 'Quick shots') {
+        this.quickShots.checked = true;
+      } else if(str === 'Accurate shooter') {
+        this.accurateShooter.checked = true;
+      } else if(str === 'Tactical') {
+        this.tactical.checked = true;
+      } else if(str === 'Teamplayer') {
+        this.teamPlayer.checked = true;
+      } else if(str === 'Social') {
+        this.social.checked = true;
+      } else if(str === 'Win at all costs') {
+        this.winAtAllCosts.checked = true;
+      } else if(str === 'Long range shooter') {
+        this.longRangeShooter.checked = true;
+      }
+    });
+  }
+
+  checkWeaknessBoxes(weaknesses: string[]) {
+    weaknesses.forEach( weak => {
+      if(weak === 'Slow moving') {
+        this.slowMoving.checked = true;
+      } else if(weak === 'Bad endurance') {
+        this.badEndurance.checked = true;
+      } else if(weak === 'History of injuries') {
+        this.historyOfInjuries.checked = true;
+      } else if(weak === 'Bad defence player') {
+        this.badDefencePlayer.checked = true;
+      }
+    })
+  }
+
+  buildPlayerInfo() {
+    this.playerBinding.firstName = this.firstNameControl.value;
+    this.playerBinding.lastName = this.lastNameControl.value;
+    this.playerBinding.country = this.countryControl.value;
+    this.playerBinding.day = this.dayControl.value;
+    this.playerBinding.month = this.monthControl.value;
+    this.playerBinding.year = this.yearControl.value;
+  }
+
+  buildPlayerAdditionalInfo() {
+    this.playerBinding.height = this.heightControl.value;
+    this.playerBinding.weight = this.weightControl.value;
+    this.playerBinding.bodyfat = this.bodyfatControl.value;
+    this.playerBinding.primaryPosition = this.primaryPositionCtrl.value;
+    this.playerBinding.secondaryPosition = this.secondaryPositionCtrl.value;
+    this.playerBinding.preferredHand = this.preferredHandCtrl.value;
+    this.playerBinding.league = this.leagueCtrl.value;
+    this.playerBinding.contractStatus = this.contractStatusCtrl.value;
+    this.playerBinding.contractExpired = this.buildDate(this.contractExpiredCtrl.value);
+    this.playerBinding.injuryStatus = this.injuryStatusCtrl.value;
+    this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value;
+    this.playerBinding.injuryExpired = this.buildDate(this.injuryRecoveryDateCtrl.value);
+  }
+
+  buildStrengthsAndWeaknesses() {
+    this.playerBinding.weaknessDescription = this.weaknessesCtrl.value;
+    this.playerBinding.strengthDescription = this.strengthsCtrl.value;
+    if(this.speedy.checked) {
+      this.playerBinding.strengthList.push(this.speedy.value);
+    }
+    if(this.athletic.checked) {
+      this.playerBinding.strengthList.push(this.athletic.value);
+    }
+    if(this.greatShape.checked) {
+      this.playerBinding.strengthList.push(this.greatShape.value);
+    }
+    if(this.quickShots.checked) {
+      this.playerBinding.strengthList.push(this.quickShots.value);
+    }
+    if(this.accurateShooter.checked) {
+      this.playerBinding.strengthList.push(this.accurateShooter.value);
+    }
+    if(this.tactical.checked) {
+      this.playerBinding.strengthList.push(this.tactical.value);
+    }
+    if(this.teamPlayer.checked) {
+      this.playerBinding.strengthList.push(this.teamPlayer.value);
+    }
+    if(this.social.checked) {
+      this.playerBinding.strengthList.push(this.social.value);
+    }
+    if(this.winAtAllCosts.checked) {
+      this.playerBinding.strengthList.push(this.winAtAllCosts.value);
+    }
+    if(this.longRangeShooter.checked) {
+      this.playerBinding.strengthList.push(this.longRangeShooter.value);
+    }
+    if(this.slowMoving.checked) {
+      this.playerBinding.weaknessList.push(this.slowMoving.value);
+    }
+    if(this.badEndurance.checked) {
+      this.playerBinding.weaknessList.push(this.badEndurance.value);
+    }
+    if(this.historyOfInjuries.checked) {
+      this.playerBinding.weaknessList.push(this.historyOfInjuries.value);
+    }
+    if(this.badDefencePlayer.checked) {
+      this.playerBinding.weaknessList.push(this.badDefencePlayer.value);
+    }
+   }
+
+  // Helping method used to return the date as a string in the format of DD/MM/YYYY
+  buildDate(date: Date) {
+    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
   }
 
   positionList: string[] = [
