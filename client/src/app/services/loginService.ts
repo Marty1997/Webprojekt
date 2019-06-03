@@ -104,8 +104,6 @@ export class loginService {
       localStorage.setItem('token', succes.token);
     }
     this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
-    console.log(this.clubInSession);
-
   }
 
   logout() {
