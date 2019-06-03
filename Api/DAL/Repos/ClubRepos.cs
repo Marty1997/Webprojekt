@@ -631,9 +631,7 @@ namespace Api.DAL.Repos {
 
         public Club UpdateInfo(Club entity) {
             Club c = new Club();
-
-            for (int i = 0; i < 5; i++) {
-
+            
                 int rowCount = 0;
 
                 using (var conn = Connection()) {
@@ -677,7 +675,7 @@ namespace Api.DAL.Repos {
                         else {
                             c.ErrorMessage = "";
                             tran.Commit();
-                            break;
+                           
                         }
                         //}
                         //catch (SqlException e) {
@@ -687,7 +685,7 @@ namespace Api.DAL.Repos {
                         //}
                     }
                 }
-            }
+            
             return c;
         }
         
