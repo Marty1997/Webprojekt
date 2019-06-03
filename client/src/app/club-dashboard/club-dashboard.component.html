@@ -1,4 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <app-header></app-header>
 <section class="custom-container forPlayerClubBackgroundColor topMargin" >
   <div class="row">
@@ -7,7 +6,13 @@
       <a class="editProfileButton" *ngIf="isClub" (click)="updateClub()">Edit Profile</a>
     </div>
     <div class="col-md-8" style="text-align: center; margin-top: 15px;">
-      <a class="contactClubButton" *ngIf="!isClub">Contact Club</a>
+      <!-- <a class="contactClubButton" *ngIf="!isClub">Contact Club</a> -->
+      <button type="button" *ngIf="!isClub" class="contactButton"
+        popover="This club can be contacted on {{clubBinding.email}}"
+        popoverTitle="Contact Information" [outsideClick]="true" 
+        placement="bottom">
+      Contact Club
+</button>
     </div>
     <div class="col-md-2"></div>
   </div>
@@ -341,6 +346,6 @@
       </div>
     </div>
   </div>
-  <app-contact-adviser></app-contact-adviser>
+  <app-contact-adviser *ngIf="isClub"></app-contact-adviser>
 </section>
 <div style="height: 15px;"></div>

@@ -18,10 +18,12 @@
           <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
             Please enter a valid email address
           </mat-error>
+          <div *ngIf="existingEmail" style="color:red; font-size:13px; margin-top: 6px">Email already exists</div>
           <mat-error *ngIf="emailControl?.hasError('required')">
             Email is <strong>required</strong>
           </mat-error>
         </mat-form-field>
+        
         <mat-form-field>
           <input id="playerPassword" matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
             [formControl]="passwordControl" [errorStateMatcher]='validate'>
@@ -115,7 +117,7 @@
         <br>
         <hr><br>
 
-        <button mat-flat-button matStepperNext class="btn btn-primary firstNextBtn">Next</button>
+        <button mat-flat-button (click)="checkIfEmailExists()" class="btn btn-primary firstNextBtn">Next</button>
       </form>
     </div>
   </mat-step>
@@ -520,44 +522,24 @@
   </mat-step>
 
 
-  <!-- PLAYER PRESENTATION -->
-  <mat-step [stepControl]="playerPresentationFormGroup">
-    <form [formGroup]="playerPresentationFormGroup">
-      <h2 class="stepHeadline">Player Presentation</h2>
+  <!-- PLAYER REGISTER -->
+  <mat-step [stepControl]="playerRegister">
+      <app-loading-icon [isLoading]="isLoading"></app-loading-icon>
+    <form [formGroup]="playerRegister">
+      <h2 class="stepHeadline">Register</h2>
       <br>
-      <p>
+      <p style="text-align: center">
         Please hit the register button down below to sign up as a player.
         <br>
         You can also go back to any step you would like and change your info.
       </p>
       <hr>
-
+        <div style="color:red; font-size:20px; text-align: center;" *ngIf="errorRegister">Something went wrong. Try again</div>
       <br>
       <hr><br>
       <button mat-flat-button matStepperPrevious class="btn btn-primary previousBtn">Previous</button>
       <button mat-flat-button matStepperNext class="btn btn-primary nextBtn"
         (click)="registerPlayer()">Register</button>
     </form>
-  </mat-step>
-
-
-  <!-- LAST STEP -->
-  <mat-step>
-    <div *ngIf="errorMessage == ''">
-      <h1 class="stepHeadline lastStepHeadline">
-        Thank you!
-      </h1>
-      <p class="lastStepInfo">
-        Your account has now been registered. A confirmation mail has been sent to {{ emailControl.value }}.
-        <br>
-        Please click the link in the email to confirm your email.
-      </p>
-    </div>
-    <p class="lastStepInfo" *ngIf="errorMessage != ''">
-      {{ errorMessage }}
-    </p>
-    <hr>
-
-    <button mat-flat-button class="btn btn-primary doneBtn" (click)="modalRef.hide()">Done</button>
   </mat-step>
 </mat-horizontal-stepper>

@@ -25,6 +25,7 @@ import { SearchForClubsComponent } from './club-search-criteria/search-for-clubs
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './club-dashboard/club-dashboard.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { RegisterPlayerComponent } from './front-page/front-page-image/register-player/register-player.component';
@@ -98,6 +99,7 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
+    PopoverModule.forRoot(),
     CdkStepperModule,
       MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
       MatPaginatorModule, MatCheckboxModule, MatTableModule, MatDatepickerModule, MatMomentDateModule, MatMenuModule, MatDividerModule,

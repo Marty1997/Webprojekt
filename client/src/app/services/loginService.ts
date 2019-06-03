@@ -57,9 +57,9 @@ export class loginService {
     return false;
   }
 
-  public LoginUserIfValidTokenOnRefresh(info) { 
+  public LoginUserIfValidTokenOnRefresh() { 
     let url = "https://localhost:44310/api/authenticate/RefreshUserWithValidToken/";
-    return this.http.post(url, info).subscribe(
+    return this.http.get(url).subscribe(
       (succes:any) => {      
         if(succes.isPlayer) {
           this.setupPlayerLogin(succes);

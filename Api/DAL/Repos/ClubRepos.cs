@@ -248,7 +248,6 @@ namespace Api.DAL.Repos {
         public Club GetByEmail(string email) {
             Club c = new Club();
             string sql = SqlSelectWithEmail(email);
-
             using (var connection = Connection()) {
                 using (var multi = connection.QueryMultiple(sql, new { email })) {
                     c = multi.Read<Club>().First();
@@ -361,15 +360,15 @@ namespace Api.DAL.Repos {
                             result = clubs.Single(cl => cl.Id == clubinside.Id);
                         }
 
-                        if (jobposition != null) {
+                        if(jobposition != null) {
                             result.JobPositionsList.Add(jobposition);
                         }
 
-                        if (preference != null) {
+                        if(preference != null) {
                             result.PreferenceList.Add(preference);
                         }
 
-                        if (value != null) {
+                        if(value != null) {
                             result.ValuesList.Add(value);
                         }
 
@@ -1114,6 +1113,24 @@ namespace Api.DAL.Repos {
                 }
             }
             return c;
+        }
+
+        public bool CheckIfEmailExists(string email) {
+            string clubEmail = "";
+            string playerEmail = "";
+            using (var connection = Connection()) {
+                using (var multi = connection.QueryMultiple("select email from player where email = '" + email + "' ; " +
+                    "select email from club where email = '" + email +"'", new { email })) {
+                    playerEmail = multi.Read<string>().FirstOrDefault();
+                    clubEmail = multi.Read<string>().FirstOrDefault();
+                }
+            }
+            if(clubEmail == null && playerEmail == null) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 
         public Club Update(Club entity) {
@@ -1870,6 +1887,10 @@ namespace Api.DAL.Repos {
         }
 
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
+            throw new NotImplementedException();
+        }
+
+        Club IClubRepository<Club>.UpdateTrainingHours(TrainingHours entity) {
             throw new NotImplementedException();
         }
     }

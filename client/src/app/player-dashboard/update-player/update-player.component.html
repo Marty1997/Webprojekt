@@ -1,24 +1,220 @@
 <app-header></app-header>
+<div class="well custom-container forPlayerClubBackgroundColor">
+  <mat-accordion class="example-headers-align">
+    <!-- Personal Info -->
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Personal Info</mat-panel-title>
+      </mat-expansion-panel-header>
 
-<!-- Upload profile button -->
-<input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-<button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
+      <mat-label>Update Password</mat-label><br>
+      <mat-form-field>
+        <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+          [errorStateMatcher]="validate">
+        <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
+          Password must be at least 6 characters
+        </mat-error>
+        <mat-error *ngIf="currentPassword?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="New Password" [formControl]="password" type="password"
+          [errorStateMatcher]="validate">
+        <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
+          Password must be at least 6 characters
+        </mat-error>
+        <mat-error *ngIf="password?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName" [errorStateMatcher]="validate">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Last Name" [formControl]="lastNameControl" [value]="playerBinding.lastName" [errorStateMatcher]="validate">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select [value]="playerBinding.country" placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
+          <mat-option *ngFor="let country of countryList" value="country">{{country}}</mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input id="playerDay" matInput placeholder="Day (DD)" [formControl]="dayControl" [errorStateMatcher]='validate'>
+        <mat-error
+          *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
+          Day of birth must be 2 characters
+        </mat-error>
+        <mat-error *ngIf="dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
+          Day of birth must be a number
+        </mat-error>
+        <mat-error *ngIf="dayControl?.hasError('required')">
+          Day is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <mat-select id="playerMonth" placeholder="Select Month" [formControl]="monthControl" [errorStateMatcher]='validate'>
+          <mat-option value="01">January</mat-option>
+          <mat-option value="02">February</mat-option>
+          <mat-option value="03">March</mat-option>
+          <mat-option value="04">April</mat-option>
+          <mat-option value="05">May</mat-option>
+          <mat-option value="06">June</mat-option>
+          <mat-option value="07">July</mat-option>
+          <mat-option value="08">August</mat-option>
+          <mat-option value="09">September</mat-option>
+          <mat-option value="10">October</mat-option>
+          <mat-option value="11">November</mat-option>
+          <mat-option value="12">December</mat-option>
+        </mat-select>
+        <mat-error *ngIf="monthControl?.hasError('required')">
+          Month is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input id="playerYear" matInput placeholder="Year (YYYY)" [formControl]="yearControl" [errorStateMatcher]='validate'>
+        <mat-error
+          *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
+          Year must be a number
+        </mat-error>
+        <mat-error *ngIf="yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
+          Year must be 4 characters
+        </mat-error>
+        <mat-error *ngIf="yearControl?.hasError('required')">
+          Year is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
 
-<!-- Upload video button -->
-<div style="text-align: center">
-  <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
-  <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Additional Info -->
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Additional Info</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-label>Measurements</mat-label>
+      <br>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input id="playerHeight" matInput placeholder="Height in cm" [value]="playerBinding.height" [formControl]="heightControl" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="heightControl?.hasError('pattern')">
+          Height must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input id="playerWeight" matInput placeholder="Weight in kg" [value]="playerBinding.weight" [formControl]="weightControl" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="weightControl?.hasError('pattern')">
+          Weight must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="threeFieldsOnSameRow">
+        <input id="playerBodyfat" matInput placeholder="Bodyfat in %" [value]="playerBinding.bodyfat" [formControl]="bodyfatControl" [errorStateMatcher]='validate'>
+        <mat-error *ngIf="bodyfatControl?.hasError('pattern')">
+          Body fat must be a number
+        </mat-error>
+      </mat-form-field>
+
+      <mat-label>Positions</mat-label>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="Primary position" [formControl]="primaryPositionCtrl" [errorStateMatcher]='validate'>
+          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Secondary position" [formControl]="secondaryPositionCtrl" [errorStateMatcher]='validate'>
+          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Strengths and Weaknesses -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Strengths and Weaknesses</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Sport CV -->
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Sport CV</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- National Team -->
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>National Team</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Profile Picture -->
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Profile Picture</mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+  <!-- Upload profile button -->
+  <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+  <button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
+
+  <!-- Upload video button -->
+  <div style="text-align: center">
+    <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
+    <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
+  </div>
+
+  <!-- Delete NationalTeam button -->
+  <input type="button" class="btn btn-success" value="Delete" (click)="deleteNationalTeam()">
+
+  <!-- Delete Player weakness button -->
+  <input type="button" class="btn btn-success" value="Delete" (click)="deletePlayerWeakness()">
+
+  <!-- Delete Player strength button -->
+  <input type="button" class="btn btn-success" value="Delete" (click)="deletePlayerStrength()">
+
+  <!-- Update button -->
+  <input type="button" class="btn btn-success" value="Update" (click)="updatePlayer()">
 </div>
-
-<!-- Delete NationalTeam button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="deleteNationalTeam()">
-
-<!-- Delete Player weakness button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="deletePlayerWeakness()">
-
-<!-- Delete Player strength button -->
-<input type="button" class="btn btn-success" value="Delete" (click) ="deletePlayerStrength()">
-
-<!-- Update button -->
-<input type="button" class="btn btn-success" value="Update" (click) ="updatePlayer()">
-

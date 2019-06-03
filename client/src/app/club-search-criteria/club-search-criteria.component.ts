@@ -61,6 +61,7 @@ export class ClubSearchCriteriaComponent implements OnInit {
     this.validateSearchCriteria();    
     this.searchService.searchForClubsResult = [];
     this.isLoading = true;
+    window.scrollTo(0, 0);
     this.searchService.searchForClubs(this.searchCriteria, this.loginService.playerInSession.id).subscribe(
       (success: Club[]) => {
         success.forEach(element => {
