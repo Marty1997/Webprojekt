@@ -29,6 +29,12 @@ export class TokenInterceptor implements HttpInterceptor {
                 this.loginService.logout();
                 this.router.navigate(['/'])
             }
+            if(error.error == "Failed to authenticate") {
+              console.log("Do nothing");
+           }
+           else {
+             console.log("Redirect til fail side");
+           }
         }
     ))
   }
