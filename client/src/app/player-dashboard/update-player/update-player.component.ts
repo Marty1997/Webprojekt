@@ -77,6 +77,8 @@ export class UpdatePlayerComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
+  primaryPositionCtrl = new FormControl("");
+  secondaryPositionCtrl = new FormControl("");
 
   constructor(
     private loginService: loginService,
@@ -156,6 +158,16 @@ export class UpdatePlayerComponent implements OnInit {
     this.playerBinding = this.loginService.playerInSession;
   }
 
+  positionList: string[] = [
+    "Goalkeeper",
+    "Left wing",
+    "Left back",
+    "Playmaker",
+    "Pivot",
+    "Right back",
+    "Right wing",
+    "Defence"
+  ];
   countryList: string[] = [
     "Denmark",
     "Norway",

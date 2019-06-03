@@ -1667,5 +1667,9 @@ namespace Api.DAL.Repos {
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
             throw new NotImplementedException();
         }
+
+        Club IClubRepository<Club>.UpdateTrainingHours(TrainingHours entity) {
+            throw new NotImplementedException();
+        }
     }
 }
