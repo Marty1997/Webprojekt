@@ -36,9 +36,7 @@ export class ClubDashboardComponent implements OnInit {
     if (this.loginService.typeOfLogin == "Club") {
       this.isClub = true;
       if (this.loginService.refreshValue) {
-        this.loginService.LoginUserIfValidTokenOnRefresh(
-          this.loginService.getDecodeToken()
-        );
+        this.loginService.LoginUserIfValidTokenOnRefresh();
       }
       this.clubBinding = this.loginService.clubInSession;
       console.log(this.isClub);

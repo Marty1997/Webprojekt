@@ -33,9 +33,7 @@ export class PlayerDashboardComponent implements OnInit {
     if (this.loginService.typeOfLogin == "Player") {
       this.isPlayer = true;
       if (this.loginService.refreshValue) {
-        this.loginService.LoginUserIfValidTokenOnRefresh(
-          this.loginService.getDecodeToken()
-        );
+        this.loginService.LoginUserIfValidTokenOnRefresh();
         this.loginService.refreshValue = false;
       }
  
