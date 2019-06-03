@@ -388,6 +388,15 @@ export class UpdateClubComponent implements OnInit {
     this.openPositionName.setValue("");
   }
 
+  onDeleteJobPosition(jobPosition: JobPosition) {
+    this.openPositionSource.forEach( (jp, index) => {
+      if(jp === jobPosition) {
+        this.openPositionSource.splice(index, 1);
+      }
+    })
+    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+  }
+
   setStep(index: number) {
     this.step = index;
   }
@@ -591,6 +600,16 @@ export class UpdateClubComponent implements OnInit {
     this.dataSource = [...this.dataSource]; //refresh the dataSource
   }
 
+  onDeleteTraininghours() {
+    this.clubBinding.trainingHoursList.forEach( (elm, index) => {
+      if(elm.name === 'Handball') {
+        this.clubBinding.trainingHoursList.splice(index, 1);
+      } else if(elm.name === 'Fitness training') {
+        this.clubBinding.trainingHoursList.splice(index, 1);
+      }
+    });
+  }
+
   buildClubInfo() {
     let club: Club;
     club.password = this.currentPassword.value;
@@ -706,6 +725,23 @@ export class UpdateClubComponent implements OnInit {
     this.regularSunTo.setValue(element.sun.slice(8, 13));
   }
 
+  resetRegularHoursFields() {
+    this.regularMonFrom.setValue('');
+    this.regularMonTo.setValue('');
+    this.regularTueFrom.setValue('');
+    this.regularTueTo.setValue('');
+    this.regularWedFrom.setValue('');
+    this.regularWedTo.setValue('');
+    this.regularThuFrom.setValue('');
+    this.regularThuTo.setValue('');
+    this.regularFriFrom.setValue('');
+    this.regularFriTo.setValue('');
+    this.regularSatFrom.setValue('');
+    this.regularSatTo.setValue('');
+    this.regularSunFrom.setValue('');
+    this.regularSunTo.setValue('');
+  }
+
   // Helping method used to split up fitness traininghours into from and to
   buildFitnessHours(element: any) {
     this.fitnessHours.id = element.id;
@@ -723,6 +759,23 @@ export class UpdateClubComponent implements OnInit {
     this.fitnessSatTo.setValue(element.sat.slice(8, 13));
     this.fitnessSunFrom.setValue(element.sun.slice(0, 5));
     this.fitnessSunTo.setValue(element.sun.slice(8, 13));
+  }
+
+  resetFitnessHoursFields() {
+    this.fitnessMonFrom.setValue('');
+    this.fitnessMonTo.setValue('');
+    this.fitnessTueFrom.setValue('');
+    this.fitnessTueTo.setValue('');
+    this.fitnessWedFrom.setValue('');
+    this.fitnessWedTo.setValue('');
+    this.fitnessThuFrom.setValue('');
+    this.fitnessThuTo.setValue('');
+    this.fitnessFriFrom.setValue('');
+    this.fitnessFriTo.setValue('');
+    this.fitnessSatFrom.setValue('');
+    this.fitnessSatTo.setValue('');
+    this.fitnessSunFrom.setValue('');
+    this.fitnessSunTo.setValue('');
   }
 
   buildRegularTrainingHours() {
