@@ -36,9 +36,9 @@ namespace Api.Controllers {
         // api/Club/UpdateClubInfo
         [HttpPost]
         [Route("[action]")]
-        public IActionResult UpdateClubInfo([FromBody] Club entity) {
+        public IActionResult UpdateInfo([FromBody] Club entity) {
             //var accessToken = Request.Headers["Authorization"];
-            var club = _clubLogic.UpdateClubInfo(entity);
+            var club = _clubLogic.UpdateInfo(entity);
             return Ok(club);
         }
 
@@ -48,7 +48,61 @@ namespace Api.Controllers {
         public IActionResult UpdateTrainingHours([FromBody] TrainingHours entity) {
 
             var response = _clubLogic.UpdateTrainingHours(entity);
+            return Ok(response);
+        }
 
+        // api/Club/UpdateSquadPlayer
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult AddSquadPlayer([FromBody] SquadPlayer entity) {
+
+            var response = _clubLogic.AddSquadPlayer(entity);
+            return Ok(response);
+        }
+
+        // api/Club/AddOpenPosition
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult AddOpenPosition([FromBody] JobPosition entity) {
+
+            var response = _clubLogic.AddOpenPosition(entity);
+            return Ok(response);
+        }
+
+        // api/Club/UpdateClubStaff
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateStaff([FromBody] Club entity) {
+
+            var response = _clubLogic.UpdateStaff(entity);
+            return Ok(response);
+        }
+
+        // api/Club/UpdateClubValuesAndPreferences
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateValuesAndPreferences([FromBody] Club entity) {
+
+            var response = _clubLogic.UpdateValuesAndPreferences(entity);
+            return Ok(response);
+        }
+
+
+        // api/Club/UpdateProfile
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateProfile([FromBody] Club entity) {
+
+            var response = _clubLogic.UpdateProfile(entity);
+            return Ok(response);
+        }
+
+        // api/Club/UpdateFacility
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateFacility([FromBody] Club entity) {
+
+            var response = _clubLogic.UpdateFacility(entity);
             return Ok(response);
         }
 

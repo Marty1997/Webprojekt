@@ -27,13 +27,41 @@ namespace Api.BusinessLogic {
             return _clubRepos.Create(entity);
         }
 
-        public Club UpdateClubInfo(Club entity) {
+        public Club UpdateInfo(Club entity) {
             return _clubRepos.UpdateClubInfo(entity);
         }
 
         public Club UpdateTrainingHours(TrainingHours entity) {
             return _clubRepos.UpdateTrainingHours(entity);
         }
+
+        public SquadPlayer AddSquadPlayer(SquadPlayer entity) {
+            return _clubRepos.AddSquadPlayer(entity);
+        }
+
+        public JobPosition AddOpenPosition(JobPosition entity) {
+            return _clubRepos.AddOpenPosition(entity);
+        }
+
+        public Club UpdateStaff(Club entity) {
+            return _clubRepos.UpdateStaff(entity);
+        }
+
+        public Club UpdateValuesAndPreferences(Club entity) {
+            return _clubRepos.UpdateValuesAndPreferences(entity);
+        }
+
+        public Club UpdateProfile(Club entity) {
+            return _clubRepos.UpdateProfile(entity);
+        }
+
+        public Club UpdateFacility(Club entity) {
+            return _clubRepos.UpdateFacility(entity);
+        }
+
+
+
+
 
         public Club GetById(int id) {
             return _clubRepos.GetById(id);

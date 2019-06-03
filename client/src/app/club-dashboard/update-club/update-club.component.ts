@@ -439,31 +439,19 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClubRegularTrainingSchedule() {
-    this.deleteService.deleteClubRegularTrainingSchedule(this.regularHours.id); 
+    this.deleteService.deleteTrainingHours(this.regularHours.id); 
   }
 
   deleteClubFitnessTrainingSchedule() {
-    this.deleteService.deleteClubFitnessTrainingSchedule(this.fitnessHours.id); 
+    this.deleteService.deleteTrainingHours(this.fitnessHours.id); 
   }
 
   deleteClubSquadPlayer(id: number) {
-    this.deleteService.deleteClubSquadPlayer(id);
+    this.deleteService.deleteSquadPlayer(id);
   }
 
   deleteClubOpenPosition(id: number) {
-    this.deleteService.deleteClubOpenPosition(id);
-  }
-
-  buildClubProfile() {
-    let club: Club;
-    club.imagePath = this.clubBinding.imagePath;
-    return club;
-  }
-
-  buildClubFacility() {
-    let club: Club;
-    club.facilityImagesList = this.clubBinding.facilityImagesList;
-    return club;
+    this.deleteService.deleteOpenPosition(id);
   }
 
   markPreferenceCheckboxes(preferenceList: any) {
@@ -491,8 +479,21 @@ export class UpdateClubComponent implements OnInit {
       }
     });
   }
-   // Helping method used to build staff
-   buildClubStaff() {
+
+  buildClubProfile() {
+    let club: Club;
+    club.imagePath = this.clubBinding.imagePath;
+    return club;
+  }
+
+  buildClubFacility() {
+    let club: Club;
+    club.facilityImagesList = this.clubBinding.facilityImagesList;
+    return club;
+  }
+
+  // Helping method used to build staff
+  buildClubStaff() {
     let club = new Club();
 
     club.trainer = this.trainerCtrl.value;

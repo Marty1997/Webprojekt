@@ -629,7 +629,7 @@ namespace Api.DAL.Repos {
             throw new NotImplementedException();
         }
 
-        public Club UpdateClubInfo(Club entity) {
+        public Club UpdateInfo(Club entity) {
             Club c = new Club();
 
             for (int i = 0; i < 5; i++) {
@@ -739,7 +739,7 @@ namespace Api.DAL.Repos {
             return errorMessage;
         }
 
-        public string AddClubSquadPlayer(SquadPlayer entity, int club_ID) {
+        public string AddSquadPlayer(SquadPlayer entity, int club_ID) {
             string errorMessage = "";
 
             for (int i = 0; i < 5; i++) {
@@ -784,7 +784,7 @@ namespace Api.DAL.Repos {
             
         }
 
-        public string AddClubOpenPosition(JobPosition entity, int club_ID) {
+        public string AddOpenPosition(JobPosition entity, int club_ID) {
             string errorMessage = "";
 
             for (int i = 0; i < 5; i++) {
@@ -857,7 +857,7 @@ namespace Api.DAL.Repos {
 
         }
 
-        public Club UpdateClubStaff(Club entity) {
+        public Club UpdateStaff(Club entity) {
 
             Club c = new Club();
 
@@ -892,6 +892,213 @@ namespace Api.DAL.Repos {
                        
                         if (rowCount == 0) {
                             c.ErrorMessage = "The club staff was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
+        }
+
+        public Club UpdateValuesAndPreferences(Club entity) {
+
+            Club c = new Club();
+
+            for (int i = 0; i < 5; i++) {
+
+                List<int> _rowCountList = new List<int>();
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Club where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+                        
+                        //Update club
+                        string updateClubSQL = @"Update Club Set ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription
+                                                                 Where Email = @Email AND RowID = @RowID";
+
+
+                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                            entity.ValueDescription,
+                            entity.PreferenceDescription,
+                            entity.Email,
+                            RowID = row_ID
+                        }, transaction: tran));
+
+                        //Values
+                        if (entity.ValuesList.Count > 0) {
+
+                            foreach (string value in entity.ValuesList) {
+
+                                //Return value ID
+                                string valueSQL = @"Select id from Value where name = @Name";
+                                int value_ID = conn.Query<int>(valueSQL, new { Name = value }, transaction: tran).FirstOrDefault();
+
+                                if (value_ID != 0 && club_ID != 0) {
+
+                                    //Update ClubValue
+                                    string updateClubValueSQL = @"Update ClubValue Set Value_ID = @Value_ID
+                                                                 Where Club_ID = @Club_ID";
+
+                                    _rowCountList.Add(conn.Execute(updateClubValueSQL, new {
+                                        Value_ID = value_ID,
+                                        Club_ID = club_ID
+                                    }, transaction: tran));
+                                }
+                            }
+                        }
+
+                        //Preference
+                        if (entity.PreferenceList.Count > 0) {
+
+                            foreach (string preference in entity.PreferenceList) {
+
+                                //Return preference ID
+                                string preferenceSQL = @"Select id from Preference where name = @Name";
+                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
+
+                                if (preference_ID != 0 && club_ID != 0) {
+
+                                    //Update ClubPreference
+                                    string updateClubPreferenceSQL = @"Update ClubPreference Set Preference_ID = @Preference_ID
+                                                                 Where Club_ID = @Club_ID";
+
+                                    _rowCountList.Add(conn.Execute(updateClubPreferenceSQL, new {
+                                        Preference_ID = preference_ID,
+                                        Club_ID = club_ID
+                                    }, transaction: tran));
+                                }
+                            }
+                        }
+
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                            c.ErrorMessage = "The values and preferences was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
+        }
+
+        public Club UpdateProfile(Club entity) {
+
+            Club c = new Club();
+
+            for (int i = 0; i < 5; i++) {
+
+                List<int> _rowCountList = new List<int>();
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+
+                        //Return row ID
+                        string rowIDSQL = @"Select rowID from Club where email = @Email";
+                        byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { Email = entity.Email }, transaction: tran).Single();
+
+                        //Update club
+                        string updateClubSQL = @"Update Club Set ImagePath = @ImagePath Where Email = @Email AND RowID = @RowID";
+
+
+                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
+                            entity.ImagePath,
+                            entity.Email,
+                            RowID = row_ID
+                        }, transaction: tran));
+                        
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                            c.ErrorMessage = "The club was not updated";
+                            tran.Rollback();
+                        }
+                        else {
+                            c.ErrorMessage = "";
+                            tran.Commit();
+                            break;
+                        }
+                        //}
+                        //catch (SqlException e) {
+
+                        //    tran.Rollback();
+                        //    c.ErrorMessage = ErrorHandling.Exception(e);
+                        //}
+                    }
+                }
+            }
+            return c;
+        }
+
+        public Club UpdateFacility(Club entity) {
+
+            Club c = new Club();
+
+            for (int i = 0; i < 5; i++) {
+
+                List<int> _rowCountList = new List<int>();
+
+                using (var conn = Connection()) {
+
+                    using (IDbTransaction tran = conn.BeginTransaction()) {
+                        //try {
+                        
+                        //Facility image
+                        if (entity.FacilityImagesList.Count > 0) {
+
+                            foreach (string imagePath in entity.FacilityImagesList) {
+
+                                if (club_ID != 0) {
+
+                                    //Check if imagePath already exist in DB
+                                    string facilityImageIDSQL = @"Select id from FacilityImage where imagePath = @ImagePath";
+                                    int id = conn.Query<int>(facilityImageIDSQL, new { ImagePath = imagePath }, transaction: tran).FirstOrDefault();
+
+                                    if (id == 0) {
+                                        //Insert facility image
+                                        string facilityImageSQL = @"INSERT INTO FacilityImage (ImagePath, Club_ID) 
+                                            VALUES (@ImagePath, @Club_ID)";
+
+                                        _rowCountList.Add(conn.Execute(facilityImageSQL, new {
+                                            ImagePath = imagePath,
+                                            Club_ID = club_ID
+                                        }, transaction: tran));
+                                    }
+
+                                }
+                            }
+                        }
+                        
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                            c.ErrorMessage = "The club was not updated";
                             tran.Rollback();
                         }
                         else {
