@@ -28,19 +28,19 @@ namespace Api.BusinessLogic {
         }
 
         public Club UpdateInfo(Club entity) {
-            return _clubRepos.UpdateClubInfo(entity);
+            return _clubRepos.UpdateInfo(entity);
         }
 
-        public Club UpdateTrainingHours(TrainingHours entity) {
-            return _clubRepos.UpdateTrainingHours(entity);
+        public Club UpdateTrainingHours(TrainingHours entity, int club_ID) {
+            return _clubRepos.UpdateTrainingHours(entity, club_ID);
         }
 
-        public SquadPlayer AddSquadPlayer(SquadPlayer entity) {
-            return _clubRepos.AddSquadPlayer(entity);
+        public SquadPlayer AddSquadPlayer(SquadPlayer entity, int club_ID) {
+            return _clubRepos.AddSquadPlayer(entity, club_ID);
         }
 
-        public JobPosition AddOpenPosition(JobPosition entity) {
-            return _clubRepos.AddOpenPosition(entity);
+        public JobPosition AddOpenPosition(JobPosition entity, int club_ID) {
+            return _clubRepos.AddOpenPosition(entity, club_ID);
         }
 
         public Club UpdateStaff(Club entity) {
@@ -58,10 +58,6 @@ namespace Api.BusinessLogic {
         public Club UpdateFacility(Club entity) {
             return _clubRepos.UpdateFacility(entity);
         }
-
-
-
-
 
         public Club GetById(int id) {
             return _clubRepos.GetById(id);

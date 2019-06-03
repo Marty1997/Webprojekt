@@ -16,11 +16,12 @@ namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class ClubController : ControllerBase {
-
+        private readonly Authentication authentication;
         private readonly ClubLogic _clubLogic;
 
-        public ClubController(ClubLogic clubLogic) {
+        public ClubController(ClubLogic clubLogic, Authentication authentication) {
             _clubLogic = clubLogic;
+            this.authentication = authentication;
         }
 
         // api/Club
@@ -37,19 +38,31 @@ namespace Api.Controllers {
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateInfo([FromBody] Club entity) {
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
             
-
-            var club = _clubLogic.UpdateInfo(entity);
-            return Ok(club);
+            if (role == "Club") {
+                entity.Id = id;
+                _clubLogic.UpdateInfo(entity);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
         }
 
         // api/Club/UpdateTrainingHours
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateTrainingHours([FromBody] TrainingHours entity) {
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
 
-            var response = _clubLogic.UpdateTrainingHours(entity);
-            return Ok(response);
+            if (role == "Club") {
+                _clubLogic.UpdateTrainingHours(entity, id);
+                return Ok();
+            }
+            return StatusCode(400, "Failed"); 
         }
 
         // api/Club/UpdateSquadPlayer
@@ -57,8 +70,15 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult AddSquadPlayer([FromBody] SquadPlayer entity) {
 
-            var response = _clubLogic.AddSquadPlayer(entity);
-            return Ok(response);
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                _clubLogic.AddSquadPlayer(entity, id);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
         }
 
         // api/Club/AddOpenPosition
@@ -66,8 +86,15 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult AddOpenPosition([FromBody] JobPosition entity) {
 
-            var response = _clubLogic.AddOpenPosition(entity);
-            return Ok(response);
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                _clubLogic.AddOpenPosition(entity, id);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
         }
 
         // api/Club/UpdateClubStaff
@@ -75,8 +102,16 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult UpdateStaff([FromBody] Club entity) {
 
-            var response = _clubLogic.UpdateStaff(entity);
-            return Ok(response);
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                entity.Id = id;
+                _clubLogic.UpdateStaff(entity);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
         }
 
         // api/Club/UpdateClubValuesAndPreferences
@@ -84,18 +119,33 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult UpdateValuesAndPreferences([FromBody] Club entity) {
 
-            var response = _clubLogic.UpdateValuesAndPreferences(entity);
-            return Ok(response);
-        }
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
 
+            if (role == "Club") {
+                entity.Id = id;
+                _clubLogic.UpdateValuesAndPreferences(entity);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
+        }
 
         // api/Club/UpdateProfile
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateProfile([FromBody] Club entity) {
 
-            var response = _clubLogic.UpdateProfile(entity);
-            return Ok(response);
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                entity.Id = id;
+                _clubLogic.UpdateProfile(entity);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
         }
 
         // api/Club/UpdateFacility
@@ -103,8 +153,16 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult UpdateFacility([FromBody] Club entity) {
 
-            var response = _clubLogic.UpdateFacility(entity);
-            return Ok(response);
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                entity.Id = id;
+                _clubLogic.UpdateFacility(entity);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
         }
 
         // api/Club/GetById
