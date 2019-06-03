@@ -7,6 +7,38 @@
         <mat-panel-title>Personal Info</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <mat-label>Update Password</mat-label><br>
+      <mat-form-field>
+        <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+          [errorStateMatcher]="validate">
+        <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
+          Password must be at least 6 characters
+        </mat-error>
+        <mat-error *ngIf="currentPassword?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="New Password" [formControl]="password" type="password"
+          [errorStateMatcher]="validate">
+        <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
+          Password must be at least 6 characters
+        </mat-error>
+        <mat-error *ngIf="password?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName" [errorStateMatcher]="validate">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Last Name" [formControl]="lastNameControl" [value]="playerBinding.lastName" [errorStateMatcher]="validate">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select>
+          <mat-option *ngFor="let country of countryList">country</mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
       <mat-action-row>
@@ -86,7 +118,7 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  
+
   <!-- Upload profile button -->
   <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
   <button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
