@@ -7,6 +7,7 @@ import { uploadFilesService} from "src/app/services/uploadFilesService";
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/front-page/front-page-image/register-player/register-player.component';
 import { MatCheckbox } from '@angular/material';
+import { NationalTeam } from 'src/app/models/nationalTeam.model';
 
 @Component({
   selector: 'app-update-player',
@@ -89,6 +90,25 @@ export class UpdatePlayerComponent implements OnInit {
   injuryRecoveryDateCtrl = new FormControl("");
   strengthsCtrl = new FormControl("");
   weaknessesCtrl = new FormControl("");
+  currentClubCtrl = new FormControl("");
+  currentPrimaryPositionCtrl = new FormControl("");
+  currentSecondaryPositionCtrl = new FormControl("");
+  accomplishmentsCtrl = new FormControl("");
+  statistics = new FormControl("");
+  formerClubsCtrl = new FormControl("");
+  aTeamAppearancesCtrl = new FormControl("");
+  aTeamPositionCtrl = new FormControl("");
+  aTeamStatisticsCtrl = new FormControl("");
+  u21TeamAppearancesCtrl = new FormControl("");
+  u21TeamPositionCtrl = new FormControl("");
+  u21TeamStatisticsCtrl = new FormControl("");
+  bTeamAppearancesCtrl = new FormControl("");
+  bTeamPositionCtrl = new FormControl("");
+  bTeamStatisticsCtrl = new FormControl("");
+  u18TeamAppearancesCtrl = new FormControl("");
+  u18TeamPositionCtrl = new FormControl("");
+  u18TeamStatisticsCtrl = new FormControl("");
+
 
   // strengths and weaknesses
   @ViewChild("speedy") private speedy: MatCheckbox;
@@ -123,6 +143,10 @@ export class UpdatePlayerComponent implements OnInit {
     }
     if(this.playerBinding.weaknessList.length > 0) {
       this.checkWeaknessBoxes(this.playerBinding.weaknessList);
+    }
+    // set current national team info
+    if(this.playerBinding.nationalTeamList.length > 0) {
+      this.setNationalTeamInfo();
     }
   }
 
@@ -190,6 +214,28 @@ export class UpdatePlayerComponent implements OnInit {
 
   cancel() {
     this.playerBinding = this.loginService.playerInSession;
+  }
+
+  setNationalTeamInfo() {
+    this.playerBinding.nationalTeamList.forEach(nt => {
+      if(nt.name === 'A') {
+        this.aTeamAppearancesCtrl.setValue(nt.appearances);
+        this.aTeamPositionCtrl.setValue(nt.position);
+        this.aTeamStatisticsCtrl.setValue(nt.statistic);
+      } else if(nt.name === 'B') {
+        this.bTeamAppearancesCtrl.setValue(nt.appearances);
+        this.bTeamPositionCtrl.setValue(nt.position);
+        this.bTeamStatisticsCtrl.setValue(nt.statistic);
+      } else if(nt.name === 'U21') {
+        this.u21TeamAppearancesCtrl.setValue(nt.appearances);
+        this.u21TeamPositionCtrl.setValue(nt.position);
+        this.u21TeamStatisticsCtrl.setValue(nt.statistic);
+      } else if(nt.name === 'U18') {
+        this.u18TeamAppearancesCtrl.setValue(nt.appearances);
+        this.u18TeamPositionCtrl.setValue(nt.position);
+        this.u18TeamStatisticsCtrl.setValue(nt.statistic);
+      }
+    });
   }
 
   checkStrengthBoxes(strengths: string[]) {
@@ -301,6 +347,47 @@ export class UpdatePlayerComponent implements OnInit {
     if(this.badDefencePlayer.checked) {
       this.playerBinding.weaknessList.push(this.badDefencePlayer.value);
     }
+   }
+
+   buildSportCv() {
+     this.playerBinding.currentClub = this.currentClubCtrl.value;
+     this.playerBinding.currentClubPrimaryPosition = this.currentPrimaryPositionCtrl.value;
+     this.playerBinding.currentClubSecondaryPosition = this.currentSecondaryPositionCtrl.value;
+     this.playerBinding.accomplishments = this.accomplishmentsCtrl.value;
+     this.playerBinding.statistic = this.statistics.value;
+     this.playerBinding.formerClubs = this.formerClubsCtrl.value;
+   }
+
+   buildNationalTeam() {
+     if(this.aTeamAppearancesCtrl.value != '' || this.aTeamPositionCtrl.value != '' || this.aTeamStatisticsCtrl.value != '') {
+       let aTeam = new NationalTeam();
+       aTeam.name = 'A';
+       aTeam.appearances = this.aTeamAppearancesCtrl.value;
+       aTeam.position = this.aTeamPositionCtrl.value;
+       aTeam.statistic = this.aTeamStatisticsCtrl.value;
+     }
+     if(this.bTeamAppearancesCtrl.value != '' || this.bTeamPositionCtrl.value != '' || this.bTeamStatisticsCtrl.value != '') {
+      let bTeam = new NationalTeam();
+      bTeam.name = 'B';
+      bTeam.appearances = this.bTeamAppearancesCtrl.value;
+      bTeam.position = this.bTeamPositionCtrl.value;
+      bTeam.statistic = this.bTeamStatisticsCtrl.value;
+    }
+    if(this.u21TeamAppearancesCtrl.value != '' || this.u21TeamPositionCtrl.value != '' || this.u21TeamStatisticsCtrl.value != '') {
+      let u21Team = new NationalTeam();
+      u21Team.name = 'U21';
+      u21Team.appearances = this.u21TeamAppearancesCtrl.value;
+      u21Team.position = this.u21TeamPositionCtrl.value;
+      u21Team.statistic = this.u21TeamStatisticsCtrl.value;
+    }
+    if(this.u18TeamAppearancesCtrl.value != '' || this.u18TeamPositionCtrl.value != '' || this.u18TeamStatisticsCtrl.value != '') {
+      let u18Team = new NationalTeam();
+      u18Team.name = 'U18';
+      u18Team.appearances = this.u18TeamAppearancesCtrl.value;
+      u18Team.position = this.u18TeamPositionCtrl.value;
+      u18Team.statistic = this.u18TeamStatisticsCtrl.value;
+    }
+
    }
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY

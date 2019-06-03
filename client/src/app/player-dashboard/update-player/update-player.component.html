@@ -263,33 +263,18 @@
       <mat-label>Club info</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Current club" formControlName="currentClub" [errorStateMatcher]='validate'>
+        <input matInput placeholder="Current club" [formControl]="currentClubCtrl" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Current position" formControlName="currentPrimaryPosition"
+        <mat-select placeholder="Current position" [formControl]="currentPrimaryPositionCtrl"
           [errorStateMatcher]='validate'>
-          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-          <mat-option value="Left wing">Left wing</mat-option>
-          <mat-option value="Left back">Left back</mat-option>
-          <mat-option value="Playmaker">Playmaker</mat-option>
-          <mat-option value="Pivot">Pivot</mat-option>
-          <mat-option value="Right back">Right back</mat-option>
-          <mat-option value="Right wing">Right wing</mat-option>
-          <mat-option value="Defence">Defence</mat-option>
+          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Current secondary position" formControlName="currentSecondaryPosition"
+        <mat-select placeholder="Current secondary position" [formControl]="currentSecondaryPositionCtrl"
           [errorStateMatcher]='validate'>
-          <mat-option value="None">None</mat-option>
-          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-          <mat-option value="Left wing">Left wing</mat-option>
-          <mat-option value="Left back">Left back</mat-option>
-          <mat-option value="Playmaker">Playmaker</mat-option>
-          <mat-option value="Pivot">Pivot</mat-option>
-          <mat-option value="Right back">Right back</mat-option>
-          <mat-option value="Right wing">Right wing</mat-option>
-          <mat-option value="Defence">Defence</mat-option>
+          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -297,16 +282,19 @@
       <mat-label>Other info</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <textarea matInput placeholder="Accomplishments" matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10" formControlName="accomplishments" [errorStateMatcher]='validate'></textarea>
+        <textarea matInput [value]="playerBinding.accomplishments" placeholder="Accomplishments" matTextareaAutosize
+          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="accomplishmentsCtrl"
+          [errorStateMatcher]='validate'></textarea>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="10" matAutosizeMaxRows="10"
-          formControlName="statistics" [errorStateMatcher]='validate'></textarea>
+        <textarea matInput [value]="playerBinding.statistic" placeholder="Statistics" matTextareaAutosize
+          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="statistics"
+          [errorStateMatcher]='validate'></textarea>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <textarea matInput placeholder="Former clubs" matTextareaAutosize matAutosizeMinRows="10"
-          matAutosizeMaxRows="10" formControlName="formerClubs" [errorStateMatcher]='validate'></textarea>
+        <textarea matInput [value]="playerBinding.formerClubs" placeholder="Former clubs" matTextareaAutosize
+          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="formerClubsCtrl"
+          [errorStateMatcher]='validate'></textarea>
       </mat-form-field>
 
       <mat-action-row>
@@ -321,7 +309,92 @@
         <mat-panel-title>National Team</mat-panel-title>
       </mat-expansion-panel-header>
 
+      <div class="row">
+        <div class="col-xs-6">
+          <mat-label>A Team</mat-label><br>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" [formControl]="aTeamAppearancesCtrl" [errorStateMatcher]='validate'>
+            <mat-error *ngIf="aTeamNumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" [formControl]="aTeamPositionCtrl" [errorStateMatcher]='validate'>
+                <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+            </mat-select>
 
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" [formControl]="aTeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+
+          <br>
+          <mat-label>U21 Team</mat-label><br>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" [formControl]="u21TeamAppearancesCtrl"
+              [errorStateMatcher]='validate'>
+            <mat-error *ngIf="u21NumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" [formControl]="u21TeamPositionCtrl" [errorStateMatcher]='validate'>
+                <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" [formControl]="u21TeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xs-6">
+          <mat-label>B Team</mat-label><br>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" [formControl]="bTeamAppearancesCtrl" [errorStateMatcher]='validate'>
+            <mat-error *ngIf="bTeamNumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" [formControl]="bTeamPositionCtrl" [errorStateMatcher]='validate'>
+              <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" [formControl]="bTeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+
+          <br>
+          <mat-label>U18 Team</mat-label><br>
+          <br>
+          <mat-form-field>
+            <input matInput placeholder="Appearances" [formControl]="u18TeamAppearancesCtrl"
+              [errorStateMatcher]='validate'>
+            <mat-error *ngIf="u18NumberControl?.hasError('pattern')">
+              Appearances must be a number
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Position" [formControl]="u18TeamPositionCtrl" [errorStateMatcher]='validate'>
+              <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="doubleSizeField">
+            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
+              matAutosizeMaxRows="3" [formControl]="u18TeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
+          </mat-form-field>
+        </div>
+      </div>
 
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
