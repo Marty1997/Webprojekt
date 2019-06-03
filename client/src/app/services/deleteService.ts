@@ -15,54 +15,22 @@ export class deleteService {
   deletePlayer(player: Player) {
     let url = "https://localhost:44310/api/Player/Delete";
     console.log(player);
-    return this.http.post(url, player).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, player).subscribe();
   }
 
   deleteClub(club: Club) {
     let url = "https://localhost:44310/api/Club/Delete";
-    return this.http.post(url, club).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, club).subscribe();
   }
-
-  deleteSquadPlayer(squadPlayerList: SquadPlayer[]) {
+  
+  deleteSquadPlayer(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteSquadPlayer";
-    return this.http.post(url, squadPlayerList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, id).subscribe();
   }
 
-  deleteTrainingHours(trainingHoursList: TrainingHours[]) {
+  deleteTrainingHours(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteTrainingHours";
-    return this.http.post(url, trainingHoursList).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, id).subscribe();
   }
 
   deleteClubValue(clubValueList: string[]) {
@@ -156,5 +124,16 @@ export class deleteService {
       }
     );
   }
+
+  deleteClubRegularTrainingSchedule(id: number) {
+    let url = "https://localhost:44310/api/Club/DeleteClubRegularTrainingSchedule";
+    return this.http.post(url, id).subscribe();
+  }
+
+  deleteClubFitnessTrainingSchedule(id: number) {
+    let url = "https://localhost:44310/api/Club/DeleteClubFitnessTrainingSchedule";
+    return this.http.post(url, id).subscribe();
+  }
+
 
 }
