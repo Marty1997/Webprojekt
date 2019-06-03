@@ -97,30 +97,10 @@ and (orientation : landscape) {
     right: -15%;
 }
 
-
-.custom-tabs .mat-tab-label .mat-tab-label-content {
-    /* text */
-}
-
 .custom-tabs .mat-tab-label-active {
     background-color: #d7d9db;
 }
 
-.contactClubButton {
-    font-weight: normal;
-    width: 30%;
-    background-color:  #45a29e;
-    -moz-border-radius: 30px;
-    -webkit-border-radius: 30px;
-    border-radius: 30px;
-    border: 2px solid #45a29e;
-    display: inline-block;
-    cursor: pointer;
-    color:  #ffffff;
-    padding: 2.5px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #45a29e;
-  }
+
 
 

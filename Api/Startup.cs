@@ -79,7 +79,7 @@ namespace Api {
             }); ;
 
             services.AddCors(c => {
-                c.AddPolicy(AllowOrigin, options => options.WithOrigins("http://localhost:4200/").AllowAnyOrigin()
+                c.AddPolicy(AllowOrigin, options => options.WithOrigins("http://localhost:4200")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials());
@@ -95,7 +95,7 @@ namespace Api {
             else {
                 app.UseHsts();
             }
-            app.UseCors(AllowOrigin);
+            
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions() {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
@@ -103,8 +103,8 @@ namespace Api {
             });
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseCors(AllowOrigin);
             app.UseMvc();
-            
         }
     }
 }

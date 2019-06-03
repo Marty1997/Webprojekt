@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { loginService } from "src/app/services/loginService";
 import { Club } from "../models/club.model";
 import { searchService } from "../services/searchService";
-import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
 
 @Component({
@@ -35,9 +34,7 @@ export class ClubDashboardComponent implements OnInit {
     if (this.loginService.typeOfLogin == "Club") {
       this.isClub = true;
       if (this.loginService.refreshValue) {
-        this.loginService.LoginUserIfValidTokenOnRefresh(
-          this.loginService.getDecodeToken()
-        );
+        this.loginService.LoginUserIfValidTokenOnRefresh();
         this.loginService.refreshValue = false;
       }
       this.clubBinding = this.loginService.clubInSession;

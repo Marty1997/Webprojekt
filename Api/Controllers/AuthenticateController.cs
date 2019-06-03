@@ -41,16 +41,19 @@ namespace Api.Controllers {
             return Ok(user);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("[action]")]
-        public IActionResult RefreshUserWithValidToken([FromBody] RefreshUserRequest request) {
+        public IActionResult RefreshUserWithValidToken() {
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
 
-            if (request.Role == "Player") {
-                Player player = playerRepos.GetById(request.ID);
+            if (role == "Player") {
+                Player player = playerRepos.GetById(id);
                 return Ok(player);
             }
-            else if (request.Role == "Club") {
-                Club club = clubRepos.GetById(request.ID);
+            else if (role == "Club") {
+                Club club = clubRepos.GetById(id);
                 return Ok(club);
             }
             return StatusCode(400, "Failed");
