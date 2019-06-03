@@ -9,11 +9,11 @@ import {
 } from "@angular/forms";
 import { ErrorStateMatcher, MatCheckbox } from "@angular/material";
 import { registerService } from "src/app/services/registerService";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { Club } from "../../../models/club.model";
 import { SquadPlayer } from "../../../models/squadPlayer.model";
 import { TrainingHours } from "../../../models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
+import { viewParentEl } from '@angular/core/src/view/util';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -34,11 +34,15 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: "app-register-club",
   templateUrl: "./register-club.component.html",
   styleUrls: ["./register-club.component.css"],
-  providers: [registerService, uploadFilesService]
+  providers: [registerService]
 })
 export class RegisterClubComponent implements OnInit {
   @Input() modalRef: any;
+
   club: Club = new Club();
+  errorRegister: boolean = false;
+  isLoading: boolean = false;
+  existingEmail: boolean = false;
   hide = true; // password visibility
   clubRequiredInfoFormGroup: FormGroup;
   trainingScheduleFormGroup: FormGroup;
@@ -46,10 +50,8 @@ export class RegisterClubComponent implements OnInit {
   nextYearSquadFormGroup: FormGroup;
   openPositionsFormGroup: FormGroup;
   clubStaffFormGroup: FormGroup;
-  clubPicturesFormGroup: FormGroup;
+  clubRegister: FormGroup;
   valuesAndPreferencesFormGroup: FormGroup;
-  clubLogo: File = null;
-  facilityPictures: FileList = null;
 
   // training hours
   regular: TrainingHours = new TrainingHours();
@@ -143,8 +145,7 @@ export class RegisterClubComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private registerService: registerService,
-    private uploadFilesService: uploadFilesService
+    private registerService: registerService
   ) {}
 
   ngOnInit() {
@@ -216,10 +217,7 @@ export class RegisterClubComponent implements OnInit {
       assistantPhysiotherapistControl: [""],
       managerControl: [""]
     });
-    this.clubPicturesFormGroup = this._formBuilder.group({
-      clubLogoControl: [""],
-      facilityPicturesControl: [""]
-    });
+    this.clubRegister = this._formBuilder.group({});
     this.valuesAndPreferencesFormGroup = this._formBuilder.group({
       valuesControl: [""],
       preferencesControl: [""]
@@ -372,35 +370,38 @@ export class RegisterClubComponent implements OnInit {
     }
   }
 
-  onClubLogoSelected(event) {
-    this.clubLogo = <File>event.target.files[0];
-  }
-
-  onFacilityPicturesSelected(event) {
-    this.facilityPictures = <FileList>event.target.FileList;
-  }
-
-  onUpload() {
-    if (this.clubLogo != null) {
-      this.uploadFilesService.uploadFile(this.clubLogo);
-    }
-    if (this.facilityPictures != null) {
-      this.uploadFilesService.uploadFile(this.facilityPictures);
-    }
+  @ViewChild('stepper') stepper;
+  checkIfEmailExists() {
+    this.existingEmail = false;
+    this.registerService.checkIfEmailExists(this.clubRequiredInfoFormGroup.get('email').value ).subscribe(
+      (success) => {
+        if(success) {
+          this.existingEmail = true;
+        }
+        else {
+          this.stepper.next();
+        }
+      },
+      (error) => {
+        
+      }
+    );
   }
 
   registerClub() {
-    this.onUpload();
-    if (this.registerService.registerClub(this.buildClub())) {
-      this.sendEmailConfirmation(this.emailControl.value);
-    } else {
-      this.errorMessage = "Something went wrong with the registration.";
-    }
-    console.log(this.club);
-  }
-
-  sendEmailConfirmation(clubEmail: string) {
-    this.registerService.sendConfirmationEmail(clubEmail);
+    this.isLoading = true;
+    this.registerService.registerClub(this.buildClub()).subscribe(
+      (success) => {
+        this.modalRef.hide();
+        this.modalRef = null;
+        this.isLoading = false;
+        this.errorRegister = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.errorRegister = true;
+      }
+    ); 
   }
 
   buildClub() {
@@ -414,295 +415,323 @@ export class RegisterClubComponent implements OnInit {
     this.club.city = this.clubRequiredInfoFormGroup.value.city;
     this.club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
     // regular training hours
-    if (
+    if(
       this.trainingScheduleFormGroup.value.regularMondayFromControl !== "" ||
-      this.trainingScheduleFormGroup.value.regularMondayToControl !== ""
-    ) {
-      this.regular.name = "Handball";
-      if (
-        this.trainingScheduleFormGroup.value.regularMondayFromControl !=
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularMondayToControl != "Rest"
-      ) {
-        this.regular.mon =
-          this.trainingScheduleFormGroup.value.regularMondayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularMondayToControl;
-      } else {
-        this.regular.mon = "Rest";
-      }
-    } else {
-      this.regular.mon = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.regularTuesdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.regularTuesdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.regularTuesdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularTuesdayToControl !== "Rest"
-      ) {
-        this.regular.tue =
-          this.trainingScheduleFormGroup.value.regularTuesdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularTuesdayToControl;
-      } else {
-        this.regular.tue = "Rest";
-      }
-    } else {
-      this.regular.tue = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.regularWednesdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.regularWednesdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.regularWednesdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularWednesdayToControl !==
-          "Rest"
-      ) {
-        this.regular.wed =
-          this.trainingScheduleFormGroup.value.regularWednesdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularWednesdayToControl;
-      } else {
-        this.regular.wed = "Rest";
-      }
-    } else {
-      this.regular.wed = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.regularThursdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.regularThursdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.regularThursdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularThursdayToControl !== "Rest"
-      ) {
-        this.regular.thu =
-          this.trainingScheduleFormGroup.value.regularThursdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularThursdayToControl;
-      } else {
-        this.regular.thu = "Rest";
-      }
-    } else {
-      this.regular.thu = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.regularFridayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.regularFridayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.regularFridayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularFridayToControl !== "Rest"
-      ) {
-        this.regular.fri =
-          this.trainingScheduleFormGroup.value.regularFridayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularFridayToControl;
-      } else {
-        this.regular.fri = "Rest";
-      }
-    } else {
-      this.regular.fri = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.regularSaturdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.regularSaturdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.regularSaturdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularSaturdayToControl !== "Rest"
-      ) {
-        this.regular.sat =
-          this.trainingScheduleFormGroup.value.regularSaturdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularSaturdayToControl;
-      } else {
-        this.regular.sat = "Rest";
-      }
-    } else {
-      this.regular.sat = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.regularSundayFromControl !== "" &&
+      this.trainingScheduleFormGroup.value.regularMondayToControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularTuesdayFromControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularTuesdayToControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularWednesdayFromControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularWednesdayToControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularThursdayFromControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularThursdayToControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularFridayFromControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularFridayToControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularSaturdayFromControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularSaturdayToControl !== "" ||
+      this.trainingScheduleFormGroup.value.regularSundayFromControl !== "" ||
       this.trainingScheduleFormGroup.value.regularSundayToControl !== ""
     ) {
-      if (
-        this.trainingScheduleFormGroup.value.regularSundayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.regularSundayToControl !== "Rest"
-      ) {
-        this.regular.sun =
-          this.trainingScheduleFormGroup.value.regularSundayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.regularSundayToControl;
-      } else {
-        this.regular.sun = "Rest";
-      }
-    } else {
-      this.regular.sun = null;
-    }
 
-    if (this.regular.name === "Handball") {
-      this.club.trainingHoursList.push(this.regular);
-    }
+      if (
+        this.trainingScheduleFormGroup.value.regularMondayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularMondayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularMondayFromControl !=
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularMondayToControl != "Rest"
+        ) {
+          this.regular.mon =
+            this.trainingScheduleFormGroup.value.regularMondayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularMondayToControl;
+        } else {
+          this.regular.mon = "Rest";
+        }
+      } else {
+        this.regular.mon = null;
+      }
+
+      if (
+        this.trainingScheduleFormGroup.value.regularTuesdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularTuesdayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularTuesdayFromControl !==
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularTuesdayToControl !== "Rest"
+        ) {
+          this.regular.tue =
+            this.trainingScheduleFormGroup.value.regularTuesdayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularTuesdayToControl;
+        } else {
+          this.regular.tue = "Rest";
+        }
+      } else {
+        this.regular.tue = null;
+      }
+
+      if (
+        this.trainingScheduleFormGroup.value.regularWednesdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularWednesdayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularWednesdayFromControl !==
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularWednesdayToControl !==
+            "Rest"
+        ) {
+          this.regular.wed =
+            this.trainingScheduleFormGroup.value.regularWednesdayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularWednesdayToControl;
+        } else {
+          this.regular.wed = "Rest";
+        }
+      } else {
+        this.regular.wed = null;
+      }
+
+      if (
+        this.trainingScheduleFormGroup.value.regularThursdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularThursdayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularThursdayFromControl !==
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularThursdayToControl !== "Rest"
+        ) {
+          this.regular.thu =
+            this.trainingScheduleFormGroup.value.regularThursdayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularThursdayToControl;
+        } else {
+          this.regular.thu = "Rest";
+        }
+      } else {
+        this.regular.thu = null;
+      }
+
+      if (
+        this.trainingScheduleFormGroup.value.regularFridayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularFridayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularFridayFromControl !==
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularFridayToControl !== "Rest"
+        ) {
+          this.regular.fri =
+            this.trainingScheduleFormGroup.value.regularFridayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularFridayToControl;
+        } else {
+          this.regular.fri = "Rest";
+        }
+      } else {
+        this.regular.fri = null;
+      }
+
+      if (
+        this.trainingScheduleFormGroup.value.regularSaturdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularSaturdayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularSaturdayFromControl !==
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularSaturdayToControl !== "Rest"
+        ) {
+          this.regular.sat =
+            this.trainingScheduleFormGroup.value.regularSaturdayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularSaturdayToControl;
+        } else {
+          this.regular.sat = "Rest";
+        }
+      } else {
+        this.regular.sat = null;
+      }
+
+      if (
+        this.trainingScheduleFormGroup.value.regularSundayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.regularSundayToControl !== ""
+      ) {
+        if (
+          this.trainingScheduleFormGroup.value.regularSundayFromControl !==
+            "Rest" &&
+          this.trainingScheduleFormGroup.value.regularSundayToControl !== "Rest"
+        ) {
+          this.regular.sun =
+            this.trainingScheduleFormGroup.value.regularSundayFromControl +
+            " - " +
+            this.trainingScheduleFormGroup.value.regularSundayToControl;
+        } else {
+          this.regular.sun = "Rest";
+        }
+      } else {
+        this.regular.sun = null;
+      }
+    this.regular.name = "Handball";
+    this.club.trainingHoursList.push(this.regular);
+  }
 
     // fitness training hours
-    if (
-      this.trainingScheduleFormGroup.value.fitnessMondayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessMondayToControl !== ""
-    ) {
+    if(this.trainingScheduleFormGroup.value.fitnessMondayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessMondayToControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== "" || 
+        this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessFridayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessFridayToControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== "" || 
+        this.trainingScheduleFormGroup.value.fitnessSundayFromControl !== "" ||
+        this.trainingScheduleFormGroup.value.fitnessSundayToControl !== "") {
+          if (
+            this.trainingScheduleFormGroup.value.fitnessMondayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessMondayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessMondayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessMondayToControl !== "Rest"
+            ) {
+              this.fitness.mon =
+                this.trainingScheduleFormGroup.value.fitnessMondayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessMondayToControl;
+            } else {
+              this.fitness.mon = "Rest";
+            }
+          } else {
+            this.fitness.mon = null;
+          }
+
+          if (
+            this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== "Rest"
+            ) {
+              this.fitness.tue =
+                this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessTuesdayToControl;
+            } else {
+              this.fitness.tue = "Rest";
+            }
+          } else {
+            this.fitness.tue = null;
+          }
+
+          if (
+            this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !==
+                "Rest"
+            ) {
+              this.fitness.wed =
+                this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessWednesdayToControl;
+            } else {
+              this.fitness.wed = "Rest";
+            }
+          } else {
+            this.fitness.wed = null;
+          }
+
+          if (
+            this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== "Rest"
+            ) {
+              this.fitness.thu =
+                this.trainingScheduleFormGroup.value.fitnessThursdayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessThursdayToControl;
+            } else {
+              this.fitness.thu = "Rest";
+            }
+          } else {
+            this.fitness.thu = null;
+          }
+
+          if (
+            this.trainingScheduleFormGroup.value.fitnessFridayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessFridayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessFridayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessFridayToControl !== "Rest"
+            ) {
+              this.fitness.fri =
+                this.trainingScheduleFormGroup.value.fitnessFridayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessFridayToControl;
+            } else {
+              this.fitness.fri = "Rest";
+            }
+          } else {
+            this.fitness.fri = null;
+          }
+
+          if (
+            this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== "Rest"
+            ) {
+              this.fitness.sat =
+                this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessSaturdayToControl;
+            } else {
+              this.fitness.sat = "Rest";
+            }
+          } else {
+            this.fitness.sat = null;
+          }
+
+          if (
+            this.trainingScheduleFormGroup.value.fitnessSundayFromControl !== "" ||
+            this.trainingScheduleFormGroup.value.fitnessSundayToControl !== ""
+          ) {
+            if (
+              this.trainingScheduleFormGroup.value.fitnessSundayFromControl !==
+                "Rest" &&
+              this.trainingScheduleFormGroup.value.fitnessSundayToControl !== "Rest"
+            ) {
+              this.fitness.sun =
+                this.trainingScheduleFormGroup.value.fitnessSundayFromControl +
+                " - " +
+                this.trainingScheduleFormGroup.value.fitnessSundayToControl;
+            } else {
+              this.fitness.sun = "Rest";
+            }
+          } else {
+            this.fitness.sun = null;
+          }
       this.fitness.name = "Fitness training";
-      if (
-        this.trainingScheduleFormGroup.value.fitnessMondayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessMondayToControl !== "Rest"
-      ) {
-        this.fitness.mon =
-          this.trainingScheduleFormGroup.value.fitnessMondayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessMondayToControl;
-      } else {
-        this.fitness.mon = "Rest";
-      }
-    } else {
-      this.fitness.mon = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessTuesdayToControl !== "Rest"
-      ) {
-        this.fitness.tue =
-          this.trainingScheduleFormGroup.value.fitnessTuesdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessTuesdayToControl;
-      } else {
-        this.fitness.tue = "Rest";
-      }
-    } else {
-      this.fitness.tue = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessWednesdayToControl !==
-          "Rest"
-      ) {
-        this.fitness.wed =
-          this.trainingScheduleFormGroup.value.fitnessWednesdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessWednesdayToControl;
-      } else {
-        this.fitness.wed = "Rest";
-      }
-    } else {
-      this.fitness.wed = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.fitnessThursdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessThursdayToControl !== "Rest"
-      ) {
-        this.fitness.thu =
-          this.trainingScheduleFormGroup.value.fitnessThursdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessThursdayToControl;
-      } else {
-        this.fitness.thu = "Rest";
-      }
-    } else {
-      this.fitness.thu = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.fitnessFridayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessFridayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.fitnessFridayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessFridayToControl !== "Rest"
-      ) {
-        this.fitness.fri =
-          this.trainingScheduleFormGroup.value.fitnessFridayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessFridayToControl;
-      } else {
-        this.fitness.fri = "Rest";
-      }
-    } else {
-      this.fitness.fri = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessSaturdayToControl !== "Rest"
-      ) {
-        this.fitness.sat =
-          this.trainingScheduleFormGroup.value.fitnessSaturdayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessSaturdayToControl;
-      } else {
-        this.fitness.sat = "Rest";
-      }
-    } else {
-      this.fitness.sat = null;
-    }
-
-    if (
-      this.trainingScheduleFormGroup.value.fitnessSundayFromControl !== "" &&
-      this.trainingScheduleFormGroup.value.fitnessSundayToControl !== ""
-    ) {
-      if (
-        this.trainingScheduleFormGroup.value.fitnessSundayFromControl !==
-          "Rest" &&
-        this.trainingScheduleFormGroup.value.fitnessSundayToControl !== "Rest"
-      ) {
-        this.fitness.sun =
-          this.trainingScheduleFormGroup.value.fitnessSundayFromControl +
-          " - " +
-          this.trainingScheduleFormGroup.value.fitnessSundayToControl;
-      } else {
-        this.fitness.sun = "Rest";
-      }
-    } else {
-      this.fitness.sun = null;
-    }
-    if (this.fitness.name === "Fitness training") {
       this.club.trainingHoursList.push(this.fitness);
     }
 
@@ -742,19 +771,6 @@ export class RegisterClubComponent implements OnInit {
       this.club.manager = this.clubStaffFormGroup.value.managerControl;
     } else {
       this.club.manager = null;
-    }
-
-    // files
-    if (this.clubPicturesFormGroup.value.clubLogoControl !== "") {
-      this.club.imagePath = this.clubPicturesFormGroup.value.clubLogoControl;
-    } else {
-      this.club.imagePath = null;
-    }
-
-    if (this.clubPicturesFormGroup.value.facilityPicturesControl !== "") {
-      this.club.facilityImagesList = this.clubPicturesFormGroup.value.facilityPicturesControl;
-    } else {
-      this.club.facilityImagesList = null;
     }
 
     // values

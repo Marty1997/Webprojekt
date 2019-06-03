@@ -10,7 +10,6 @@ import {
   Validator
 } from "@angular/forms";
 import { registerService } from "src/app/services/registerService";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { ErrorStateMatcher, MatCheckbox, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Player } from "../../../models/player.model";
@@ -50,7 +49,6 @@ export const MY_FORMATS = {
   styleUrls: ["./register-player.component.css"],
   providers: [
     registerService, 
-    uploadFilesService, 
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]}]
 })
@@ -61,6 +59,9 @@ export class RegisterPlayerComponent implements OnInit {
   nationalTeamB: NationalTeam = new NationalTeam();
   nationalTeamU21: NationalTeam = new NationalTeam();
   nationalTeamU18: NationalTeam = new NationalTeam();
+  errorRegister: boolean = false;
+  isLoading: boolean = false;
+  existingEmail: boolean = false;
 
   // strengths
   @ViewChild("speedy") private speedy: MatCheckbox;
@@ -85,11 +86,8 @@ export class RegisterPlayerComponent implements OnInit {
   strengthWeaknessFormGroup: FormGroup;
   sportCvFormGroup: FormGroup;
   nationalTeamFormGroup: FormGroup;
-  playerPresentationFormGroup: FormGroup;
+  playerRegister: FormGroup;
   hide = true; // password visibility
-  dateTest: Date;
-  profilePicture: File = null;
-  presentationVideo: File = null;
   countryList: string[] = [
     "Denmark",
     "Norway",
@@ -360,8 +358,7 @@ export class RegisterPlayerComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private registerService: registerService,
-    private uploadFilesService: uploadFilesService
+    private registerService: registerService
   ) {}
 
   ngOnInit() {
@@ -416,10 +413,7 @@ export class RegisterPlayerComponent implements OnInit {
       u18TeamPosition: [""],
       u18TeamStatistics: [""]
     });
-    this.playerPresentationFormGroup = this._formBuilder.group({
-      profilePictureControl: [""],
-      videoFileControl: [""]
-    });
+    this.playerRegister = this._formBuilder.group({});
   }
 
   validateNationalTeamAppearances() {
@@ -435,49 +429,43 @@ export class RegisterPlayerComponent implements OnInit {
     }
   }
 
-  onProfilePictureFileSelected(event) {
-    this.profilePicture = <File>event.target.files[0];
-  }
-
-  onPresentationVideoFileSelected(event) {
-    this.presentationVideo = <File>event.target.files[0];
-  }
-
-  /* 
-    Upload files with uploadService
-  */
-  onUpload() {
-    if (this.profilePicture != null) {
-      this.uploadFilesService.uploadFile(this.profilePicture);
-    }
-    if (this.presentationVideo != null) {
-      this.uploadFilesService.uploadFile(this.presentationVideo);
-    }
+  @ViewChild('stepper') stepper;
+  checkIfEmailExists() {
+    this.existingEmail = false;
+    this.registerService.checkIfEmailExists(this.personalInfoFormGroup.get('email').value ).subscribe(
+      (success) => {
+        if(success) {
+          this.existingEmail = true;
+        }
+        else {
+          this.stepper.next();
+        }
+      },
+      (error) => {
+        
+      }
+    );
   }
 
   /* 
     Register player with registerService
   */
   registerPlayer() {
-    this.onUpload();
-
-    if (this.registerService.registerPlayer(this.buildPlayer())) {
-      this.sendConfirmationEmail(this.emailControl.value);
-    } else {
-      this.errorMessage = "Something went wrong with the registration.";
-    }
-    this.dateTest = this.additionalInfoFormGroup.value.injuryRecoveryDate._d;
-    console.log('date test:' + this.dateTest);
-    console.log(this.player);
-    console.log(this.additionalInfoFormGroup.value.injuryRecoveryDate);
+    this.isLoading = true;
+    this.registerService.registerPlayer(this.buildPlayer()).subscribe(
+      (success) => {
+        this.modalRef.hide();
+        this.modalRef = null;
+        this.isLoading = false;
+        this.errorRegister = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.errorRegister = true;
+      }
+    );
   }
 
-  /*
-    Send confirmation email to player's email
-  */
-  sendConfirmationEmail(playerEmail: string) {
-    this.registerService.sendConfirmationEmail(playerEmail);
-  }
 
   /* 
     Build player with form inputs
@@ -694,15 +682,6 @@ export class RegisterPlayerComponent implements OnInit {
       this.nationalTeamU18.position = this.nationalTeamFormGroup.value.u18TeamPosition;
       this.nationalTeamU18.statistic = this.nationalTeamFormGroup.value.u18TeamStatistics;
       this.player.nationalTeamList.push(this.nationalTeamU18);
-    }
-
-    if (this.playerPresentationFormGroup.value.profilePictureControl !== "") {
-      this.player.imagePath = this.playerPresentationFormGroup.value.profilePictureControl;
-    } else {
-      this.player.imagePath = null;
-    }
-    if (this.playerPresentationFormGroup.value.videoFileControl !== "") {
-      this.player.videoPath = this.playerPresentationFormGroup.value.videoFileControl;
     }
 
     return this.player;

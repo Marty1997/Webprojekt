@@ -47,6 +47,25 @@ namespace Api.BusinessLogic {
             return "Failed to authenticate";
         }
 
+        public JwtSecurityToken DecodeTokenFromRequest(string accesToken) {
+            accesToken = accesToken.Substring(7);
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(accesToken) as JwtSecurityToken;
+            return jsonToken;
+        }
+
+        public string GetRoleFromToken(JwtSecurityToken decodedToken) {
+            var claimRole = decodedToken.Claims.First(claim => claim.Type == "role").Value;
+            string tokenRole = Convert.ToString(claimRole);
+            return tokenRole;
+        }
+
+        public int GetIDFromToken(JwtSecurityToken decodedToken) {
+            var claimID = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
+            int tokenID = Int32.Parse(claimID);
+            return tokenID;
+        }
+
         private string GenerateToken(int id, string role) {
             var tokenHandler = new JwtSecurityTokenHandler();
             

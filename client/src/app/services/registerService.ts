@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Club } from "../models/club.model";
 import { Player } from "../models/player.model";
 
@@ -9,41 +9,18 @@ export class registerService {
 
   registerPlayer(player: Player) {
     let url = "https://localhost:44310/api/Player";
-    console.log(player);
-    return this.http.post(url, player).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, player);
   }
 
   registerClub(club: Club) {
     let url = "https://localhost:44310/api/Club";
-    return this.http.post(url, club).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+    return this.http.post(url, club);
   }
 
-  sendConfirmationEmail(playerEmail: string) {
-    let url = "WEB API controller metode";
-    return this.http.post(url, playerEmail).subscribe(
-      (success) => {
-        return true;
-      },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
+  checkIfEmailExists(email: string) {
+    let url = "https://localhost:44310/api/email/"
+    const params = new HttpParams().set('email', email);
+    return this.http.get(url, {params: params});
   }
+
 }

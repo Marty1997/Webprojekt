@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.Configuration;
+using Api.DAL;
+using Api.DAL.Entities;
 
 namespace Api.Controllers {
     [Authorize]
@@ -19,9 +21,11 @@ namespace Api.Controllers {
     public class EmailController : ControllerBase {
 
         private IConfiguration confirguration;
+        private readonly IClubRepository<Club> _clubRepos;
 
-        public EmailController(IConfiguration iConfig) {
+        public EmailController(IConfiguration iConfig, IClubRepository<Club> clubRepos) {
             confirguration = iConfig;
+            _clubRepos = clubRepos;
         }
 
         [HttpPost]
@@ -49,6 +53,12 @@ namespace Api.Controllers {
             return Ok();
         }
 
-        
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult CheckIfEmailExists([FromQuery] string email) {
+             return Ok(_clubRepos.CheckIfEmailExists(email));
+        }
+
     }
 }
