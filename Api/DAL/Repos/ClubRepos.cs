@@ -262,7 +262,6 @@ namespace Api.DAL.Repos {
             }
             return c;
         }
-
         /**
          * Get club by id with all lists
          */ 
@@ -806,5 +805,13 @@ namespace Api.DAL.Repos {
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
             throw new NotImplementedException();
         }
+
+        public string GetEmailByID(int id) {
+            string email = "";
+            using (var conn = Connection()) {
+                email = conn.QueryFirstOrDefault<string>("select email from Club where id = " + id);
+            }
+            return email;
+        }   
     }
 }

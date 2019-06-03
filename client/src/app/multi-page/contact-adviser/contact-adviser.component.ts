@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { EmailService } from 'src/app/services/emailService';
+import { loginService } from 'src/app/services/loginService';
 
 @Component({
   selector: 'app-contact-adviser',
@@ -10,46 +11,42 @@ import { EmailService } from 'src/app/services/emailService';
 })
 
 export class ContactAdviserComponent implements OnInit {
-
   isCollapsed: boolean = true;
-
+  succesMessage: boolean = false;
+  errorMessage: boolean = false;
   form: FormGroup;
-  email: FormControl;
+  message: FormControl;
 
-  constructor(private emailService: EmailService) { }
+  constructor(private emailService: EmailService, private loginService: loginService) { }
 
   ngOnInit() {
-    this.createFormControls();
     this.createForm();
-  }
-
-  createFormControls() {
-    this.email = new FormControl('', [
-      Validators.required,
-      Validators.pattern("[^ @]*@[^ @]*")
-    ]);
   }
 
   createForm() {
     this.form = new FormGroup({
-      email: this.email,
+      message: new FormControl()
     });
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      console.log("Form Submitted!");
-      console.log(this.form);
-      //this.emailService.sendContactEmail(this.form);
-      this.form.reset();
-    }
-    else{
-      console.log("Form not Submitted!");
-    }
+      this.emailService.sendContactEmail(this.form.get('message').value).subscribe(
+        (success) => {
+           this.errorMessage = false;
+           this.succesMessage = true;
+           this.form.reset();
+        },
+        (error) => {
+           this.errorMessage = true;
+        }
+    );  
   }
 
-  toggle(){
+  toggle() {
     this.isCollapsed = !this.isCollapsed;
+    this.succesMessage = false;
+    this.errorMessage = false;
+    this.form.reset();
   }
-
+  
 }

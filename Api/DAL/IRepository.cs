@@ -16,5 +16,6 @@ namespace Api.DAL {
         int Delete(int id);
         UserCredentials getCredentialsByEmail(string email);
         IEnumerable<TEntity> GetBySearchCriteria(string sqlStatement);
+        string GetEmailByID(int id);
     }
 }

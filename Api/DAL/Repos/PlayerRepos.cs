@@ -303,6 +303,14 @@ namespace Api.DAL.Repos {
 
         }
 
+        public string GetEmailByID(int id) {
+            string email = "";
+            using (var conn = Connection()) {
+                email = conn.QueryFirstOrDefault<string>("select email from Player where id = " + id);
+            }
+            return email;
+        }
+
         public Player Update(Player entity) {
 
             Player p = new Player();

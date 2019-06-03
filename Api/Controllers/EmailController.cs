@@ -12,6 +12,7 @@ using MimeKit;
 using Microsoft.Extensions.Configuration;
 using Api.DAL;
 using Api.DAL.Entities;
+using Api.BusinessLogic;
 
 namespace Api.Controllers {
     [Authorize]
@@ -22,14 +23,40 @@ namespace Api.Controllers {
 
         private IConfiguration confirguration;
         private readonly IClubRepository<Club> _clubRepos;
+        private readonly IRepository<Player> _playerRepos;
+        private readonly Authentication authentication;
 
-        public EmailController(IConfiguration iConfig, IClubRepository<Club> clubRepos) {
+        public EmailController(IConfiguration iConfig, IClubRepository<Club> clubRepos,
+                                    Authentication authentication, IRepository<Player> playerRepos) {
             confirguration = iConfig;
             _clubRepos = clubRepos;
+            _playerRepos = playerRepos;
+            this.authentication = authentication;
         }
 
         [HttpPost]
         public IActionResult ContactAdviser([FromBody] ContactAdviserRequest body) {
+            string emailFromDB = "";
+            //Gets the user email fi token ID
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            //Find user with ID and get the email
+            if (role == "Club") {
+                emailFromDB = _clubRepos.GetEmailByID(id);
+            }
+            else if(role == "Player") {
+                emailFromDB = _playerRepos.GetEmailByID(id);
+            }
+            else {
+                return StatusCode(400, "Failed to send email");
+            }
+            if(emailFromDB == null) {
+                return StatusCode(400, "Failed to send email");
+            }
+
+            //Gets email and password from config
             var email = confirguration.GetSection("AppSettings").GetSection("Email").Value;
             var password = confirguration.GetSection("AppSettings").GetSection("EmailPassword").Value;
 
@@ -38,7 +65,7 @@ namespace Api.Controllers {
             message.To.Add(new MailboxAddress("albertsen96@gmail.com"));
             message.Subject = "Contact Adviser question";
             message.Body = new TextPart("html") {
-                Text = "From " + body.Email + "<br>" +
+                Text = "From " + emailFromDB + "<br>" +
                 "Message " + body.Message
             };
 
