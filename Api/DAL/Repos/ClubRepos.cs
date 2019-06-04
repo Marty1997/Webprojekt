@@ -518,7 +518,7 @@ namespace Api.DAL.Repos {
                         }
 
                         return result;
-                    }, splitOn: "zipcode, city, preference, value");
+                    }, splitOn: "zipcode, city, value, preference");
             }
 
             return clubs;

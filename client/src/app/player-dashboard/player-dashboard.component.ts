@@ -39,7 +39,7 @@ export class PlayerDashboardComponent implements OnInit {
         this.loginService.refreshValue = false;
       }
  
-      //this.playerBinding = this.loginService.playerInSession;
+      this.playerBinding = this.loginService.playerInSession;
    
     } else if (this.loginService.typeOfLogin == "Club") {
       //find spilleren som klubben vil se og put i playerBinding variablen

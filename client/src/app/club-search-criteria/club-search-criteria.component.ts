@@ -72,8 +72,8 @@ export class ClubSearchCriteriaComponent implements OnInit {
         this.router.navigate(['/search-for-clubs']);
       },
       (error) => {
-        // redirect to error page
-        this.isLoading
+        
+        this.isLoading = false;
       }
     );
   }

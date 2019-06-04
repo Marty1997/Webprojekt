@@ -51,7 +51,7 @@ namespace Api.Controllers {
                 return Ok(_clubLogic.GetById(id));
             }
             else {
-                return StatusCode(404, "Resource not found");
+                return StatusCode(404);
             }
         }
 

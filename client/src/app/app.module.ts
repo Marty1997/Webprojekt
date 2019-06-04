@@ -46,6 +46,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
 import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
 import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PlayerSearchCriteriaComponent,
     ClubSearchCriteriaComponent,
     LoadingIconComponent,
+    ErrorPageComponent,
     
   ],
   imports: [
@@ -89,6 +91,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService], },
       { path: 'club-how-to', component: ForClubsComponent },
       { path: 'player-how-to', component: ForPlayersComponent }, 
+      { path: 'error', component: ErrorPageComponent },
     ], ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
