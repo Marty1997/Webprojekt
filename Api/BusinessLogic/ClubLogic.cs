@@ -59,6 +59,18 @@ namespace Api.BusinessLogic {
             _clubRepos.UpdateFacility(entity);
         }
 
+        public void DeleteJobPosition(int jobPosition_ID, int club_ID) {
+            _clubRepos.DeleteJobPosition(jobPosition_ID, club_ID);
+        }
+
+        public void DeleteTrainingHours(int trainingHours_ID, int club_ID) {
+            _clubRepos.DeleteTrainingHours(trainingHours_ID, club_ID);
+        }
+
+        public void DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
+            _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
+        }
+
         public Club GetById(int id) {
             return _clubRepos.GetById(id);
         }

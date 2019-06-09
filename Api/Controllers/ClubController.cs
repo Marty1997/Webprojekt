@@ -34,7 +34,7 @@ namespace Api.Controllers {
             return Ok(club);
         }
 
-        // api/Club/UpdateClubInfo
+        // api/Club/UpdateInfo
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateInfo([FromBody] Club entity) {
@@ -97,7 +97,7 @@ namespace Api.Controllers {
             return StatusCode(400, "Failed");
         }
 
-        // api/Club/UpdateClubStaff
+        // api/Club/UpdateStaff
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateStaff([FromBody] Club entity) {
@@ -160,6 +160,54 @@ namespace Api.Controllers {
             if (role == "Club") {
                 entity.Id = id;
                 _clubLogic.UpdateFacility(entity);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/DeleteJobPosition
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteJobPosition([FromBody] int jobPosition_ID) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                _clubLogic.DeleteJobPosition(jobPosition_ID, id);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/DeleteSquadPlayer
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteSquadPlayer([FromBody] int squadPlayer_ID) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                _clubLogic.DeleteSquadPlayer(squadPlayer_ID, id);
+                return Ok();
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/DeleteTrainingHours
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteTrainingHours([FromBody] int trainingHours_ID) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                _clubLogic.DeleteTrainingHours(trainingHours_ID, id);
                 return Ok();
             }
             return StatusCode(400, "Failed");

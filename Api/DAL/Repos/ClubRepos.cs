@@ -1289,175 +1289,134 @@ namespace Api.DAL.Repos {
         //    return c;
         //}
 
-        public string DeleteJobPosition(List<JobPosition> jpl) {
+        public void DeleteJobPosition(int jobPosition_ID, int club_ID) {
 
-            string errorMessage = "";
+            int rowCount = 0;
 
-            for (int i = 0; i < 5; i++) {
+            using (var conn = Connection()) {
 
-                List<int> _rowCountList = new List<int>();
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+                        
+                        //Delete jobPosition
+                        string deleteJobPositionSQL = @"Delete From JobPosition Where ID = @ID AND club_ID = @Club_ID";
 
-                using (var conn = Connection()) {
+                        rowCount = conn.Execute(deleteJobPositionSQL, new {
+                            ID = jobPosition_ID,
+                            club_ID
+                        }, transaction: tran);
 
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
-
-                        if (jpl.Count > 0) {
-
-                            foreach (JobPosition jp in jpl) {
-                                
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from JobPosition where ID = @ID";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = jp.Id }, transaction: tran).Single();
-
-                                //Delete jobPosition
-                                string deleteJobPositionSQL = @"Delete From JobPosition Where ID = @ID AND RowID = @RowID";
-
-                                _rowCountList.Add(conn.Execute(deleteJobPositionSQL, new {
-                                    ID = jp.Id,
-                                    RowID = row_ID
-                                }, transaction: tran));
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "JobPosition was not deleted";
+                        //Check for 0 in rowcount
+                        if (rowCount == 0) {
                             tran.Rollback();
                         }
                         else {
-                            errorMessage = "";
                             tran.Commit();
-                            break;
                         }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
                     }
                 }
             }
-            return errorMessage;
         }
 
-        public string DeleteJobPositionStrength(List<string> jpsl, int jobPosition_ID) {
+        public void DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
 
-            string errorMessage = "";
+            int rowCount = 0;
 
-            for (int i = 0; i < 5; i++) {
+            using (var conn = Connection()) {
 
-                List<int> _rowCountList = new List<int>();
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
 
-                using (var conn = Connection()) {
+                        //Delete squadPlayer
+                        string deleteSquadPlayerSQL = @"Delete From SquadPlayers Where ID = @ID AND club_ID = @Club_ID";
 
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
+                        rowCount = conn.Execute(deleteSquadPlayerSQL, new {
+                            ID = squadPlayer_ID,
+                            club_ID
+                        }, transaction: tran);
 
-                        if (jpsl.Count > 0) {
-
-                            foreach (string jps in jpsl) {
-
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from JobPositionStrength where JobPosition_ID = @ID";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = jobPosition_ID }, transaction: tran).Single();
-
-                                //Return Strength ID
-                                string strengthSQL = @"Select id from Strength where name = @Name";
-                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = jps }, transaction: tran).FirstOrDefault();
-
-                                if (strength_ID != 0) {
-
-                                    //Delete jobPositionStrength
-                                    string jobPositionStrengthSQL = @"Delete From JobPositionStrength Where Strength_ID = @Strength_ID, JobPosition_ID = @JobPosition_ID AND RowID = @RowID";
-
-                                    _rowCountList.Add(conn.Execute(jobPositionStrengthSQL, new {
-                                        Strength_ID = strength_ID,
-                                        JobPosition_ID = jobPosition_ID,
-                                        RowID = row_ID
-                                    }, transaction: tran));
-                                }
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "JobPosition Strength was not deleted";
+                        //Check for 0 in rowcount
+                        if (rowCount == 0) {
                             tran.Rollback();
                         }
                         else {
-                            errorMessage = "";
                             tran.Commit();
-                            break;
                         }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
                     }
                 }
             }
-            return errorMessage;
         }
 
-        public string DeleteSquadPlayer(List<SquadPlayer> spl) {
+        public void DeleteTrainingHours(int trainingHours_ID, int club_ID) {
 
-            string errorMessage = "";
+            int rowCount = 0;
 
-            for (int i = 0; i < 5; i++) {
+            using (var conn = Connection()) {
 
-                List<int> _rowCountList = new List<int>();
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
 
-                using (var conn = Connection()) {
+                        //Delete trainingHours
+                        string deleteTrainingHoursSQL = @"Delete From TrainingHours Where ID = @ID AND club_ID = @Club_ID";
 
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
+                        rowCount = conn.Execute(deleteTrainingHoursSQL, new {
+                            ID = trainingHours_ID,
+                            club_ID
+                        }, transaction: tran);
 
-                        if (spl.Count > 0) {
-
-                            foreach (SquadPlayer sp in spl) {
-
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from SquadPlayer where ID = @ID";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = sp.Id }, transaction: tran).Single();
-
-                                //Delete squadplayers
-                                string squadPlayerSQL = @"Delete From SquadPlayer Where ID = @ID AND rowID = @RowID";
-
-                                _rowCountList.Add(conn.Execute(squadPlayerSQL, new {
-                                    ID = sp.Id,
-                                    RowID = row_ID
-                                }, transaction: tran));
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "Squadplayer was not deleted";
+                        //Check for 0 in rowcount
+                        if (rowCount == 0) {
                             tran.Rollback();
                         }
                         else {
-                            errorMessage = "";
                             tran.Commit();
-                            break;
                         }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
                     }
                 }
             }
-            return errorMessage;
         }
+
+        public void DeleteProfile(int jobPosition_ID, int club_ID) {
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Delete profile
+                        string deleteProfileSQL = @"Delete imagePath From Club Where ID = @ID";
+
+                        rowCount = conn.Execute(deleteProfileSQL, new {
+                            ID = club_ID
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+        }
+
+
 
         public string DeleteClubValue(List<string> cvl, int club_ID) {
 
@@ -1636,61 +1595,7 @@ namespace Api.DAL.Repos {
             }
             return errorMessage;
         }
-
-        public string DeleteTrainingHours(List<TrainingHours> thl) {
-
-            string errorMessage = "";
-
-            for (int i = 0; i < 5; i++) {
-
-                List<int> _rowCountList = new List<int>();
-
-                using (var conn = Connection()) {
-
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
-
-                        if (thl.Count > 0) {
-
-                            foreach (TrainingHours th in thl) {
-
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from TrainingHours where ID = @ID";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = th.Id }, transaction: tran).Single();
-
-                                //Delete trainingHours
-                                string trainingHoursSQL = @"Delete From TrainingHours Where ID = @ID AND rowID = @rowID";
-
-                                _rowCountList.Add(conn.Execute(trainingHoursSQL, new {
-                                    ID = th.Id,
-                                    RowID = row_ID
-                                }, transaction: tran));
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "Squadplayer was not deleted";
-                            tran.Rollback();
-                        }
-                        else {
-                            errorMessage = "";
-                            tran.Commit();
-                            break;
-                        }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
-                    }
-                }
-            }
-            return errorMessage;
-        }
-
+        
 
         //Helping method to build club traininghours
         private Club GetClubTraningHourList(Club club, IDbConnection conn) {

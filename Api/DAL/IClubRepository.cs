@@ -28,5 +28,8 @@ namespace Api.DAL {
         void UpdateValuesAndPreferences(Club entity);
         void UpdateProfile(Club entity);
         void UpdateFacility(Club entity);
+        void DeleteJobPosition(int jobPosition_ID, int club_ID);
+        void DeleteTrainingHours(int trainingHours_ID, int club_ID);
+        void DeleteSquadPlayer(int squadPlayer_ID, int club_ID);
     }
 }
