@@ -701,6 +701,7 @@ export class UpdateClubComponent implements OnInit {
       } else if(elm.name === 'Fitness training') {
         this.clubBinding.trainingHoursList.splice(index, 1);
       }
+      this.clubBinding.trainingHoursList = [...this.clubBinding.trainingHoursList];
     });
   }
 
