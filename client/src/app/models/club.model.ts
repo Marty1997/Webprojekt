@@ -5,8 +5,8 @@ import { JobPosition } from './jobPosition';
 export class Club {
     // required info
     id: number;
-    password: string;
-    newPassword: string;
+    password: string = "";
+    newPassword: string = "";
     isAvailable: boolean;
     name: string = "";
     email: string = "";

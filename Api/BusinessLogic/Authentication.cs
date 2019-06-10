@@ -47,6 +47,20 @@ namespace Api.BusinessLogic {
             return "Failed to authenticate";
         }
 
+        public bool CheckPassword(string email, string password) {
+
+            bool res = false;
+
+            UserCredentials credentials = playerRepos.getCredentialsByEmail(email);
+
+            if (credentials != null) {
+                if (account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
+                    res = true;
+                }
+            }
+            return res;
+        }
+
         public JwtSecurityToken DecodeTokenFromRequest(string accesToken) {
             accesToken = accesToken.Substring(7);
             var handler = new JwtSecurityTokenHandler();
