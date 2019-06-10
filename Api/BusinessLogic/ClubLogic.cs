@@ -14,12 +14,14 @@ namespace Api.BusinessLogic {
         private readonly IRepository<Player> _playerRepos;
         private readonly Account _account;
         private readonly UserCredentialsLogic _userCredentialsLogic;
+        private readonly Authentication _authentication;
 
-        public ClubLogic(Account account, IClubRepository<Club> clubRepos, IRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
+        public ClubLogic(Account account, IClubRepository<Club> clubRepos, IRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic, Authentication authentication) {
             _clubRepos = clubRepos;
             _playerRepos = playerRepos;
             _account = account; ;
             _userCredentialsLogic = userCredentialsLogic;
+            _authentication = authentication;
         }
         
         public Club Create(Club entity) {
@@ -71,6 +73,10 @@ namespace Api.BusinessLogic {
             _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
         }
 
+        public void DeleteValuesAndPreferences(int club_ID) {
+            _clubRepos.DeleteValuesAndPreferences(club_ID);
+        }
+        
         public Club GetById(int id) {
             return _clubRepos.GetById(id);
         }

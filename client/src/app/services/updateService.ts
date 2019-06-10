@@ -17,7 +17,7 @@ export class updateService {
   }
 
   updateClubInfo(club: Club) {
-    let url = "https://localhost:44310/api/Club/UpdateClubInfo";
+    let url = "https://localhost:44310/api/Club/UpdateInfo";
     return this.http.post(url, club);
   }
 
@@ -37,22 +37,22 @@ export class updateService {
   }
 
   updateClubStaff(club: Club) {
-     let url = "https://localhost:44310/api/Club/UpdateClubStaff";
+     let url = "https://localhost:44310/api/Club/UpdateStaff";
      return this.http.post(url, club);
   }
 
-   updateValuesAndPreferences(club: Club) {
-     let url = "https://localhost:44310/api/Club/UpdateClubValuesAndPreferences";
+   updateClubValuesAndPreferences(club: Club) {
+     let url = "https://localhost:44310/api/Club/UpdateValuesAndPreferences";
      return this.http.post(url, club);
    }
 
    updateClubProfile(club: Club) {
-     let url = "https://localhost:44310/api/Club/UpdateClubProfile";
+     let url = "https://localhost:44310/api/Club/UpdateProfile";
      return this.http.post(url, club);
    }
 
    updateClubFacility(club: Club) {
-     let url = "https://localhost:44310/api/Club/UpdateClubFacility";
+     let url = "https://localhost:44310/api/Club/UpdateFacility";
      return this.http.post(url, club);
    }
 }

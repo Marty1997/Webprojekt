@@ -27,6 +27,9 @@
         <mat-error *ngIf="password?.hasError('required')">
           Password is <strong>required</strong>
         </mat-error>
+        <mat-error *ngIf="wrongPassword">
+          Password is invalid
+        </mat-error>
       </mat-form-field>
       <br>
       <br>
@@ -88,7 +91,7 @@
       </mat-form-field>
 
       <!-- Update button -->
-      <input type="button" style="text-align: right" class="btn btn-success" value="Update" (click)="updateClubInfo()">
+      <input type="button" class="btn btn-success" value="Update" (click)="updateClubInfo()">
 
       <mat-action-row>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -651,6 +654,11 @@
             <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
               matAutosizeMaxRows="10" [value]="clubBinding.preferenceDescription" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
           </mat-form-field>
+        </div>
+
+        <div>
+          <!-- Update button -->
+          <input type="button" class="btn btn-success" value="Update" (click)="deleteClubValuesAndPreferences()">
         </div>
 
       <mat-action-row>

@@ -42,4 +42,9 @@ export class deleteService {
     let url = "https://localhost:44310/api/Club/DeleteNationalTeam";
     return this.http.post(url, id);
   }
+
+  deleteValuesAndPreferences() {
+    let url = "https://localhost:44310/api/Club/DeleteValuesAndPreferences";
+    return this.http.post(url, null);
+  }
 }

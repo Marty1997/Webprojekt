@@ -27,6 +27,7 @@ export class UpdateClubComponent implements OnInit {
   facilityImages: string[] = [];
   regularHours = new TrainingHours();
   fitnessHours = new TrainingHours();
+  
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -62,6 +63,8 @@ export class UpdateClubComponent implements OnInit {
   physiotherapistCtrl = new FormControl("");
   assistantPhysiotherapistCtrl = new FormControl("");
   managerCtrl = new FormControl("");
+
+  wrongPassword : boolean = false;
 
   step: number = 0;
   positionList: string[] = [
@@ -184,23 +187,22 @@ export class UpdateClubComponent implements OnInit {
     Validators.pattern(this.numbersOnlyRegex)
   );
   currentPassword = new FormControl("", [
-    Validators.required,
     Validators.minLength(6)
   ]);
+
   password = new FormControl("", [
-    Validators.required,
     Validators.minLength(6)
   ]);
-  name = new FormControl("", Validators.required);
-  league = new FormControl("", Validators.required);
-  streetAddress = new FormControl("", Validators.required);
+
+  name = new FormControl("");
+  league = new FormControl("");
+  streetAddress = new FormControl("");
   streetNumber = new FormControl("", [
-    Validators.required,
     Validators.pattern(this.numbersOnlyRegex)
   ]);
-  country = new FormControl("", Validators.required);
-  city = new FormControl("", Validators.required);
-  zipcode = new FormControl("", Validators.required);
+  country = new FormControl("");
+  city = new FormControl("");
+  zipcode = new FormControl("");
 
   squadPlayerNameCtrl = new FormControl("");
   squadPlayerPositionCtrl = new FormControl("");
@@ -443,7 +445,9 @@ export class UpdateClubComponent implements OnInit {
         
       },
       error => {
-
+        if(error == "Invalid password") {
+          this.wrongPassword = true;
+        }
       });
   }
 
@@ -477,6 +481,16 @@ export class UpdateClubComponent implements OnInit {
       });;
   }
 
+  updateValuesAndPreferences() {
+    this.updateService.updateClubValuesAndPreferences(this.buildClubValuesAndPreferences()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });;
+  }
+
   updateClubProfile() {
     this.updateService.updateClubProfile(this.buildClubProfile()).subscribe(
       (succes: any) => {
@@ -496,6 +510,7 @@ export class UpdateClubComponent implements OnInit {
 
       });;
   }
+  
 
   addClubCurrentSeasonSquadPlayer() {
     this.updateService.addClubSquadPlayer(this.buildCurrentSquadplayer()).subscribe(
@@ -571,6 +586,18 @@ export class UpdateClubComponent implements OnInit {
     this.deleteService.deleteOpenPosition(jobPosition.id).subscribe(
       (succes:any) => {      
         this.deleteOpenPosition(jobPosition);
+      },
+      error => {
+        
+      });
+  }
+
+  deleteClubValuesAndPreferences() {
+    // Delete club values and preferences
+    this.deleteService.deleteValuesAndPreferences().subscribe(
+      (succes:any) => { 
+        // Insert new club values and preferences
+        this.updateValuesAndPreferences();
       },
       error => {
         
@@ -657,6 +684,12 @@ export class UpdateClubComponent implements OnInit {
       club.preferenceList.push(this.processOriented.value);
     }
 
+    // value description
+    club.valueDescription = this.valueDescription.value;
+
+    // preference description
+    club.preferenceDescription = this.preferenceDescription.value;
+
     return club;
   }
 
@@ -706,9 +739,19 @@ export class UpdateClubComponent implements OnInit {
   }
 
   buildClubInfo() {
-    let club: Club;
-    club.password = this.currentPassword.value;
-    club.newPassword = this.password.value;
+    var club = new Club();
+
+    if (this.currentPassword.value !== "") {
+      club.password = this.currentPassword.value;
+    } else {
+      club.password = null;
+    }
+    if (this.currentPassword.value !== "") {
+      club.newPassword = this.password.value;
+    } else {
+      club.newPassword = null;
+    }
+    club.email = this.clubBinding.email;
     club.name = this.name.value;
     club.league = this.league.value;
     club.streetAddress = this.streetAddress.value;

@@ -629,36 +629,46 @@ namespace Api.DAL.Repos {
         }
 
         public void UpdateInfo(Club entity) {
-           
-            int rowCount = 0;
+
+            List<int> _rowCountList = new List<int>();
+
             using (var conn = Connection()) {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
 
+                        if(entity.UserCredentials != null) {
+                            //Update user credentials
+                            string userCredentialsSQL = @"Update UserCredentials Set Hashpassword = @HashPassword, Salt = @Salt Where ID = @ID"; 
+
+                            _rowCountList.Add(conn.Execute(userCredentialsSQL, new {
+                                entity.UserCredentials.HashPassword,
+                                entity.UserCredentials.Salt,
+                                entity.Id
+                            }, transaction: tran));
+                        }
+
                         //Return zipcodeCity ID
                         string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { Zipcode = entity.Zipcode, City = entity.City }, transaction: tran).Single();
+                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { entity.Zipcode, entity.City }, transaction: tran).Single();
 
                         //Update club
                         string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, 
                                                                     StreetNumber = @StreetNumber, ZipcodeCity_ID = @ZipcodeCity_ID 
                                                                         Where ID = @ID";
 
-                        rowCount = conn.Execute(updateClubSQL, new {
+                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
                             entity.Name,
                             entity.League,
                             entity.Country,
                             entity.StreetAddress,
                             entity.StreetNumber,
-                            entity.Zipcode,
-                            ID = entity.Id
-                        }, transaction: tran);
-
-                        //Update password
-
-                        if (rowCount == 0) {
+                            zipcodeCity_ID,
+                            entity.Id
+                        }, transaction: tran));
+                        
+                        if (_rowCountList.Contains(0)) {
                             tran.Rollback();
                         }
                         else {
@@ -874,13 +884,13 @@ namespace Api.DAL.Repos {
 
                                 if (value_ID != 0) {
 
-                                    //Update ClubValue
-                                    string updateClubValueSQL = @"Update ClubValue Set Value_ID = @Value_ID
-                                                                 Where Club_ID = @Club_ID";
+                                    //Insert ClubValue
+                                    string clubValueSQL = @"INSERT INTO ClubValue (Club_ID, Value_ID) 
+                                        VALUES (@Club_ID, @Value_ID)";
 
-                                    _rowCountList.Add(conn.Execute(updateClubValueSQL, new {
-                                        Value_ID = value_ID,
-                                        Club_ID = entity.Id
+                                    _rowCountList.Add(conn.Execute(clubValueSQL, new {
+                                        Club_ID = entity.Id,
+                                        Value_ID = value_ID
                                     }, transaction: tran));
                                 }
                             }
@@ -898,12 +908,12 @@ namespace Api.DAL.Repos {
                                 if (preference_ID != 0) {
 
                                     //Update ClubPreference
-                                    string updateClubPreferenceSQL = @"Update ClubPreference Set Preference_ID = @Preference_ID
-                                                                 Where Club_ID = @Club_ID";
+                                    string clubPreferenceSQL = @"INSERT INTO ClubPreference (Club_ID, Preference_ID)
+                                                                 VALUES (@Club_ID, @Value_ID)";
 
-                                    _rowCountList.Add(conn.Execute(updateClubPreferenceSQL, new {
-                                        Preference_ID = preference_ID,
-                                        Club_ID = entity.Id
+                                    _rowCountList.Add(conn.Execute(clubPreferenceSQL, new {
+                                        Club_ID = entity.Id,
+                                        Preference_ID = preference_ID
                                     }, transaction: tran));
                                 }
                             }
@@ -1385,24 +1395,32 @@ namespace Api.DAL.Repos {
             }
         }
 
-        public void DeleteProfile(int jobPosition_ID, int club_ID) {
+        public void DeleteValuesAndPreferences(int club_ID) {
 
-            int rowCount = 0;
+            List<int> _rowCountList = new List<int>();
 
             using (var conn = Connection()) {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
 
-                        //Delete profile
-                        string deleteProfileSQL = @"Delete imagePath From Club Where ID = @ID";
+                        //Delete club values
+                        string deleteClubValuesSQL = @"Delete From ClubValue Where club_ID = @club_ID";
 
-                        rowCount = conn.Execute(deleteProfileSQL, new {
-                            ID = club_ID
-                        }, transaction: tran);
+                        _rowCountList.Add(conn.Execute(deleteClubValuesSQL, new {
+                            club_ID
+                        }, transaction: tran));
+
+                        //Delete club preferences
+                        string deleteClubPreferencesSQL = @"Delete From ClubPreference Where club_ID = @club_ID";
+
+                        _rowCountList.Add(conn.Execute(deleteClubPreferencesSQL, new {
+                            club_ID
+                        }, transaction: tran));
+
 
                         //Check for 0 in rowcount
-                        if (rowCount == 0) {
+                        if (_rowCountList.Contains(0)) {
                             tran.Rollback();
                         }
                         else {
@@ -1415,188 +1433,7 @@ namespace Api.DAL.Repos {
                 }
             }
         }
-
-
-
-        public string DeleteClubValue(List<string> cvl, int club_ID) {
-
-            string errorMessage = "";
-
-            for (int i = 0; i < 5; i++) {
-
-                List<int> _rowCountList = new List<int>();
-
-                using (var conn = Connection()) {
-
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
-
-                        if (cvl.Count > 0) {
-
-                            foreach (string v in cvl) {
-
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from ClubValue where Club_ID = @ID";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = club_ID }, transaction: tran).Single();
-
-                                //Return value ID
-                                string valueSQL = @"Select id from Value where name = @Name";
-                                int value_ID = conn.Query<int>(valueSQL, new { Name = v }, transaction: tran).FirstOrDefault();
-
-                                if (value_ID != 0) {
-
-                                    //Delete value
-                                    string deleteClubValueSQL = @"Delete From ClubValue Where Value_ID = @Value_ID, Club_ID = @Club_ID AND rowID = @RowID";
-
-                                    _rowCountList.Add(conn.Execute(deleteClubValueSQL, new {
-                                        Value_ID = value_ID,
-                                        Club_ID = club_ID,
-                                        RowID = row_ID
-                                    }, transaction: tran));
-                                }
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "Club value was not deleted";
-                            tran.Rollback();
-                        }
-                        else {
-                            errorMessage = "";
-                            tran.Commit();
-                            break;
-                        }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
-                    }
-                }
-            }
-            return errorMessage;
-        }
-
-        public string DeleteClubPreference(List<string> cpl, int club_ID) {
-
-            string errorMessage = "";
-
-            for (int i = 0; i < 5; i++) {
-
-                List<int> _rowCountList = new List<int>();
-
-                using (var conn = Connection()) {
-
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
-
-                        if (cpl.Count > 0) {
-
-                            foreach (string p in cpl) {
-
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from ClubPreference where club_ID = @ID";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ID = club_ID }, transaction: tran).Single();
-
-                                //Return preference ID
-                                string preferenceSQL = @"Select id from Preference where name = @Name";
-                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = p }, transaction: tran).FirstOrDefault();
-
-                                if (preference_ID != 0) {
-
-                                    //Delete value
-                                    string deleteClubPreferenceSQL = @"Delete From ClubPreference Where Preference_ID = @Preference_ID, Club_ID = @Club_ID AND rowID = @RowID";
-
-                                    _rowCountList.Add(conn.Execute(deleteClubPreferenceSQL, new {
-                                        Preference_ID = preference_ID,
-                                        Club_ID = club_ID,
-                                        RowID = row_ID
-                                    }, transaction: tran));
-                                }
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "Club preference was not deleted";
-                            tran.Rollback();
-                        }
-                        else {
-                            errorMessage = "";
-                            tran.Commit();
-                            break;
-                        }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
-                    }
-                }
-            }
-            return errorMessage;
-        }
-
-        public string DeleteFacilityImage(List<string> fil, int club_ID) {
-
-            string errorMessage = "";
-
-            for (int i = 0; i < 5; i++) {
-
-                List<int> _rowCountList = new List<int>();
-
-                using (var conn = Connection()) {
-
-                    using (IDbTransaction tran = conn.BeginTransaction()) {
-                        //try {
-
-                        if (fil.Count > 0) {
-
-                            foreach (string fi in fil) {
-
-                                //Return row ID
-                                string rowIDSQL = @"Select rowID from FacilityImage where ImagePath = @ImagePath";
-                                byte[] row_ID = conn.Query<byte[]>(rowIDSQL, new { ImagePath = fi }, transaction: tran).Single();
-
-                                //Delete facility image
-                                string facilityImageSQL = @"Delete From FacilityImage Where ImagePath = @ImagePath";
-
-                                _rowCountList.Add(conn.Execute(facilityImageSQL, new {
-                                    ImagePath = fi,
-                                    RowID = row_ID
-                                }, transaction: tran));
-                            }
-                        }
-
-                        //Check for 0 in rowcount list
-                        if (_rowCountList.Contains(0)) {
-                            errorMessage = "FacilityImage was not deleted";
-                            tran.Rollback();
-                        }
-                        else {
-                            errorMessage = "";
-                            tran.Commit();
-                            break;
-                        }
-                        //}
-                        //catch (SqlException e) {
-
-                        //    tran.Rollback();
-                        //    c.ErrorMessage = ErrorHandling.Exception(e);
-                        //}
-
-                    }
-                }
-            }
-            return errorMessage;
-        }
         
-
         //Helping method to build club traininghours
         private Club GetClubTraningHourList(Club club, IDbConnection conn) {
             club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
