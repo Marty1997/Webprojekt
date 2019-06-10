@@ -18,6 +18,10 @@ mat-form-field {
     margin: 0.5%;
 }
 
+.doubleSizeField {
+    width: 100%;
+}
+
 .trainingHoursFields {
     width: 15.66%;
     margin: 0.5;

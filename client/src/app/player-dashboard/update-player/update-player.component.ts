@@ -148,6 +148,8 @@ export class UpdatePlayerComponent implements OnInit {
     if(this.playerBinding.nationalTeamList.length > 0) {
       this.setNationalTeamInfo();
     }
+    // set the value of the dropdowns
+    this.setDropdownValues();
   }
 
   setStep(index: number) {
@@ -214,6 +216,10 @@ export class UpdatePlayerComponent implements OnInit {
 
   cancel() {
     this.playerBinding = this.loginService.playerInSession;
+  }
+
+  setDropdownValues() {
+    this.countryControl.setValue(this.playerBinding.country);
   }
 
   setNationalTeamInfo() {

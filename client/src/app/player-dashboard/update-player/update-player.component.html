@@ -28,6 +28,9 @@
           Password is <strong>required</strong>
         </mat-error>
       </mat-form-field>
+      <br>
+      <!-- Looking for clubs input goes here -->
+      <br>
       <mat-form-field>
         <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName"
           [errorStateMatcher]="validate">
@@ -263,7 +266,7 @@
       <mat-label>Club info</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Current club" [formControl]="currentClubCtrl" [errorStateMatcher]='validate'>
+        <input matInput placeholder="Current club" [value]="playerBinding.currentClub" [formControl]="currentClubCtrl" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <mat-select placeholder="Current position" [formControl]="currentPrimaryPositionCtrl"
