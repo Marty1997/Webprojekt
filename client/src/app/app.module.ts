@@ -33,6 +33,7 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { errorService } from './services/errorService';
 import { updateService } from './services/updateService';
 import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
@@ -109,6 +110,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
   providers: [
     ErrorStateMatcher,
     loginService,
+    errorService,
     uploadFilesService,
     updateService,
     searchService,
