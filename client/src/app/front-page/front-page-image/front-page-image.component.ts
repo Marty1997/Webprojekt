@@ -51,7 +51,6 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   loginUser(form: NgForm) {
-    console.log(form);
     this.isLoading = true;
     this.loginService.loginUser(form).subscribe(
       (succes:any) => {
