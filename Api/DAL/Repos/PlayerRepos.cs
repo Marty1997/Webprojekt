@@ -624,6 +624,43 @@ namespace Api.DAL.Repos {
             return res;
         }
 
+        public bool UpdateVideo(Player entity) {
+
+            bool res = false;
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Update player
+                        string updateClubSQL = @"Update Player Set VideoPath = @VideoPath Where ID = @ID";
+
+                        rowCount = conn.Execute(updateClubSQL, new {
+                            entity.VideoPath,
+                            entity.Id
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount list
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
         public Player Update(Player entity) {
 
             Player p = new Player();

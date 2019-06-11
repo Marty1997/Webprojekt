@@ -175,6 +175,23 @@ namespace Api.Controllers
             return StatusCode(400, "Failed");
         }
 
+        // api/Player/UpdateVideo
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateVideo([FromBody] Player entity) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Player") {
+                entity.Id = id;
+                if (_playerLogic.UpdateVideo(entity)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
 
         // api/Player/SearchPlayers
         [HttpGet]

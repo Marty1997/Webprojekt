@@ -198,7 +198,38 @@ export class UpdatePlayerComponent implements OnInit {
     }
   }
 
-  
+  updatePlayerProfile() {
+    this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+        this.playerBinding.imagePath = "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
+        // Delete image from filesystem
+      });
+  }
+
+  buildPlayerProfile() {
+    var player = new Player();
+    player.imagePath = this.playerBinding.imagePath;
+    return player;
+  }
+
+  updatePlayerVideo() {
+    this.updateService.updatePlayerVideo(this.buildPlayerVideo()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+        // Delete video from filesystem
+      });
+  }
+
+  buildPlayerVideo() {
+    var player = new Player();
+    player.videoPath = this.playerBinding.videoPath;
+    return player;
+  }
 
   updatePlayerInfo() {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
@@ -253,9 +284,6 @@ export class UpdatePlayerComponent implements OnInit {
         
       });
   }
-
-  
-
 
   setNationalTeamInfo() {
     this.playerBinding.nationalTeamList.forEach(nt => {

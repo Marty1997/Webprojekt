@@ -74,4 +74,9 @@ export class updateService {
     let url = "https://localhost:44310/api/Player/UpdateProfile";
     return this.http.post(url, player);
   }
+
+  updatePlayerVideo(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateVideo";
+    return this.http.post(url, player);
+  }
 }

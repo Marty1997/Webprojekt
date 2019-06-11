@@ -60,6 +60,10 @@ namespace Api.BusinessLogic {
             return _playerRepos.UpdateProfile(entity);
         }
 
+        public bool UpdateVideo(Player entity) {
+            return _playerRepos.UpdateVideo(entity);
+        }
+
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";
             List<Player> playerList = new List<Player>();
