@@ -327,92 +327,66 @@
         <mat-panel-title>National Team</mat-panel-title>
       </mat-expansion-panel-header>
 
-      <div class="row">
-        <div class="col-xs-6">
-          <mat-label>A Team</mat-label><br>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="Appearances" [formControl]="aTeamAppearancesCtrl" [errorStateMatcher]='validate'>
-            <mat-error *ngIf="aTeamNumberControl?.hasError('pattern')">
-              Appearances must be a number
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select placeholder="Position" [formControl]="aTeamPositionCtrl" [errorStateMatcher]='validate'>
-                <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
-            </mat-select>
+      <mat-label>Add national team</mat-label>
+      <mat-hint>There can only be one of each</mat-hint>
+      <mat-form-field>
+        <input matInput placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Appearances" [formControl]="nationalTeamAppearancesCtrl" [errorStateMatcher]="validate">
+        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
+          Appearances must be a number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Position" [formControl]="nationalTeamPositionCtrl" [errorStateMatcher]="validate">
+          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRow="3"
+          matAutosizeMaxRow="3" [formControl]="nationalTeamStatisticsCtrl" [errorStateMatcher]="validate"></textarea>
+      </mat-form-field>
 
-          </mat-form-field>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-              matAutosizeMaxRows="3" [formControl]="aTeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
+      <!-- National Team Table -->
+      <table mat-table [dataSource]="nationalTeamSource" class="mat-elevation-z8">
 
-          <br>
-          <mat-label>U21 Team</mat-label><br>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="Appearances" [formControl]="u21TeamAppearancesCtrl"
-              [errorStateMatcher]='validate'>
-            <mat-error *ngIf="u21NumberControl?.hasError('pattern')">
-              Appearances must be a number
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select placeholder="Position" [formControl]="u21TeamPositionCtrl" [errorStateMatcher]='validate'>
-                <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-              matAutosizeMaxRows="3" [formControl]="u21TeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
-        </div>
+        <!-- Team Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Team </th>
+          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.name}} </td>
+        </ng-container>
 
-        <div class="col-xs-6">
-          <mat-label>B Team</mat-label><br>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="Appearances" [formControl]="bTeamAppearancesCtrl" [errorStateMatcher]='validate'>
-            <mat-error *ngIf="bTeamNumberControl?.hasError('pattern')">
-              Appearances must be a number
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select placeholder="Position" [formControl]="bTeamPositionCtrl" [errorStateMatcher]='validate'>
-              <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-              matAutosizeMaxRows="3" [formControl]="bTeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
+        <!-- Appearances Column -->
+        <ng-container matColumnDef="appearances">
+          <th mat-header-cell *matHeaderCellDef> Appearances </th>
+          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.appearances}} </td>
+        </ng-container>
 
-          <br>
-          <mat-label>U18 Team</mat-label><br>
-          <br>
-          <mat-form-field>
-            <input matInput placeholder="Appearances" [formControl]="u18TeamAppearancesCtrl"
-              [errorStateMatcher]='validate'>
-            <mat-error *ngIf="u18NumberControl?.hasError('pattern')">
-              Appearances must be a number
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select placeholder="Position" [formControl]="u18TeamPositionCtrl" [errorStateMatcher]='validate'>
-              <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field class="doubleSizeField">
-            <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRows="3"
-              matAutosizeMaxRows="3" [formControl]="u18TeamStatisticsCtrl" [errorStateMatcher]='validate'></textarea>
-          </mat-form-field>
-        </div>
-      </div>
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> Position </th>
+          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.position}} </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="statistics">
+          <th mat-header-cell *matHeaderCellDef> Stats </th>
+          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.statistics}} </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer">
+            <!-- Delete Current year squadPlayer button -->
+            <button mat-button color="warn" >Delete</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="nationalTeamColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: nationalTeamColumns;"></tr>
+      </table>
 
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -442,7 +416,6 @@
         <button mat-button color="primary" (click)="nextStep()">Next</button>
       </mat-action-row>
     </mat-expansion-panel>
-  </mat-accordion>
 
   <!-- Presentation video -->
   <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
