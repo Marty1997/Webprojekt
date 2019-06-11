@@ -52,6 +52,14 @@ namespace Api.BusinessLogic {
             return _playerRepos.UpdateStrengthsAndWeaknesses(entity);
         }
 
+        public bool UpdateSportCV(Player entity) {
+            return _playerRepos.UpdateSportCV(entity);
+        }
+
+        public bool UpdateProfile(Player entity) {
+            return _playerRepos.UpdateProfile(entity);
+        }
+
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";
             List<Player> playerList = new List<Player>();

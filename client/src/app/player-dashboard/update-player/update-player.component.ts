@@ -18,6 +18,10 @@ export class UpdatePlayerComponent implements OnInit {
 
   playerBinding: Player;
   step: number;
+  aTeam = new NationalTeam();
+  bTeam = new NationalTeam();
+  u21Team = new NationalTeam();
+  u18Team = new NationalTeam();
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -148,6 +152,18 @@ export class UpdatePlayerComponent implements OnInit {
     if(this.playerBinding.nationalTeamList.length > 0) {
       this.setNationalTeamInfo();
     }
+
+    this.playerBinding.nationalTeamList.forEach(element => {
+      if (element.name == "A") {
+        this.aTeam.id = element.id;
+      } else if (element.name == "B") {
+        this.bTeam.id = element.id;
+      } else if (element.name == "U21") {
+        this.u21Team.id = element.id;
+      } else if (element.name == "U18"){
+        this.u18Team.id = element.id;
+      }
+    });
   }
 
   setStep(index: number) {
@@ -171,14 +187,18 @@ export class UpdatePlayerComponent implements OnInit {
         if(type === 'profile') {
           this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
           this.playerBinding.imagePath = this.uploadFilesService.imagePath;
+          this.updatePlayerProfile();
         }
         if(type === 'video') {
           this.uploadFilesService.createPath(JSON.stringify(res.body), 'video');
           this.playerBinding.videoPath = this.uploadFilesService.videoPath;
+          this.updatePlayerVideo();
         }
       });
     }
   }
+
+  
 
   updatePlayerInfo() {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
@@ -223,6 +243,18 @@ export class UpdatePlayerComponent implements OnInit {
 
       });;
   }
+
+  updateSportCV() {
+    this.updateService.updateSportCV(this.buildSportCv()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        
+      });
+  }
+
+  
 
 
   setNationalTeamInfo() {
@@ -367,46 +399,42 @@ export class UpdatePlayerComponent implements OnInit {
     return player;
   }
 
-   buildSportCv() {
-     this.playerBinding.currentClub = this.currentClubCtrl.value;
-     this.playerBinding.currentClubPrimaryPosition = this.currentPrimaryPositionCtrl.value;
-     this.playerBinding.currentClubSecondaryPosition = this.currentSecondaryPositionCtrl.value;
-     this.playerBinding.accomplishments = this.accomplishmentsCtrl.value;
-     this.playerBinding.statistic = this.statistics.value;
-     this.playerBinding.formerClubs = this.formerClubsCtrl.value;
-   }
+  buildSportCv() {
+    var player = new Player();
+    player.currentClub = this.currentClubCtrl.value == "" ? this.playerBinding.currentClub : this.currentClubCtrl.value;
+    player.currentClubPrimaryPosition = this.currentPrimaryPositionCtrl.value == "" ? 
+      this.playerBinding.currentClubPrimaryPosition : this.currentPrimaryPositionCtrl.value;
+    player.currentClubSecondaryPosition = this.currentSecondaryPositionCtrl.value == "" ? 
+      this.playerBinding.currentClubSecondaryPosition : this.currentSecondaryPositionCtrl.value;
+    player.accomplishments = this.accomplishmentsCtrl.value == "" ? this.playerBinding.accomplishments : this.accomplishmentsCtrl.value;
+    player.statistic = this.statistics.value == "" ? this.playerBinding.statistic : this.statistics.value;
+    player.formerClubs = this.formerClubsCtrl.value == "" ? this.playerBinding.formerClubs : this.formerClubsCtrl.value;
+    return player
+  }
 
-   buildNationalTeam() {
-     if(this.aTeamAppearancesCtrl.value != '' || this.aTeamPositionCtrl.value != '' || this.aTeamStatisticsCtrl.value != '') {
-       let aTeam = new NationalTeam();
-       aTeam.name = 'A';
-       aTeam.appearances = this.aTeamAppearancesCtrl.value;
-       aTeam.position = this.aTeamPositionCtrl.value;
-       aTeam.statistic = this.aTeamStatisticsCtrl.value;
-     }
-     if(this.bTeamAppearancesCtrl.value != '' || this.bTeamPositionCtrl.value != '' || this.bTeamStatisticsCtrl.value != '') {
-      let bTeam = new NationalTeam();
-      bTeam.name = 'B';
-      bTeam.appearances = this.bTeamAppearancesCtrl.value;
-      bTeam.position = this.bTeamPositionCtrl.value;
-      bTeam.statistic = this.bTeamStatisticsCtrl.value;
-    }
-    if(this.u21TeamAppearancesCtrl.value != '' || this.u21TeamPositionCtrl.value != '' || this.u21TeamStatisticsCtrl.value != '') {
-      let u21Team = new NationalTeam();
-      u21Team.name = 'U21';
-      u21Team.appearances = this.u21TeamAppearancesCtrl.value;
-      u21Team.position = this.u21TeamPositionCtrl.value;
-      u21Team.statistic = this.u21TeamStatisticsCtrl.value;
-    }
-    if(this.u18TeamAppearancesCtrl.value != '' || this.u18TeamPositionCtrl.value != '' || this.u18TeamStatisticsCtrl.value != '') {
-      let u18Team = new NationalTeam();
-      u18Team.name = 'U18';
-      u18Team.appearances = this.u18TeamAppearancesCtrl.value;
-      u18Team.position = this.u18TeamPositionCtrl.value;
-      u18Team.statistic = this.u18TeamStatisticsCtrl.value;
-    }
-
-   }
+  buildNationalTeam() {
+    var player = new Player();
+    this.aTeam.name = 'A';
+    this.aTeam.appearances = this.aTeamAppearancesCtrl.value;
+    this.aTeam.position = this.aTeamPositionCtrl.value;
+    this.aTeam.statistic = this.aTeamStatisticsCtrl.value;
+    this.bTeam.name = 'B';
+    this.bTeam.appearances = this.bTeamAppearancesCtrl.value;
+    this.bTeam.position = this.bTeamPositionCtrl.value;
+    this.bTeam.statistic = this.bTeamStatisticsCtrl.value;
+    this.u21Team.name = 'U21';
+    this.u21Team.appearances = this.u21TeamAppearancesCtrl.value;
+    this.u21Team.position = this.u21TeamPositionCtrl.value;
+    this.u21Team.statistic = this.u21TeamStatisticsCtrl.value;
+    this.u18Team.name = 'U18';
+    this.u18Team.appearances = this.u18TeamAppearancesCtrl.value;
+    this.u18Team.position = this.u18TeamPositionCtrl.value;
+    this.u18Team.statistic = this.u18TeamStatisticsCtrl.value;
+    player.nationalTeamList.push(this.aTeam);
+    player.nationalTeamList.push(this.bTeam);
+    player.nationalTeamList.push(this.u21Team);
+    player.nationalTeamList.push(this.u18Team);
+  }
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY
   buildDate(date: Date) {

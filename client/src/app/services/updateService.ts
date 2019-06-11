@@ -25,6 +25,11 @@ export class updateService {
     return this.http.post(url, player); 
   }
 
+  updateSportCV(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateSportCV";
+    return this.http.post(url, player);
+  }
+
   updateClubInfo(club: Club) {
     let url = "https://localhost:44310/api/Club/UpdateInfo";
     return this.http.post(url, club);
@@ -64,4 +69,9 @@ export class updateService {
      let url = "https://localhost:44310/api/Club/UpdateFacility";
      return this.http.post(url, club);
    }
+
+   updatePlayerProfile(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateProfile";
+    return this.http.post(url, player);
+  }
 }

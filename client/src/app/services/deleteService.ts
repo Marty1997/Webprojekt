@@ -13,12 +13,6 @@ export class deleteService {
     
   constructor(private http: HttpClient) {}
 
-  deletePlayer(player: Player) {
-    let url = "https://localhost:44310/api/Player/Delete";
-    console.log(player);
-    return this.http.post(url, player);
-  }
-
   deleteClub() {
     let url = "https://localhost:44310/api/Club/DeleteClub";
     return this.http.post(url, null);
@@ -48,13 +42,13 @@ export class deleteService {
     return this.http.post(url, data);
   }
 
-  deleteNationalTeam(id: number) {
-    let url = "https://localhost:44310/api/Club/DeleteNationalTeam";
-    return this.http.post(url, id);
-  }
-
   deleteValuesAndPreferences() {
     let url = "https://localhost:44310/api/Club/DeleteValuesAndPreferences";
+    return this.http.post(url, null);
+  }
+
+  deleteStrengthsAndWeaknesses() {
+    let url = "https://localhost:44310/api/Player/DeleteStrengthsAndWeaknesses";
     return this.http.post(url, null);
   }
 }

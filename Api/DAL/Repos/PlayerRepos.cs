@@ -459,7 +459,7 @@ namespace Api.DAL.Repos {
             return res;
         }
 
-        public bool UpdateStrengthsAndWeaknesses(Club entity) {
+        public bool UpdateStrengthsAndWeaknesses(Player entity) {
 
             bool res = false;
 
@@ -471,57 +471,57 @@ namespace Api.DAL.Repos {
                     try {
 
                         //Update player
-                        string updatePlayerSQL = @"Update Club Set ValueDescription = @ValueDescription, PreferenceDescription = @PreferenceDescription
+                        string updatePlayerSQL = @"Update Club Set StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription
                                                                  Where ID = @ID";
 
 
-                        _rowCountList.Add(conn.Execute(updateClubSQL, new {
-                            entity.ValueDescription,
-                            entity.PreferenceDescription,
+                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                            entity.StrengthDescription,
+                            entity.WeaknessDescription,
                             entity.Id
                         }, transaction: tran));
+                        
+                        //Weaknesses
+                        if (entity.WeaknessList.Count > 0) {
 
-                        //Values
-                        if (entity.ValuesList.Count > 0) {
+                            foreach (string weakness in entity.WeaknessList) {
 
-                            foreach (string value in entity.ValuesList) {
+                                //Return weakness ID
+                                string weaknessSQL = @"Select id from Weakness where name = @Name";
+                                int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
 
-                                //Return value ID
-                                string valueSQL = @"Select id from Value where name = @Name";
-                                int value_ID = conn.Query<int>(valueSQL, new { Name = value }, transaction: tran).FirstOrDefault();
+                                if (weakness_ID != 0) {
 
-                                if (value_ID != 0) {
+                                    //Update PlayerWeakness
+                                    string playerWeaknessSQL = @"Insert into PlayerWeakness (Club_ID, Weakness_ID) 
+                                                                Values (@Club_ID, @Weakness_ID)";
 
-                                    //Insert ClubValue
-                                    string clubValueSQL = @"INSERT INTO ClubValue (Club_ID, Value_ID) 
-                                        VALUES (@Club_ID, @Value_ID)";
-
-                                    _rowCountList.Add(conn.Execute(clubValueSQL, new {
+                                    _rowCountList.Add(conn.Execute(playerWeaknessSQL, new {
                                         Club_ID = entity.Id,
-                                        Value_ID = value_ID
+                                        Weakness_ID = weakness_ID
                                     }, transaction: tran));
                                 }
                             }
                         }
 
-                        //Preference
-                        if (entity.PreferenceList.Count > 0) {
+                        //Strengths
+                        if (entity.StrengthList.Count > 0) {
 
-                            foreach (string preference in entity.PreferenceList) {
+                            foreach (string strength in entity.StrengthList) {
 
-                                //Return preference ID
-                                string preferenceSQL = @"Select id from Preference where name = @Name";
-                                int preference_ID = conn.Query<int>(preferenceSQL, new { Name = preference }, transaction: tran).FirstOrDefault();
+                                //Return strength ID
+                                string strengthSQL = @"Select id from Strength where name = @Name";
+                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
 
-                                if (preference_ID != 0) {
+                                if (strength_ID != 0) {
 
-                                    //Update ClubPreference
-                                    string clubPreferenceSQL = @"INSERT INTO ClubPreference (Club_ID, Preference_ID)
-                                                                 VALUES (@Club_ID, @Preference_ID)";
+                                    //Update PlayerStrength
+                                    string playerStrengthSQL = @"Insert into PlayerStrength (Club_ID, Strength_ID) 
+                                                                Values (@Club_ID, @Strength_ID)";
 
-                                    _rowCountList.Add(conn.Execute(clubPreferenceSQL, new {
+                                    _rowCountList.Add(conn.Execute(playerStrengthSQL, new {
                                         Club_ID = entity.Id,
-                                        Preference_ID = preference_ID
+                                        Strength_ID = strength_ID
                                     }, transaction: tran));
                                 }
                             }
@@ -529,6 +529,85 @@ namespace Api.DAL.Repos {
 
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateSportCV(Player entity) {
+
+            bool res = false;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+                        
+                        //Update player sport cv
+                        string updatePlayerSQL = @"Update Player Set CurrentClub = @CurrentClub, Accomplishments = @Accomplishments,
+                                                                    Statistic = @Statistic, FormerClubs = @FormerClubs, CurrentClubPrimaryPosition = @CurrentClubPrimaryPosition,
+                                                                    CurrentClubSecondaryPosition = @CurrentClubSecondaryPosition
+                                                                 Where ID = @ID";
+                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                            entity.CurrentClub,
+                            entity.Accomplishments,
+                            entity.Statistic,
+                            entity.FormerClubs,
+                            entity.CurrentClubPrimaryPosition,
+                            entity.CurrentClubSecondaryPosition,
+                            entity.Id
+                        }, transaction: tran));
+
+                        if (_rowCountList.Contains(0)) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateProfile(Player entity) {
+
+            bool res = false;
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Update player
+                        string updateClubSQL = @"Update Player Set ImagePath = @ImagePath Where ID = @ID";
+
+                        rowCount = conn.Execute(updateClubSQL, new {
+                            entity.ImagePath,
+                            entity.Id
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount list
+                        if (rowCount == 0) {
                             tran.Rollback();
                         }
                         else {
@@ -633,51 +712,7 @@ namespace Api.DAL.Repos {
                                 }
                             }
 
-                            //Weaknesses
-                            if (entity.WeaknessList.Count > 0) {
-
-                                foreach (string weakness in entity.WeaknessList) {
-
-                                    //Return weakness ID
-                                    string weaknessSQL = @"Select id from Weakness where name = @Name";
-                                    int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
-
-                                    if (weakness_ID != 0 && player_ID != 0) {
-
-                                        //Update PlayerWeakness
-                                        string updatePlayerWeaknessSQL = @"Update PlayerWeakness Set Weakness_ID = @Weakness_ID
-                                                                       Where Player_ID = @Player_ID";
-
-                                        _rowCountList.Add(conn.Execute(updatePlayerWeaknessSQL, new {
-                                            Player_ID = player_ID,
-                                            Weakness_ID = weakness_ID
-                                        }, transaction: tran));
-                                    }
-                                }
-                            }
-
-                            //Strengths
-                            if (entity.StrengthList.Count > 0) {
-
-                                foreach (string strength in entity.StrengthList) {
-
-                                    //Return strength ID
-                                    string strengthSQL = @"Select id from Strength where name = @Name";
-                                    int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
-
-                                    if (strength_ID != 0 && player_ID != 0) {
-
-                                        //Update PlayerStrength
-                                        string updatePlayerStrengthSQL = @"Update PlayerStrength Set Strength_ID = @Strength_ID
-                                                                       Where Player_ID = @Player_ID";
-
-                                        _rowCountList.Add(conn.Execute(updatePlayerStrengthSQL, new {
-                                            Player_ID = player_ID,
-                                            Strength_ID = strength_ID
-                                        }, transaction: tran));
-                                    }
-                                }
-                            }
+                            
 
                             //Check for 0 in rowcount list
                             if (_rowCountList.Contains(0)) {

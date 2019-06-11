@@ -53,7 +53,7 @@ namespace Api.Controllers
             }
         }
 
-        // api/Club/UpdateInfo
+        // api/Player/UpdateInfo
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateInfo([FromBody] Player entity) {
@@ -84,7 +84,7 @@ namespace Api.Controllers
             return StatusCode(400, "Failed");
         }
 
-        // api/Club/UpdateAdditionalInfo
+        // api/Player/UpdateAdditionalInfo
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateAdditionalInfo([FromBody] Player entity) {
@@ -103,7 +103,7 @@ namespace Api.Controllers
             return StatusCode(400, "Failed");
         }
 
-        // api/Club/DeleteClubValuesAndPreferences
+        // api/Player/Deletestrengthsandweaknesses
         [HttpPost]
         [Route("[action]")]
         public IActionResult DeleteStrengthsAndWeaknesses() {
@@ -120,7 +120,7 @@ namespace Api.Controllers
             return StatusCode(400, "Failed");
         }
 
-        // api/Club/UpdateClubValuesAndPreferences
+        // api/Player/UpdateStrengthsandweaknesses
         [HttpPost]
         [Route("[action]")]
         public IActionResult UpdateStrengthsAndWeaknesses([FromBody] Player entity) {
@@ -132,6 +132,43 @@ namespace Api.Controllers
             if (role == "Player") {
                 entity.Id = id;
                 if (_playerLogic.UpdateStrengthsAndWeaknesses(entity)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Player/UpdateSportCV
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateSportCV([FromBody] Player entity) {
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Player") {
+
+                // Update player sport cv
+                entity.Id = id;
+                if (_playerLogic.UpdateSportCV(entity)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Player/UpdateProfile
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult UpdateProfile([FromBody] Player entity) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Player") {
+                entity.Id = id;
+                if (_playerLogic.UpdateProfile(entity)) {
                     return Ok();
                 }
             }
