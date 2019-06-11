@@ -29,54 +29,58 @@ namespace Api.BusinessLogic {
             return _clubRepos.Create(entity);
         }
 
-        public void UpdateInfo(Club entity) {
-            _clubRepos.UpdateInfo(entity);
+        public bool UpdateInfo(Club entity) {
+            return _clubRepos.UpdateInfo(entity);
         }
 
-        public void UpdateTrainingHours(TrainingHours entity, int club_ID) {
-            _clubRepos.UpdateTrainingHours(entity, club_ID);
+        public bool UpdateTrainingHours(TrainingHours entity, int club_ID) {
+            return _clubRepos.UpdateTrainingHours(entity, club_ID);
         }
 
-        public void AddSquadPlayer(SquadPlayer entity, int club_ID) {
-            _clubRepos.AddSquadPlayer(entity, club_ID);
+        public bool AddSquadPlayer(SquadPlayer entity, int club_ID) {
+            return _clubRepos.AddSquadPlayer(entity, club_ID);
         }
 
-        public void AddOpenPosition(JobPosition entity, int club_ID) {
-            _clubRepos.AddOpenPosition(entity, club_ID);
+        public bool AddOpenPosition(JobPosition entity, int club_ID) {
+            return _clubRepos.AddOpenPosition(entity, club_ID);
         }
 
-        public void UpdateStaff(Club entity) {
-            _clubRepos.UpdateStaff(entity);
+        public bool UpdateStaff(Club entity) {
+            return _clubRepos.UpdateStaff(entity);
         }
 
-        public void UpdateValuesAndPreferences(Club entity) {
-            _clubRepos.UpdateValuesAndPreferences(entity);
+        public bool UpdateValuesAndPreferences(Club entity) {
+            return _clubRepos.UpdateValuesAndPreferences(entity);
         }
 
-        public void UpdateProfile(Club entity) {
-            _clubRepos.UpdateProfile(entity);
+        public bool UpdateProfile(Club entity) {
+            return _clubRepos.UpdateProfile(entity);
         }
 
-        public void UpdateFacility(Club entity) {
-            _clubRepos.UpdateFacility(entity);
+        public bool UpdateFacility(Club entity) {
+            return _clubRepos.UpdateFacility(entity);
         }
 
-        public void DeleteJobPosition(int jobPosition_ID, int club_ID) {
-            _clubRepos.DeleteJobPosition(jobPosition_ID, club_ID);
+        public bool DeleteJobPosition(int jobPosition_ID, int club_ID) {
+            return _clubRepos.DeleteJobPosition(jobPosition_ID, club_ID);
         }
 
-        public void DeleteTrainingHours(int trainingHours_ID, int club_ID) {
-            _clubRepos.DeleteTrainingHours(trainingHours_ID, club_ID);
+        public bool DeleteTrainingHours(int trainingHours_ID, int club_ID) {
+            return _clubRepos.DeleteTrainingHours(trainingHours_ID, club_ID);
         }
 
-        public void DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
-            _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
+        public bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
+            return _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
         }
 
-        public void DeleteValuesAndPreferences(int club_ID) {
-            _clubRepos.DeleteValuesAndPreferences(club_ID);
+        public bool DeleteValuesAndPreferences(int club_ID) {
+            return _clubRepos.DeleteValuesAndPreferences(club_ID);
         }
-        
+
+        public bool DeleteClub(int club_ID) {
+            return _clubRepos.Delete(club_ID);
+        }
+
         public Club GetById(int id) {
             return _clubRepos.GetById(id);
         }

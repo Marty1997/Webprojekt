@@ -16,21 +16,21 @@ namespace Api.DAL {
                                                                    string sqlWhereStatementValue);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
                                                                  string sqlWhereStatementValue);
-        void UpdateInfo(Club entity);
-        void UpdateTrainingHours(TrainingHours entity, int club_ID);
+        bool UpdateInfo(Club entity);
+        bool UpdateTrainingHours(TrainingHours entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
-        void AddSquadPlayer(SquadPlayer entity, int club_ID);
+        bool AddSquadPlayer(SquadPlayer entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
-        void AddOpenPosition(JobPosition entity, int club_ID);
+        bool AddOpenPosition(JobPosition entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
-        void UpdateStaff(Club entity);
+        bool UpdateStaff(Club entity);
         bool CheckIfEmailExists(string email);
-        void UpdateValuesAndPreferences(Club entity);
-        void UpdateProfile(Club entity);
-        void UpdateFacility(Club entity);
-        void DeleteJobPosition(int jobPosition_ID, int club_ID);
-        void DeleteTrainingHours(int trainingHours_ID, int club_ID);
-        void DeleteSquadPlayer(int squadPlayer_ID, int club_ID);
-        void DeleteValuesAndPreferences(int club_ID);
+        bool UpdateValuesAndPreferences(Club entity);
+        bool UpdateProfile(Club entity);
+        bool UpdateFacility(Club entity);
+        bool DeleteJobPosition(int jobPosition_ID, int club_ID);
+        bool DeleteTrainingHours(int trainingHours_ID, int club_ID);
+        bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID);
+        bool DeleteValuesAndPreferences(int club_ID);
     }
 }

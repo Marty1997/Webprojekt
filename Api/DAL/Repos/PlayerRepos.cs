@@ -303,6 +303,364 @@ namespace Api.DAL.Repos {
 
         }
 
+        public bool UpdateInfo(Player entity) {
+
+            bool res = false;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        if (entity.UserCredentials != null) {
+                            //Update user credentials
+                            string userCredentialsSQL = @"Update UserCredentials Set Hashpassword = @HashPassword, Salt = @Salt Where ID = @ID";
+
+                            _rowCountList.Add(conn.Execute(userCredentialsSQL, new {
+                                entity.UserCredentials.HashPassword,
+                                entity.UserCredentials.Salt,
+                                entity.Id
+                            }, transaction: tran));
+                        }
+
+                        //Update player
+                        string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country
+                                                        Where ID = @ID";
+                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                            entity.FirstName,
+                            entity.LastName,
+                            entity.Day,
+                            entity.Month,
+                            entity.Year,
+                            entity.Country,
+                            entity.Id
+                        }, transaction: tran));
+
+                        if (_rowCountList.Contains(0)) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateAdditionalInfo(Player entity) {
+
+            bool res = false;
+
+            int rowCount = 0;
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Update player additional info
+                        string updatePlayerSQL = @"Update Player Set League = @League, Height = @Height, Weight = @Weight, Bodyfat = @Bodyfat,
+                                                                    PreferredHand = @PreferredHand, ContractStatus = @ContractStatus,
+                                                                    ContractExpired = @ContractExpired, InjuryStatus = @InjuryStatus, InjuryExpired = @InjuryExpired, 
+                                                                    InjuryDescription = @InjuryDescription, PrimaryPosition = @PrimaryPosition, 
+                                                                    SecondaryPosition = @SecondaryPosition
+                                                                 Where ID = @ID";
+                        rowCount = conn.Execute(updatePlayerSQL, new {
+                            entity.League,
+                            entity.Height,
+                            entity.Weight,
+                            entity.Bodyfat,
+                            entity.PreferredHand,
+                            entity.ContractStatus,
+                            entity.ContractExpired,
+                            entity.InjuryStatus,
+                            entity.InjuryExpired,
+                            entity.InjuryDescription,
+                            entity.PrimaryPosition,
+                            entity.SecondaryPosition,
+                            entity.Id
+                        }, transaction: tran);
+                        
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool DeleteStrengthsAndWeaknesses(int player_ID) {
+
+            bool res = false;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Check if player weakness exist in DB
+                        string playerWeaknessSQL = @"Select * from PlayerWeakness where player_ID = @Player_ID";
+                        int weaknesscheck = conn.Query<int>(playerWeaknessSQL, new { Player_ID = player_ID }, transaction: tran).FirstOrDefault();
+
+                        if (weaknesscheck != 0) {
+
+                            //Delete playerWeakness
+                            string deletePlayerWeaknessSQL = @"Delete From PlayerWeakness Where Player_ID = @Player_ID";
+
+                            _rowCountList.Add(conn.Execute(deletePlayerWeaknessSQL, new {
+                                player_ID
+                            }, transaction: tran));
+                        }
+
+                        //Check if player strength exist in DB
+                        string playerStrengthSQL = @"Select * from playerStrength where Player_ID = @Player_ID";
+                        int strengthcheck = conn.Query<int>(playerStrengthSQL, new { Player_ID = player_ID }, transaction: tran).FirstOrDefault();
+
+                        if (strengthcheck != 0) {
+
+                            //Delete playerStrength
+                            string deletePlayerStrengthSQL = @"Delete From PlayerStrength Where player_ID = @Player_ID";
+
+                            _rowCountList.Add(conn.Execute(deletePlayerStrengthSQL, new {
+                                player_ID
+                            }, transaction: tran));
+                        }
+                        
+                        //Check for 0 in rowcount
+                        if (_rowCountList.Contains(0)) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateStrengthsAndWeaknesses(Player entity) {
+
+            bool res = false;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Update player
+                        string updatePlayerSQL = @"Update Club Set StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription
+                                                                 Where ID = @ID";
+
+
+                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                            entity.StrengthDescription,
+                            entity.WeaknessDescription,
+                            entity.Id
+                        }, transaction: tran));
+                        
+                        //Weaknesses
+                        if (entity.WeaknessList.Count > 0) {
+
+                            foreach (string weakness in entity.WeaknessList) {
+
+                                //Return weakness ID
+                                string weaknessSQL = @"Select id from Weakness where name = @Name";
+                                int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
+
+                                if (weakness_ID != 0) {
+
+                                    //Update PlayerWeakness
+                                    string playerWeaknessSQL = @"Insert into PlayerWeakness (Club_ID, Weakness_ID) 
+                                                                Values (@Club_ID, @Weakness_ID)";
+
+                                    _rowCountList.Add(conn.Execute(playerWeaknessSQL, new {
+                                        Club_ID = entity.Id,
+                                        Weakness_ID = weakness_ID
+                                    }, transaction: tran));
+                                }
+                            }
+                        }
+
+                        //Strengths
+                        if (entity.StrengthList.Count > 0) {
+
+                            foreach (string strength in entity.StrengthList) {
+
+                                //Return strength ID
+                                string strengthSQL = @"Select id from Strength where name = @Name";
+                                int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
+
+                                if (strength_ID != 0) {
+
+                                    //Update PlayerStrength
+                                    string playerStrengthSQL = @"Insert into PlayerStrength (Club_ID, Strength_ID) 
+                                                                Values (@Club_ID, @Strength_ID)";
+
+                                    _rowCountList.Add(conn.Execute(playerStrengthSQL, new {
+                                        Club_ID = entity.Id,
+                                        Strength_ID = strength_ID
+                                    }, transaction: tran));
+                                }
+                            }
+                        }
+
+                        //Check for 0 in rowcount list
+                        if (_rowCountList.Contains(0)) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateSportCV(Player entity) {
+
+            bool res = false;
+
+            List<int> _rowCountList = new List<int>();
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+                        
+                        //Update player sport cv
+                        string updatePlayerSQL = @"Update Player Set CurrentClub = @CurrentClub, Accomplishments = @Accomplishments,
+                                                                    Statistic = @Statistic, FormerClubs = @FormerClubs, CurrentClubPrimaryPosition = @CurrentClubPrimaryPosition,
+                                                                    CurrentClubSecondaryPosition = @CurrentClubSecondaryPosition
+                                                                 Where ID = @ID";
+                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                            entity.CurrentClub,
+                            entity.Accomplishments,
+                            entity.Statistic,
+                            entity.FormerClubs,
+                            entity.CurrentClubPrimaryPosition,
+                            entity.CurrentClubSecondaryPosition,
+                            entity.Id
+                        }, transaction: tran));
+
+                        if (_rowCountList.Contains(0)) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateProfile(Player entity) {
+
+            bool res = false;
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Update player
+                        string updateClubSQL = @"Update Player Set ImagePath = @ImagePath Where ID = @ID";
+
+                        rowCount = conn.Execute(updateClubSQL, new {
+                            entity.ImagePath,
+                            entity.Id
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount list
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
+        public bool UpdateVideo(Player entity) {
+
+            bool res = false;
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Update player
+                        string updateClubSQL = @"Update Player Set VideoPath = @VideoPath Where ID = @ID";
+
+                        rowCount = conn.Execute(updateClubSQL, new {
+                            entity.VideoPath,
+                            entity.Id
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount list
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
         public Player Update(Player entity) {
 
             Player p = new Player();
@@ -391,51 +749,7 @@ namespace Api.DAL.Repos {
                                 }
                             }
 
-                            //Weaknesses
-                            if (entity.WeaknessList.Count > 0) {
-
-                                foreach (string weakness in entity.WeaknessList) {
-
-                                    //Return weakness ID
-                                    string weaknessSQL = @"Select id from Weakness where name = @Name";
-                                    int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = weakness }, transaction: tran).FirstOrDefault();
-
-                                    if (weakness_ID != 0 && player_ID != 0) {
-
-                                        //Update PlayerWeakness
-                                        string updatePlayerWeaknessSQL = @"Update PlayerWeakness Set Weakness_ID = @Weakness_ID
-                                                                       Where Player_ID = @Player_ID";
-
-                                        _rowCountList.Add(conn.Execute(updatePlayerWeaknessSQL, new {
-                                            Player_ID = player_ID,
-                                            Weakness_ID = weakness_ID
-                                        }, transaction: tran));
-                                    }
-                                }
-                            }
-
-                            //Strengths
-                            if (entity.StrengthList.Count > 0) {
-
-                                foreach (string strength in entity.StrengthList) {
-
-                                    //Return strength ID
-                                    string strengthSQL = @"Select id from Strength where name = @Name";
-                                    int strength_ID = conn.Query<int>(strengthSQL, new { Name = strength }, transaction: tran).FirstOrDefault();
-
-                                    if (strength_ID != 0 && player_ID != 0) {
-
-                                        //Update PlayerStrength
-                                        string updatePlayerStrengthSQL = @"Update PlayerStrength Set Strength_ID = @Strength_ID
-                                                                       Where Player_ID = @Player_ID";
-
-                                        _rowCountList.Add(conn.Execute(updatePlayerStrengthSQL, new {
-                                            Player_ID = player_ID,
-                                            Strength_ID = strength_ID
-                                        }, transaction: tran));
-                                    }
-                                }
-                            }
+                            
 
                             //Check for 0 in rowcount list
                             if (_rowCountList.Contains(0)) {
@@ -505,112 +819,7 @@ namespace Api.DAL.Repos {
             }
             return errorMessage;
         }
-
-        public string DeletePlayerWeakness(List<string> wl, int player_ID) {
-
-            string errorMessage;
-
-            List<int> _rowCountList = new List<int>();
-
-            using (var conn = Connection()) {
-
-                using (IDbTransaction tran = conn.BeginTransaction()) {
-                    //try {
-
-                    if (wl.Count > 0) {
-
-                        foreach (string w in wl) {
-
-                            //Return weakness ID
-                            string weaknessSQL = @"Select id from Weakness where name = @Name";
-                            int weakness_ID = conn.Query<int>(weaknessSQL, new { Name = w }, transaction: tran).FirstOrDefault();
-
-                            if (weakness_ID != 0) {
-
-                                //Delete playerWeakness
-                                string deletePlayerWeaknessSQL = @"Delete From PlayerWeakness Where Weakness_ID = @Weakness_ID, Player_ID = @Player_ID";
-
-                                _rowCountList.Add(conn.Execute(deletePlayerWeaknessSQL, new {
-                                    Weakness_ID = weakness_ID,
-                                    Player_ID = player_ID
-                                }, transaction: tran));
-                            } 
-                        }
-                    }
-
-                    //Check for 0 in rowcount list
-                    if (_rowCountList.Contains(0)) {
-                        errorMessage = "Player weakness was not deleted";
-                        tran.Rollback();
-                    }
-                    else {
-                        errorMessage = "";
-                        tran.Commit();
-                    }
-                    //}
-                    //catch (SqlException e) {
-
-                    //    tran.Rollback();
-                    //    c.ErrorMessage = ErrorHandling.Exception(e);
-                    //}
-
-                }
-            }
-            return errorMessage;
-        }
-
-        public string DeletePlayerStrength(List<string> sl, int player_ID) {
-
-            string errorMessage;
-
-            List<int> _rowCountList = new List<int>();
-
-            using (var conn = Connection()) {
-
-                using (IDbTransaction tran = conn.BeginTransaction()) {
-                    //try {
-
-                    if (sl.Count > 0) {
-
-                        foreach (string s in sl) {
-
-                            //Return strength ID
-                            string strengthSQL = @"Select id from Strength where name = @Name";
-                            int strength_ID = conn.Query<int>(strengthSQL, new { Name = s }, transaction: tran).FirstOrDefault();
-
-                            if (strength_ID != 0) {
-
-                                //Delete playerStrength
-                                string deletePlayerStrengthSQL = @"Delete From PlayerStrength Where Strength_ID = @Strength_ID, Player_ID = @Player_ID";
-
-                                _rowCountList.Add(conn.Execute(deletePlayerStrengthSQL, new {
-                                    Strength_ID = strength_ID,
-                                    Player_ID = player_ID
-                                }, transaction: tran));
-                            }
-                        }
-                    }
-
-                    //Check for 0 in rowcount list
-                    if (_rowCountList.Contains(0)) {
-                        errorMessage = "Player strength was not deleted";
-                        tran.Rollback();
-                    }
-                    else {
-                        errorMessage = "";
-                        tran.Commit();
-                    }
-                    //}
-                    //catch (SqlException e) {
-
-                    //    tran.Rollback();
-                    //    c.ErrorMessage = ErrorHandling.Exception(e);
-                    //}
-
-                }
-            }
-            return errorMessage;
-        }
+        
 
         private Player BuildPlayer(Player playerinside) {
             return new Player {
@@ -646,6 +855,10 @@ namespace Api.DAL.Repos {
                 CurrentClubPrimaryPosition = playerinside.CurrentClubPrimaryPosition,
                 CurrentClubSecondaryPosition = playerinside.CurrentClubSecondaryPosition
             };
+        }
+
+        bool IRepository<Player>.Delete(int id) {
+            throw new NotImplementedException();
         }
     }
 }

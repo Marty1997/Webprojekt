@@ -13,7 +13,7 @@ namespace Api.DAL {
         TEntity GetById(int id);
         TEntity GetByEmail(string email);
         TEntity Update(TEntity entity);
-        int Delete(int id);
+        bool Delete(int id);
         UserCredentials getCredentialsByEmail(string email);
         IEnumerable<TEntity> GetBySearchCriteria(string sqlStatement);
     }

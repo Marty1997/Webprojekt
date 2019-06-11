@@ -10,9 +10,23 @@ import { JobPosition } from '../models/jobPosition';
 export class updateService {
   constructor(private http: HttpClient) {}
 
-  updatePlayer(player: Player) {
-    let url = "https://localhost:44310/api/Player/Update";
-    console.log(player);
+  updatePlayerInfo(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateInfo";
+    return this.http.post(url, player);
+  }
+
+  updatePlayerAdditionalInfo(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateAdditionalInfo";
+    return this.http.post(url, player);
+  }
+
+  updateStrengthsAndWeaknesses(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateStrengthsAndWeaknesses";
+    return this.http.post(url, player); 
+  }
+
+  updateSportCV(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateSportCV";
     return this.http.post(url, player);
   }
 
@@ -32,7 +46,7 @@ export class updateService {
   }
 
   addClubOpenPosition(jobPosition: JobPosition) {
-    let url = "https://localhost:44310/api/Club/AddJobPosition";
+    let url = "https://localhost:44310/api/Club/AddOpenPosition";
     return this.http.post(url, jobPosition);
   }
 
@@ -55,4 +69,14 @@ export class updateService {
      let url = "https://localhost:44310/api/Club/UpdateFacility";
      return this.http.post(url, club);
    }
+
+   updatePlayerProfile(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateProfile";
+    return this.http.post(url, player);
+  }
+
+  updatePlayerVideo(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdateVideo";
+    return this.http.post(url, player);
+  }
 }

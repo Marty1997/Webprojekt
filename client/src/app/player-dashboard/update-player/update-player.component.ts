@@ -18,6 +18,10 @@ export class UpdatePlayerComponent implements OnInit {
 
   playerBinding: Player;
   step: number;
+  aTeam = new NationalTeam();
+  bTeam = new NationalTeam();
+  u21Team = new NationalTeam();
+  u18Team = new NationalTeam();
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -148,6 +152,19 @@ export class UpdatePlayerComponent implements OnInit {
     if(this.playerBinding.nationalTeamList.length > 0) {
       this.setNationalTeamInfo();
     }
+
+    this.playerBinding.nationalTeamList.forEach(element => {
+      if (element.name == "A") {
+        this.aTeam.id = element.id;
+      } else if (element.name == "B") {
+        this.bTeam.id = element.id;
+      } else if (element.name == "U21") {
+        this.u21Team.id = element.id;
+      } else if (element.name == "U18"){
+        this.u18Team.id = element.id;
+      }
+    });
+  }
     // set the value of the dropdowns
     this.setDropdownValues();
   }
@@ -173,49 +190,102 @@ export class UpdatePlayerComponent implements OnInit {
         if(type === 'profile') {
           this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
           this.playerBinding.imagePath = this.uploadFilesService.imagePath;
+          this.updatePlayerProfile();
         }
         if(type === 'video') {
           this.uploadFilesService.createPath(JSON.stringify(res.body), 'video');
           this.playerBinding.videoPath = this.uploadFilesService.videoPath;
+          this.updatePlayerVideo();
         }
       });
     }
   }
 
-  // updatePlayer() {
-
-  //   //Check if nationalteam(s) was deleted from playerBinding
-  //   if(this.playerBinding.nationalTeamList.length > 0 ) {
-  //     this.deleteService.deleteNationalTeam(this.playerBinding.nationalTeamList);
-  //   }
-  //   //Check if player weakness was deleted from playerBinding
-  //   if(this.playerBinding.weaknessList.length > 0 ) {
-  //     this.deleteService.deletePlayerWeakness(this.playerBinding.weaknessList);
-  //   }
-
-  //   //Check if player strength was deleted from playerBinding
-  //   if(this.playerBinding.strengthList.length > 0 ) {
-  //     this.deleteService.deletePlayerStrength(this.playerBinding.strengthList);
-  //   }
-
-  //   this.updateService.updatePlayer(this.playerBinding);
-  // }
-
-  deleteNationalTeam() {
-    
-    //Decrement nationalTeam from playerbinding
+  updatePlayerProfile() {
+    this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+        this.playerBinding.imagePath = "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
+        // Delete image from filesystem
+      });
   }
 
-  deletePlayerWeakness() {
-    //Decrement player weakness from playerbinding
+  buildPlayerProfile() {
+    var player = new Player();
+    player.imagePath = this.playerBinding.imagePath;
+    return player;
   }
 
-  deletePlayerStrength() {
-    //Decrement player strength from playerbinding
+  updatePlayerVideo() {
+    this.updateService.updatePlayerVideo(this.buildPlayerVideo()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+        // Delete video from filesystem
+      });
   }
 
-  cancel() {
-    this.playerBinding = this.loginService.playerInSession;
+  buildPlayerVideo() {
+    var player = new Player();
+    player.videoPath = this.playerBinding.videoPath;
+    return player;
+  }
+
+  updatePlayerInfo() {
+    this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        if(error.error == "Invalid password") {
+          // this.wrongPassword = true;
+        }
+      });
+  }
+
+  updatePlayerAdditionalInfo() {
+    this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        
+      });
+  }
+
+  deletePlayerStrengthsAndWeaknesses() {
+    // Delete player strengths and weaknesses
+    this.deleteService.deleteStrengthsAndWeaknesses().subscribe(
+      (succes:any) => { 
+        // Insert new player strengths and weaknesses
+        this.updateStrengthsAndWeaknesses();
+      },
+      error => {
+        
+      });
+  }
+
+  updateStrengthsAndWeaknesses() {
+    this.updateService.updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });;
+  }
+
+  updateSportCV() {
+    this.updateService.updateSportCV(this.buildSportCv()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        
+      });
   }
 
   setDropdownValues() {
@@ -285,116 +355,121 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   buildPlayerInfo() {
-    this.playerBinding.firstName = this.firstNameControl.value;
-    this.playerBinding.lastName = this.lastNameControl.value;
-    this.playerBinding.country = this.countryControl.value;
-    this.playerBinding.day = this.dayControl.value;
-    this.playerBinding.month = this.monthControl.value;
-    this.playerBinding.year = this.yearControl.value;
+    var player = new Player();
+    player.email = this.playerBinding.email;
+    player.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
+    player.newPassword = this.password.value == "" ? null : this.password.value;
+    player.firstName = this.firstNameControl.value == "" ? this.playerBinding.firstName : this.firstNameControl.value;
+    player.lastName = this.lastNameControl.value == "" ? this.playerBinding.lastName : this.lastNameControl.value;
+    player.country = this.countryControl.value == "" ? this.playerBinding.country : this.countryControl.value;
+    player.day = this.dayControl.value == "" ? this.playerBinding.day : this.dayControl.value;
+    player.month = this.monthControl.value == "" ? this.playerBinding.month : this.monthControl.value;
+    player.year = this.yearControl.value == "" ? this.playerBinding.year : this.yearControl.value;
+    return player;
   }
 
   buildPlayerAdditionalInfo() {
-    this.playerBinding.height = this.heightControl.value;
-    this.playerBinding.weight = this.weightControl.value;
-    this.playerBinding.bodyfat = this.bodyfatControl.value;
-    this.playerBinding.primaryPosition = this.primaryPositionCtrl.value;
-    this.playerBinding.secondaryPosition = this.secondaryPositionCtrl.value;
-    this.playerBinding.preferredHand = this.preferredHandCtrl.value;
-    this.playerBinding.league = this.leagueCtrl.value;
-    this.playerBinding.contractStatus = this.contractStatusCtrl.value;
-    this.playerBinding.contractExpired = this.buildDate(this.contractExpiredCtrl.value);
-    this.playerBinding.injuryStatus = this.injuryStatusCtrl.value;
-    this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value;
-    this.playerBinding.injuryExpired = this.buildDate(this.injuryRecoveryDateCtrl.value);
+    var player = new Player();
+    player.height = this.heightControl.value == "" ? this.playerBinding.height : this.heightControl.value;
+    player.weight = this.weightControl.value == "" ? this.playerBinding.weight : this.weightControl.value;
+    player.bodyfat = this.bodyfatControl.value == "" ? this.playerBinding.bodyfat : this.bodyfatControl.value;
+    player.primaryPosition = this.primaryPositionCtrl.value == "" ? this.playerBinding.primaryPosition : this.primaryPositionCtrl.value;
+    player.secondaryPosition = this.secondaryPositionCtrl.value == "" ? this.playerBinding.secondaryPosition : this.secondaryPositionCtrl.value;
+    player.preferredHand = this.preferredHandCtrl.value == "" ? this.playerBinding.preferredHand : this.preferredHandCtrl.value;
+    player.league = this.leagueCtrl.value == "" ? this.playerBinding.league : this.leagueCtrl.value;
+    player.contractStatus = this.contractStatusCtrl.value == "" ? this.playerBinding.contractStatus : this.contractStatusCtrl.value;
+    player.contractExpired = this.contractExpiredCtrl.value == "" ? this.playerBinding.contractExpired : this.buildDate(this.contractExpiredCtrl.value);
+    player.injuryStatus = this.injuryStatusCtrl.value == "" ? this.playerBinding.injuryStatus : this.injuryStatusCtrl.value;
+    player.injuryDescription = this.injuryDescriptionCtrl.value == "" ? this.playerBinding.injuryDescription : this.injuryDescriptionCtrl.value;
+    player.injuryExpired = this.injuryRecoveryDateCtrl.value == "" ? this.playerBinding.injuryExpired : this.buildDate(this.injuryRecoveryDateCtrl.value);
+    return player;
   }
 
   buildStrengthsAndWeaknesses() {
-    this.playerBinding.weaknessDescription = this.weaknessesCtrl.value;
-    this.playerBinding.strengthDescription = this.strengthsCtrl.value;
+    var player = new Player();
+    player.weaknessDescription = this.weaknessesCtrl.value == "" ? this.playerBinding.weaknessDescription : this.weaknessesCtrl.value;
+    player.strengthDescription = this.strengthsCtrl.value == "" ? this.playerBinding.strengthDescription : this.strengthsCtrl.value;
     if(this.speedy.checked) {
-      this.playerBinding.strengthList.push(this.speedy.value);
+      player.strengthList.push(this.speedy.value);
     }
     if(this.athletic.checked) {
-      this.playerBinding.strengthList.push(this.athletic.value);
+      player.strengthList.push(this.athletic.value);
     }
     if(this.greatShape.checked) {
-      this.playerBinding.strengthList.push(this.greatShape.value);
+      player.strengthList.push(this.greatShape.value);
     }
     if(this.quickShots.checked) {
-      this.playerBinding.strengthList.push(this.quickShots.value);
+      player.strengthList.push(this.quickShots.value);
     }
     if(this.accurateShooter.checked) {
-      this.playerBinding.strengthList.push(this.accurateShooter.value);
+      player.strengthList.push(this.accurateShooter.value);
     }
     if(this.tactical.checked) {
-      this.playerBinding.strengthList.push(this.tactical.value);
+      player.strengthList.push(this.tactical.value);
     }
     if(this.teamPlayer.checked) {
-      this.playerBinding.strengthList.push(this.teamPlayer.value);
+      player.strengthList.push(this.teamPlayer.value);
     }
     if(this.social.checked) {
-      this.playerBinding.strengthList.push(this.social.value);
+      player.strengthList.push(this.social.value);
     }
     if(this.winAtAllCosts.checked) {
-      this.playerBinding.strengthList.push(this.winAtAllCosts.value);
+      player.strengthList.push(this.winAtAllCosts.value);
     }
     if(this.longRangeShooter.checked) {
-      this.playerBinding.strengthList.push(this.longRangeShooter.value);
+      player.strengthList.push(this.longRangeShooter.value);
     }
     if(this.slowMoving.checked) {
-      this.playerBinding.weaknessList.push(this.slowMoving.value);
+      player.weaknessList.push(this.slowMoving.value);
     }
     if(this.badEndurance.checked) {
-      this.playerBinding.weaknessList.push(this.badEndurance.value);
+      player.weaknessList.push(this.badEndurance.value);
     }
     if(this.historyOfInjuries.checked) {
-      this.playerBinding.weaknessList.push(this.historyOfInjuries.value);
+      player.weaknessList.push(this.historyOfInjuries.value);
     }
     if(this.badDefencePlayer.checked) {
-      this.playerBinding.weaknessList.push(this.badDefencePlayer.value);
+      player.weaknessList.push(this.badDefencePlayer.value);
     }
-   }
+    return player;
+  }
 
-   buildSportCv() {
-     this.playerBinding.currentClub = this.currentClubCtrl.value;
-     this.playerBinding.currentClubPrimaryPosition = this.currentPrimaryPositionCtrl.value;
-     this.playerBinding.currentClubSecondaryPosition = this.currentSecondaryPositionCtrl.value;
-     this.playerBinding.accomplishments = this.accomplishmentsCtrl.value;
-     this.playerBinding.statistic = this.statistics.value;
-     this.playerBinding.formerClubs = this.formerClubsCtrl.value;
-   }
+  buildSportCv() {
+    var player = new Player();
+    player.currentClub = this.currentClubCtrl.value == "" ? this.playerBinding.currentClub : this.currentClubCtrl.value;
+    player.currentClubPrimaryPosition = this.currentPrimaryPositionCtrl.value == "" ? 
+      this.playerBinding.currentClubPrimaryPosition : this.currentPrimaryPositionCtrl.value;
+    player.currentClubSecondaryPosition = this.currentSecondaryPositionCtrl.value == "" ? 
+      this.playerBinding.currentClubSecondaryPosition : this.currentSecondaryPositionCtrl.value;
+    player.accomplishments = this.accomplishmentsCtrl.value == "" ? this.playerBinding.accomplishments : this.accomplishmentsCtrl.value;
+    player.statistic = this.statistics.value == "" ? this.playerBinding.statistic : this.statistics.value;
+    player.formerClubs = this.formerClubsCtrl.value == "" ? this.playerBinding.formerClubs : this.formerClubsCtrl.value;
+    return player
+  }
 
-   buildNationalTeam() {
-     if(this.aTeamAppearancesCtrl.value != '' || this.aTeamPositionCtrl.value != '' || this.aTeamStatisticsCtrl.value != '') {
-       let aTeam = new NationalTeam();
-       aTeam.name = 'A';
-       aTeam.appearances = this.aTeamAppearancesCtrl.value;
-       aTeam.position = this.aTeamPositionCtrl.value;
-       aTeam.statistic = this.aTeamStatisticsCtrl.value;
-     }
-     if(this.bTeamAppearancesCtrl.value != '' || this.bTeamPositionCtrl.value != '' || this.bTeamStatisticsCtrl.value != '') {
-      let bTeam = new NationalTeam();
-      bTeam.name = 'B';
-      bTeam.appearances = this.bTeamAppearancesCtrl.value;
-      bTeam.position = this.bTeamPositionCtrl.value;
-      bTeam.statistic = this.bTeamStatisticsCtrl.value;
-    }
-    if(this.u21TeamAppearancesCtrl.value != '' || this.u21TeamPositionCtrl.value != '' || this.u21TeamStatisticsCtrl.value != '') {
-      let u21Team = new NationalTeam();
-      u21Team.name = 'U21';
-      u21Team.appearances = this.u21TeamAppearancesCtrl.value;
-      u21Team.position = this.u21TeamPositionCtrl.value;
-      u21Team.statistic = this.u21TeamStatisticsCtrl.value;
-    }
-    if(this.u18TeamAppearancesCtrl.value != '' || this.u18TeamPositionCtrl.value != '' || this.u18TeamStatisticsCtrl.value != '') {
-      let u18Team = new NationalTeam();
-      u18Team.name = 'U18';
-      u18Team.appearances = this.u18TeamAppearancesCtrl.value;
-      u18Team.position = this.u18TeamPositionCtrl.value;
-      u18Team.statistic = this.u18TeamStatisticsCtrl.value;
-    }
-
-   }
+  buildNationalTeam() {
+    var player = new Player();
+    this.aTeam.name = 'A';
+    this.aTeam.appearances = this.aTeamAppearancesCtrl.value;
+    this.aTeam.position = this.aTeamPositionCtrl.value;
+    this.aTeam.statistic = this.aTeamStatisticsCtrl.value;
+    this.bTeam.name = 'B';
+    this.bTeam.appearances = this.bTeamAppearancesCtrl.value;
+    this.bTeam.position = this.bTeamPositionCtrl.value;
+    this.bTeam.statistic = this.bTeamStatisticsCtrl.value;
+    this.u21Team.name = 'U21';
+    this.u21Team.appearances = this.u21TeamAppearancesCtrl.value;
+    this.u21Team.position = this.u21TeamPositionCtrl.value;
+    this.u21Team.statistic = this.u21TeamStatisticsCtrl.value;
+    this.u18Team.name = 'U18';
+    this.u18Team.appearances = this.u18TeamAppearancesCtrl.value;
+    this.u18Team.position = this.u18TeamPositionCtrl.value;
+    this.u18Team.statistic = this.u18TeamStatisticsCtrl.value;
+    player.nationalTeamList.push(this.aTeam);
+    player.nationalTeamList.push(this.bTeam);
+    player.nationalTeamList.push(this.u21Team);
+    player.nationalTeamList.push(this.u18Team);
+  }
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY
   buildDate(date: Date) {
