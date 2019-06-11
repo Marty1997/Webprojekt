@@ -24,21 +24,6 @@ namespace Api.BusinessLogic {
 
         public Player Create(Player entity) {
 
-            ////Check if email already exist
-            //Player p = _playerRepository.GetByEmail(entity.Email);
-
-            //if (p.Id > 0) {
-            //    p.ErrorMessage = "Email already exist";
-            //}
-            //else {
-            //    //Adding userCredentials to player
-            //    entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
-            //    //Creating player
-            //    p = _playerRepository.Create(entity);
-            //}
-
-            //return p;
-
             //Adding userCredentials to player
             entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
             //Creating player
@@ -51,11 +36,21 @@ namespace Api.BusinessLogic {
 
         }
 
-
-        public Player Update(Player entity) {
-            return _playerRepos.Update(entity);
+        public bool UpdateInfo(Player entity) {
+            return _playerRepos.UpdateInfo(entity);
         }
 
+        public bool UpdateAdditionalInfo(Player entity) {
+            return _playerRepos.UpdateAdditionalInfo(entity);
+        }
+
+        public bool DeleteStrengthsAndWeaknesses(int player_ID) {
+            return _playerRepos.DeleteStrengthsAndWeaknesses(player_ID);
+        }
+
+        public bool UpdateStrengthsAndWeaknesses(Player entity) {
+            return _playerRepos.UpdateStrengthsAndWeaknesses(entity);
+        }
 
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";

@@ -5,6 +5,7 @@ export class Player {
   id: number;
   isAvailable: boolean;
   password: string = "";
+  newPassword: string = "";
   email: string = "";
   firstName: string = "";
   lastName: string = "";

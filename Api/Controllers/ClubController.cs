@@ -45,8 +45,8 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
             
             if (role == "Club") {
-                entity.Id = id;
-                
+
+                //New password
                 if (entity.Password != null && entity.NewPassword != null) {
                     //Check if current password is correct
                     if (authentication.CheckPassword(entity.Email, entity.Password)) {
@@ -57,9 +57,12 @@ namespace Api.Controllers {
                         return StatusCode(400, "Invalid password");
                     }
                 }
-                
-                _clubLogic.UpdateInfo(entity);
-                return Ok();
+
+                // Update club info
+                entity.Id = id;
+                if(_clubLogic.UpdateInfo(entity)) {
+                    return Ok();
+                }    
             }
             return StatusCode(400, "Failed");
         }
@@ -73,8 +76,9 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.UpdateTrainingHours(entity, id);
-                return Ok();
+                if(_clubLogic.UpdateTrainingHours(entity, id)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed"); 
         }
@@ -89,8 +93,9 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.AddSquadPlayer(entity, id);
-                return Ok();
+                if(_clubLogic.AddSquadPlayer(entity, id)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -105,8 +110,10 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.AddOpenPosition(entity, id);
-                return Ok();
+                if(_clubLogic.AddOpenPosition(entity, id)) {
+                    return Ok();
+                }
+               
             }
             return StatusCode(400, "Failed");
         }
@@ -122,8 +129,9 @@ namespace Api.Controllers {
 
             if (role == "Club") {
                 entity.Id = id;
-                _clubLogic.UpdateStaff(entity);
-                return Ok();
+                if(_clubLogic.UpdateStaff(entity)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -139,8 +147,9 @@ namespace Api.Controllers {
 
             if (role == "Club") {
                 entity.Id = id;
-                _clubLogic.UpdateValuesAndPreferences(entity);
-                return Ok();
+                if(_clubLogic.UpdateValuesAndPreferences(entity)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -156,8 +165,9 @@ namespace Api.Controllers {
 
             if (role == "Club") {
                 entity.Id = id;
-                _clubLogic.UpdateProfile(entity);
-                return Ok();
+                if(_clubLogic.UpdateProfile(entity)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -173,8 +183,9 @@ namespace Api.Controllers {
 
             if (role == "Club") {
                 entity.Id = id;
-                _clubLogic.UpdateFacility(entity);
-                return Ok();
+                if(_clubLogic.UpdateFacility(entity)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -182,15 +193,16 @@ namespace Api.Controllers {
         // api/Club/DeleteJobPosition
         [HttpPost]
         [Route("[action]")]
-        public IActionResult DeleteJobPosition([FromBody] int jobPosition_ID) {
+        public IActionResult DeleteJobPosition([FromBody] IDRequest data) {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.DeleteJobPosition(jobPosition_ID, id);
-                return Ok();
+                if(_clubLogic.DeleteJobPosition(data.ID, id)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -198,15 +210,16 @@ namespace Api.Controllers {
         // api/Club/DeleteSquadPlayer
         [HttpPost]
         [Route("[action]")]
-        public IActionResult DeleteSquadPlayer([FromBody] int squadPlayer_ID) {
+        public IActionResult DeleteSquadPlayer([FromBody] IDRequest data) {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.DeleteSquadPlayer(squadPlayer_ID, id);
-                return Ok();
+                if (_clubLogic.DeleteSquadPlayer(data.ID, id)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }
@@ -214,15 +227,17 @@ namespace Api.Controllers {
         // api/Club/DeleteTrainingHours
         [HttpPost]
         [Route("[action]")]
-        public IActionResult DeleteTrainingHours([FromBody] int trainingHours_ID) {
+        public IActionResult DeleteTrainingHours([FromBody] IDRequest data) {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.DeleteTrainingHours(trainingHours_ID, id);
-                return Ok();
+                if(_clubLogic.DeleteTrainingHours(data.ID, id)) {
+                    return Ok();
+                }
+                
             }
             return StatusCode(400, "Failed");
         }
@@ -237,8 +252,26 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                _clubLogic.DeleteValuesAndPreferences(id);
-                return Ok();
+                if(_clubLogic.DeleteValuesAndPreferences(id)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/DeleteClub
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteClub() {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                if (_clubLogic.DeleteClub(id)) {
+                    return Ok();
+                }
             }
             return StatusCode(400, "Failed");
         }

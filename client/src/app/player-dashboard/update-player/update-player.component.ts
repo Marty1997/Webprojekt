@@ -180,41 +180,50 @@ export class UpdatePlayerComponent implements OnInit {
     }
   }
 
-  // updatePlayer() {
-
-  //   //Check if nationalteam(s) was deleted from playerBinding
-  //   if(this.playerBinding.nationalTeamList.length > 0 ) {
-  //     this.deleteService.deleteNationalTeam(this.playerBinding.nationalTeamList);
-  //   }
-  //   //Check if player weakness was deleted from playerBinding
-  //   if(this.playerBinding.weaknessList.length > 0 ) {
-  //     this.deleteService.deletePlayerWeakness(this.playerBinding.weaknessList);
-  //   }
-
-  //   //Check if player strength was deleted from playerBinding
-  //   if(this.playerBinding.strengthList.length > 0 ) {
-  //     this.deleteService.deletePlayerStrength(this.playerBinding.strengthList);
-  //   }
-
-  //   this.updateService.updatePlayer(this.playerBinding);
-  // }
-
-  deleteNationalTeam() {
-    
-    //Decrement nationalTeam from playerbinding
+  updatePlayerInfo() {
+    this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        if(error.error == "Invalid password") {
+          // this.wrongPassword = true;
+        }
+      });
   }
 
-  deletePlayerWeakness() {
-    //Decrement player weakness from playerbinding
+  updatePlayerAdditionalInfo() {
+    this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        
+      });
   }
 
-  deletePlayerStrength() {
-    //Decrement player strength from playerbinding
+  deletePlayerStrengthsAndWeaknesses() {
+    // Delete player strengths and weaknesses
+    this.deleteService.deleteStrengthsAndWeaknesses().subscribe(
+      (succes:any) => { 
+        // Insert new player strengths and weaknesses
+        this.updateStrengthsAndWeaknesses();
+      },
+      error => {
+        
+      });
   }
 
-  cancel() {
-    this.playerBinding = this.loginService.playerInSession;
+  updateStrengthsAndWeaknesses() {
+    this.updateService.updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+
+      });;
   }
+
 
   setNationalTeamInfo() {
     this.playerBinding.nationalTeamList.forEach(nt => {
@@ -279,75 +288,84 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   buildPlayerInfo() {
-    this.playerBinding.firstName = this.firstNameControl.value;
-    this.playerBinding.lastName = this.lastNameControl.value;
-    this.playerBinding.country = this.countryControl.value;
-    this.playerBinding.day = this.dayControl.value;
-    this.playerBinding.month = this.monthControl.value;
-    this.playerBinding.year = this.yearControl.value;
+    var player = new Player();
+    player.email = this.playerBinding.email;
+    player.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
+    player.newPassword = this.password.value == "" ? null : this.password.value;
+    player.firstName = this.firstNameControl.value == "" ? this.playerBinding.firstName : this.firstNameControl.value;
+    player.lastName = this.lastNameControl.value == "" ? this.playerBinding.lastName : this.lastNameControl.value;
+    player.country = this.countryControl.value == "" ? this.playerBinding.country : this.countryControl.value;
+    player.day = this.dayControl.value == "" ? this.playerBinding.day : this.dayControl.value;
+    player.month = this.monthControl.value == "" ? this.playerBinding.month : this.monthControl.value;
+    player.year = this.yearControl.value == "" ? this.playerBinding.year : this.yearControl.value;
+    return player;
   }
 
   buildPlayerAdditionalInfo() {
-    this.playerBinding.height = this.heightControl.value;
-    this.playerBinding.weight = this.weightControl.value;
-    this.playerBinding.bodyfat = this.bodyfatControl.value;
-    this.playerBinding.primaryPosition = this.primaryPositionCtrl.value;
-    this.playerBinding.secondaryPosition = this.secondaryPositionCtrl.value;
-    this.playerBinding.preferredHand = this.preferredHandCtrl.value;
-    this.playerBinding.league = this.leagueCtrl.value;
-    this.playerBinding.contractStatus = this.contractStatusCtrl.value;
-    this.playerBinding.contractExpired = this.buildDate(this.contractExpiredCtrl.value);
-    this.playerBinding.injuryStatus = this.injuryStatusCtrl.value;
-    this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value;
-    this.playerBinding.injuryExpired = this.buildDate(this.injuryRecoveryDateCtrl.value);
+    var player = new Player();
+    player.height = this.heightControl.value == "" ? this.playerBinding.height : this.heightControl.value;
+    player.weight = this.weightControl.value == "" ? this.playerBinding.weight : this.weightControl.value;
+    player.bodyfat = this.bodyfatControl.value == "" ? this.playerBinding.bodyfat : this.bodyfatControl.value;
+    player.primaryPosition = this.primaryPositionCtrl.value == "" ? this.playerBinding.primaryPosition : this.primaryPositionCtrl.value;
+    player.secondaryPosition = this.secondaryPositionCtrl.value == "" ? this.playerBinding.secondaryPosition : this.secondaryPositionCtrl.value;
+    player.preferredHand = this.preferredHandCtrl.value == "" ? this.playerBinding.preferredHand : this.preferredHandCtrl.value;
+    player.league = this.leagueCtrl.value == "" ? this.playerBinding.league : this.leagueCtrl.value;
+    player.contractStatus = this.contractStatusCtrl.value == "" ? this.playerBinding.contractStatus : this.contractStatusCtrl.value;
+    player.contractExpired = this.contractExpiredCtrl.value == "" ? this.playerBinding.contractExpired : this.buildDate(this.contractExpiredCtrl.value);
+    player.injuryStatus = this.injuryStatusCtrl.value == "" ? this.playerBinding.injuryStatus : this.injuryStatusCtrl.value;
+    player.injuryDescription = this.injuryDescriptionCtrl.value == "" ? this.playerBinding.injuryDescription : this.injuryDescriptionCtrl.value;
+    player.injuryExpired = this.injuryRecoveryDateCtrl.value == "" ? this.playerBinding.injuryExpired : this.buildDate(this.injuryRecoveryDateCtrl.value);
+    return player;
   }
 
   buildStrengthsAndWeaknesses() {
-    this.playerBinding.weaknessDescription = this.weaknessesCtrl.value;
-    this.playerBinding.strengthDescription = this.strengthsCtrl.value;
+    var player = new Player();
+    player.weaknessDescription = this.weaknessesCtrl.value == "" ? this.playerBinding.weaknessDescription : this.weaknessesCtrl.value;
+    player.strengthDescription = this.strengthsCtrl.value == "" ? this.playerBinding.strengthDescription : this.strengthsCtrl.value;
     if(this.speedy.checked) {
-      this.playerBinding.strengthList.push(this.speedy.value);
+      player.strengthList.push(this.speedy.value);
     }
     if(this.athletic.checked) {
-      this.playerBinding.strengthList.push(this.athletic.value);
+      player.strengthList.push(this.athletic.value);
     }
     if(this.greatShape.checked) {
-      this.playerBinding.strengthList.push(this.greatShape.value);
+      player.strengthList.push(this.greatShape.value);
     }
     if(this.quickShots.checked) {
-      this.playerBinding.strengthList.push(this.quickShots.value);
+      player.strengthList.push(this.quickShots.value);
     }
     if(this.accurateShooter.checked) {
-      this.playerBinding.strengthList.push(this.accurateShooter.value);
+      player.strengthList.push(this.accurateShooter.value);
     }
     if(this.tactical.checked) {
-      this.playerBinding.strengthList.push(this.tactical.value);
+      player.strengthList.push(this.tactical.value);
     }
     if(this.teamPlayer.checked) {
-      this.playerBinding.strengthList.push(this.teamPlayer.value);
+      player.strengthList.push(this.teamPlayer.value);
     }
     if(this.social.checked) {
-      this.playerBinding.strengthList.push(this.social.value);
+      player.strengthList.push(this.social.value);
     }
     if(this.winAtAllCosts.checked) {
-      this.playerBinding.strengthList.push(this.winAtAllCosts.value);
+      player.strengthList.push(this.winAtAllCosts.value);
     }
     if(this.longRangeShooter.checked) {
-      this.playerBinding.strengthList.push(this.longRangeShooter.value);
+      player.strengthList.push(this.longRangeShooter.value);
     }
     if(this.slowMoving.checked) {
-      this.playerBinding.weaknessList.push(this.slowMoving.value);
+      player.weaknessList.push(this.slowMoving.value);
     }
     if(this.badEndurance.checked) {
-      this.playerBinding.weaknessList.push(this.badEndurance.value);
+      player.weaknessList.push(this.badEndurance.value);
     }
     if(this.historyOfInjuries.checked) {
-      this.playerBinding.weaknessList.push(this.historyOfInjuries.value);
+      player.weaknessList.push(this.historyOfInjuries.value);
     }
     if(this.badDefencePlayer.checked) {
-      this.playerBinding.weaknessList.push(this.badDefencePlayer.value);
+      player.weaknessList.push(this.badDefencePlayer.value);
     }
-   }
+    return player;
+  }
 
    buildSportCv() {
      this.playerBinding.currentClub = this.currentClubCtrl.value;

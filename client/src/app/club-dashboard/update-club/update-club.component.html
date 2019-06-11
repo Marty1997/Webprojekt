@@ -106,91 +106,91 @@
       <mat-hint>Continue to keep your current schedule or delete to remove your schedule.</mat-hint><br><br>
       <mat-label>Monday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularMonFrom.value">
+        <mat-select matInput [placeholder]="regularMonFrom.value" [formControl]="regularMonFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularMonTo.value">
+        <mat-select matInput [placeholder]="regularMonTo.value" [formControl]="regularMonTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Tuesday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularTueFrom.value">
+        <mat-select matInput [placeholder]="regularTueFrom.value" [formControl]="regularTueFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularTueTo.value">
+        <mat-select matInput [placeholder]="regularTueTo.value" [formControl]="regularTueTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Wednesday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularWedFrom.value">
+        <mat-select matInput [placeholder]="regularWedFrom.value" [formControl]="regularWedFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularWedTo.value">
+        <mat-select matInput [placeholder]="regularWedTo.value" [formControl]="regularWedTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Thursday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularThuFrom.value">
+        <mat-select matInput [placeholder]="regularThuFrom.value" [formControl]="regularThuFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularThuTo.value">
+        <mat-select matInput [placeholder]="regularThuTo.value" [formControl]="regularThuTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Friday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularFriFrom.value">
+        <mat-select matInput [placeholder]="regularFriFrom.value" [formControl]="regularFriFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularFriTo.value">
+        <mat-select matInput [placeholder]="regularFriTo.value" [formControl]="regularFriTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Saturday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularSatFrom.value">
+        <mat-select matInput [placeholder]="regularSatFrom.value" [formControl]="regularSatFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularSatTo.value">
+        <mat-select matInput [placeholder]="regularSatTo.value" [formControl]="regularSatTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Sunday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularSunFrom.value">
+        <mat-select matInput [placeholder]="regularSunFrom.value" [formControl]="regularSunFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="regularSunTo.value">
+        <mat-select matInput [placeholder]="regularSunTo.value" [formControl]="regularSunTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
@@ -366,7 +366,7 @@
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let squadPlayer">
             <!-- Delete Current year squadPlayer button -->
-            <button mat-button color="warn" (click)="deleteClubSquadPlayer(squadPlayer)">Delete</button>
+            <button mat-button color="warn" (click)="deleteClubCurrentSquadPlayer(squadPlayer)">Delete</button>
           </td>
         </ng-container>
 
@@ -616,6 +616,11 @@
         <input matInput placeholder="Team Manager" [value]="clubBinding.manager" [formControl]="managerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
 
+      <div>
+          <!-- Update button -->
+          <input type="button" class="btn btn-success" value="Update" (click)="updateClubStaff()">
+      </div>
+      
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -706,4 +711,7 @@
     </mat-expansion-panel>
   </mat-accordion>
   <br>
+  <div>
+      <input type="button" class="btn btn-success" value="Delete profile" (click)="deleteClub()">
+  </div>
 </div>
