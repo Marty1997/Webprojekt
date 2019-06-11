@@ -54,6 +54,9 @@ export class UpdatePlayerComponent implements OnInit {
     Validators.required,
     Validators.minLength(6)
   ]);
+
+  @ViewChild("isLooking") private isLooking: MatCheckbox;
+
   firstNameControl = new FormControl("", Validators.required);
   lastNameControl = new FormControl("", Validators.required);
   countryControl = new FormControl("", Validators.required);
@@ -141,6 +144,12 @@ export class UpdatePlayerComponent implements OnInit {
   ngOnInit() {
     this.setStep(-1); // start with closed accordions
     this.playerBinding = this.loginService.playerInSession;
+
+    if(this.playerBinding.isAvailable) {
+      this.isLooking.checked = true;
+    } else {
+      this.isLooking.checked = false;
+    }
 
     // set strengths and weaknesses
     if (this.playerBinding.strengthList.length > 0) {
@@ -350,6 +359,7 @@ export class UpdatePlayerComponent implements OnInit {
     player.password =
       this.currentPassword.value == "" ? null : this.currentPassword.value;
     player.newPassword = this.password.value == "" ? null : this.password.value;
+    player.isAvailable = this.isLooking.checked;
     player.firstName =
       this.firstNameControl.value == ""
         ? this.playerBinding.firstName
