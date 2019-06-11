@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -33,10 +33,12 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { errorService } from './services/errorService';
 import { updateService } from './services/updateService';
 import { uploadFilesService } from './services/uploadFilesService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
+import { ErrorsHandler } from './services/errorsHandling';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -45,6 +47,7 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
 import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
 import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PlayerSearchCriteriaComponent,
     ClubSearchCriteriaComponent,
     LoadingIconComponent,
+    ErrorPageComponent,
     
   ],
   imports: [
@@ -88,6 +92,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService], },
       { path: 'club-how-to', component: ForClubsComponent },
       { path: 'player-how-to', component: ForPlayersComponent }, 
+      { path: 'error', component: ErrorPageComponent },
     ], ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
@@ -105,10 +110,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   providers: [
     ErrorStateMatcher,
     loginService,
+    errorService,
     uploadFilesService,
     updateService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ErrorsHandler},
     AuthGuardService
   ],
   bootstrap: [AppComponent]

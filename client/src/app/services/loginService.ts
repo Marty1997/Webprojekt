@@ -107,6 +107,7 @@ export class loginService {
     this.typeOfLogin = "";
     this.clubInSession = new Club();
     this.playerInSession = new Player();
+    this.router.navigate(['/']);
   }
 
   getToken() {

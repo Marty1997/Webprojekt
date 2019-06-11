@@ -15,6 +15,7 @@ export class FrontPageImageComponent implements OnInit {
   loginModal: BsModalRef | null;
   modalRefRecoverPassword: BsModalRef;
   wrongEmailOrPassword : boolean = false;
+  noConnection: boolean = false;
   recoverPasswordResult : string = "Email has been sent";
   clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
@@ -71,7 +72,12 @@ export class FrontPageImageComponent implements OnInit {
       error => {
         this.isLoading = false;
         if(error.error == "Failed to authenticate") {
+          this.noConnection = false;
           this.wrongEmailOrPassword = true;
+        }
+        else if(error.status == 0) {
+          this.wrongEmailOrPassword = false;
+          this.noConnection = true;
         }
       }
     )

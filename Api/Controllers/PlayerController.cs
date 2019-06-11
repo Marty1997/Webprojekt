@@ -46,7 +46,7 @@ namespace Api.Controllers
                 return Ok(_playerRepos.GetById(id));
             }
             else {
-                return StatusCode(404, "Resource not found");
+                return StatusCode(404);
             }
 
            

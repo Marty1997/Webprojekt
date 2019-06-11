@@ -31,6 +31,7 @@
       </button>
       <h1 >Login</h1>
       <div style="color:red; font-size:20px;" *ngIf="wrongEmailOrPassword">Wrong email or password</div>
+      <div style="color:red; font-size:17px;" *ngIf="noConnection">No connection to server <br> Try again later</div>
       <form name="form" (ngSubmit)="f.form.valid && loginUser(f)" #f="ngForm" novalidate>
         <div class="inner-addon left-addon">
           <i class="glyphicon glyphicon-envelope"></i>
