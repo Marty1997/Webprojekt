@@ -8,6 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/front-page/front-page-image/register-player/register-player.component';
 import { MatCheckbox } from '@angular/material';
 import { NationalTeam } from 'src/app/models/nationalTeam.model';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-update-player',
@@ -134,7 +135,8 @@ export class UpdatePlayerComponent implements OnInit {
     private loginService: loginService,
     private updateService: updateService,
     private uploadFilesService: uploadFilesService,
-    private deleteService: deleteService
+    private deleteService: deleteService,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -279,6 +281,17 @@ export class UpdatePlayerComponent implements OnInit {
     this.updateService.updateSportCV(this.buildSportCv()).subscribe(
       (succes: any) => {
           
+      },
+      error => {
+        
+      });
+  }
+
+  deletePlayer() {
+    this.deleteService.deletePlayer().subscribe(
+      (succes:any) => {      
+        this.loginService.logout();
+        this.router.navigate(['/']);
       },
       error => {
         
