@@ -114,18 +114,18 @@ namespace Api.BusinessLogic {
                 }
                 if (request.SecondaryPosition != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement = " p.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " or s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.HandPreference != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement = " p.preferredhand = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " or p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.preferredhand = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.InjuryStatus != null) {

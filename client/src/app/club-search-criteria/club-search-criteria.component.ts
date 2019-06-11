@@ -21,12 +21,12 @@ export class ClubSearchCriteriaComponent implements OnInit {
   leagueList: string[] = ["All Leagues", "First League", "Second League", "Third League"];
   positionList: string[] = [
     "None",
-    "Left Wing",
-    "Left Back",
+    "Left wing",
+    "Left back",
     "Playmaker",
     "Pivot",
-    "Right Back",
-    "Right Wing",
+    "Right back",
+    "Right wing",
     "Defence"
   ];
   seasonList: string[] = ["None", "Current year", "Next year"];
