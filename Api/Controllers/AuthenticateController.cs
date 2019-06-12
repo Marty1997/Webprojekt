@@ -20,10 +20,10 @@ namespace Api.Controllers {
     [ApiController]
     public class AuthenticateController : ControllerBase {
         private readonly Authentication authentication;
-        private readonly IRepository<Player> playerRepos;
+        private readonly IPlayerRepository<Player> playerRepos;
         private readonly IClubRepository<Club> clubRepos;
 
-        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos, IClubRepository<Club> clubRepos) {
+        public AuthenticateController(Authentication authentication, IPlayerRepository<Player> playerRepos, IClubRepository<Club> clubRepos) {
             this.authentication = authentication;
             this.playerRepos = playerRepos;
             this.clubRepos = clubRepos;

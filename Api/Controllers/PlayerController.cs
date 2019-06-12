@@ -20,11 +20,11 @@ namespace Api.Controllers
     public class PlayerController : ControllerBase {
 
         private readonly PlayerLogic _playerLogic;
-        private readonly IRepository<Player> _playerRepos;
+        private readonly IPlayerRepository<Player> _playerRepos;
         private readonly Authentication authentication;
         private readonly UserCredentialsLogic _userCredentialsLogic;
 
-        public PlayerController(PlayerLogic playerLogic, IRepository<Player> playerRepos, Authentication authentication, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerController(PlayerLogic playerLogic, IPlayerRepository<Player> playerRepos, Authentication authentication, UserCredentialsLogic userCredentialsLogic) {
             _playerLogic = playerLogic;
             _playerRepos = playerRepos;
             this.authentication = authentication;

@@ -11,12 +11,12 @@ namespace Api.BusinessLogic {
 
     public class ClubLogic {
         private readonly IClubRepository<Club> _clubRepos;
-        private readonly IRepository<Player> _playerRepos;
+        private readonly IPlayerRepository<Player> _playerRepos;
         private readonly Account _account;
         private readonly UserCredentialsLogic _userCredentialsLogic;
         private readonly Authentication _authentication;
 
-        public ClubLogic(Account account, IClubRepository<Club> clubRepos, IRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic, Authentication authentication) {
+        public ClubLogic(Account account, IClubRepository<Club> clubRepos, IPlayerRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic, Authentication authentication) {
             _clubRepos = clubRepos;
             _playerRepos = playerRepos;
             _account = account; ;
