@@ -114,7 +114,8 @@ export class UpdatePlayerComponent implements OnInit {
     "name",
     "appearances",
     "statistics",
-    "position"
+    "position",
+    "delete"
   ];
   nationalTeamData: NationalTeam[] = [];
   nationalTeamSource = this.nationalTeamData;
@@ -597,6 +598,30 @@ export class UpdatePlayerComponent implements OnInit {
       });
   }
 
+  deletePlayer() {
+    const message = `Are you sure you want to delete your profile?`;
+
+    const dialogData = new ConfirmDialogModel("Confirmation", message);
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      minWidth: "400px",
+      maxWidth: "401px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res) {
+        this.deleteService.deletePlayer().subscribe(
+          (succes:any) => {      
+            this.loginService.logout();
+            this.router.navigate(['/']);
+          },
+          error => {
+            
+          });
+      }
+    });
+  }
   deleteNationalTeam(nt: NationalTeam) {
     this.nationalTeamSource.forEach( (nt, index) => {
       if(nt === nt) {

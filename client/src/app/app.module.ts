@@ -111,6 +111,9 @@ import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/co
     MaterialFileInputModule,
     NgxSpinnerModule
   ],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
   providers: [
     ErrorStateMatcher,
     loginService,

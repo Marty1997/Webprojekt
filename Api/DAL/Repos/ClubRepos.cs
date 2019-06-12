@@ -288,6 +288,7 @@ namespace Api.DAL.Repos {
                     c.CurrentSquadPlayersList = multi.Read<SquadPlayer>().ToList();
                     c.NextYearSquadPlayersList = multi.Read<SquadPlayer>().ToList();
                     c.JobPositionsList = multi.Read<JobPosition>().ToList();
+                    c.FacilityImagesList = multi.Read<string>().ToList();
                 }
             }
             return c;
@@ -309,6 +310,7 @@ namespace Api.DAL.Repos {
                     c.CurrentSquadPlayersList = multi.Read<SquadPlayer>().ToList();
                     c.NextYearSquadPlayersList = multi.Read<SquadPlayer>().ToList();
                     c.JobPositionsList = multi.Read<JobPosition>().ToList();
+                    c.FacilityImagesList = multi.Read<string>().ToList();
                 }
             }
             return c;
@@ -1303,7 +1305,8 @@ namespace Api.DAL.Repos {
                 "SELECT th.* FROM traininghours th WHERE th.club_id = " + id +
                 "SELECT csp.* FROM squadplayers csp WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
                 "SELECT nsp.* FROM squadplayers nsp WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
-                "SELECT jp.* FROM jobposition jp WHERE jp.club_id = " + id;
+                "SELECT jp.* FROM jobposition jp WHERE jp.club_id = " + id +
+                "SELECT fi.* FROM facilityimage fi WHERE fi.club_id = " + id;
         }
 
         // Helping method to get club with all lists by club email
@@ -1323,7 +1326,10 @@ namespace Api.DAL.Repos {
                 "SELECT nsp.*, c.id FROM club c INNER JOIN squadplayers nsp ON nsp.club_id = c.id " +
                 "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
                 "SELECT jp.*, c.id FROM club c INNER JOIN jobposition jp " +
-                "ON jp.club_id = c.id WHERE c.email = '" + email + "';";
+                "ON jp.club_id = c.id WHERE c.email = '" + email +
+                "SELECT fi.*, c.id FROM club c INNER JOIN facilityimage fi " +
+                "ON fi.club_id = c.id WHERE c.email = '" + email +
+                "';";
         }
 
         // Helping method used to build club values
