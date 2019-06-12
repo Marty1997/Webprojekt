@@ -9,8 +9,9 @@ import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox } from "@angular/material";
+import { MatCheckbox, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
+import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 
 /* pls virk */
 /* pls virk #2 */
@@ -288,7 +289,8 @@ export class UpdateClubComponent implements OnInit {
     private updateService: updateService,
     private fileService: FileService,
     private deleteService: deleteService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -602,14 +604,28 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClub() {
-    this.deleteService.deleteClub().subscribe(
-      (succes:any) => {      
-        this.loginService.logout();
-        this.router.navigate(['/']);
-      },
-      error => {
-        
-      });
+    const message = `Are you sure you want to delete your profile?`;
+
+    const dialogData = new ConfirmDialogModel("Confirmation", message);
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      minWidth: "400px",
+      maxWidth: "401px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res) {
+        this.deleteService.deleteClub().subscribe(
+          (succes:any) => {      
+            this.loginService.logout();
+            this.router.navigate(['/']);
+          },
+          error => {
+            
+          }); 
+      }
+    });
   }
 
   deleteClubProfile() {

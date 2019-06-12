@@ -284,17 +284,6 @@ export class UpdatePlayerComponent implements OnInit {
       });
   }
 
-  deletePlayer() {
-    this.deleteService.deletePlayer().subscribe(
-      (succes:any) => {      
-        this.loginService.logout();
-        this.router.navigate(['/']);
-      },
-      error => {
-        
-      });
-  }
-
   deleteFile(filename: string) {
     // Delete former image from filesystem 
     this.fileService.deleteFile(filename).subscribe(
@@ -593,13 +582,14 @@ export class UpdatePlayerComponent implements OnInit {
     });
   }
 
-  deletePlay() {
-    const message = `Are you sure you want to delete?`;
+  deletePlayer() {
+    const message = `Are you sure you want to delete your profile?`;
 
     const dialogData = new ConfirmDialogModel("Confirmation", message);
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      maxWidth: "400px",
+      minWidth: "400px",
+      maxWidth: "401px",
       data: dialogData
     });
 
