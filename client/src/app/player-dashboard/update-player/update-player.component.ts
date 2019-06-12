@@ -5,12 +5,11 @@ import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
 import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox, MatDialog } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
-import { ConfirmDialogModel } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: "app-update-player",
@@ -583,7 +582,7 @@ export class UpdatePlayerComponent implements OnInit {
 
     const dialogData = new ConfirmDialogModel("Confirmation", message);
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       maxWidth: "400px",
       data: dialogData
     });
