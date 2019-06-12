@@ -242,6 +242,25 @@ namespace Api.Controllers {
             return StatusCode(400, "Failed");
         }
 
+
+        // api/Club/DeleteFacilityImage
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteFacilityImage([FromBody] ImagePathRequest data) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                if (_clubLogic.DeleteFacilityImage(data.ImagePath, id)) {
+                    return Ok();
+                }
+
+            }
+            return StatusCode(400, "Failed");
+        }
+
         // api/Club/DeleteClubValuesAndPreferences
         [HttpPost]
         [Route("[action]")]

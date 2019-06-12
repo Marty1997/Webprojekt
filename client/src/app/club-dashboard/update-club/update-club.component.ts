@@ -9,9 +9,8 @@ import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog } from "@angular/material";
+import { MatCheckbox } from "@angular/material";
 import { Router } from "@angular/router";
-import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 
 /* pls virk */
 /* pls virk #2 */
@@ -289,8 +288,7 @@ export class UpdateClubComponent implements OnInit {
     private updateService: updateService,
     private fileService: FileService,
     private deleteService: deleteService,
-    private router: Router,
-    public dialog: MatDialog
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -432,8 +430,10 @@ export class UpdateClubComponent implements OnInit {
       this.fileService.uploadFile(files).subscribe(res => {
         this.fileService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {
+          //Delete former image file from filesystem
+          this.deleteFile(this.clubBinding.imagePath);
           this.clubBinding.imagePath = this.fileService.imagePath;
-          // Update club profile
+          // Update new club profile
           this.updateClubProfile(); 
         }
         if (type === "facility") {
@@ -451,6 +451,17 @@ export class UpdateClubComponent implements OnInit {
       });;
     }
   };
+
+  deleteFile(filename: string) {
+    // Delete former image from filesystem 
+    this.fileService.deleteFile(filename).subscribe(
+      (succes: any) => {
+  
+      },
+      error => {
+
+      });
+  }
 
   updateClubInfo() {
     this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
@@ -472,6 +483,37 @@ export class UpdateClubComponent implements OnInit {
       error => {
 
       });
+  }
+
+  deleteClubFacilityImage(imagePath: string) {
+    // Delete facility image from filesystem 
+    this.fileService.deleteFile(imagePath).subscribe(
+      (succes: any) => {
+        //Delete facility image from DB
+        this.deleteFacilityImage(imagePath);
+      },
+      error => {
+
+      });
+  }
+
+  deleteFacilityImage(imagePath: string) {
+    this.deleteService.deleteFacilityImage(imagePath).subscribe(
+      (succes: any) => {
+        this.deleteFacilityImageFromList(imagePath);
+      },
+      error => {
+
+      });
+  }
+
+  deleteFacilityImageFromList(imagePath: string) {
+    this.clubBinding.facilityImagesList.forEach( (elm, index) => {
+      if(elm === imagePath ) {
+        this.clubBinding.facilityImagesList.splice(index, 1);
+      } 
+      this.clubBinding.facilityImagesList = [...this.clubBinding.facilityImagesList];
+    });
   }
 
   updateClubFitnessTrainingSchedule() {
@@ -550,7 +592,7 @@ export class UpdateClubComponent implements OnInit {
       },
       error => {
         
-      })
+      });
   }
   
   deleteClubRegularTrainingSchedule() {
@@ -560,7 +602,7 @@ export class UpdateClubComponent implements OnInit {
       },
       error => {
         
-      });; 
+      });
   }
   
   deleteClubFitnessTrainingSchedule() {
@@ -570,7 +612,7 @@ export class UpdateClubComponent implements OnInit {
       },
       error => {
         
-      });; ; 
+      }); 
   }
 
   deleteClubCurrentSquadPlayer(squadPlayer: SquadPlayer) {
@@ -604,28 +646,14 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClub() {
-    const message = `Are you sure you want to delete your profile?`;
-
-    const dialogData = new ConfirmDialogModel("Confirmation", message);
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      minWidth: "400px",
-      maxWidth: "401px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe((res) => {
-      if(res) {
-        this.deleteService.deleteClub().subscribe(
-          (succes:any) => {      
-            this.loginService.logout();
-            this.router.navigate(['/']);
-          },
-          error => {
-            
-          }); 
-      }
-    });
+    this.deleteService.deleteClub().subscribe(
+      (succes:any) => {      
+        this.loginService.logout();
+        this.router.navigate(['/']);
+      },
+      error => {
+        
+      });
   }
 
   deleteClubProfile() {

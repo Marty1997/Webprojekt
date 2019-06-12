@@ -32,5 +32,6 @@ namespace Api.DAL {
         bool DeleteTrainingHours(int trainingHours_ID, int club_ID);
         bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID);
         bool DeleteValuesAndPreferences(int club_ID);
+        bool DeleteFacilityImage(string imagePath, int club_ID);
     }
 }

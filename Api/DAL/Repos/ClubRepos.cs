@@ -1318,7 +1318,7 @@ namespace Api.DAL.Repos {
                 "ON cp.club_id = c.id INNER JOIN preference p ON p.id = cp.preference_id " +
                 "WHERE c.email = '" + email + "'; " +
                 "SELECT v.name, c.id FROM club c INNER JOIN clubvalue cv ON cv.club_id = c.id " +
-                "INNER JOIN value v ON v.id = cv.value_id WHERE c.email = '" + email + "';" +
+                "INNER JOIN value v ON v.id = cv.value_id WHERE c.email = '" + email + "'; " +
                 "SELECT th.*, c.id FROM club c INNER JOIN traininghours th " +
                 "ON th.club_id = c.id WHERE c.email = '" + email + "'; " +
                 "SELECT csp.*, c.id FROM club c INNER JOIN squadplayers csp ON csp.club_id = c.id " +
@@ -1326,10 +1326,9 @@ namespace Api.DAL.Repos {
                 "SELECT nsp.*, c.id FROM club c INNER JOIN squadplayers nsp ON nsp.club_id = c.id " +
                 "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
                 "SELECT jp.*, c.id FROM club c INNER JOIN jobposition jp " +
-                "ON jp.club_id = c.id WHERE c.email = '" + email +
+                "ON jp.club_id = c.id WHERE c.email = '" + email + "'; " +
                 "SELECT fi.*, c.id FROM club c INNER JOIN facilityimage fi " +
-                "ON fi.club_id = c.id WHERE c.email = '" + email +
-                "';";
+                "ON fi.club_id = c.id WHERE c.email = '" + email + "'; ";
         }
 
         // Helping method used to build club values
@@ -1358,6 +1357,41 @@ namespace Api.DAL.Repos {
 
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
             throw new NotImplementedException();
+        }
+
+        public bool DeleteFacilityImage(string imagePath, int club_ID) {
+            bool res = false;
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Delete squadPlayer
+                        string deleteSquadPlayerSQL = @"Delete From FacilityImage Where ImagePath = @ImagePath AND club_ID = @Club_ID";
+
+                        rowCount = conn.Execute(deleteSquadPlayerSQL, new {
+                            ImagePath = imagePath,
+                            club_ID
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
         }
     }
 }

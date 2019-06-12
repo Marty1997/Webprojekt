@@ -31,6 +31,14 @@ export class deleteService {
     return this.http.post(url, data);
   }
 
+  deleteFacilityImage(imagePath: string) {
+    let url = "https://localhost:44310/api/Club/DeleteFacilityImage";
+    const data = {
+      imagePath: imagePath,
+    }
+    return this.http.post(url, data);
+  }
+
   deleteNationalTeam(id: number) {
     let url = "https://localhost:44310/api/Player/DeleteNationalTeam";
     const data = {

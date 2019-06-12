@@ -65,6 +65,10 @@ namespace Api.BusinessLogic {
             return _clubRepos.DeleteJobPosition(jobPosition_ID, club_ID);
         }
 
+        public bool DeleteFacilityImage(string imagePath, int club_ID) {
+            return _clubRepos.DeleteFacilityImage(imagePath, club_ID);
+        }
+
         public bool DeleteTrainingHours(int trainingHours_ID, int club_ID) {
             return _clubRepos.DeleteTrainingHours(trainingHours_ID, club_ID);
         }

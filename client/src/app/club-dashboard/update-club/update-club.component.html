@@ -705,15 +705,21 @@
           <div *ngIf="clubBinding.facilityImagesList != null">
               <carousel [interval]="myInterval">
                   <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-                    <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
+                      <div>
+                        <!-- Delete button -->
+                        <input type="button" class="btn btn-success" value="Delete facility image" (click)="deleteClubFacilityImage(slide)">
+                      </div>
+                      <img [src]="slide" alt="image slide" style="display: block; width: 100%;">
                   </slide>
                 </carousel>
+                
           </div>
 
           <div style="text-align: center">
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
             <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload facility image</button>
           </div>
+          
         </div>       
       </div>
 
