@@ -37,6 +37,7 @@ export class PlayerDashboardComponent implements OnInit {
       }
  
       this.playerBinding = this.loginService.playerInSession;
+      console.log(this.playerBinding);
    
     } else if (this.loginService.typeOfLogin == "Club") {
       //find spilleren som klubben vil se og put i playerBinding variablen

@@ -279,10 +279,13 @@ export class UpdatePlayerComponent implements OnInit {
         
       },
       error => {
+      });
+  }
 
   setDropdownValues() {
-    this.countryControl.setValue(this.playerBinding.country);
+    this.countryControl.setValue(this.playerBinding.country); 
   }
+
 
   updateSportCV() {
     this.updateService.updateSportCV(this.buildSportCv()).subscribe(
