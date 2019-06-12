@@ -194,6 +194,8 @@ export class UpdateClubComponent implements OnInit {
     Validators.minLength(6)
   ]);
 
+  @ViewChild("isLooking") private isLooking: MatCheckbox;
+
   name = new FormControl("", Validators.required);
   league = new FormControl("", Validators.required);
   streetAddress = new FormControl("", Validators.required);
@@ -293,6 +295,11 @@ export class UpdateClubComponent implements OnInit {
     this.clubBinding = this.loginService.clubInSession;
     this.clubLeague = this.clubBinding.league;
     this.clubCountry = this.clubBinding.country;
+    if(this.clubBinding.isAvailable) {
+      this.isLooking.checked = true;
+    } else {
+      this.isLooking.checked = false;
+    }
     this.clubBinding.trainingHoursList.forEach(element => {
       if (element.name == "Handball") {
         this.buildRegularHours(element);
@@ -773,6 +780,7 @@ export class UpdateClubComponent implements OnInit {
     var club = new Club();
     club.email = this.clubBinding.email;
     club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
+    club.isAvailable = this.isLooking.checked;
     club.newPassword = this.password.value == "" ? null : this.password.value;
     club.name = this.name.value == "" ? this.clubBinding.name : this.name.value;
     club.league = this.league.value == "" ? this.clubBinding.league : this.league.value;

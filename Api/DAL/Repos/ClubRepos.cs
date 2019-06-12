@@ -528,7 +528,7 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                 Club result = null;
                 conn.Query<Club, int, string, string, string, Club>(sql,
-                    (clubinside, zipcode, city, preference, value) => {
+                    (clubinside, zipcode, city, value, preference) => {
                         Club c = null;
                         if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
                             c = BuildClub(clubinside, zipcode, city);
@@ -548,7 +548,7 @@ namespace Api.DAL.Repos {
                         }
 
                         return result;
-                    }, splitOn: "zipcode, city, preference, value");
+                    }, splitOn: "zipcode, city, value, preference");
             }
 
             return clubs;
