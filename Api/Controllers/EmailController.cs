@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.Configuration;
 using Api.DAL;
 using Api.DAL.Entities;
 using Api.BusinessLogic;
 using Microsoft.AspNetCore.Identity;
+using MailKit.Net.Smtp;
 
 namespace Api.Controllers {
     [Authorize]
@@ -37,50 +37,36 @@ namespace Api.Controllers {
             this.userManager = userManager;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult ContactAdviser([FromBody] ContactAdviserRequest body) {
-            string emailFromDB = "";
+            string emailFromDB = "klmasd";
             //Gets the user email fi token ID
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            //var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            //string role = authentication.GetRoleFromToken(decodedToken);
+            //int id = authentication.GetIDFromToken(decodedToken);
 
             //Find user with ID and get the email
-            if (role == "Club") {
-                emailFromDB = _clubRepos.GetEmailByID(id);
-            }
-            else if(role == "Player") {
-                emailFromDB = _playerRepos.GetEmailByID(id);
-            }
-            else {
-                return StatusCode(400, "Failed to send email");
-            }
-            if(emailFromDB == null) {
-                return StatusCode(400, "Failed to send email");
-            }
-
-            //Gets email and password from config
-            var email = confirguration.GetSection("AppSettings").GetSection("Email").Value;
-            var password = confirguration.GetSection("AppSettings").GetSection("EmailPassword").Value;
-
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(email));
-            message.To.Add(new MailboxAddress("albertsen96@gmail.com"));
-            message.Subject = "Contact Adviser question";
-            message.Body = new TextPart("html") {
-                Text = "From " + emailFromDB + "<br>" +
-                "Message " + body.Message
-            };
-
-            // Commented out, so we dont recive mails all the time. The method has been tested to work.
-
-            //using (var client = new SmtpClient()) {
-            //    client.Connect("smtp.gmail.com", 587);
-            //    client.Authenticate(email, password);
-            //    client.Send(message);
-            //    client.Disconnect(false);
+            //if (role == "Club") {
+            //    emailFromDB = _clubRepos.GetEmailByID(id);
             //}
-            return Ok();
+            //else if(role == "Player") {
+            //    emailFromDB = _playerRepos.GetEmailByID(id);
+            //}
+            //else {
+            //    return StatusCode(400, "Failed to send email");
+            //}
+            //if(emailFromDB == null) {
+            //    return StatusCode(400, "Failed to send email");
+            //}
+
+            bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
+            if(res) {
+               return Ok();
+            }
+             return StatusCode(400, "Failed to send");
+
+
         }
 
 
@@ -99,8 +85,62 @@ namespace Api.Controllers {
             catch (Exception) {
                 return StatusCode(500);
             }
-
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult> SendResetPassword(EmailRequest request) {
+            try {
+                var result = await userManager.FindByNameAsync(request.Email);
+
+                if (result == null) {
+                    return StatusCode(400, "Can't be found");
+                }
+
+                var code = await userManager.GeneratePasswordResetTokenAsync(result);
+                var callbackUrl = new Uri("http://localhost:4200/");
+
+                string message = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+
+                bool res = SetupEmail(request.Email, "Reset Password", message);
+                if (res) {
+                    return Ok();
+                }
+                return StatusCode(400, "Failed to send");
+            }
+            catch (Exception) {
+                return null;
+            }
+        }
+
+        private bool SetupEmail(string receivingEmail, string subject, string body) {
+            //Gets email and password from config
+            try {
+                var email = confirguration.GetSection("AppSettings").GetSection("Email").Value;
+                var password = confirguration.GetSection("AppSettings").GetSection("EmailPassword").Value;
+
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(email));
+                message.To.Add(new MailboxAddress(receivingEmail));
+                message.Subject = subject;
+                message.Body = new TextPart("html") {
+                    Text = body
+                };
+
+                using (var client = new SmtpClient()) {
+                    client.Connect("smtp.gmail.com", 587);
+                    client.Authenticate(email, password);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                return true;
+            }
+
+            catch (Exception) {
+                return false;
+            }
+
+        }
     }
 }
