@@ -468,7 +468,12 @@ export class UpdateClubComponent implements OnInit {
   updateClubInfo() {
     this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
       (succes: any) => {
-          
+          if(this.isLooking.checked == true) {
+            this.clubBinding.isAvailable = true;
+          }
+          else {
+            this.clubBinding.isAvailable = false;
+          }
       },
       error => {
         if(error.error == "Invalid password") {
@@ -1191,7 +1196,6 @@ export class UpdateClubComponent implements OnInit {
   updateOpenPositionList() {
     this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
     this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+    this.clubBinding.jobPositionsList = this.openPositionSource; //Overwrite clubBinding jobPosition list
   }
-
-  
 }
