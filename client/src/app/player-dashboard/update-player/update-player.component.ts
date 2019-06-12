@@ -114,7 +114,8 @@ export class UpdatePlayerComponent implements OnInit {
     "name",
     "appearances",
     "statistics",
-    "position"
+    "position",
+    "delete"
   ];
   nationalTeamData: NationalTeam[] = [];
   nationalTeamSource = this.nationalTeamData;
@@ -592,7 +593,29 @@ export class UpdatePlayerComponent implements OnInit {
     });
   }
 
-  delete
+  deletePlay() {
+    const message = `Are you sure you want to delete?`;
+
+    const dialogData = new ConfirmDialogModel("Confirmation", message);
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if(res) {
+        this.deleteService.deletePlayer().subscribe(
+          (succes:any) => {      
+            this.loginService.logout();
+            this.router.navigate(['/']);
+          },
+          error => {
+            
+          });
+      }
+    });
+  }
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY
   buildDate(date: Date) {
