@@ -228,7 +228,9 @@ export class UpdatePlayerComponent implements OnInit {
 
   updatePlayerInfo() {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
-      (succes: any) => {},
+      (succes: any) => {
+        
+      },
       error => {
         if (error.error == "Invalid password") {
           // this.wrongPassword = true;
@@ -341,6 +343,7 @@ export class UpdatePlayerComponent implements OnInit {
       // add national team to the list
 
 
+
       // reset input fields
       this.nationalTeamNameCtrl.setValue('');
       this.nationalTeamAppearancesCtrl.setValue('');
@@ -349,21 +352,28 @@ export class UpdatePlayerComponent implements OnInit {
     }
   }
 
-  updateNationalTeamList(nt: NationalTeam) {
-    this.nationalTeamSource.push(this.buildNationalTeam(nt.id));
+  updateNationalTeamList() {
+    this.nationalTeamSource.push(this.buildNationalTeam());
     this.nationalTeamSource = [...this.nationalTeamSource];
   }
 
-  buildNationalTeam(id: number) {
+  buildNationalTeam() {
     let nt = new NationalTeam();
-
-    nt.id = id;
     nt.name = this.nationalTeamNameCtrl.value;
     nt.appearances = this.nationalTeamAppearancesCtrl.value;
     nt.position = this.nationalTeamPositionCtrl.value;
     nt.statistic = this.nationalTeamStatisticsCtrl.value;
+    return nt;
+  }
 
-    return this.nationalTeam;
+  addPlayerNationalTeam() {
+    this.updateService.addPlayerNationalTeam(this.buildNationalTeam()).subscribe(
+      (succes:any) => {      
+        this.updateNationalTeamList();
+      },
+      error => {
+        
+      })
   }
 
   checkStrengthBoxes(strengths: string[]) {
@@ -577,22 +587,24 @@ export class UpdatePlayerComponent implements OnInit {
     return player;
   }
 
-  deleteNationalTeam(nt: NationalTeam): void {
-    const message = `Are you sure you want to delete?`;
-
-    const dialogData = new ConfirmDialogModel("Confirmation", message);
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      // some call to db
-    });
+  deletePlayerNationalTeam(nt: NationalTeam): void {
+    this.deleteService.deleteNationalTeam(nt.id).subscribe(
+      (succes:any) => {      
+        this.deleteNationalTeam(nt);
+      },
+      error => {
+        
+      });
   }
 
-  delete
+  deleteNationalTeam(nt: NationalTeam) {
+    this.nationalTeamSource.forEach( (nt, index) => {
+      if(nt === nt) {
+        this.nationalTeamSource.splice(index, 1);
+      }
+    })
+    this.nationalTeamSource = [...this.nationalTeamSource]; // refresh the dataSource
+  }
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY
   buildDate(date: Date) {

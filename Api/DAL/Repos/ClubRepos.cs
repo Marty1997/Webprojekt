@@ -1263,7 +1263,6 @@ namespace Api.DAL.Repos {
             return res;
         }
 
-        
         //Helping method to build club traininghours
         private Club GetClubTraningHourList(Club club, IDbConnection conn) {
             club.TrainingHoursList = conn.Query<TrainingHours>("select * from TrainingHours where club_ID = @id", new { id = club.Id }).ToList();
@@ -1352,38 +1351,6 @@ namespace Api.DAL.Repos {
         }
 
         public IEnumerable<Club> GetBySearchCriteria(string sqlStatement) {
-            throw new NotImplementedException();
-        }
-
-        public Club Update(Club entity) {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteStrengthsAndWeaknesses(int player_ID) {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateAdditionalInfo(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateInfo(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateStrengthsAndWeaknesses(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateSportCV(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateProfile(Player entity) {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateVideo(Player entity) {
             throw new NotImplementedException();
         }
     }

@@ -12,11 +12,11 @@ namespace Api.BusinessLogic {
     public class PlayerLogic {
 
         private readonly Account _account;
-        private readonly IRepository<Player> _playerRepos;
+        private readonly IPlayerRepository<Player> _playerRepos;
         private readonly UserCredentialsLogic _userCredentialsLogic;
 
 
-        public PlayerLogic(Account account, IRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerLogic(Account account, IPlayerRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
             _playerRepos = playerRepos;
             _account = account;
             _userCredentialsLogic = userCredentialsLogic;
@@ -30,10 +30,8 @@ namespace Api.BusinessLogic {
             return _playerRepos.Create(entity);
         }
 
-
         public Player GetById(int id) {
             return _playerRepos.GetById(id);
-
         }
 
         public bool UpdateInfo(Player entity) {
@@ -62,6 +60,14 @@ namespace Api.BusinessLogic {
 
         public bool UpdateVideo(Player entity) {
             return _playerRepos.UpdateVideo(entity);
+        }
+
+        public bool AddNationalTeam(NationalTeam entity, int player_ID) {
+            return _playerRepos.AddNationalTeam(entity, player_ID);
+        }
+
+        public bool DeleteNationalTeam(int nationalTeam_ID, int player_ID) {
+            return _playerRepos.DeleteNationalTeam(nationalTeam_ID, player_ID);
         }
 
         public bool DeletePlayer(int player_ID) {

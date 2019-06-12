@@ -210,6 +210,40 @@ namespace Api.Controllers
             return StatusCode(400, "Failed");
         }
 
+        // api/Club/AddNationalTeam
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult AddNationalTeam([FromBody] NationalTeam entity) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Player") {
+                if (_playerLogic.AddNationalTeam(entity, id)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/DeleteNationalTeam
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteNationalTeam([FromBody] IDRequest data) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Player") {
+                if (_playerLogic.DeleteNationalTeam(data.ID, id)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
         // api/Player/SearchPlayers
         [HttpGet]
         [Route("[action]")]

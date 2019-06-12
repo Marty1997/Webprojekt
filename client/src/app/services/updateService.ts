@@ -5,6 +5,7 @@ import { Player } from "../models/player.model";
 import { TrainingHours } from '../models/trainingHours.model';
 import { SquadPlayer } from '../models/squadPlayer.model';
 import { JobPosition } from '../models/jobPosition';
+import { NationalTeam } from '../models/nationalTeam.model';
 
 @Injectable()
 export class updateService {
@@ -78,5 +79,10 @@ export class updateService {
   updatePlayerVideo(player: Player) {
     let url = "https://localhost:44310/api/Player/UpdateVideo";
     return this.http.post(url, player);
+  }
+
+  addPlayerNationalTeam(nationalTeam : NationalTeam) {
+    let url = "https://localhost:44310/api/Player/AddNationalTeam";
+    return this.http.post(url, nationalTeam);
   }
 }
