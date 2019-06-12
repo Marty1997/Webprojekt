@@ -468,7 +468,7 @@ namespace Api.DAL.Repos {
                     try {
 
                         //Update player
-                        string updatePlayerSQL = @"Update Club Set StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription
+                        string updatePlayerSQL = @"Update Player Set StrengthDescription = @StrengthDescription, WeaknessDescription = @WeaknessDescription
                                                                  Where ID = @ID";
 
 
@@ -490,11 +490,11 @@ namespace Api.DAL.Repos {
                                 if (weakness_ID != 0) {
 
                                     //Update PlayerWeakness
-                                    string playerWeaknessSQL = @"Insert into PlayerWeakness (Club_ID, Weakness_ID) 
-                                                                Values (@Club_ID, @Weakness_ID)";
+                                    string playerWeaknessSQL = @"Insert into PlayerWeakness (Player_ID, Weakness_ID) 
+                                                                Values (@Player_ID, @Weakness_ID)";
 
                                     _rowCountList.Add(conn.Execute(playerWeaknessSQL, new {
-                                        Club_ID = entity.Id,
+                                        Player_ID = entity.Id,
                                         Weakness_ID = weakness_ID
                                     }, transaction: tran));
                                 }
@@ -513,11 +513,11 @@ namespace Api.DAL.Repos {
                                 if (strength_ID != 0) {
 
                                     //Update PlayerStrength
-                                    string playerStrengthSQL = @"Insert into PlayerStrength (Club_ID, Strength_ID) 
-                                                                Values (@Club_ID, @Strength_ID)";
+                                    string playerStrengthSQL = @"Insert into PlayerStrength (Player_ID, Strength_ID) 
+                                                                Values (@Player_ID, @Strength_ID)";
 
                                     _rowCountList.Add(conn.Execute(playerStrengthSQL, new {
-                                        Club_ID = entity.Id,
+                                        Player_ID = entity.Id,
                                         Strength_ID = strength_ID
                                     }, transaction: tran));
                                 }

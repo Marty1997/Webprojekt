@@ -323,16 +323,18 @@ export class UpdatePlayerComponent implements OnInit {
 
       });
   }
+
   onAddNationalTeamToPlayer() {
+    console.log("before");
     if(
       this.nationalTeamNameCtrl.value !== "" &&
       this.nationalTeamAppearancesCtrl.value !== "" &&
       this.nationalTeamPositionCtrl.value !== "" &&
       Number(this.nationalTeamAppearancesCtrl.value)
     ) {
+      console.log("hit");
       // add national team to the list
-
-
+      this.addPlayerNationalTeam();
 
       // reset input fields
       this.nationalTeamNameCtrl.setValue('');
@@ -611,9 +613,9 @@ export class UpdatePlayerComponent implements OnInit {
       }
     });
   }
-  deleteNationalTeam(nt: NationalTeam) {
+  deleteNationalTeam(nationalTeam: NationalTeam) {
     this.nationalTeamSource.forEach( (nt, index) => {
-      if(nt === nt) {
+      if(nt === nationalTeam) {
         this.nationalTeamSource.splice(index, 1);
       }
     })

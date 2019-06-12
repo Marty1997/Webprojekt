@@ -679,7 +679,7 @@ namespace Api.DAL.Repos {
                             _rowCountList.Add(conn.Execute(userCredentialsSQL, new {
                                 entity.UserCredentials.HashPassword,
                                 entity.UserCredentials.Salt,
-                                entity.Id
+                                ID = entity.Id
                             }, transaction: tran));
                         }
 

@@ -330,12 +330,7 @@
       <mat-label>Add national team</mat-label>
       <mat-hint>There can only be one of each</mat-hint><br>
       <mat-form-field>
-        <mat-select placeholder="Team name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
-            <mat-option value="A">A</mat-option>
-            <mat-option value="B">B</mat-option>
-            <mat-option value="U21">U21</mat-option>
-            <mat-option value="U18">U18</mat-option>
-        </mat-select>
+        <input matInput placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Appearances" [formControl]="nationalTeamAppearancesCtrl" [errorStateMatcher]="validate">
@@ -345,14 +340,14 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Position" [formControl]="nationalTeamPositionCtrl" [errorStateMatcher]="validate">
-          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
         <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRow="3"
           matAutosizeMaxRow="3" [formControl]="nationalTeamStatisticsCtrl" [errorStateMatcher]="validate"></textarea>
       </mat-form-field>
-      <button class="btn btn-success">Add</button>
+      <button class="btn btn-success" (click)="onAddNationalTeamToPlayer()">Add</button><br><br><br>
 
       <!-- National Team Table -->
       <table mat-table [dataSource]="nationalTeamSource" class="mat-elevation-z8">
@@ -378,14 +373,14 @@
         <!-- Statistics Column -->
         <ng-container matColumnDef="statistics">
           <th mat-header-cell *matHeaderCellDef> Stats </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.statistic}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.statistics}} </td>
         </ng-container>
 
         <!-- Delete Column -->
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let nationalTeam">
-            <button mat-button color="warn" (click)="deleteNationalTeam(nationalTeam)">Delete</button>
+            <button mat-button color="warn" (click)="deletePlayerNationalTeam(nationalTeam)">Delete</button>
           </td>
         </ng-container>
 
