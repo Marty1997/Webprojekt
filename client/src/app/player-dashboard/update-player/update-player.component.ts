@@ -5,7 +5,6 @@ import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
 import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox, MatDialog } from "@angular/material";
