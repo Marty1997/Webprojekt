@@ -6,8 +6,9 @@ import { deleteService } from "src/app/services/deleteService";
 import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox } from "@angular/material";
+import { MatCheckbox, MatDialog } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
+import { ConfirmDialogModel } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: "app-update-player",
@@ -33,22 +34,6 @@ export class UpdatePlayerComponent implements OnInit {
     Validators.required,
     Validators.minLength(6)
   ]);
-  aTeamNumberControl = new FormControl(
-    "",
-    Validators.pattern(this.numbersOnlyRegex)
-  );
-  bTeamNumberControl = new FormControl(
-    "",
-    Validators.pattern(this.numbersOnlyRegex)
-  );
-  u21NumberControl = new FormControl(
-    "",
-    Validators.pattern(this.numbersOnlyRegex)
-  );
-  u18NumberControl = new FormControl(
-    "",
-    Validators.pattern(this.numbersOnlyRegex)
-  );
   emailControl = new FormControl("", [Validators.required, Validators.email]);
   passwordControl = new FormControl("", [
     Validators.required,
@@ -125,10 +110,10 @@ export class UpdatePlayerComponent implements OnInit {
 
   // National team table
   nationalTeamColumns: string[] = [
-    "Name",
-    "Appearances",
-    "Statistics",
-    "Position"
+    "name",
+    "appearances",
+    "statistics",
+    "position"
   ];
   nationalTeamData: NationalTeam[] = [];
   nationalTeamSource = this.nationalTeamData;
@@ -138,7 +123,8 @@ export class UpdatePlayerComponent implements OnInit {
     private loginService: loginService,
     private updateService: updateService,
     private uploadFilesService: uploadFilesService,
-    private deleteService: deleteService
+    private deleteService: deleteService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -522,6 +508,21 @@ export class UpdatePlayerComponent implements OnInit {
         ? this.playerBinding.formerClubs
         : this.formerClubsCtrl.value;
     return player;
+  }
+
+  confirmDialog(): void {
+    const message = `Are you sure you want to delete?`;
+
+    const dialogData = new ConfirmDialogModel("Confirmation", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      
+    });
   }
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY

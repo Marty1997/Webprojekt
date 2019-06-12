@@ -48,6 +48,7 @@ import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.com
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UpdateClubComponent } from './club-dashboard/update-club/update-club.component';
 import { UpdatePlayerComponent } from './player-dashboard/update-player/update-player.component';
+import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { UpdatePlayerComponent } from './player-dashboard/update-player/update-p
     LoadingIconComponent,
     UpdateClubComponent,
     UpdatePlayerComponent,
+    ConfirmationDialogComponent,
     
   ],
   imports: [
