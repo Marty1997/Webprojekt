@@ -577,7 +577,7 @@ export class UpdatePlayerComponent implements OnInit {
     return player;
   }
 
-  confirmDialog(): void {
+  deleteNationalTeam(nt: NationalTeam): void {
     const message = `Are you sure you want to delete?`;
 
     const dialogData = new ConfirmDialogModel("Confirmation", message);
@@ -588,9 +588,11 @@ export class UpdatePlayerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      
+      // some call to db
     });
   }
+
+  delete
 
   // Helping method used to return the date as a string in the format of DD/MM/YYYY
   buildDate(date: Date) {
