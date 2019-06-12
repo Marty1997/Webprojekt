@@ -17,6 +17,11 @@ export class deleteService {
     let url = "https://localhost:44310/api/Club/DeleteClub";
     return this.http.post(url, null);
   }
+
+  deletePlayer() {
+    let url = "https://localhost:44310/api/Player/DeletePlayer";
+    return this.http.post(url, null);
+  }
   
   deleteSquadPlayer(id: number) {
     let url = "https://localhost:44310/api/Club/DeleteSquadPlayer";

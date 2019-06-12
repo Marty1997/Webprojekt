@@ -3,6 +3,8 @@ import { Player } from "src/app/models/player.model";
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
+import { FileService} from "src/app/services/FileService";
+import { Router } from "@angular/router";
 import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
@@ -122,10 +124,11 @@ export class UpdatePlayerComponent implements OnInit {
   constructor(
     private loginService: loginService,
     private updateService: updateService,
-    private uploadFilesService: uploadFilesService,
+    private fileService: FileService,
     private deleteService: deleteService,
+      private router: Router,
     public dialog: MatDialog
-  ) {}
+    ) { }
 
   ngOnInit() {
     this.setStep(-1); // start with closed accordions
@@ -172,16 +175,23 @@ export class UpdatePlayerComponent implements OnInit {
   upload = (files, type: string) => {
     if (files.length === 0) {
       return;
-    } else {
-      this.uploadFilesService.uploadFile(files).subscribe(res => {
-        if (type === "profile") {
-          this.uploadFilesService.createPath(JSON.stringify(res.body), "image");
-          this.playerBinding.imagePath = this.uploadFilesService.imagePath;
+    }
+    else {
+      this.fileService.uploadFile(files).subscribe(res => {
+        if(type === 'profile') {
+          //Delete former image file from filesystem
+          this.deleteFile(this.playerBinding.imagePath);
+          this.fileService.createPath(JSON.stringify(res.body), 'image');
+          this.playerBinding.imagePath = this.fileService.imagePath;
+          //Update new image in DB
           this.updatePlayerProfile();
         }
-        if (type === "video") {
-          this.uploadFilesService.createPath(JSON.stringify(res.body), "video");
-          this.playerBinding.videoPath = this.uploadFilesService.videoPath;
+        if(type === 'video') {
+          //Delete former video file from filesystem
+          this.deleteFile(this.playerBinding.videoPath);
+          this.fileService.createPath(JSON.stringify(res.body), 'video');
+          this.playerBinding.videoPath = this.fileService.videoPath;
+          //Update new video in DB
           this.updatePlayerVideo();
         }
       });
@@ -192,11 +202,8 @@ export class UpdatePlayerComponent implements OnInit {
     this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
       (succes: any) => {},
       error => {
-        this.playerBinding.imagePath =
-          "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
-        // Delete image from filesystem
-      }
-    );
+
+      });
   }
 
   buildPlayerProfile() {
@@ -232,9 +239,13 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerAdditionalInfo() {
-    this.updateService
-      .updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo())
-      .subscribe((succes: any) => {}, error => {});
+    this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        
+      });
   }
 
   deletePlayerStrengthsAndWeaknesses() {
@@ -244,26 +255,83 @@ export class UpdatePlayerComponent implements OnInit {
         // Insert new player strengths and weaknesses
         this.updateStrengthsAndWeaknesses();
       },
-      error => {}
-    );
+      error => {
+        
+      });
   }
 
   updateStrengthsAndWeaknesses() {
-    this.updateService
-      .updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses())
-      .subscribe((succes: any) => {}, error => {});
-  }
-
-  updateSportCV() {
-    this.updateService
-      .updateSportCV(this.buildSportCv())
-      .subscribe((succes: any) => {}, error => {});
+    this.updateService.updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses()).subscribe(
+      (succes: any) => {
+        
+      },
+      error => {
+      });
   }
 
   setDropdownValues() {
-    this.countryControl.setValue(this.playerBinding.country);
+    this.countryControl.setValue(this.playerBinding.country); 
   }
 
+
+  updateSportCV() {
+    this.updateService.updateSportCV(this.buildSportCv()).subscribe(
+      (succes: any) => {
+          
+      },
+      error => {
+        
+      });
+  }
+
+  deletePlayer() {
+    this.deleteService.deletePlayer().subscribe(
+      (succes:any) => {      
+        this.loginService.logout();
+        this.router.navigate(['/']);
+      },
+      error => {
+        
+      });
+  }
+
+  deleteFile(filename: string) {
+    // Delete former image from filesystem 
+    this.fileService.deleteFile(filename).subscribe(
+      (succes: any) => {
+  
+      },
+      error => {
+
+      });
+  }
+
+  deletePlayerProfile() {
+    // Delete image from filesystem 
+    this.fileService.deleteFile(this.playerBinding.imagePath).subscribe(
+      (succes: any) => {
+        this.playerBinding.imagePath = "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
+        //Update player imagePath in DB to default image
+        this.updatePlayerProfile();
+      },
+      error => {
+
+      });
+  }
+  
+
+  deletePlayerVideo() {
+    // Delete video from filesystem 
+    this.fileService.deleteFile(this.playerBinding.videoPath).subscribe(
+      (succes: any) => {
+        this.playerBinding.videoPath = null;
+        //Update player videoPath in DB to null
+        this.updatePlayerVideo();
+      },
+      error => {
+
+      });
+  }
   onAddNationalTeamToPlayer() {
     if(
       this.nationalTeamNameCtrl.value !== "" &&

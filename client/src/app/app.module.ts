@@ -35,7 +35,7 @@ import { TrainingHoursToComponent } from './front-page/front-page-image/register
 import { loginService } from './services/loginService';
 import { updateService } from './services/updateService';
 import { deleteService } from './services/deleteService';
-import { uploadFilesService } from './services/uploadFilesService';
+import { FileService } from './services/FileService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
 import { TokenInterceptor } from './services/TokenInterceptor';
@@ -114,7 +114,7 @@ import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/co
   providers: [
     ErrorStateMatcher,
     loginService,
-    uploadFilesService,
+    FileService,
     updateService,
     deleteService,
     searchService,

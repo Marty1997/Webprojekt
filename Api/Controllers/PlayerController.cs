@@ -193,6 +193,23 @@ namespace Api.Controllers
             return StatusCode(400, "Failed");
         }
 
+        // api/Club/DeletePlayer
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeletePlayer() {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Player") {
+                if (_playerLogic.DeletePlayer(id)) {
+                    return Ok();
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
         // api/Player/SearchPlayers
         [HttpGet]
         [Route("[action]")]
