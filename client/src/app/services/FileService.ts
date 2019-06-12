@@ -4,7 +4,7 @@ import { HttpEventType, HttpClient, HttpResponseBase, HttpResponse } from '@angu
 
 @Injectable()
 
-export class uploadFilesService {
+export class FileService {
 
   imagePath: string = "";
   videoPath: string = "";
@@ -13,12 +13,20 @@ export class uploadFilesService {
 
   uploadFile = (files) => {
 
-    let url = "https://localhost:44310/api/Upload";
+    let url = "https://localhost:44310/api/File/UploadFile";
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
     return this.http.post(url, formData, {reportProgress: true, observe: 'response'})
+  }
+
+  deleteFile(filename :string) {
+    let url = "https://localhost:44310/api/File/DeleteFile";
+    const data = {
+      filename: filename,
+    }
+    return this.http.post(url, data);
   }
 
   createPath = (serverPath: string, type: string) => {

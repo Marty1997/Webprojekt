@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { updateService } from "src/app/services/updateService";
 import { ActivatedRoute } from "@angular/router";
 import { Player } from "../models/player.model";
@@ -25,7 +24,6 @@ export class PlayerDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private searchService: searchService,
     private loginService: loginService,
-    private uploadFilesService: uploadFilesService,
     private updateService: updateService,
     private router: Router
   ) {}

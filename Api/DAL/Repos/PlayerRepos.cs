@@ -160,10 +160,6 @@ namespace Api.DAL.Repos {
             return p;
         }
 
-        public int Delete(int id) {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Player> GetAll() {
             List<Player> playerList = new List<Player>();
             using (var conn = Connection()) {
@@ -326,7 +322,7 @@ namespace Api.DAL.Repos {
                         }
 
                         //Update player
-                        string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country
+                        string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country, isAvailable = @isAvailable
                                                         Where ID = @ID";
                         _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
                             entity.FirstName,
@@ -335,6 +331,7 @@ namespace Api.DAL.Repos {
                             entity.Month,
                             entity.Year,
                             entity.Country,
+                            entity.IsAvailable,
                             entity.Id
                         }, transaction: tran));
 
@@ -819,7 +816,42 @@ namespace Api.DAL.Repos {
             }
             return errorMessage;
         }
-        
+
+        public bool Delete(int id) {
+
+            bool res = false;
+
+            int rowCount = 0;
+
+            using (var conn = Connection()) {
+
+                using (IDbTransaction tran = conn.BeginTransaction()) {
+                    try {
+
+                        //Delete player
+                        string deletePlayerSQL = @"Delete From Player Where ID = @ID";
+
+                        rowCount = conn.Execute(deletePlayerSQL, new {
+                            ID = id
+                        }, transaction: tran);
+
+                        //Check for 0 in rowcount
+                        if (rowCount == 0) {
+                            tran.Rollback();
+                        }
+                        else {
+                            tran.Commit();
+                            res = true;
+                        }
+                    }
+                    catch (SqlException e) {
+                        tran.Rollback();
+                    }
+                }
+            }
+            return res;
+        }
+
 
         private Player BuildPlayer(Player playerinside) {
             return new Player {
@@ -856,9 +888,6 @@ namespace Api.DAL.Repos {
                 CurrentClubSecondaryPosition = playerinside.CurrentClubSecondaryPosition
             };
         }
-
-        bool IRepository<Player>.Delete(int id) {
-            throw new NotImplementedException();
-        }
+        
     }
 }

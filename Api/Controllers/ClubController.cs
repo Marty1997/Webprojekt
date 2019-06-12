@@ -276,7 +276,6 @@ namespace Api.Controllers {
             return StatusCode(400, "Failed");
         }
 
-
         // api/Club/GetById
         [HttpGet("{id}")]
         [Route("[action]")]

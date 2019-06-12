@@ -64,6 +64,10 @@ namespace Api.BusinessLogic {
             return _playerRepos.UpdateVideo(entity);
         }
 
+        public bool DeletePlayer(int player_ID) {
+            return _playerRepos.Delete(player_ID);
+        }
+
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";
             List<Player> playerList = new List<Player>();

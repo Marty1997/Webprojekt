@@ -3,7 +3,7 @@ import { Club } from "src/app/models/club.model";
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
+import { FileService } from "src/app/services/FileService";
 import { SquadPlayer } from "src/app/models/squadPlayer.model";
 import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
@@ -284,7 +284,7 @@ export class UpdateClubComponent implements OnInit {
   constructor(
     private loginService: loginService,
     private updateService: updateService,
-    private uploadFilesService: uploadFilesService,
+    private fileService: FileService,
     private deleteService: deleteService,
     private router: Router
   ) {}
@@ -420,10 +420,10 @@ export class UpdateClubComponent implements OnInit {
     if (files.length === 0) {
       return;
     } else {
-      this.uploadFilesService.uploadFile(files).subscribe(res => {
-        this.uploadFilesService.createPath(JSON.stringify(res.body), "image");
+      this.fileService.uploadFile(files).subscribe(res => {
+        this.fileService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {
-          this.clubBinding.imagePath = this.uploadFilesService.imagePath;
+          this.clubBinding.imagePath = this.fileService.imagePath;
           // Update club profile
           this.updateClubProfile(); 
         }
@@ -431,7 +431,7 @@ export class UpdateClubComponent implements OnInit {
           if (this.clubBinding.facilityImagesList != null) {
             this.facilityImages = this.clubBinding.facilityImagesList;
           }
-        this.facilityImages.push(this.uploadFilesService.imagePath);
+        this.facilityImages.push(this.fileService.imagePath);
         this.clubBinding.facilityImagesList = this.facilityImages;
         // Update club facility
         this.updateClubFacility();
@@ -497,11 +497,9 @@ export class UpdateClubComponent implements OnInit {
 
   updateClubProfile() {
     this.updateService.updateClubProfile(this.buildClubProfile()).subscribe(
-      (succes: any) => {
-        
+      (succes: any) => {      
       },
       error => {
-        this.clubBinding.imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
         // Delete image from filesystem
       });;
   }
@@ -607,6 +605,19 @@ export class UpdateClubComponent implements OnInit {
       });
   }
 
+  deleteClubProfile() {
+    // Delete image from filesystem 
+    this.fileService.deleteFile(this.clubBinding.imagePath).subscribe(
+      (succes: any) => {
+        this.clubBinding.imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
+        //Update club imagePath in DB to default image
+        this.updateClubProfile();
+      },
+      error => {
+
+      });
+  }
+
   deleteClubValuesAndPreferences() {
     // Delete club values and preferences
     this.deleteService.deleteValuesAndPreferences().subscribe(
@@ -648,6 +659,12 @@ export class UpdateClubComponent implements OnInit {
   buildClubProfile() {
     var club = new Club();
     club.imagePath = this.clubBinding.imagePath;
+    return club;
+  }
+
+  buildClubProfileWithDefault() {
+    var club = new Club();
+    club.imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
     return club;
   }
 

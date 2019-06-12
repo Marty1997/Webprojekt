@@ -432,6 +432,11 @@
             </div>
             <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
             <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
+
+            <div>
+                <!-- Delete button -->
+                <input type="button" class="btn btn-success" value="Delete profile picture" (click)="deletePlayerProfile()">
+            </div>
           </div>
         </div>
       <mat-action-row>
@@ -439,7 +444,6 @@
         <button mat-button color="primary" (click)="nextStep()">Next</button>
       </mat-action-row>
     </mat-expansion-panel>
-  </mat-accordion>
 
   <!-- Presentation video -->
   <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
@@ -451,11 +455,23 @@
           <div class="col-md-12" style="text-align: center;">
             
             <h3>Presentation</h3>
-            <div>
+
+            <div *ngIf="playerBinding.videoPath == null">
+                <h3 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
+                  No video was specified from the player</h3>
+            </div>
+        
+            <div *ngIf="playerBinding.videoPath != null">
                 <video src="{{playerBinding.videoPath}}" width="100%" controls></video>
             </div>
+
             <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
             <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
+            
+            <div>
+                <!-- Delete button -->
+                <input type="button" class="btn btn-success" value="Delete video" (click)="deletePlayerVideo()">
+            </div>
           </div>
         </div>
       <mat-action-row>
