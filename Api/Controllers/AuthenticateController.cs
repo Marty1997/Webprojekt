@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Api.BusinessLogic;
 using Api.DAL;
 using Api.DAL.Entities;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Microsoft.AspNetCore.Identity;
 
 namespace Api.Controllers {
     [Authorize]
@@ -22,23 +24,43 @@ namespace Api.Controllers {
         private readonly Authentication authentication;
         private readonly IRepository<Player> playerRepos;
         private readonly IClubRepository<Club> clubRepos;
+        private UserManager<User> userManager;
+        private SignInManager<User> signInManager;
 
-        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos, IClubRepository<Club> clubRepos) {
+        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos,
+            IClubRepository<Club> clubRepos, UserManager<User> userManager, SignInManager<User> signInManager) {
             this.authentication = authentication;
             this.playerRepos = playerRepos;
             this.clubRepos = clubRepos;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate([FromBody] LoginRequest loginRequest) {
-        
-            var user = authentication.Validate(loginRequest.Email, loginRequest.Password);
- 
-            if (user.ToString() == "Failed to authenticate") {
+        public async Task<Object> Authenticate([FromBody] LoginRequest loginRequest) {
+            try {
+                var userFromIdentity = await userManager.FindByNameAsync(loginRequest.Email);
+                if (userFromIdentity != null && await userManager.CheckPasswordAsync(userFromIdentity, loginRequest.Password)) {
+                    if (userFromIdentity.Role == "Player") {
+                        Player player = playerRepos.GetByEmail(loginRequest.Email);
+                        player.Token = authentication.GenerateToken(player.Id, "Player");
+                        return Ok(player);
+                    }
+                    else if (userFromIdentity.Role == "Club") {
+                        Club club = clubRepos.GetByEmail(loginRequest.Email);
+                        club.Token = authentication.GenerateToken(club.Id, "Club");
+                        return Ok(club);
+                    }
+                    return StatusCode(400, "Failed to authenticate");
+                }
+                else {
+                    return StatusCode(400, "Failed to authenticate");
+                }
+            }
+            catch (Exception) {
                 return StatusCode(400, "Failed to authenticate");
             }
-            return Ok(user);
         }
 
         [HttpGet]

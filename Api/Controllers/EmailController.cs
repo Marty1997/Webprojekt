@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Api.DAL;
 using Api.DAL.Entities;
 using Api.BusinessLogic;
+using Microsoft.AspNetCore.Identity;
 
 namespace Api.Controllers {
     [Authorize]
@@ -25,13 +26,15 @@ namespace Api.Controllers {
         private readonly IClubRepository<Club> _clubRepos;
         private readonly IRepository<Player> _playerRepos;
         private readonly Authentication authentication;
+        private UserManager<User> userManager;
 
         public EmailController(IConfiguration iConfig, IClubRepository<Club> clubRepos,
-                                    Authentication authentication, IRepository<Player> playerRepos) {
+                                    Authentication authentication, IRepository<Player> playerRepos, UserManager<User> userManager) {
             confirguration = iConfig;
             _clubRepos = clubRepos;
             _playerRepos = playerRepos;
             this.authentication = authentication;
+            this.userManager = userManager;
         }
 
         [HttpPost]
@@ -83,8 +86,20 @@ namespace Api.Controllers {
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult CheckIfEmailExists([FromQuery] string email) {
-             return Ok(_clubRepos.CheckIfEmailExists(email));
+        public async Task<Object> CheckIfEmailExists([FromQuery] string email) {
+            try {
+                var user = await userManager.FindByNameAsync(email);
+                if (user != null) {
+                    return Ok(true);
+                }
+                else {
+                    return Ok(false);
+                }
+            }
+            catch (Exception) {
+                return StatusCode(500);
+            }
+
         }
 
     }

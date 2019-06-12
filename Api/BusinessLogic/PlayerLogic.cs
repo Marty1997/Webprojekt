@@ -22,26 +22,7 @@ namespace Api.BusinessLogic {
             _userCredentialsLogic = userCredentialsLogic;
         }
 
-        public Player Create(Player entity) {
-
-            ////Check if email already exist
-            //Player p = _playerRepository.GetByEmail(entity.Email);
-
-            //if (p.Id > 0) {
-            //    p.ErrorMessage = "Email already exist";
-            //}
-            //else {
-            //    //Adding userCredentials to player
-            //    entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
-            //    //Creating player
-            //    p = _playerRepository.Create(entity);
-            //}
-
-            //return p;
-
-            //Adding userCredentials to player
-            entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
-            //Creating player
+        public bool Create(Player entity) {
             return _playerRepos.Create(entity);
         }
 

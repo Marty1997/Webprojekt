@@ -13,11 +13,9 @@ namespace Api.DAL.Repos {
 
         public Func<IDbConnection> Connection { get; set; }
 
-        public Club Create(Club entity) {
+        public bool Create(Club entity) {
 
             List<int> _rowCountList = new List<int>();
-
-            Club c = new Club();
 
             using (var conn = Connection()) {
 
@@ -27,11 +25,6 @@ namespace Api.DAL.Repos {
                         //Set imagePath to default image
                         string imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
 
-                        //Return usercredentials ID
-                        string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
-                                     SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
-
                         //Return zipcodeCity ID
                         string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -39,9 +32,9 @@ namespace Api.DAL.Repos {
 
                         //Insert Club
                         string clubSQL = @"INSERT INTO Club (Name, Email, League, Country, StreetAddress, StreetNumber, Trainer, AssistantTrainer, Physiotherapist, AssistantPhysiotherapist, Manager, ValueDescription, PreferenceDescription, 
-                                        ImagePath, IsAvailable, ZipcodeCity_ID, UserCredentials_ID) 
+                                        ImagePath, IsAvailable, ZipcodeCity_ID) 
                                         VALUES (@Name, @Email, @League, @Country, @StreetAddress, @StreetNumber, @Trainer, @AssistantTrainer, @Physiotherapist, @AssistantPhysiotherapist, @Manager, @ValueDescription, @PreferenceDescription, 
-                                        @ImagePath, @IsAvailable, @ZipcodeCity_ID, @UserCredentials_ID);
+                                        @ImagePath, @IsAvailable, @ZipcodeCity_ID);
                                             SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         var club_ID = conn.Query<int>(clubSQL, new {
@@ -61,7 +54,6 @@ namespace Api.DAL.Repos {
                             entity.IsAvailable,
                             ImagePath = imagePath,
                             ZipcodeCity_ID = zipcodeCity_ID,
-                            UserCredentials_ID = userCredentials_ID
                         }, transaction: tran).Single();
 
                         //Club values
@@ -220,22 +212,20 @@ namespace Api.DAL.Repos {
 
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
-                            c.ErrorMessage = "The club was not registred";
                             tran.Rollback();
+                            return false;
                         }
                         else {
-                            c.ErrorMessage = "";
                             tran.Commit();
+                            return true;
                         }
                     }
-                    catch (SqlException e) {
-
+                    catch (SqlException) {
                         tran.Rollback();
-                        c.ErrorMessage = ErrorHandling.Exception(e);
+                        return false;
                     }
                 }
             }
-            return c;
         }
         
 
@@ -622,28 +612,6 @@ namespace Api.DAL.Repos {
                 }, splitOn: "zipcode, city, value");
             }
             return clubs;
-        }
-
-        public UserCredentials getCredentialsByEmail(string email) {
-            throw new NotImplementedException();
-        }
-
-        public bool CheckIfEmailExists(string email) {
-            string clubEmail = "";
-            string playerEmail = "";
-            using (var connection = Connection()) {
-                using (var multi = connection.QueryMultiple("select email from player where email = '" + email + "' ; " +
-                    "select email from club where email = '" + email +"'", new { email })) {
-                    playerEmail = multi.Read<string>().FirstOrDefault();
-                    clubEmail = multi.Read<string>().FirstOrDefault();
-                }
-            }
-            if(clubEmail == null && playerEmail == null) {
-                return false;
-            }
-            else {
-                return true;
-            }
         }
 
         public Club Update(Club entity) {

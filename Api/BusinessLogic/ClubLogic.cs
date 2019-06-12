@@ -22,8 +22,7 @@ namespace Api.BusinessLogic {
             _userCredentialsLogic = userCredentialsLogic;
         }
         
-        public Club Create(Club entity) {
-            entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
+        public bool Create(Club entity) {
             return _clubRepos.Create(entity);
         }
 

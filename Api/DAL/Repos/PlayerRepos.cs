@@ -13,11 +13,9 @@ namespace Api.DAL.Repos {
         
         public Func<IDbConnection> Connection { get; set; }
 
-        public Player Create(Player entity) {
+        public bool Create(Player entity) {
 
             List<int> _rowCountList = new List<int>();
-
-            Player p = new Player();
 
             using (var conn = Connection()) {
                     
@@ -27,18 +25,12 @@ namespace Api.DAL.Repos {
                         //Set imagePath to default image
                         string imagePath = "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
                         
-
-                        //Insert userCredentials and return usercredentials ID
-                        string userCredentialsSQL = @"INSERT INTO UserCredentials (Hashpassword, Salt, LoginAttempts) VALUES (@Hashpassword, @Salt, @LoginAttempts); 
-                                     SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int userCredentials_ID = conn.Query<int>(userCredentialsSQL, new { Hashpassword = entity.UserCredentials.HashPassword, Salt = entity.UserCredentials.Salt, LoginAttempts = 0 }, transaction: tran).Single();
-
                         //Insert player and return player_ID
                         string playerSQL = @"INSERT INTO Player (Firstname, Lastname, Email, Day, Month, Year, Country, League, Height, Weight, Bodyfat, PreferredHand, CurrentClub, Accomplishments, Statistic, StrengthDescription, 
-                                            WeaknessDescription, VideoPath, ImagePath, FormerClubs, ContractStatus, ContractExpired, InjuryStatus, InjuryExpired, InjuryDescription, IsAvailable, PrimaryPosition, SecondaryPosition, CurrentClubPrimaryPosition, CurrentClubSecondaryPosition, UserCredentials_ID) 
+                                            WeaknessDescription, VideoPath, ImagePath, FormerClubs, ContractStatus, ContractExpired, InjuryStatus, InjuryExpired, InjuryDescription, IsAvailable, PrimaryPosition, SecondaryPosition, CurrentClubPrimaryPosition, CurrentClubSecondaryPosition) 
                                         VALUES (@Firstname, @Lastname, @Email, @Day, @Month, @Year, @Country, @League, @Height, @Weight, @Bodyfat, @PreferredHand, @CurrentClub, @Accomplishments, @Statistic,
                                             @StrengthDescription, @WeaknessDescription, @VideoPath, @ImagePath, @FormerClubs, @ContractStatus, @ContractExpired, @InjuryStatus, 
-                                            @InjuryExpired, @InjuryDescription, @IsAvailable, @PrimaryPosition, @SecondaryPosition, @CurrentClubPrimaryPosition, @CurrentClubSecondaryPosition, @UserCredentials_ID);
+                                            @InjuryExpired, @InjuryDescription, @IsAvailable, @PrimaryPosition, @SecondaryPosition, @CurrentClubPrimaryPosition, @CurrentClubSecondaryPosition);
                                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         int player_ID = conn.Query<int>(playerSQL, new {
@@ -72,7 +64,6 @@ namespace Api.DAL.Repos {
                             entity.SecondaryPosition,
                             entity.CurrentClubPrimaryPosition,
                             entity.CurrentClubSecondaryPosition,
-                            UserCredentials_ID = userCredentials_ID
                         }, transaction: tran).Single();
 
 
@@ -135,29 +126,26 @@ namespace Api.DAL.Repos {
                                     Position = nt.Position,
                                     Player_ID = player_ID,
                                 }, transaction: tran));
-
                             }
                         }
 
                         //Check for 0 in rowcount list
                         if (_rowCountList.Contains(0)) {
-                            p.ErrorMessage = "The player was not registred";
                             tran.Rollback();
+                            return false;
                         }
                         else {
-                            p.ErrorMessage = "";
                             tran.Commit();
+                            return true;
                         }
 
                     }
-                    catch (SqlException e) {
-
+                    catch (SqlException) {
                         tran.Rollback();
-                        p.ErrorMessage = ErrorHandling.Exception(e);
+                        return false;
                     }
                 }
             }
-            return p;
         }
 
         public int Delete(int id) {
@@ -269,38 +257,6 @@ namespace Api.DAL.Repos {
                     }, splitOn: "name");    
             }
             return playerList;
-        }
-
-        public UserCredentials getCredentialsByEmail(string email) {
-
-            int id = 0;
-            bool club = false;
-            using (var conn = Connection()) {
-                try {
-                    //Select a club, if we find one we set UC.club to true, if not, we try to find a player, if we find one, we set uc.club to false 
-                    id = conn.Query<int>("select userCredentials_id from Club where email=@email", new { email }).FirstOrDefault();
-                    if (id != 0) {
-                        club = true;
-                    }
-                    else if (id == 0) {
-                        id = conn.Query<int>("select userCredentials_id from Player where email=@email", new { email }).FirstOrDefault();
-                    }
-
-                    //Checks if we found a player or a club. If found, we select their credentials from DB
-                    if (id == 0) {
-                        return null;
-                    }
-                    else {
-                        UserCredentials UC = conn.Query<UserCredentials>("select * from Usercredentials where id=@id", new { id }).FirstOrDefault();
-                        UC.Club = club;
-                        return UC;
-                    }
-                }
-                catch (SqlException e) {
-                    return null;
-                }
-            }
-
         }
 
         public string GetEmailByID(int id) {
