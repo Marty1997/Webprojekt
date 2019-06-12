@@ -286,17 +286,6 @@ export class UpdatePlayerComponent implements OnInit {
       });
   }
 
-  deletePlayer() {
-    this.deleteService.deletePlayer().subscribe(
-      (succes:any) => {      
-        this.loginService.logout();
-        this.router.navigate(['/']);
-      },
-      error => {
-        
-      });
-  }
-
   deleteFile(filename: string) {
     // Delete former image from filesystem 
     this.fileService.deleteFile(filename).subscribe(
