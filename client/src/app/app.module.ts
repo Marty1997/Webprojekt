@@ -48,6 +48,7 @@ import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-
 import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     ClubSearchCriteriaComponent,
     LoadingIconComponent,
     ErrorPageComponent,
+    ResetPasswordComponent,
     
   ],
   imports: [
@@ -93,6 +95,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
       { path: 'club-how-to', component: ForClubsComponent },
       { path: 'player-how-to', component: ForPlayersComponent }, 
       { path: 'error', component: ErrorPageComponent },
+      { path: 'reset-password/:resetToken', component: ResetPasswordComponent },
+
     ], ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),

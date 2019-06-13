@@ -99,7 +99,7 @@ namespace Api.Controllers {
                 }
 
                 var code = await userManager.GeneratePasswordResetTokenAsync(result);
-                var callbackUrl = new Uri("http://localhost:4200/");
+                var callbackUrl = new Uri("http://localhost:4200/reset-password/");
 
                 string message = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
 
