@@ -154,10 +154,11 @@ namespace Api.BusinessLogic {
             }
             // If only preference and value is selected
             else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
+                sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithPreferenceValue(sqlPreference, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlJobposition, sqlPreference, sqlValue).ToList();
             }
             // If only season is selected
             else if (criterias.Season != null) {
@@ -167,15 +168,17 @@ namespace Api.BusinessLogic {
             }
             // If only preference is selected
             else if (criterias.PreferencesList.Count > 0) {
+                sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithPreference(sqlPreference).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlJobposition, sqlPreference).ToList();
             }
             // If only value is selected
             else if (criterias.ValuesList.Count > 0) {
+                sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithValue(sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlJobposition, sqlValue).ToList();
             }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first

@@ -149,7 +149,7 @@ namespace Test {
 
             //Arrange Club 
             var clubRepos = new Mock<IClubRepository<Club>>();
-            clubRepos.Setup(x => x.GetBySearchCriteriaWithValue(" v.name = 'Hard working' and c.isAvailable = 1  or v.name = 'Social cohesion' and c.isAvailable = 1 "))
+            clubRepos.Setup(x => x.GetBySearchCriteriaWithJobPoisitionValue(" v.name = 'Hard working' and c.isAvailable = 1  or v.name = 'Social cohesion' and c.isAvailable = 1 ", ""))
                 .Returns(new List<Club>
                 {
                     new Club { Id = 1, Country = "Sweden", League = "First League" },
