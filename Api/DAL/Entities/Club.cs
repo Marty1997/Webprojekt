@@ -23,6 +23,7 @@ namespace Api.DAL.Entities {
         public string StreetNumber { get; set; }
         public string City { get; set; }
         public int Zipcode { get; set; }
+        public int ZipcodeCity_ID { get; set; }
         public string Trainer { get; set; }
         public string AssistantTrainer { get; set; }
         public string Physiotherapist { get; set; }

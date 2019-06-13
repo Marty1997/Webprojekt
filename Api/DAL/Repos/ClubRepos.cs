@@ -671,22 +671,16 @@ namespace Api.DAL.Repos {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
+                        
+                        //Update zipcodeCity
+                        string updateZipcodeCitySQL = @"Update ZipcodeCity Set Zipcode = @Zipcode, City = @City
+                                                                        Where ID = @ID";
 
-                        if(entity.UserCredentials != null) {
-                            //Update user credentials
-                            string userCredentialsSQL = @"Update UserCredentials Set Hashpassword = @HashPassword, Salt = @Salt Where ID = @ID"; 
-
-                            _rowCountList.Add(conn.Execute(userCredentialsSQL, new {
-                                entity.UserCredentials.HashPassword,
-                                entity.UserCredentials.Salt,
-                                ID = entity.Id
-                            }, transaction: tran));
-                        }
-
-                        //Return zipcodeCity ID
-                        string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
-                                        SELECT CAST(SCOPE_IDENTITY() as int)";
-                        int zipcodeCity_ID = conn.Query<int>(zipcodeCitySQL, new { entity.Zipcode, entity.City }, transaction: tran).Single();
+                        _rowCountList.Add(conn.Execute(updateZipcodeCitySQL, new {
+                            entity.Zipcode,
+                            entity.City,
+                            ID = entity.ZipcodeCity_ID
+                        }, transaction: tran));
 
                         //Update club
                         string updateClubSQL = @"Update Club Set Name = @Name, League = @League, Country = @Country, StreetAddress = @StreetAddress, 
@@ -700,7 +694,7 @@ namespace Api.DAL.Repos {
                             entity.StreetAddress,
                             entity.StreetNumber,
                             entity.IsAvailable,
-                            zipcodeCity_ID,
+                            entity.ZipcodeCity_ID,
                             entity.Id
                         }, transaction: tran));
                         
@@ -805,7 +799,8 @@ namespace Api.DAL.Repos {
 
             bool res = false;
 
-            int rowCount = 0;
+            List<int> _rowCountList = new List<int>();
+
             using (var conn = Connection()) {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
@@ -843,15 +838,15 @@ namespace Api.DAL.Repos {
                                     string jobPositionStrengthSQL = @"INSERT INTO JobPositionStrength (JobPosition_ID, Strength_ID) 
                                         VALUES (@JobPosition_ID, @Strength_ID)";
 
-                                    rowCount = conn.Execute(jobPositionStrengthSQL, new {
+                                    _rowCountList.Add(conn.Execute(jobPositionStrengthSQL, new {
                                         JobPosition_ID = jobPosition_ID,
                                         Strength_ID = strength_ID
-                                    }, transaction: tran);
+                                    }, transaction: tran));
                                 }
                             }
                         }
 
-                        if (rowCount == 0) {
+                        if (_rowCountList.Contains(0) && jobPosition_ID == 0) {
                             tran.Rollback();
                         }
                         else {
@@ -1296,7 +1291,7 @@ namespace Api.DAL.Repos {
         // Helping method to get club with all lists by club id
         private string SqlSelectWithId(int id) {
             return
-                "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
+                "SELECT c.*, ci.id as zipcodeCity_ID, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
                 "ON c.zipcodecity_id = ci.id WHERE c.id = " + id +
                 "SELECT p.name FROM clubpreference cp INNER JOIN preference p " +
                 "ON p.id = cp.preference_id WHERE cp.club_id = " + id +
@@ -1306,13 +1301,13 @@ namespace Api.DAL.Repos {
                 "SELECT csp.* FROM squadplayers csp WHERE csp.club_id = " + id + " AND csp.season = 'Current year';" +
                 "SELECT nsp.* FROM squadplayers nsp WHERE nsp.club_id = " + id + " AND nsp.season = 'Next year';" +
                 "SELECT jp.* FROM jobposition jp WHERE jp.club_id = " + id +
-                "SELECT fi.* FROM facilityimage fi WHERE fi.club_id = " + id;
+                "SELECT fi.imagePath FROM facilityimage fi WHERE fi.club_id = " + id;
         }
 
         // Helping method to get club with all lists by club email
         private string SqlSelectWithEmail(string email) {
             return 
-                "SELECT c.*, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
+                "SELECT c.*, ci.id as zipcodeCity_ID, ci.zipcode, ci.city FROM club c INNER JOIN zipcodecity ci " +
                 "ON c.zipcodecity_id = ci.id WHERE c.email = '" + email + "'; " +
                 "SELECT p.name, c.id FROM club c INNER JOIN clubpreference cp " +
                 "ON cp.club_id = c.id INNER JOIN preference p ON p.id = cp.preference_id " +
@@ -1327,7 +1322,7 @@ namespace Api.DAL.Repos {
                 "WHERE c.email = '" + email + "' AND nsp.season = 'Next year'; " +
                 "SELECT jp.*, c.id FROM club c INNER JOIN jobposition jp " +
                 "ON jp.club_id = c.id WHERE c.email = '" + email + "'; " +
-                "SELECT fi.*, c.id FROM club c INNER JOIN facilityimage fi " +
+                "SELECT fi.imagePath, c.id FROM club c INNER JOIN facilityimage fi " +
                 "ON fi.club_id = c.id WHERE c.email = '" + email + "'; ";
         }
 

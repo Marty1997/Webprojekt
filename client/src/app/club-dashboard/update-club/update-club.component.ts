@@ -333,6 +333,33 @@ export class UpdateClubComponent implements OnInit {
     if (this.clubBinding.valuesList.length > 0) {
       this.markValueCheckboxes(this.clubBinding.valuesList);
     }
+
+    this.setClubInfo();
+    this.setClubStaff();
+    this.setClubValuesAndPreferences();
+  }
+
+  setClubInfo() {
+    this.name.setValue(this.clubBinding.name);
+    this.league.setValue(this.clubBinding.league);
+    this.streetAddress.setValue(this.clubBinding.streetAddress);
+    this.streetNumber.setValue(this.clubBinding.streetNumber);
+    this.country.setValue(this.clubBinding.country);
+    this.city.setValue(this.clubBinding.city);
+    this.zipcode.setValue(this.clubBinding.zipcode);
+  }
+
+  setClubStaff() {
+    this.trainerCtrl.setValue(this.clubBinding.trainer);
+    this.assistantTrainerCtrl.setValue(this.clubBinding.assistantTrainer);
+    this.physiotherapistCtrl.setValue(this.clubBinding.physiotherapist);
+    this.assistantPhysiotherapistCtrl.setValue(this.clubBinding.assistantPhysiotherapist);
+    this.managerCtrl.setValue(this.clubBinding.manager);
+  }
+
+  setClubValuesAndPreferences() {
+    this.valueDescription.setValue(this.clubBinding.valueDescription);
+    this.preferenceDescription.setValue(this.clubBinding.preferenceDescription);
   }
 
   // Add player to the squad player table for current season
@@ -468,18 +495,31 @@ export class UpdateClubComponent implements OnInit {
   updateClubInfo() {
     this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
       (succes: any) => {
-          if(this.isLooking.checked == true) {
-            this.clubBinding.isAvailable = true;
-          }
-          else {
-            this.clubBinding.isAvailable = false;
-          }
+
+        this.overWriteClubBinding();
+
       },
       error => {
         if(error.error == "Invalid password") {
           this.wrongPassword = true;
         }
       });
+  }
+
+  overWriteClubBinding() {
+    if(this.isLooking.checked == true) {
+      this.clubBinding.isAvailable = true;
+    }
+    else {
+      this.clubBinding.isAvailable = false;
+    }
+    this.clubBinding.league = this.league.value;
+    this.clubBinding.name = this.name.value;
+    this.clubBinding.streetAddress = this.streetAddress.value;
+    this.clubBinding.streetNumber = this.streetNumber.value;
+    this.clubBinding.country = this.country.value;
+    this.clubBinding.city = this.city.value;
+    this.clubBinding.zipcode = this.zipcode.value;
   }
 
   updateClubRegularTrainingSchedule() {
@@ -750,12 +790,12 @@ export class UpdateClubComponent implements OnInit {
   // Helping method used to build staff
   buildClubStaff() {
     var club = new Club();
-    club.trainer = this.trainerCtrl.value == "" ? this.clubBinding.trainer : this.trainerCtrl.value;
-    club.assistantTrainer = this.assistantTrainerCtrl.value == "" ? this.clubBinding.assistantTrainer : this.assistantTrainerCtrl.value;
-    club.physiotherapist = this.physiotherapistCtrl.value == "" ? this.clubBinding.physiotherapist : this.physiotherapistCtrl.value;
+    club.trainer = this.trainerCtrl.value == "" ? null : this.trainerCtrl.value;
+    club.assistantTrainer = this.assistantTrainerCtrl.value == "" ? null : this.assistantTrainerCtrl.value;
+    club.physiotherapist = this.physiotherapistCtrl.value == "" ? null : this.physiotherapistCtrl.value;
     club.assistantPhysiotherapist = this.assistantPhysiotherapistCtrl.value == "" ? 
-      this.clubBinding.assistantPhysiotherapist : this.assistantPhysiotherapistCtrl.value;
-    club.manager = this.managerCtrl.value == "" ? this.clubBinding.manager : this.managerCtrl.value;
+      null : this.assistantPhysiotherapistCtrl.value;
+    club.manager = this.managerCtrl.value == "" ? null : this.managerCtrl.value;
     return club;
   }
 
@@ -789,10 +829,10 @@ export class UpdateClubComponent implements OnInit {
     }
 
     // value description
-    club.valueDescription = this.valueDescription.value == "" ? this.clubBinding.valueDescription : this.valueDescription.value;
+    club.valueDescription = this.valueDescription.value == "" ? null : this.valueDescription.value;
 
     // preference description
-    club.preferenceDescription = this.preferenceDescription.value == "" ? this.clubBinding.preferenceDescription : this.preferenceDescription.value;
+    club.preferenceDescription = this.preferenceDescription.value == "" ? null : this.preferenceDescription.value;
 
     return club;
   }
@@ -845,10 +885,11 @@ export class UpdateClubComponent implements OnInit {
   buildClubInfo() {
     var club = new Club();
     club.email = this.clubBinding.email;
+    club.zipcodeCity_ID = this.clubBinding.zipcodeCity_ID;
     club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
     club.isAvailable = this.isLooking.checked;
     club.newPassword = this.password.value == "" ? null : this.password.value;
-    club.name = this.name.value == "" ? this.clubBinding.name : this.name.value;
+    club.name = this.name.value == "" ? this.clubBinding.league : this.name.value;
     club.league = this.league.value == "" ? this.clubBinding.league : this.league.value;
     club.streetAddress = this.streetAddress.value == "" ? this.clubBinding.streetAddress : this.streetAddress.value;
     club.streetNumber = this.streetNumber.value == "" ? this.clubBinding.streetNumber : this.streetNumber.value;
