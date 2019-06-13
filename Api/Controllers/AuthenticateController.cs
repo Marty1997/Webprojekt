@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Api.BusinessLogic;
 using Api.DAL;
 using Api.DAL.Entities;
@@ -25,15 +24,13 @@ namespace Api.Controllers {
         private readonly IRepository<Player> playerRepos;
         private readonly IClubRepository<Club> clubRepos;
         private UserManager<User> userManager;
-        private SignInManager<User> signInManager;
 
         public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos,
-            IClubRepository<Club> clubRepos, UserManager<User> userManager, SignInManager<User> signInManager) {
+            IClubRepository<Club> clubRepos, UserManager<User> userManager) {
             this.authentication = authentication;
             this.playerRepos = playerRepos;
             this.clubRepos = clubRepos;
             this.userManager = userManager;
-            this.signInManager = signInManager;
         }
 
         [AllowAnonymous]

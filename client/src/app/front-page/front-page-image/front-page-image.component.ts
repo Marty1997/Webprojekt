@@ -16,7 +16,7 @@ export class FrontPageImageComponent implements OnInit {
   modalRefRecoverPassword: BsModalRef;
   wrongEmailOrPassword : boolean = false;
   noConnection: boolean = false;
-  recoverPasswordResult : string = "Email has been sent";
+  recoverPasswordResult : string = "";
   clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
   isLoading: boolean = false;
@@ -32,14 +32,14 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
+    this.recoverPasswordResult = "";
     this.modalRefRecoverPassword = this.modalService.show(template, {class: 'customModal'});
   }
   
   recoverPasswordClicked(form : NgForm) {
-    // this.loginService.revocerPassword(form.value.email).subscribe(
-    //   (succes) =>(this.recoverPasswordResult = /*Tildel værdien fra succes beskden som kommer fra server*/""), 
-    //   (error) => (this.recoverPasswordResult= "asd" + error /* TIldel recoverPasswordREsult værdien fra error beskden fra serveren*/),
-    //   () => (console.log("Completed")))
+    this.loginService.revocerPassword(form.value.email).subscribe(
+      (succes) =>(this.recoverPasswordResult = "Email has been sent. Email link will expire after 10 minutes"), 
+      (error) => (this.recoverPasswordResult = "Email has been sent. Email link will expire after 10 minutes"))
   }
 
   closeAllModals() {

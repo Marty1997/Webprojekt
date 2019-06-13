@@ -67,7 +67,13 @@ namespace Api {
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                
+            });
+
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                //options.TokenLifespan = TimeSpan.FromSeconds(1);
+                options.TokenLifespan = TimeSpan.FromDays(1);
+                //options.TokenLifespan = TimeSpan.FromMinutes(10);
             });
 
             services.AddDefaultIdentity<User>().AddEntityFrameworkStores<AuthenticationContext>();

@@ -37,7 +37,7 @@ export class loginService {
       }
     }
     else {
-      this.logout();
+      //this.logout();
     }
   }
 
@@ -72,9 +72,12 @@ export class loginService {
       })
   }
 
-  revocerPassword(email: string) {
-    let url = "WEB API controller metode";
-    return this.http.post(url, email);
+  revocerPassword(email: any) {
+    const body = {
+      email: email,
+  };
+    let url = "https://localhost:44310/api/email/SendResetPassword";
+    return this.http.post(url, body);
   }
 
   loginUser(form: NgForm) {

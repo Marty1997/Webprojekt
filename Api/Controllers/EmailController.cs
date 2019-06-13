@@ -40,25 +40,25 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpPost]
         public IActionResult ContactAdviser([FromBody] ContactAdviserRequest body) {
-            string emailFromDB = "klmasd";
+            string emailFromDB = "";
             //Gets the user email fi token ID
-            //var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            //string role = authentication.GetRoleFromToken(decodedToken);
-            //int id = authentication.GetIDFromToken(decodedToken);
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
 
             //Find user with ID and get the email
-            //if (role == "Club") {
-            //    emailFromDB = _clubRepos.GetEmailByID(id);
-            //}
-            //else if(role == "Player") {
-            //    emailFromDB = _playerRepos.GetEmailByID(id);
-            //}
-            //else {
-            //    return StatusCode(400, "Failed to send email");
-            //}
-            //if(emailFromDB == null) {
-            //    return StatusCode(400, "Failed to send email");
-            //}
+            if (role == "Club") {
+                emailFromDB = _clubRepos.GetEmailByID(id);
+            }
+            else if (role == "Player") {
+                emailFromDB = _playerRepos.GetEmailByID(id);
+            }
+            else {
+                return StatusCode(400, "Failed to send email");
+            }
+            if (emailFromDB == null) {
+                return StatusCode(400, "Failed to send email");
+            }
 
             bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
             if(res) {
@@ -95,22 +95,47 @@ namespace Api.Controllers {
                 var result = await userManager.FindByNameAsync(request.Email);
 
                 if (result == null) {
-                    return StatusCode(400, "Can't be found");
+                    return Ok();
                 }
 
                 var code = await userManager.GeneratePasswordResetTokenAsync(result);
-                var callbackUrl = new Uri("http://localhost:4200/reset-password/");
-
+                code = System.Web.HttpUtility.UrlEncode(code);
+                var callbackUrl = new Uri("http://localhost:4200/reset-password/token" + code + "userId" + result.Id);
+                
                 string message = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
 
                 bool res = SetupEmail(request.Email, "Reset Password", message);
                 if (res) {
                     return Ok();
                 }
-                return StatusCode(400, "Failed to send");
+                return StatusCode(500);
             }
             catch (Exception) {
                 return null;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult> HandlePasswordReset(ResetPasswordRequest request) {
+            request.Url = request.Url.Substring(5);
+            string[] strings = request.Url.Split(new[] { "userId" }, StringSplitOptions.None);
+            string token = System.Web.HttpUtility.UrlDecode(strings[0]);
+
+            try {
+                var user = await userManager.FindByIdAsync(strings[1]);
+                if(user == null) {
+                    return StatusCode(400, "Can't be found");
+                }
+                var result = await userManager.ResetPasswordAsync(user, token, request.Password);
+                if(result.Succeeded) {
+                     return Ok("Fedt");
+                }
+                return StatusCode(500);
+            }
+            catch (Exception) {
+                return StatusCode(500);
             }
         }
 
