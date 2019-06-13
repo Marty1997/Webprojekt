@@ -95,7 +95,7 @@ namespace Api.Controllers {
                 var result = await userManager.FindByNameAsync(request.Email);
 
                 if (result == null) {
-                    return StatusCode(400, "Can't be found");
+                    return Ok();
                 }
 
                 var code = await userManager.GeneratePasswordResetTokenAsync(result);
@@ -108,7 +108,7 @@ namespace Api.Controllers {
                 if (res) {
                     return Ok();
                 }
-                return StatusCode(400, "Failed to send");
+                return StatusCode(500);
             }
             catch (Exception) {
                 return null;
