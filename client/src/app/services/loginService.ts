@@ -37,7 +37,7 @@ export class loginService {
       }
     }
     else {
-      this.logout();
+      //this.logout();
     }
   }
 

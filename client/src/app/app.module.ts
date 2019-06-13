@@ -95,7 +95,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
       { path: 'club-how-to', component: ForClubsComponent },
       { path: 'player-how-to', component: ForPlayersComponent }, 
       { path: 'error', component: ErrorPageComponent },
-      { path: 'reset-password/:resetToken', component: ResetPasswordComponent },
+      { path: 'reset-password/:token', component: ResetPasswordComponent },
 
     ], ),
     ModalModule.forRoot(),
