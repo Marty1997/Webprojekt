@@ -14,15 +14,15 @@ namespace Api.DAL {
                                                                         string sqlWhereStatementPreference);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementJobposition,
                                                                    string sqlWhereStatementValue);
-        IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
-                                                                 string sqlWhereStatementValue);
+        //IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
+        //                                                         string sqlWhereStatementValue);
         bool UpdateInfo(Club entity);
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
         bool AddSquadPlayer(SquadPlayer entity, int club_ID);
-        IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
-        bool AddOpenPosition(JobPosition entity, int club_ID);
-        IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
+        //IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
+        //bool AddOpenPosition(JobPosition entity, int club_ID);
+        //IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
         bool UpdateStaff(Club entity);
         bool CheckIfEmailExists(string email);
         bool UpdateValuesAndPreferences(Club entity);

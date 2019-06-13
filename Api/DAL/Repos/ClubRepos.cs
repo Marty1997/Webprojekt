@@ -513,48 +513,48 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with preference and value
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
-                                                                        string sqlWhereStatementValue) {
-            List<Club> clubs = new List<Club>();
-            string sql =
-                "SELECT c.*, ci.zipcode, ci.city, v.name as value, null as preference FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN clubvalue cv ON cv.club_id = c.id " +
-                "INNER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue +
-                " UNION ALL " +
-                "SELECT c.*, ci.zipcode, ci.city, null as value, p.name as preference FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
-                "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
+        //public IEnumerable<Club> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
+        //                                                                string sqlWhereStatementValue) {
+        //    List<Club> clubs = new List<Club>();
+        //    string sql =
+        //        "SELECT c.*, ci.zipcode, ci.city, v.name as value, null as preference FROM club c " +
+        //        "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+        //        "INNER JOIN clubvalue cv ON cv.club_id = c.id " +
+        //        "INNER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue +
+        //        " UNION ALL " +
+        //        "SELECT c.*, ci.zipcode, ci.city, null as value, p.name as preference FROM club c " +
+        //        "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+        //        "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
+        //        "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
 
-            using (var conn = Connection()) {
-                Club result = null;
-                conn.Query<Club, int, string, string, string, Club>(sql,
-                    (clubinside, zipcode, city, value, preference) => {
-                        Club c = null;
-                        if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
-                            c = BuildClub(clubinside, zipcode, city);
-                            result = c;
-                            clubs.Add(result);
-                        }
-                        else {
-                            result = clubs.Single(cl => cl.Id == clubinside.Id);
-                        }
+        //    using (var conn = Connection()) {
+        //        Club result = null;
+        //        conn.Query<Club, int, string, string, string, Club>(sql,
+        //            (clubinside, zipcode, city, value, preference) => {
+        //                Club c = null;
+        //                if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+        //                    c = BuildClub(clubinside, zipcode, city);
+        //                    result = c;
+        //                    clubs.Add(result);
+        //                }
+        //                else {
+        //                    result = clubs.Single(cl => cl.Id == clubinside.Id);
+        //                }
 
-                        if (preference != null) {
-                            result.PreferenceList.Add(preference);
-                        }
+        //                if (preference != null) {
+        //                    result.PreferenceList.Add(preference);
+        //                }
 
-                        if (value != null) {
-                            result.ValuesList.Add(value);
-                        }
+        //                if (value != null) {
+        //                    result.ValuesList.Add(value);
+        //                }
 
-                        return result;
-                    }, splitOn: "zipcode, city, value, preference");
-            }
+        //                return result;
+        //            }, splitOn: "zipcode, city, value, preference");
+        //    }
 
-            return clubs;
-        }
+        //    return clubs;
+        //}
 
         /**
          * Get clubs with job position
@@ -592,70 +592,70 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with preference
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference) {
-            List<Club> clubs = new List<Club>();
-            string sql =
-                "SELECT c.*, ci.zipcode, ci.city, p.name as preference FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
-                "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
+        //public IEnumerable<Club> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference) {
+        //    List<Club> clubs = new List<Club>();
+        //    string sql =
+        //        "SELECT c.*, ci.zipcode, ci.city, p.name as preference FROM club c " +
+        //        "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+        //        "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
+        //        "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
 
-            using (var conn = Connection()) {
-                Club result = null;
-                conn.Query<Club, int, string, string, Club>(sql, (clubinside, zipcode, city, preference) => {
-                    Club c = null;
-                    if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
-                        c = BuildClub(clubinside, zipcode, city);
-                        result = c;
-                        clubs.Add(result);
-                    }
-                    else {
-                        result = clubs.Single(cl => cl.Id == clubinside.Id);
-                    }
+        //    using (var conn = Connection()) {
+        //        Club result = null;
+        //        conn.Query<Club, int, string, string, Club>(sql, (clubinside, zipcode, city, preference) => {
+        //            Club c = null;
+        //            if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+        //                c = BuildClub(clubinside, zipcode, city);
+        //                result = c;
+        //                clubs.Add(result);
+        //            }
+        //            else {
+        //                result = clubs.Single(cl => cl.Id == clubinside.Id);
+        //            }
 
-                    if (preference != null) {
-                        result.PreferenceList.Add(preference);
-                    }
+        //            if (preference != null) {
+        //                result.PreferenceList.Add(preference);
+        //            }
 
-                    return result;
-                }, splitOn: "zipcode, city, preference");
-            }
-            return clubs;
-        }
+        //            return result;
+        //        }, splitOn: "zipcode, city, preference");
+        //    }
+        //    return clubs;
+        //}
 
         /**
          * Get clubs with value
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithValue(string sqlWhereStatementValue) {
-            List<Club> clubs = new List<Club>();
-            string sql =
-                "SELECT c.*, ci.zipcode, ci.city, v.name as value FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN clubvalue cv ON cv.club_id = c.id " +
-                "INNER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue;
+        //public IEnumerable<Club> GetBySearchCriteriaWithValue(string sqlWhereStatementValue) {
+        //    List<Club> clubs = new List<Club>();
+        //    string sql =
+        //        "SELECT c.*, ci.zipcode, ci.city, v.name as value FROM club c " +
+        //        "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+        //        "INNER JOIN clubvalue cv ON cv.club_id = c.id " +
+        //        "INNER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue;
 
-            using (var conn = Connection()) {
-                Club result = null;
-                conn.Query<Club, int, string, string, Club>(sql, (clubinside, zipcode, city, value) => {
-                    Club c = null;
-                    if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
-                        c = BuildClub(clubinside, zipcode, city);
-                        result = c;
-                        clubs.Add(result);
-                    }
-                    else {
-                        result = clubs.Single(cl => cl.Id == clubinside.Id);
-                    }
+        //    using (var conn = Connection()) {
+        //        Club result = null;
+        //        conn.Query<Club, int, string, string, Club>(sql, (clubinside, zipcode, city, value) => {
+        //            Club c = null;
+        //            if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+        //                c = BuildClub(clubinside, zipcode, city);
+        //                result = c;
+        //                clubs.Add(result);
+        //            }
+        //            else {
+        //                result = clubs.Single(cl => cl.Id == clubinside.Id);
+        //            }
 
-                    if (value != null) {
-                        result.ValuesList.Add(value);
-                    }
+        //            if (value != null) {
+        //                result.ValuesList.Add(value);
+        //            }
 
-                    return result;
-                }, splitOn: "zipcode, city, value");
-            }
-            return clubs;
-        }
+        //            return result;
+        //        }, splitOn: "zipcode, city, value");
+        //    }
+        //    return clubs;
+        //}
 
         public UserCredentials getCredentialsByEmail(string email) {
             throw new NotImplementedException();
