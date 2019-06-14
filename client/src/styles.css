@@ -9,6 +9,29 @@
     font-style: normal;
 }
 
+/* */
+.privacyPolicyDesign {
+  width: 500px;
+  height: 480px;
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  border:2px solid #2A344F;
+}
+
+  .privacyPolicyDesign h3 {
+    margin-left: 15px;
+    color: rgb(40, 42, 44);
+  }
+
+@media only screen and (max-width: 480px) {
+  .privacyPolicyDesign {
+    width:300px;
+  } 
+}
+
+
+
 .popover {
   z-index: 20;
 }
@@ -89,6 +112,16 @@ h1 {
 
 .customModal {
   width:300px;
+}
+
+.customModalForPrivacyPolicy {
+    width:500px;
+}
+
+@media only screen and (max-width: 480px) {
+  .customModalForPrivacyPolicy {
+    width:300px;
+  } 
 }
 
 body {

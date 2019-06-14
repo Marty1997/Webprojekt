@@ -17,7 +17,7 @@ export class FooterComponent implements OnInit {
   }
 
   openPolicyModalRef(template: TemplateRef<any>) {
-    this.privacyPolicyModal = this.modalService.show(template);
+    this.privacyPolicyModal = this.modalService.show(template, {class: 'customModalForPrivacyPolicy'});
   }
 
   
