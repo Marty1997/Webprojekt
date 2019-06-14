@@ -13,13 +13,11 @@ namespace Api.BusinessLogic {
 
         private readonly Account _account;
         private readonly IPlayerRepository<Player> _playerRepos;
-        private readonly UserCredentialsLogic _userCredentialsLogic;
 
 
-        public PlayerLogic(Account account, IPlayerRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerLogic(Account account, IPlayerRepository<Player> playerRepos) {
             _playerRepos = playerRepos;
             _account = account;
-            _userCredentialsLogic = userCredentialsLogic;
         }
 
         public bool Create(Player entity) {

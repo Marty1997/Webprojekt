@@ -25,7 +25,7 @@ namespace Api.Controllers {
         private readonly IClubRepository<Club> clubRepos;
         private UserManager<User> userManager;
 
-        public AuthenticateController(Authentication authentication, IRepository<Player> playerRepos,
+        public AuthenticateController(Authentication authentication, IPlayerRepository<Player> playerRepos,
             IClubRepository<Club> clubRepos, UserManager<User> userManager) {
             this.authentication = authentication;
             this.playerRepos = playerRepos;
@@ -75,7 +75,7 @@ namespace Api.Controllers {
                 Club club = clubRepos.GetById(id);
                 return Ok(club);
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500);
         }
     }
 }

@@ -307,7 +307,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }
@@ -356,7 +356,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }
@@ -412,7 +412,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }
@@ -497,7 +497,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
 
                         tran.Rollback();
                     }
@@ -540,7 +540,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }
@@ -576,7 +576,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
 
                         tran.Rollback();
                     }
@@ -613,7 +613,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
 
                         tran.Rollback();
                     }
@@ -652,7 +652,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }
@@ -688,7 +688,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }
@@ -723,7 +723,7 @@ namespace Api.DAL.Repos {
                             res = true;
                         }
                     }
-                    catch (SqlException e) {
+                    catch (SqlException) {
                         tran.Rollback();
                     }
                 }

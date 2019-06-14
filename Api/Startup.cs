@@ -40,7 +40,6 @@ namespace Api {
             //Dependency injections
             services.AddTransient<Authentication>();
             services.AddTransient<Account>();
-            services.AddTransient<UserCredentialsLogic>();
             services.AddTransient<PlayerLogic>();
             services.AddTransient<ClubLogic>();
             services.AddTransient<IPlayerRepository<Player>>(s => {
