@@ -45,16 +45,16 @@ namespace Api.Controllers {
                     }
                     else {
                         await userManager.DeleteAsync(user);
-                        return StatusCode(500);
+                        return StatusCode(500, "Failed");
                     }
                 }
                 else {
-                    return StatusCode(500);
+                    return StatusCode(500, "Failed");
                 }
 
             }
             catch (Exception) {
-                return StatusCode(500);
+                return StatusCode(500, "Failed");
             }
         }
 
