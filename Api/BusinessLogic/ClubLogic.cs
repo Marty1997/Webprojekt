@@ -122,7 +122,7 @@ namespace Api.BusinessLogic {
                 }
 
                 if(criterias.Position != null) {
-                    sql += " and jp.position = '" + criterias.Position + "' and isavailable = 1 ";
+                    sql += GetJobpositionSql(criterias);
                 }
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
