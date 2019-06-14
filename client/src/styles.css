@@ -13,6 +13,13 @@
   z-index: 20;
 }
 
+.popover {
+  white-space: nowrap;
+  word-wrap: break-word;
+  max-width: none;
+  width: 300px;
+}
+
 .contactButton {
 	background-color:#3b8782;
 	-moz-border-radius:28px;
