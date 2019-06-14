@@ -10,14 +10,11 @@ using System.Threading.Tasks;
 namespace Api.BusinessLogic {
 
     public class PlayerLogic {
-
-        private readonly Account _account;
         private readonly IPlayerRepository<Player> _playerRepos;
 
 
-        public PlayerLogic(Account account, IPlayerRepository<Player> playerRepos) {
+        public PlayerLogic(IPlayerRepository<Player> playerRepos) {
             _playerRepos = playerRepos;
-            _account = account;
         }
 
         public bool Create(Player entity) {

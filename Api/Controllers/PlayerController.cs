@@ -49,16 +49,16 @@ namespace Api.Controllers
                     }
                     else {
                         await userManager.DeleteAsync(user);
-                        return StatusCode(500);
+                        return StatusCode(500, "Failed");
                     }
                 }
                 else {
-                    return StatusCode(500);
+                    return StatusCode(500, "Failed");
                 }
 
             }
             catch (Exception) {
-                return StatusCode(500);
+                return StatusCode(500, "Failed");
             }
         }
 
@@ -92,7 +92,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateAdditionalInfo
@@ -111,7 +111,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/Deletestrengthsandweaknesses
@@ -128,7 +128,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateStrengthsandweaknesses
@@ -146,7 +146,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateSportCV
@@ -165,7 +165,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateProfile
@@ -183,7 +183,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateVideo
@@ -201,7 +201,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeletePlayer
@@ -218,7 +218,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/AddNationalTeam
@@ -235,7 +235,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteNationalTeam
@@ -252,7 +252,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/SearchPlayers

@@ -45,16 +45,16 @@ namespace Api.Controllers {
                     }
                     else {
                         await userManager.DeleteAsync(user);
-                        return StatusCode(500);
+                        return StatusCode(500, "Failed");
                     }
                 }
                 else {
-                    return StatusCode(500);
+                    return StatusCode(500, "Failed");
                 }
 
             }
             catch (Exception) {
-                return StatusCode(500);
+                return StatusCode(500, "Failed");
             }
         }
 
@@ -70,13 +70,14 @@ namespace Api.Controllers {
 
                 //New password
 
+
                 // Update club info
                 entity.Id = id;
                 if(_clubLogic.UpdateInfo(entity)) {
                     return Ok();
                 }    
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/UpdateTrainingHours
@@ -92,7 +93,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed"); 
+            return StatusCode(500, "Failed"); 
         }
 
         // api/Club/UpdateSquadPlayer
@@ -109,7 +110,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/AddOpenPosition
@@ -127,7 +128,7 @@ namespace Api.Controllers {
                 }
                
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/UpdateStaff
@@ -145,7 +146,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/UpdateClubValuesAndPreferences
@@ -163,7 +164,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/UpdateProfile
@@ -181,7 +182,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/UpdateFacility
@@ -199,7 +200,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteJobPosition
@@ -216,7 +217,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteSquadPlayer
@@ -233,7 +234,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteTrainingHours
@@ -251,7 +252,7 @@ namespace Api.Controllers {
                 }
                 
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
 
@@ -270,7 +271,7 @@ namespace Api.Controllers {
                 }
 
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteClubValuesAndPreferences
@@ -287,7 +288,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteClub
@@ -304,7 +305,7 @@ namespace Api.Controllers {
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/GetById
