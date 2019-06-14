@@ -501,7 +501,7 @@ namespace Api.DAL.Repos {
 
         /**
          * Get clubs with preference and value
-         */ 
+         */
         public IEnumerable<Club> GetBySearchCriteriaWithPreferenceValue(string sqlWhereStatementPreference,
                                                                         string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
@@ -541,6 +541,8 @@ namespace Api.DAL.Repos {
                         return result;
                     }, splitOn: "zipcode, city, value, preference");
             }
+            return null;
+        }
 
         public bool UpdateInfo(Club entity) {
 
@@ -1276,6 +1278,10 @@ namespace Api.DAL.Repos {
                 email = conn.QueryFirstOrDefault<string>("select email from Club where id = " + id);
             }
             return email;
-        }   
+        }
+
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition) {
+            throw new NotImplementedException();
+        }
     }
 }
