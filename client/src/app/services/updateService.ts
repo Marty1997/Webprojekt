@@ -7,6 +7,15 @@ import { Player } from "../models/player.model";
 export class updateService {
   constructor(private http: HttpClient) {}
 
+  resetPasswordWithToken(form: any, urlToken: string) {
+    const body = {
+      url: urlToken,
+      password: form.value.newPassword
+  };
+    let url = "https://localhost:44310/api/email/HandlePasswordReset";
+    return this.http.post(url, body);
+  }
+
   updatePlayer(player: Player) {
     let url = "https://localhost:44310/api/Player/Update";
     console.log(player);

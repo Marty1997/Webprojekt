@@ -119,7 +119,7 @@ namespace Api.Controllers {
         [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult> HandlePasswordReset(ResetPasswordRequest request) {
-            request.Url = request.Url.Substring(5);
+            request.Url = request.Url.Substring(21);
             string[] strings = request.Url.Split(new[] { "userId" }, StringSplitOptions.None);
             string token = System.Web.HttpUtility.UrlDecode(strings[0]);
 
@@ -129,13 +129,15 @@ namespace Api.Controllers {
                     return StatusCode(400, "Can't be found");
                 }
                 var result = await userManager.ResetPasswordAsync(user, token, request.Password);
-                if(result.Succeeded) {
-                     return Ok("Fedt");
+                if (result.Succeeded) {
+                    return Ok();
                 }
-                return StatusCode(500);
+                else {
+                    return StatusCode(400, "Invalid Token");
+                }
             }
             catch (Exception) {
-                return StatusCode(500);
+                return StatusCode(400);
             }
         }
 
