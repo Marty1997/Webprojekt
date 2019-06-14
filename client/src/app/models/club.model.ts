@@ -15,7 +15,8 @@ export class Club {
     streetAddress: string = "";
     streetNumber: number; 
     city: string = "";    
-    zipcode: number;      
+    zipcode: number;   
+    zipcodeCity_ID: number;   
     trainingHoursList : TrainingHours[] = [];
     currentSquadPlayersList : SquadPlayer[] = [];
     nextYearSquadPlayersList : SquadPlayer[] = [];
@@ -50,6 +51,7 @@ export class Club {
         this.streetNumber = succes.streetNumber;
         this.city = succes.city; 
         this.zipcode = succes.zipcode; 
+        this.zipcodeCity_ID = succes.zipcodeCity_ID;
         this.trainingHoursList = succes.trainingHoursList;
         this.currentSquadPlayersList = succes.currentSquadPlayersList;
         this.nextYearSquadPlayersList = succes.nextYearSquadPlayersList;

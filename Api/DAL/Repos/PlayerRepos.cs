@@ -658,51 +658,6 @@ namespace Api.DAL.Repos {
             return res;
         }
 
-        public string DeleteNationalTeam(List<NationalTeam> ntl) {
-
-            string errorMessage;
-
-            List<int> _rowCountList = new List<int>();
-
-            using (var conn = Connection()) {
-
-                using (IDbTransaction tran = conn.BeginTransaction()) {
-                    //try {
-
-                    if (ntl.Count > 0) {
-
-                        foreach (NationalTeam nt in ntl) {
-
-                            //Delete nationalTeam
-                            string deleteNationalTeamSQL = @"Delete From NationalTeam Where ID = @ID";
-
-                            _rowCountList.Add(conn.Execute(deleteNationalTeamSQL, new {
-                                ID = nt.Id
-                            }, transaction: tran));
-                        }
-                    }
-
-                    //Check for 0 in rowcount list
-                    if (_rowCountList.Contains(0)) {
-                        errorMessage = "NationalTeam was not deleted";
-                        tran.Rollback();
-                    }
-                    else {
-                        errorMessage = "";
-                        tran.Commit();
-                    }
-                    //}
-                    //catch (SqlException e) {
-
-                    //    tran.Rollback();
-                    //    c.ErrorMessage = ErrorHandling.Exception(e);
-                    //}
-
-                }
-            }
-            return errorMessage;
-        }
-
         public bool AddNationalTeam(NationalTeam entity, int player_ID) {
 
             bool res = false;
