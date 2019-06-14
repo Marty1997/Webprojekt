@@ -16,7 +16,8 @@ export class FrontPageImageComponent implements OnInit {
   modalRefRecoverPassword: BsModalRef;
   wrongEmailOrPassword : boolean = false;
   noConnection: boolean = false;
-  recoverPasswordResult : string = "";
+  serverError: boolean = false;
+  recoverPasswordResult : boolean = false;
   clubRegistrationModal: BsModalRef;
   playerRegistrationModal: BsModalRef;
   isLoading: boolean = false;
@@ -32,14 +33,18 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   openRecoverPasswordModal(template: TemplateRef<any>) {
-    this.recoverPasswordResult = "";
+    this.recoverPasswordResult = false;
     this.modalRefRecoverPassword = this.modalService.show(template, {class: 'customModal'});
   }
   
   recoverPasswordClicked(form : NgForm) {
     this.loginService.revocerPassword(form.value.email).subscribe(
-      (succes) =>(this.recoverPasswordResult = "Email has been sent. Email link will expire after 10 minutes"), 
-      (error) => (this.recoverPasswordResult = "Email has been sent. Email link will expire after 10 minutes"))
+      (succes) =>(this.recoverPasswordResult = true), 
+      (error) => {
+        if(error.error == "Failed") {
+          this.recoverPasswordResult = true
+        }
+    })
   }
 
   closeAllModals() {
@@ -52,32 +57,38 @@ export class FrontPageImageComponent implements OnInit {
   }
 
   loginUser(form: NgForm) {
+    this.noConnection = false;
+    this.wrongEmailOrPassword = false;
+    this.serverError = false;
     this.isLoading = true;
     this.loginService.loginUser(form).subscribe(
       (succes:any) => {
         this.isLoading = false;
-        this.closeAllModals();
-        if(succes.isPlayer) {
-          this.loginService.setupPlayerLogin(succes);
-          window.scrollTo(0, 0)
-          this.router.navigate(['/player-dashboard'])
+        if(!succes) {
+            this.wrongEmailOrPassword = true;
         }
-        else if(succes.isClub) {
-          this.loginService.setupClubLogin(succes);
-          window.scrollTo(0, 0)
-          this.router.navigate(['/club-dashboard'])
+        else {
+          this.closeAllModals();
+          if(succes.isPlayer) {
+            this.loginService.setupPlayerLogin(succes);
+            window.scrollTo(0, 0)
+            this.router.navigate(['/player-dashboard'])
+          }
+          else if(succes.isClub) {
+            this.loginService.setupClubLogin(succes);
+            window.scrollTo(0, 0)
+            this.router.navigate(['/club-dashboard'])
+          }
         }
-
       },
       error => {
         this.isLoading = false;
-        if(error.error == "Failed to authenticate") {
-          this.noConnection = false;
-          this.wrongEmailOrPassword = true;
-        }
-        else if(error.status == 0) {
+        if(error.status == 0) {
           this.wrongEmailOrPassword = false;
           this.noConnection = true;
+        }
+        else if(error.error == "Failed") {
+          this.serverError = true;
         }
       }
     )

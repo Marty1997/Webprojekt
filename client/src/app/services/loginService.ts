@@ -36,9 +36,6 @@ export class loginService {
         this.router.navigate(['club-dashboard'])
       }
     }
-    else {
-      //this.logout();
-    }
   }
 
   //Check if token exists and is expired 
@@ -48,7 +45,7 @@ export class loginService {
       const now = Date.now() / 1000;
       let decodeToken = decode(token);
       if (decodeToken.exp < now) {
-        this.logout()
+        this.logout();
         return false;
       }
       return true;
@@ -101,7 +98,6 @@ export class loginService {
       localStorage.setItem('token', succes.token);
     }
     this.clubInSession = this.clubInSession.buildClub(succes, this.clubInSession);
-
   }
 
   logout() {
