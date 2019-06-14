@@ -73,6 +73,14 @@ namespace Api.BusinessLogic {
             return _clubRepos.DeleteTrainingHours(name, club_ID);
         }
 
+        public List<SquadPlayer> GetNextSquadplayer(int club_ID) {
+            return _clubRepos.GetNextSquadplayer(club_ID);
+        }
+
+        public List<SquadPlayer> GetCurrentSquadplayer(int club_ID) {
+            return _clubRepos.GetCurrentSquadplayer(club_ID);
+        }
+
         public bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
             return _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
         }
@@ -188,6 +196,10 @@ namespace Api.BusinessLogic {
             SortListByPercentage sort = new SortListByPercentage();
             clubs.Sort(sort.CompareClub);
             return clubs;
+        }
+
+        public List<JobPosition> GetOpenPositions(int id) {
+            return _clubRepos.GetOpenPositions(id);
         }
 
         /**

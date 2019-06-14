@@ -224,6 +224,28 @@ namespace Api.Controllers {
             return StatusCode(400, "Failed");
         }
 
+        // api/Club/GetOpenPositions
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetOpenPositions() {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                List<JobPosition> opl = _clubLogic.GetOpenPositions(id);
+
+                if (opl != null) {
+                    return Ok(opl);
+                }
+                else {
+                    return StatusCode(404, "Resource not found");
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
         // api/Club/DeleteTrainingHours
         [HttpPost]
         [Route("[action]")]
@@ -242,6 +264,49 @@ namespace Api.Controllers {
             return StatusCode(400, "Failed");
         }
 
+        // api/Club/GetNextSquadplayer
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetNextSquadplayer() {
+            
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                List<SquadPlayer> spl = _clubLogic.GetNextSquadplayer(id);
+
+                if (spl != null) {
+                    return Ok(spl);
+                }
+                else {
+                    return StatusCode(404, "Resource not found");
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/GetCurrentSquadplayer
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetCurrentSquadplayer() {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                List<SquadPlayer> spl = _clubLogic.GetCurrentSquadplayer(id);
+
+                if (spl != null) {
+                    return Ok(spl);
+                }
+                else {
+                    return StatusCode(404, "Resource not found");
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
 
         // api/Club/DeleteFacilityImage
         [HttpPost]

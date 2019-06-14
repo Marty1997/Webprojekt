@@ -85,4 +85,24 @@ export class updateService {
     let url = "https://localhost:44310/api/Player/AddNationalTeam";
     return this.http.post(url, nationalTeam);
   }
+
+  getNextSquadplayer() {
+    let url = "https://localhost:44310/api/Club/GetNextSquadplayer";
+    return this.http.get(url);
+  }
+
+  getCurrentSquadplayer() {
+    let url = "https://localhost:44310/api/Club/GetCurrentSquadplayer";
+    return this.http.get(url);
+  }
+
+  getOpenPositions() {
+    let url = "https://localhost:44310/api/Club/GetOpenPositions";
+    return this.http.get(url);
+  }
+
+  getNationalTeams() {
+    let url = "https://localhost:44310/api/Player/GetNationalTeams";
+    return this.http.get(url);
+  }
 }

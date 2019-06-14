@@ -16,5 +16,6 @@ namespace Api.DAL {
         bool UpdateVideo(Player entity);
         bool AddNationalTeam(NationalTeam entity, int player_ID);
         bool DeleteNationalTeam(int nationalTeam_ID, int player_ID);
+        List<NationalTeam> GetNationalTeams(int id);
     }
 }

@@ -279,5 +279,9 @@ namespace Api.BusinessLogic {
             }
             return playerList;
         }
+
+        public List<NationalTeam> GetNationalTeams(int id) {
+            return _playerRepos.GetNationalTeams(id);
+        }
     }
 }

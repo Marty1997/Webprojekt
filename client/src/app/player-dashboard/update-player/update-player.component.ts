@@ -156,8 +156,40 @@ export class UpdatePlayerComponent implements OnInit {
       });
     }
 
-    // set the value of the dropdowns
-    this.setDropdownValues();
+    // set the values
+    this.setPersonalInfo();
+    this.setAdditionalInfo();
+    this.setStrengthsAndWeaknesses();
+
+  }
+
+  setPersonalInfo() {
+    this.firstNameControl.setValue(this.playerBinding.firstName);
+    this.lastNameControl.setValue(this.playerBinding.lastName);
+    this.countryControl.setValue(this.playerBinding.country);
+    this.dayControl.setValue(this.playerBinding.day);
+    this.monthControl.setValue(this.playerBinding.month);
+    this.yearControl.setValue(this.playerBinding.year);
+  }
+
+  setAdditionalInfo() {
+    this.heightControl.setValue(this.playerBinding.height);
+    this.weightControl.setValue(this.playerBinding.weight);
+    this.bodyfatControl.setValue(this.playerBinding.bodyfat);
+    this.primaryPositionCtrl.setValue(this.playerBinding.primaryPosition);
+    this.secondaryPositionCtrl.setValue(this.playerBinding.secondaryPosition);
+    this.preferredHandCtrl.setValue(this.playerBinding.preferredHand);
+    this.leagueCtrl.setValue(this.playerBinding.league);
+    this.contractStatusCtrl.setValue(this.playerBinding.contractStatus);
+    this.contractExpiredCtrl.setValue(this.playerBinding.contractExpired);
+    this.injuryStatusCtrl.setValue(this.playerBinding.injuryStatus);
+    this.injuryDescriptionCtrl.setValue(this.playerBinding.injuryDescription);
+    this.injuryRecoveryDateCtrl.setValue(this.playerBinding.injuryExpired);
+  }
+
+  setStrengthsAndWeaknesses() {
+    this.strengthsCtrl.setValue(this.playerBinding.strengthDescription);
+    this.weaknessesCtrl.setValue(this.playerBinding.weaknessDescription);
   }
 
   setStep(index: number) {
@@ -230,7 +262,7 @@ export class UpdatePlayerComponent implements OnInit {
   updatePlayerInfo() {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
       (succes: any) => {
-        
+        this.overWritePlayerInfo();
       },
       error => {
         if (error.error == "Invalid password") {
@@ -240,14 +272,38 @@ export class UpdatePlayerComponent implements OnInit {
     );
   }
 
+  overWritePlayerInfo() {
+    this.playerBinding.firstName = this.firstNameControl.value == "" ? null : this.firstNameControl.value;
+    this.playerBinding.lastName = this.lastNameControl.value == "" ? null : this.lastNameControl.value;
+    this.playerBinding.country = this.countryControl.value == "" ? null : this.countryControl.value;
+    this.playerBinding.day = this.dayControl.value == "" ? null : this.dayControl.value;
+    this.playerBinding.month = this.monthControl.value == "" ? null : this.monthControl.value;
+    this.playerBinding.year = this.yearControl.value == "" ? null : this.yearControl.value;
+  }
+
   updatePlayerAdditionalInfo() {
     this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
       (succes: any) => {
-          
+          this.overWriteAdditionalInfo();
       },
       error => {
         
       });
+  }
+
+  overWriteAdditionalInfo() {
+    this.playerBinding.height = this.heightControl.value == "" ? null : this.heightControl.value;
+    this.playerBinding.weight = this.weightControl.value == "" ? null : this.weightControl.value;
+    this.playerBinding.bodyfat = this.bodyfatControl.value == "" ? null : this.bodyfatControl.value;
+    this.playerBinding.primaryPosition = this.primaryPositionCtrl.value == "" ? null : this.primaryPositionCtrl.value;
+    this.playerBinding.secondaryPosition = this.secondaryPositionCtrl.value == "" ? null : this.secondaryPositionCtrl.value;
+    this.playerBinding.preferredHand = this.preferredHandCtrl.value == "" ? null : this.preferredHandCtrl.value;
+    this.playerBinding.league = this.leagueCtrl.value == "" ? null : this.leagueCtrl.value;
+    this.playerBinding.contractStatus = this.contractStatusCtrl.value == "" ? null : this.contractStatusCtrl.value;
+    this.playerBinding.contractExpired = this.contractExpiredCtrl.value == "" ? null : this.contractExpiredCtrl.value;
+    this.playerBinding.injuryStatus = this.injuryStatusCtrl.value == "" ? null : this.injuryStatusCtrl.value;
+    this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value == "" ? null : this.injuryDescriptionCtrl.value;
+    this.playerBinding.injuryExpired = this.injuryRecoveryDateCtrl.value == "" ? null : this.injuryRecoveryDateCtrl.value;
   }
 
   deletePlayerStrengthsAndWeaknesses() {
@@ -265,25 +321,85 @@ export class UpdatePlayerComponent implements OnInit {
   updateStrengthsAndWeaknesses() {
     this.updateService.updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses()).subscribe(
       (succes: any) => {
-        
+        this.overWriteStrengthAndWeaknesses();
       },
       error => {
       });
   }
 
-  setDropdownValues() {
-    this.countryControl.setValue(this.playerBinding.country); 
-  }
+  overWriteStrengthAndWeaknesses() {
 
+    //Reset playerBinding strength and weaknesses lists
+    this.playerBinding.strengthList = [];
+    this.playerBinding.weaknessList = [];
+
+    if (this.speedy.checked) {
+      this.playerBinding.strengthList.push(this.speedy.value);
+    }
+    if (this.athletic.checked) {
+      this.playerBinding.strengthList.push(this.athletic.value);
+    }
+    if (this.greatShape.checked) {
+      this.playerBinding.strengthList.push(this.greatShape.value);
+    }
+    if (this.quickShots.checked) {
+      this.playerBinding.strengthList.push(this.quickShots.value);
+    }
+    if (this.accurateShooter.checked) {
+      this.playerBinding.strengthList.push(this.accurateShooter.value);
+    }
+    if (this.tactical.checked) {
+      this.playerBinding.strengthList.push(this.tactical.value);
+    }
+    if (this.teamPlayer.checked) {
+      this.playerBinding.strengthList.push(this.teamPlayer.value);
+    }
+    if (this.social.checked) {
+      this.playerBinding.strengthList.push(this.social.value);
+    }
+    if (this.winAtAllCosts.checked) {
+      this.playerBinding.strengthList.push(this.winAtAllCosts.value);
+    }
+    if (this.longRangeShooter.checked) {
+      this.playerBinding.strengthList.push(this.longRangeShooter.value);
+    }
+    if (this.slowMoving.checked) {
+      this.playerBinding.weaknessList.push(this.slowMoving.value);
+    }
+    if (this.badEndurance.checked) {
+      this.playerBinding.weaknessList.push(this.badEndurance.value);
+    }
+    if (this.historyOfInjuries.checked) {
+      this.playerBinding.weaknessList.push(this.historyOfInjuries.value);
+    }
+    if (this.badDefencePlayer.checked) {
+      this.playerBinding.weaknessList.push(this.badDefencePlayer.value);
+    }
+
+    // value description
+    this.playerBinding.strengthDescription = this.strengthsCtrl.value;
+
+    // preference description
+    this.playerBinding.weaknessDescription = this.weaknessesCtrl.value;
+  }
 
   updateSportCV() {
     this.updateService.updateSportCV(this.buildSportCv()).subscribe(
       (succes: any) => {
-          
+        this.overWriteSportCV();
       },
       error => {
         
       });
+  }
+
+  overWriteSportCV() {
+    this.playerBinding.currentClub = this.currentClubCtrl.value == "" ? null : this.currentClubCtrl.value;
+    this.playerBinding.currentClubPrimaryPosition = this.currentPrimaryPositionCtrl.value == "" ? null : this.currentPrimaryPositionCtrl.value;
+    this.playerBinding.currentClubSecondaryPosition = this.currentSecondaryPositionCtrl.value == "" ? null : this.currentSecondaryPositionCtrl.value;
+    this.playerBinding.accomplishments = this.accomplishmentsCtrl.value == "" ? null : this.accomplishmentsCtrl.value;
+    this.playerBinding.statistic = this.statistics.value == "" ? null : this.statistics.value;
+    this.playerBinding.formerClubs = this.formerClubsCtrl.value == "" ? null : this.formerClubsCtrl.value;
   }
 
   deleteFile(filename: string) {
@@ -325,28 +441,37 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   onAddNationalTeamToPlayer() {
-    console.log("before");
     if(
       this.nationalTeamNameCtrl.value !== "" &&
       this.nationalTeamAppearancesCtrl.value !== "" &&
       this.nationalTeamPositionCtrl.value !== "" &&
       Number(this.nationalTeamAppearancesCtrl.value)
     ) {
-      console.log("hit");
       // add national team to the list
       this.addPlayerNationalTeam();
 
-      // reset input fields
-      this.nationalTeamNameCtrl.setValue('');
-      this.nationalTeamAppearancesCtrl.setValue('');
-      this.nationalTeamPositionCtrl.setValue('');
-      this.nationalTeamStatisticsCtrl.setValue('');
     }
   }
 
   updateNationalTeamList() {
-    this.nationalTeamSource.push(this.buildNationalTeam());
-    this.nationalTeamSource = [...this.nationalTeamSource];
+    this.getNationalTeams();
+
+
+    // reset input fields
+    this.nationalTeamNameCtrl.setValue('');
+    this.nationalTeamAppearancesCtrl.setValue('');
+    this.nationalTeamPositionCtrl.setValue('');
+    this.nationalTeamStatisticsCtrl.setValue('');
+  }
+
+  getNationalTeams() {
+    this.updateService.getNationalTeams().subscribe(
+      (succes: any) => {
+        this.nationalTeamSource = succes; //refresh the dataSource
+        this.playerBinding.nationalTeamList = this.nationalTeamSource; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 
   buildNationalTeam() {
@@ -446,51 +571,51 @@ export class UpdatePlayerComponent implements OnInit {
     var player = new Player();
     player.height =
       this.heightControl.value == ""
-        ? this.playerBinding.height
+        ? null
         : this.heightControl.value;
     player.weight =
       this.weightControl.value == ""
-        ? this.playerBinding.weight
+        ? null
         : this.weightControl.value;
     player.bodyfat =
       this.bodyfatControl.value == ""
-        ? this.playerBinding.bodyfat
+        ? null
         : this.bodyfatControl.value;
     player.primaryPosition =
       this.primaryPositionCtrl.value == ""
-        ? this.playerBinding.primaryPosition
+        ? null
         : this.primaryPositionCtrl.value;
     player.secondaryPosition =
       this.secondaryPositionCtrl.value == ""
-        ? this.playerBinding.secondaryPosition
+        ? null
         : this.secondaryPositionCtrl.value;
     player.preferredHand =
       this.preferredHandCtrl.value == ""
-        ? this.playerBinding.preferredHand
+        ? null
         : this.preferredHandCtrl.value;
     player.league =
       this.leagueCtrl.value == ""
-        ? this.playerBinding.league
+        ? null
         : this.leagueCtrl.value;
     player.contractStatus =
       this.contractStatusCtrl.value == ""
-        ? this.playerBinding.contractStatus
+        ? null
         : this.contractStatusCtrl.value;
     player.contractExpired =
       this.contractExpiredCtrl.value == ""
-        ? this.playerBinding.contractExpired
+        ? null
         : this.buildDate(this.contractExpiredCtrl.value);
     player.injuryStatus =
       this.injuryStatusCtrl.value == ""
-        ? this.playerBinding.injuryStatus
+        ? null
         : this.injuryStatusCtrl.value;
     player.injuryDescription =
       this.injuryDescriptionCtrl.value == ""
-        ? this.playerBinding.injuryDescription
+        ? null
         : this.injuryDescriptionCtrl.value;
     player.injuryExpired =
       this.injuryRecoveryDateCtrl.value == ""
-        ? this.playerBinding.injuryExpired
+        ? null
         : this.buildDate(this.injuryRecoveryDateCtrl.value);
     return player;
   }
@@ -499,11 +624,11 @@ export class UpdatePlayerComponent implements OnInit {
     var player = new Player();
     player.weaknessDescription =
       this.weaknessesCtrl.value == ""
-        ? this.playerBinding.weaknessDescription
+        ? null
         : this.weaknessesCtrl.value;
     player.strengthDescription =
       this.strengthsCtrl.value == ""
-        ? this.playerBinding.strengthDescription
+        ? null
         : this.strengthsCtrl.value;
     if (this.speedy.checked) {
       player.strengthList.push(this.speedy.value);
@@ -554,27 +679,27 @@ export class UpdatePlayerComponent implements OnInit {
     var player = new Player();
     player.currentClub =
       this.currentClubCtrl.value == ""
-        ? this.playerBinding.currentClub
+        ? null
         : this.currentClubCtrl.value;
     player.currentClubPrimaryPosition =
       this.currentPrimaryPositionCtrl.value == ""
-        ? this.playerBinding.currentClubPrimaryPosition
+        ? null
         : this.currentPrimaryPositionCtrl.value;
     player.currentClubSecondaryPosition =
       this.currentSecondaryPositionCtrl.value == ""
-        ? this.playerBinding.currentClubSecondaryPosition
+        ? null
         : this.currentSecondaryPositionCtrl.value;
     player.accomplishments =
       this.accomplishmentsCtrl.value == ""
-        ? this.playerBinding.accomplishments
+        ? null
         : this.accomplishmentsCtrl.value;
     player.statistic =
       this.statistics.value == ""
-        ? this.playerBinding.statistic
+        ? null
         : this.statistics.value;
     player.formerClubs =
       this.formerClubsCtrl.value == ""
-        ? this.playerBinding.formerClubs
+        ? null
         : this.formerClubsCtrl.value;
     return player;
   }

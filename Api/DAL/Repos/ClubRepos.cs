@@ -1301,5 +1301,59 @@ namespace Api.DAL.Repos {
             }
             return res;
         }
+
+        public List<SquadPlayer> GetNextSquadplayer(int club_ID) {
+            List<SquadPlayer> spl = new List<SquadPlayer>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                    string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Next year' And club_ID = @Club_ID";
+
+                    spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
+
+                }
+                catch (SqlException e) {
+                }
+            }
+            return spl;
+        }
+
+        public List<SquadPlayer> GetCurrentSquadplayer(int club_ID) {
+            List<SquadPlayer> spl = new List<SquadPlayer>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                    string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Current year' And club_ID = @Club_ID";
+
+                    spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
+
+                }
+                catch (SqlException e) {
+                }
+            }
+            return spl;
+        }
+
+        public List<JobPosition> GetOpenPositions(int id) {
+            List<JobPosition> opl = new List<JobPosition>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                    string getOpenPositionsSQL = "Select * from JobPosition where Club_ID = @Club_ID";
+
+                    opl = conn.Query<JobPosition>(getOpenPositionsSQL, new { Club_ID = id }).ToList();
+
+                }
+                catch (SqlException e) {
+                }
+            }
+            return opl;
+        }
     }
 }

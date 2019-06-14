@@ -390,11 +390,20 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     this.dataSource = [...this.dataSource]; //refresh the dataSource
+    this.clubBinding.currentSquadPlayersList = this.dataSource;
   }
 
   // Add player to the squad player table for next season
   onAddPlayerToNextYearSquad() {
-    this.addClubNextSeasonSquadPlayer();
+
+    if (
+      this.squadPlayerNameCtrlNext.value !== "" &&
+      this.squadPlayerPositionCtrlNext.value !== "" &&
+      this.squadPlayerShirtNumberCtrlNext.value !== "" &&
+      Number(this.squadPlayerShirtNumberCtrlNext.value)
+    ) {
+      this.addClubNextSeasonSquadPlayer();
+    }
   }
 
   // Delete player from squad player table for current season
@@ -405,10 +414,15 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+    this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //refresh the clubBinding
   }
 
   onAddJobPosition() {
-    this.addClubOpenPosition();
+    if (this.openPositionName.value !== "")
+    {
+      this.addClubOpenPosition();
+    }
+    
   }
 
   deleteOpenPosition(jobPosition: JobPosition) {
@@ -418,6 +432,7 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+    this.clubBinding.jobPositionsList = this.openPositionSource; //refresh the clubBinding
   }
 
   setStep(index: number) {
@@ -657,7 +672,6 @@ export class UpdateClubComponent implements OnInit {
       .subscribe(
         (succes: any) => {
           this.updateCurrentSquadplayerList();
-          console.log(this.dataSource);
         },
         error => {}
       );
@@ -887,14 +901,34 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to update current squadplayers
   updateNextSquadplayerList() {
-    this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
-    this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+    
+    this.getNextSquadplayer();
 
     // reset input fields
     this.squadPlayerNameCtrlNext.setValue("");
     this.squadPlayerPositionCtrlNext.setValue("");
     this.squadPlayerShirtNumberCtrlNext.setValue("");
     this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //Overwrite clubBinding jobPosition list
+  }
+
+  getNextSquadplayer() {
+    this.updateService.getNextSquadplayer().subscribe(
+      (succes: any) => {
+        this.nextYearSquadSource = succes; //refresh the dataSource
+        this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //refresh the clubBinding
+      },
+      error => {}
+    );
+  }
+
+  getCurrentSquadplayer() {
+    this.updateService.getCurrentSquadplayer().subscribe(
+      (succes: any) => {
+        this.dataSource = succes; //refresh the dataSource
+        this.clubBinding.currentSquadPlayersList = this.dataSource; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 
   // Helping method used to build current season squadplayer
@@ -910,10 +944,7 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to update next squadplayers
   updateCurrentSquadplayerList() {
-    let sp = this.buildCurrentSquadplayer();
-    this.dataSource.push(sp); //add the new model object to the dataSource
-    this.dataSource = [...this.dataSource]; //refresh the dataSource
-    this.clubBinding.currentSquadPlayersList = this.dataSource;
+    this.getCurrentSquadplayer();
 
     // reset input fields
     this.squadPlayerNameCtrl.setValue("");
@@ -950,83 +981,62 @@ export class UpdateClubComponent implements OnInit {
   }
 
   buildJobPosition() {
-    if (this.openPositionName.value !== "") {
-      this.openPosition = new JobPosition();
-      if (this.openPositionLeague.value !== "") {
-        this.openPosition.league = this.openPositionLeague.value;
-      } else {
-        this.openPosition.league = null;
-      }
-      if (this.openPositionHand.value !== "") {
-        this.openPosition.preferredHand = this.openPositionHand.value;
-      } else {
-        this.openPosition.preferredHand = null;
-      }
-      this.openPosition.height = this.openPositionHeight.value;
-      this.openPosition.maxAge = this.openPositionMaxAge.value;
-      this.openPosition.minAge = this.openPositionMinAge.value;
-      if (this.openPositionSeason.value !== "") {
-        this.openPosition.season = this.openPositionSeason.value;
-      } else {
-        this.openPosition.season = null;
-      }
-      if (this.openPositionContract.value !== "") {
-        this.openPosition.contractStatus = this.openPositionContract.value;
-      } else {
-        this.openPosition.contractStatus = null;
-      }
-      if (this.openPositionName.value !== "") {
-        this.openPosition.position = this.openPositionName.value;
-      } else {
-        this.openPosition.position = null;
-      }
+    this.openPosition = new JobPosition();
 
-      if (this.openPositionSpeedy.checked) {
-        this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
-        this.openPositionSpeedy.toggle();
-      }
-      if (this.openPositionAthletic.checked) {
-        this.openPosition.strengthsList.push(this.openPositionAthletic.value);
-        this.openPositionAthletic.toggle();
-      }
-      if (this.openPositionGreatShape.checked) {
-        this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
-        this.openPositionGreatShape.toggle();
-      }
-      if (this.openPositionQuickShots.checked) {
-        this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
-        this.openPositionQuickShots.toggle();
-      }
-      if (this.openPositionAccurateShooter.checked) {
-        this.openPosition.strengthsList.push(
-          this.openPositionAccurateShooter.value
-        );
-        this.openPositionAccurateShooter.toggle();
-      }
-      if (this.openPositionTactical.checked) {
-        this.openPosition.strengthsList.push(this.openPositionTactical.value);
-        this.openPositionTactical.toggle();
-      }
-      if (this.openPositionTeamplayer.checked) {
-        this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
-        this.openPositionTeamplayer.toggle();
-      }
-      if (this.openPositionSocial.checked) {
-        this.openPosition.strengthsList.push(this.openPositionSocial.value);
-        this.openPositionSocial.toggle();
-      }
-      if (this.openPositionWinAtAllCosts.checked) {
-        this.openPosition.strengthsList.push(
-          this.openPositionWinAtAllCosts.value
-        );
-        this.openPositionWinAtAllCosts.toggle();
-      }
-      if (this.openPositionLongRangeShooter.checked) {
-        this.openPosition.strengthsList.push(
-          this.openPositionLongRangeShooter.value
-        );
-        this.openPositionLongRangeShooter.toggle();
-      }
+    this.openPosition.position = this.openPositionName.value;
+    this.openPosition.league = this.openPositionLeague.value == "" ? null : this.openPositionLeague.value;
+    this.openPosition.preferredHand = this.openPositionHand.value !== "" ? null : this.openPositionHand.value;
+    this.openPosition.height = this.openPositionHeight.value;
+    this.openPosition.maxAge = this.openPositionMaxAge.value;
+    this.openPosition.minAge = this.openPositionMinAge.value;
+    this.openPosition.season = this.openPositionSeason.value == "" ? null : this.openPositionSeason.value;
+    this.openPosition.contractStatus = this.openPositionContract.value == "" ? null : this.openPositionContract.value;
+    
+    if (this.openPositionSpeedy.checked) {
+      this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
+      this.openPositionSpeedy.toggle();
+    }
+    if (this.openPositionAthletic.checked) {
+      this.openPosition.strengthsList.push(this.openPositionAthletic.value);
+      this.openPositionAthletic.toggle();
+    }
+    if (this.openPositionGreatShape.checked) {
+      this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
+      this.openPositionGreatShape.toggle();
+    }
+    if (this.openPositionQuickShots.checked) {
+      this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
+      this.openPositionQuickShots.toggle();
+    }
+    if (this.openPositionAccurateShooter.checked) {
+      this.openPosition.strengthsList.push(
+        this.openPositionAccurateShooter.value
+      );
+      this.openPositionAccurateShooter.toggle();
+    }
+    if (this.openPositionTactical.checked) {
+      this.openPosition.strengthsList.push(this.openPositionTactical.value);
+      this.openPositionTactical.toggle();
+    }
+    if (this.openPositionTeamplayer.checked) {
+      this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
+      this.openPositionTeamplayer.toggle();
+    }
+    if (this.openPositionSocial.checked) {
+      this.openPosition.strengthsList.push(this.openPositionSocial.value);
+      this.openPositionSocial.toggle();
+    }
+    if (this.openPositionWinAtAllCosts.checked) {
+      this.openPosition.strengthsList.push(
+        this.openPositionWinAtAllCosts.value
+      );
+      this.openPositionWinAtAllCosts.toggle();
+    }
+    if (this.openPositionLongRangeShooter.checked) {
+      this.openPosition.strengthsList.push(
+        this.openPositionLongRangeShooter.value
+      );
+      this.openPositionLongRangeShooter.toggle();
     }
     return this.openPosition;
   }
@@ -1297,9 +1307,8 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to update open position list
   updateOpenPositionList() {
-    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
-    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
-    this.clubBinding.jobPositionsList = this.openPositionSource; //Overwrite clubBinding jobPosition list
+
+    this.getOpenPositions();
 
     // reset input fields
     this.openPositionLeague.setValue("");
@@ -1310,5 +1319,16 @@ export class UpdateClubComponent implements OnInit {
     this.openPositionSeason.setValue("");
     this.openPositionContract.setValue("");
     this.openPositionName.setValue("");
+  }
+
+  getOpenPositions() {
+    this.updateService.getOpenPositions().subscribe(
+      (succes: any) => {
+        console.log(succes);
+        this.openPositionSource = succes; //refresh the dataSource
+        this.clubBinding.jobPositionsList = this.openPositionSource; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 }

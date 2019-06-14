@@ -803,5 +803,22 @@ namespace Api.DAL.Repos {
             };
         }
 
+        public List<NationalTeam> GetNationalTeams(int id) {
+            List<NationalTeam> ntl = new List<NationalTeam>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                string getNationalTeamsSQL = "Select * from NationalTeam where Player_ID = @Player_ID";
+
+                ntl = conn.Query<NationalTeam>(getNationalTeamsSQL, new { Player_ID = id }).ToList();
+
+                }
+                catch (SqlException e) {
+                }
+            }
+            return ntl;
+        }
     }
 }
