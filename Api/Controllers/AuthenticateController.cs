@@ -63,19 +63,24 @@ namespace Api.Controllers {
         [HttpGet]
         [Route("[action]")]
         public IActionResult RefreshUserWithValidToken() {
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            if (role == "Player") {
-                Player player = playerRepos.GetById(id);
-                return Ok(player);
+                if (role == "Player") {
+                    Player player = playerRepos.GetById(id);
+                    return Ok(player);
+                }
+                else if (role == "Club") {
+                    Club club = clubRepos.GetById(id);
+                    return Ok(club);
+                }
+                return StatusCode(500, "Failed");
             }
-            else if (role == "Club") {
-                Club club = clubRepos.GetById(id);
-                return Ok(club);
+            catch (Exception) {
+                return StatusCode(500, "Failed");
             }
-            return StatusCode(500);
         }
     }
 }

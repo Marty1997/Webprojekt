@@ -19,7 +19,6 @@ namespace Api.DAL {
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
         bool AddSquadPlayer(SquadPlayer entity, int club_ID);
         bool UpdateStaff(Club entity);
-        bool CheckIfEmailExists(string email);
         bool UpdateValuesAndPreferences(Club entity);
         bool UpdateProfile(Club entity);
         bool UpdateFacility(Club entity);
