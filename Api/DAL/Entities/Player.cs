@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
-    public class Player {
+    public class Player  {
         public int Id { get; set; }
         [JsonIgnore]
         public UserCredentials UserCredentials { get; set; }

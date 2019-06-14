@@ -6,12 +6,11 @@ export class EmailService {
     constructor(private http: HttpClient) {
     }
 
-    sendContactEmail() {
+    sendContactEmail(message: any) {
         let url = "https://localhost:44310/api/email/"
         const body = {
-            email: "lkasmd",
-            message: "lkmasdlkmasdlmk"
-        }
+            message: message,
+        };
         return this.http.post(url, body);
     }
-}
+}   

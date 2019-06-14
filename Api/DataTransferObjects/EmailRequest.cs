@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.DataTransferObjects {
-    public class ContactAdviserRequest {
-        public string Message { get; set; }
+    public class EmailRequest {
+        public string Email { get; set; }
     }
 }

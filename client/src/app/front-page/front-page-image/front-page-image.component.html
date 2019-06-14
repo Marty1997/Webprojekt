@@ -30,7 +30,9 @@
         <span aria-hidden="true">&times;</span>
       </button>
       <h1 >Login</h1>
+      <div style="color:red; font-size:20px;" *ngIf="serverError">There was an error at our server <br> Try again </div>
       <div style="color:red; font-size:20px;" *ngIf="wrongEmailOrPassword">Wrong email or password</div>
+      <div style="color:red; font-size:17px;" *ngIf="noConnection">No connection to server <br> Try again later</div>
       <form name="form" (ngSubmit)="f.form.valid && loginUser(f)" #f="ngForm" novalidate>
         <div class="inner-addon left-addon">
           <i class="glyphicon glyphicon-envelope"></i>
@@ -58,8 +60,8 @@
       </form>
       <div style="text-align: center;">
         <a (click)="openRecoverPasswordModal(recoverPasswordModal)">Forgot password?</a>
-        <a style="padding-left: 20px; margin-top: 25px;" href="#" title="Facebook" class="btn-facebook btn"><i
-            style="margin-left:-5px; margin-right: 20px;" class="fa fa-facebook "></i>Connect with Facebook</a>
+        <!-- <a style="padding-left: 20px; margin-top: 25px;" href="#" title="Facebook" class="btn-facebook btn"><i
+            style="margin-left:-5px; margin-right: 20px;" class="fa fa-facebook "></i>Connect with Facebook</a> -->
       </div>
     </div>
   </ng-template>
@@ -85,7 +87,7 @@
         </div>
         <input type="submit" value="Reset Password" class="loginbutton" />
       </form>
-      <h5 style="margin-top: 30px;"> {{recoverPasswordResult}} </h5>
+      <h5 *ngIf="recoverPasswordResult" style="margin-top: 30px;">"Email has been sent. <br> Email link will expire after 10 minutes" </h5>
     </div>
   </ng-template>
 

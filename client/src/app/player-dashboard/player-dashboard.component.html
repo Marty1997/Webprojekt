@@ -25,10 +25,9 @@
       </div>
 
       <h2 style="word-wrap: break-word;">{{playerBinding.firstName}} {{playerBinding.lastName}}</h2>
-      <h4 *ngIf="!playerBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking to
-        recruit players</h4>
+      <h4 *ngIf="!playerBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking for a new club</h4>
       <h4 *ngIf="playerBinding.isAvailable" style="color: green; font-weight: bold; margin-top: 20px">Currently looking
-        for players</h4>
+        for clubs</h4>
 
     </div>
     <div class="col-sm-5" style="margin-top:16px;">

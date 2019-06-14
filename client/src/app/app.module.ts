@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -33,11 +33,13 @@ import { RegisterClubComponent } from './front-page/front-page-image/register-cl
 import { TrainingHoursFromComponent } from './front-page/front-page-image/register-club/training-hours-from/training-hours-from.component';
 import { TrainingHoursToComponent } from './front-page/front-page-image/register-club/training-hours-to/training-hours-to.component';
 import { loginService } from './services/loginService';
+import { errorService } from './services/errorService';
 import { updateService } from './services/updateService';
 import { deleteService } from './services/deleteService';
 import { FileService } from './services/FileService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
+import { ErrorsHandler } from './services/errorsHandling';
 import { TokenInterceptor } from './services/TokenInterceptor';
 import { ContactAdviserComponent } from './multi-page/contact-adviser/contact-adviser.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -50,6 +52,8 @@ import { UpdateClubComponent } from './club-dashboard/update-club/update-club.co
 import { UpdatePlayerComponent } from './player-dashboard/update-player/update-player.component';
 import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/confirmation-dialog.component';
 import { UpdateMessageComponent } from './multi-page/update-message/update-message.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +82,8 @@ import { UpdateMessageComponent } from './multi-page/update-message/update-messa
     UpdatePlayerComponent,
     ConfirmationDialogComponent,
     UpdateMessageComponent,
+    ErrorPageComponent,
+    ResetPasswordComponent,
     
   ],
   imports: [
@@ -99,6 +105,10 @@ import { UpdateMessageComponent } from './multi-page/update-message/update-messa
       { path: 'update-club', component: UpdateClubComponent/*, canActivate: [AuthGuardService]*/ },
       { path: 'update-player', component: UpdatePlayerComponent, canActivate: [AuthGuardService] },
       { path: 'player-how-to', component: ForPlayersComponent }, 
+      { path: 'error', component: ErrorPageComponent },
+      { path: 'reset-password/:token', component: ResetPasswordComponent},
+      { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuardService]},
+
     ], ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
@@ -120,10 +130,12 @@ import { UpdateMessageComponent } from './multi-page/update-message/update-messa
     ErrorStateMatcher,
     loginService,
     FileService,
+    errorService,
     updateService,
     deleteService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ErrorsHandler},
     AuthGuardService
   ],
   bootstrap: [AppComponent]
