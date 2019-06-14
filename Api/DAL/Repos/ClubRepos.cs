@@ -961,24 +961,6 @@ namespace Api.DAL.Repos {
             }
             return res;
         }
-
-        public bool CheckIfEmailExists(string email) {
-            string clubEmail = "";
-            string playerEmail = "";
-            using (var connection = Connection()) {
-                using (var multi = connection.QueryMultiple("select email from player where email = '" + email + "' ; " +
-                    "select email from club where email = '" + email +"'", new { email })) {
-                    playerEmail = multi.Read<string>().FirstOrDefault();
-                    clubEmail = multi.Read<string>().FirstOrDefault();
-                }
-            }
-            if(clubEmail == null && playerEmail == null) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
         
         public bool DeleteJobPosition(int jobPosition_ID, int club_ID) {
 
