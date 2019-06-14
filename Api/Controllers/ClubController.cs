@@ -22,9 +22,10 @@ namespace Api.Controllers {
         private readonly ClubLogic _clubLogic;
         private UserManager<User> userManager;
 
-        public ClubController(ClubLogic clubLogic, UserManager<User> userManager) {
+        public ClubController(ClubLogic clubLogic, UserManager<User> userManager, Authentication authentication) {
             _clubLogic = clubLogic;
             this.userManager = userManager;
+            this.authentication = authentication;
         }
 
         // api/Club
@@ -68,16 +69,6 @@ namespace Api.Controllers {
             if (role == "Club") {
 
                 //New password
-                if (entity.Password != null && entity.NewPassword != null) {
-                    //Check if current password is correct
-                    if (authentication.CheckPassword(entity.Email, entity.Password)) {
-                        //Create new password
-                        entity.UserCredentials = _userCredentialsLogic.Create(entity.NewPassword);
-                    }
-                    else {
-                        return StatusCode(400, "Invalid password");
-                    }
-                }
 
                 // Update club info
                 entity.Id = id;

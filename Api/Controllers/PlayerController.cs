@@ -25,7 +25,7 @@ namespace Api.Controllers
         private readonly IRepository<Player> _playerRepos;
         private UserManager<User> userManager;
 
-        public PlayerController(PlayerLogic playerLogic, IPlayerRepository<Player> playerRepos, Authentication authentication, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerController(PlayerLogic playerLogic, IPlayerRepository<Player> playerRepos, Authentication authentication, UserManager<User> userManager) {
             _playerLogic = playerLogic;
             _playerRepos = playerRepos;
             this.authentication = authentication;
@@ -84,17 +84,7 @@ namespace Api.Controllers
 
             if (role == "Player") {
 
-                //New password
-                if (entity.Password != null && entity.NewPassword != null) {
-                    //Check if current password is correct
-                    if (authentication.CheckPassword(entity.Email, entity.Password)) {
-                        //Create new password
-                        entity.UserCredentials = _userCredentialsLogic.Create(entity.NewPassword);
-                    }
-                    else {
-                        return StatusCode(400, "Invalid password");
-                    }
-                }
+                // new password
 
                 // Update player info
                 entity.Id = id;
