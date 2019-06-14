@@ -74,14 +74,15 @@ export class updateService {
    updatePlayerProfile(player: Player) {
     let url = "https://localhost:44310/api/Player/UpdateProfile";
     return this.http.post(url, player);
-  resetPasswordWithToken(form: any, urlToken: string) {
+   }
+
+    resetPasswordWithToken(form: any, urlToken: string) {
     const body = {
       url: urlToken,
       password: form.value.newPassword
-  };
+    };
     let url = "https://localhost:44310/api/email/HandlePasswordReset";
     return this.http.post(url, body);
-  }
   }
 
   updatePlayerVideo(player: Player) {
