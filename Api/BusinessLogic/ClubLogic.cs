@@ -329,10 +329,18 @@ namespace Api.BusinessLogic {
         private string GetJobpositionSql(ClubSearchCriteria criterias) {
             string sqlJobposition = "";
             if (sqlJobposition == "") {
-                sqlJobposition += " jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                if(criterias.Season != null) {
+                    sqlJobposition += " jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                } else {
+                    sqlJobposition += " jp.season = 'Current year' and c.isAvailable = 1 ";
+                }
             }
             else {
-                sqlJobposition += " or jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                if(criterias.Season != null) {
+                    sqlJobposition += " or jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                } else {
+                    sqlJobposition += " or jp.season = 'Current year' and c.isAvailable = 1 ";
+                }
             }
             return sqlJobposition;
         }

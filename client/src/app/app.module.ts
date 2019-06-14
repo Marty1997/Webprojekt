@@ -49,6 +49,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { UpdateClubComponent } from './club-dashboard/update-club/update-club.component';
 import { UpdatePlayerComponent } from './player-dashboard/update-player/update-player.component';
 import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/confirmation-dialog.component';
+import { UpdateMessageComponent } from './multi-page/update-message/update-message.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/co
     UpdateClubComponent,
     UpdatePlayerComponent,
     ConfirmationDialogComponent,
+    UpdateMessageComponent,
     
   ],
   imports: [
