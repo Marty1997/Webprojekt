@@ -20,6 +20,8 @@ namespace Api.DAL {
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
         bool AddSquadPlayer(SquadPlayer entity, int club_ID);
+        bool AddOpenPosition(JobPosition entity, int club_ID);
+
         //IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
         //bool AddOpenPosition(JobPosition entity, int club_ID);
         //IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
@@ -29,7 +31,7 @@ namespace Api.DAL {
         bool UpdateProfile(Club entity);
         bool UpdateFacility(Club entity);
         bool DeleteJobPosition(int jobPosition_ID, int club_ID);
-        bool DeleteTrainingHours(int trainingHours_ID, int club_ID);
+        bool DeleteTrainingHours(string name, int club_ID);
         bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID);
         bool DeleteValuesAndPreferences(int club_ID);
         bool DeleteFacilityImage(string imagePath, int club_ID);

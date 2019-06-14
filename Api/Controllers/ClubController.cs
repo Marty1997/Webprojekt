@@ -227,14 +227,14 @@ namespace Api.Controllers {
         // api/Club/DeleteTrainingHours
         [HttpPost]
         [Route("[action]")]
-        public IActionResult DeleteTrainingHours([FromBody] IDRequest data) {
+        public IActionResult DeleteTrainingHours([FromBody] NameRequest data) {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                if(_clubLogic.DeleteTrainingHours(data.ID, id)) {
+                if(_clubLogic.DeleteTrainingHours(data.Name, id)) {
                     return Ok();
                 }
                 

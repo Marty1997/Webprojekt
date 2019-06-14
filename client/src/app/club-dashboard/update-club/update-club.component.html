@@ -216,91 +216,91 @@
       <mat-hint>Continue to keep your current schedule or delete to remove your schedule.</mat-hint><br><br>
       <mat-label>Monday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessMonFrom.value">
+        <mat-select matInput [placeholder]="fitnessMonFrom.value" [formControl]="fitnessMonFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessMonTo.value">
+        <mat-select matInput [placeholder]="fitnessMonTo.value" [formControl]="fitnessMonTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Tuesday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessTueFrom.value">
+        <mat-select matInput [placeholder]="fitnessTueFrom.value" [formControl]="fitnessTueFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessTueTo.value">
+        <mat-select matInput [placeholder]="fitnessTueTo.value" [formControl]="fitnessTueTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Wednesday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessWedFrom.value">
+        <mat-select matInput [placeholder]="fitnessWedFrom.value" [formControl]="fitnessWedFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessWedTo.value">
+        <mat-select matInput [placeholder]="fitnessWedTo.value" [formControl]="fitnessWedTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Thursday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessThuFrom.value">
+        <mat-select matInput [placeholder]="fitnessThuFrom.value" [formControl]="fitnessThuFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessThuTo.value">
+        <mat-select matInput [placeholder]="fitnessThuTo.value" [formControl]="fitnessThuTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Friday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessFriFrom.value">
+        <mat-select matInput [placeholder]="fitnessFriFrom.value" [formControl]="fitnessFriFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessFriTo.value">
+        <mat-select matInput [placeholder]="fitnessFriTo.value" [formControl]="fitnessFriTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Saturday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSatFrom.value">
+        <mat-select matInput [placeholder]="fitnessSatFrom.value" [formControl]="fitnessSatFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSatTo.value">
+        <mat-select matInput [placeholder]="fitnessSatTo.value" [formControl]="fitnessSatTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Sunday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSunFrom.value">
+        <mat-select matInput [placeholder]="fitnessSunFrom.value" [formControl]="fitnessSunFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSunTo.value">
+        <mat-select matInput [placeholder]="fitnessSunTo.value" [formControl]="fitnessSunTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
@@ -602,19 +602,19 @@
 
       <mat-label>Technical Staff</mat-label><br>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Trainer" [value]="clubBinding.trainer" [formControl]="trainerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Trainer" [value]="trainerCtrl.value" [formControl]="trainerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Trainer" [value]="clubBinding.assistantTrainer" [formControl]="assistantTrainerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Trainer" [value]="assistantTrainerCtrl.value" [formControl]="assistantTrainerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Physiotherapist" [value]="clubBinding.physiotherapist" [formControl]="physiotherapistCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Physiotherapist" [value]="physiotherapistCtrl.value" [formControl]="physiotherapistCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Physiotherapist" [value]="clubBinding.assistantPhysiotherapist" [formControl]="assistantPhysiotherapistCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Physiotherapist" [value]="assistantPhysiotherapistCtrl.value" [formControl]="assistantPhysiotherapistCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Team Manager" [value]="clubBinding.manager" [formControl]="managerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Team Manager" [value]="managerCtrl.value" [formControl]="managerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
 
       <div>
@@ -654,11 +654,11 @@
         <div class="row">
           <mat-form-field>
             <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="clubBinding.valueDescription" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
+              matAutosizeMaxRows="10" [value]="valueDescription.value" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
           </mat-form-field>
           <mat-form-field>
             <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="clubBinding.preferenceDescription" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
+              matAutosizeMaxRows="10" [value]="preferenceDescription.value" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
           </mat-form-field>
         </div>
 

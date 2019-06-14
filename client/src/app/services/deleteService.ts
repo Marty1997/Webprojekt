@@ -47,10 +47,10 @@ export class deleteService {
     return this.http.post(url, data);
   }
 
-  deleteTrainingHours(id: number) {
+  deleteTrainingHours(name: string) {
     let url = "https://localhost:44310/api/Club/DeleteTrainingHours";
     const data = {
-      id: id.toString(),
+      name: name,
     }
     return this.http.post(url, data);
   }

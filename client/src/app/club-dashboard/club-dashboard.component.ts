@@ -17,11 +17,11 @@ export class ClubDashboardComponent implements OnInit {
   clubs: Club[] = this.searchService.searchForClubsResult;
 
   myInterval = 3000;
-  slides = [
-    {image: 'assets/Images/Håndboldbane.jpg'},
-    {image: 'assets/Images/omklædning.jpg'},
-    {image: 'assets/Images/Styrke.jpg'}
-  ];
+  // slides = [
+  //   {image: 'assets/Images/Håndboldbane.jpg'},
+  //   {image: 'assets/Images/omklædning.jpg'},
+  //   {image: 'assets/Images/Styrke.jpg'}
+  // ];
 
   constructor(
     private loginService: loginService,
@@ -38,30 +38,7 @@ export class ClubDashboardComponent implements OnInit {
         this.loginService.refreshValue = false;
       }
       this.clubBinding = this.loginService.clubInSession;
-      console.log(this.clubBinding);
-      this.clubBinding.trainingHoursList.forEach(elm => {
-        if (elm.mon == null) {
-          elm.mon = "-";
-        }
-        if (elm.tue == null) {
-          elm.tue = "-";
-        }
-        if (elm.wed == null) {
-          elm.wed = "-";
-        }
-        if (elm.thu == null) {
-          elm.thu = "-";
-        }
-        if (elm.fri == null) {
-          elm.fri = "-";
-        }
-        if (elm.sat == null) {
-          elm.sat = "-";
-        }
-        if (elm.sun == null) {
-          elm.sun = "-";
-        }
-      });
+
       if (this.clubBinding.trainer == null) {
         this.clubBinding.trainer = "Not specified";
       }
