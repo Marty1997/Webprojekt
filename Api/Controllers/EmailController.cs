@@ -54,17 +54,17 @@ namespace Api.Controllers {
                 emailFromDB = _playerRepos.GetEmailByID(id);
             }
             else {
-                return StatusCode(400, "Failed to send email");
+                return StatusCode(500, "Failed");
             }
             if (emailFromDB == null) {
-                return StatusCode(400, "Failed to send email");
+                return StatusCode(500, "Failed");
             }
 
             bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
             if(res) {
                return Ok();
             }
-             return StatusCode(400, "Failed to send");
+             return StatusCode(500, "Failed");
 
 
         }
@@ -108,7 +108,7 @@ namespace Api.Controllers {
                 if (res) {
                     return Ok();
                 }
-                return StatusCode(500);
+                return StatusCode(500, "Failed");
             }
             catch (Exception) {
                 return null;
@@ -126,18 +126,18 @@ namespace Api.Controllers {
             try {
                 var user = await userManager.FindByIdAsync(strings[1]);
                 if(user == null) {
-                    return StatusCode(400, "Can't be found");
+                    return StatusCode(500, "Failed");
                 }
                 var result = await userManager.ResetPasswordAsync(user, token, request.Password);
                 if (result.Succeeded) {
                     return Ok();
                 }
                 else {
-                    return StatusCode(400, "Invalid Token");
+                    return StatusCode(500, "Failed");
                 }
             }
             catch (Exception) {
-                return StatusCode(400);
+                return StatusCode(500);
             }
         }
 

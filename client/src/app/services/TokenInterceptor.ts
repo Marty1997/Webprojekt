@@ -26,18 +26,24 @@ export class TokenInterceptor implements HttpInterceptor {
         (succes) => {
         },
         (error: any) => {
-            if(error.status === 401) {
+            if(error.error === "Failed") {
+                //This error is handled in subscribe methods
+            }
+            else {
+              if(error.status === 401) {
                 this.loginService.logout();
                 this.router.navigate(['/'])
+             }
+              else if(error.status === 500) {
+                this.errorService.numberOfError = 500;
+                this.router.navigate(['error']);
+              }
+              else if(error.status === 404) {
+                this.errorService.numberOfError = 404;
+                this.router.navigate(['error']);
+              }
             }
-            else if(error.status === 500) {
-              this.errorService.numberOfError = 500;
-              this.router.navigate(['error']);
-            }
-            else if(error.status === 404) {
-              this.errorService.numberOfError = 404;
-              this.router.navigate(['error']);
-            }
+
         }
     ))
   }

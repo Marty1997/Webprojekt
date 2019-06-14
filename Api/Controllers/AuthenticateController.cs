@@ -49,14 +49,14 @@ namespace Api.Controllers {
                         club.Token = authentication.GenerateToken(club.Id, "Club");
                         return Ok(club);
                     }
-                    return StatusCode(400, "Failed to authenticate");
+                    return Ok(false);
                 }
                 else {
-                    return StatusCode(400, "Failed to authenticate");
+                    return Ok(false);
                 }
             }
             catch (Exception) {
-                return StatusCode(400, "Failed to authenticate");
+                return StatusCode(500, "Failed");
             }
         }
 
