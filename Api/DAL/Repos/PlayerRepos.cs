@@ -203,13 +203,13 @@ namespace Api.DAL.Repos {
                 " select s.name from playerstrength ps " +
                 " inner join strength s on s.id = ps.strength_ID where ps.player_id = @id;" +
 
-                " select w.name from playerweakness pw " +
+                " select w.namek from playerweakness pw " +
                 " inner join weakness w on w.id = pw.weakness_ID where pw.player_id = @id;" +
 
                 " select nt.name, nt.appearances, nt.statistic, nt.position, nt.id from NationalTeam nt where nt.player_id = @id;";
 
             using (var conn = Connection()) {
-                try {
+                //try {
                     using (var multi = conn.QueryMultiple(sql, new { id })) {
                         player = multi.Read<Player>().First();
                         player.StrengthList = multi.Read<string>().ToList();
@@ -217,10 +217,10 @@ namespace Api.DAL.Repos {
                         player.NationalTeamList = multi.Read<NationalTeam>().ToList();
                     }
                     return player;
-                }
-                catch (SqlException) {
-                    return null;
-                }
+                //}
+                //catch (SqlException) {
+                //    return null;
+                //}
             }
         }
 

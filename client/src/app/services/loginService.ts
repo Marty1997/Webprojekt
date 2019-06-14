@@ -66,7 +66,6 @@ export class loginService {
         }
       },
       error => {
-        console.log("LoginUserIfValidTokenOnRefresh failed");
           this.logout();
       })
   }
