@@ -155,7 +155,7 @@ namespace Api.BusinessLogic {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlJobposition, sqlPreference, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithPreferenceValue(sqlPreference, sqlValue).ToList();
             }
             // If only season is selected
             else if (criterias.Season != null) {
