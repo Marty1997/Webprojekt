@@ -393,7 +393,7 @@
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
         <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrlNext" [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
+          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="addPlayerFields">

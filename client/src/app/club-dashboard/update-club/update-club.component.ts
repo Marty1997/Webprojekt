@@ -11,7 +11,10 @@ import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
-import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
+import {
+  ConfirmDialogModel,
+  ConfirmationDialogComponent
+} from "src/app/multi-page/confirmation-dialog/confirmation-dialog.component";
 
 /* pls virk */
 /* pls virk #2 */
@@ -30,7 +33,6 @@ export class UpdateClubComponent implements OnInit {
   facilityImages: string[] = [];
   regularHours = new TrainingHours();
   fitnessHours = new TrainingHours();
-  
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -187,13 +189,9 @@ export class UpdateClubComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
-  currentPassword = new FormControl("", [
-    Validators.minLength(6)
-  ]);
+  currentPassword = new FormControl("", [Validators.minLength(6)]);
 
-  password = new FormControl("", [
-    Validators.minLength(6)
-  ]);
+  password = new FormControl("", [Validators.minLength(6)]);
 
   @ViewChild("isLooking") private isLooking: MatCheckbox;
 
@@ -213,6 +211,7 @@ export class UpdateClubComponent implements OnInit {
   squadPlayerNameCtrl = new FormControl("");
   squadPlayerPositionCtrl = new FormControl("");
   squadPlayerShirtNumberCtrl = new FormControl("");
+
   squadPlayerNameCtrlNext = new FormControl("");
   squadPlayerPositionCtrlNext = new FormControl("");
   squadPlayerShirtNumberCtrlNext = new FormControl("");
@@ -236,11 +235,16 @@ export class UpdateClubComponent implements OnInit {
   @Input() squadPlayerName: string;
   @Input() squadPlayerPosition: string;
   @Input() squadPlayerShirtNumber: number;
-  @Input() SquadPlayerDelete: any;
+  // @Input() SquadPlayerDelete: any;
   squadPlayer = new SquadPlayer();
 
   // next year squad table
-  nextYearSquadColumns: string[] = ["shirtNumber", "name", "position", "delete"];
+  nextYearSquadColumns: string[] = [
+    "shirtNumber",
+    "name",
+    "position",
+    "delete"
+  ];
   nextYearSquadData: SquadPlayer[] = [];
   nextYearSquadSource = this.nextYearSquadData;
   @Input() nextYearPlayerName: string;
@@ -268,12 +272,15 @@ export class UpdateClubComponent implements OnInit {
   @ViewChild("openPositionAthletic") openPositionAthletic: MatCheckbox;
   @ViewChild("openPositionGreatShape") openPositionGreatShape: MatCheckbox;
   @ViewChild("openPositionQuickShots") openPositionQuickShots: MatCheckbox;
-  @ViewChild("openPositionAccurateShooter") openPositionAccurateShooter: MatCheckbox;
+  @ViewChild("openPositionAccurateShooter")
+  openPositionAccurateShooter: MatCheckbox;
   @ViewChild("openPositionTactical") openPositionTactical: MatCheckbox;
   @ViewChild("openPositionTeamplayer") openPositionTeamplayer: MatCheckbox;
   @ViewChild("openPositionSocial") openPositionSocial: MatCheckbox;
-  @ViewChild("openPositionWinAtAllCosts") openPositionWinAtAllCosts: MatCheckbox;
-  @ViewChild("openPositionLongRangeShooter") openPositionLongRangeShooter: MatCheckbox;
+  @ViewChild("openPositionWinAtAllCosts")
+  openPositionWinAtAllCosts: MatCheckbox;
+  @ViewChild("openPositionLongRangeShooter")
+  openPositionLongRangeShooter: MatCheckbox;
 
   // values&preferences
   @ViewChild("hardWorking") hardWorking: MatCheckbox;
@@ -297,7 +304,7 @@ export class UpdateClubComponent implements OnInit {
     this.clubBinding = this.loginService.clubInSession;
     this.clubLeague = this.clubBinding.league;
     this.clubCountry = this.clubBinding.country;
-    if(this.clubBinding.isAvailable) {
+    if (this.clubBinding.isAvailable) {
       this.isLooking.checked = true;
     } else {
       this.isLooking.checked = false;
@@ -371,19 +378,14 @@ export class UpdateClubComponent implements OnInit {
       this.squadPlayerShirtNumberCtrl.value !== "" &&
       Number(this.squadPlayerShirtNumberCtrl.value)
     ) {
-      this.addClubCurrentSeasonSquadPlayer()
-
-      // reset input fields
-      this.squadPlayerNameCtrl.setValue("");
-      this.squadPlayerPositionCtrl.setValue("");
-      this.squadPlayerShirtNumberCtrl.setValue("");
+      this.addClubCurrentSeasonSquadPlayer();
     }
   }
 
   // Delete player from squad player table for current season
   deletePlayerFromCurrentYearSquad(squadPlayer: SquadPlayer) {
-    this.dataSource.forEach( (sp, index) => {
-      if(sp === squadPlayer) {
+    this.dataSource.forEach((sp, index) => {
+      if (sp === squadPlayer) {
         this.dataSource.splice(index, 1);
       }
     });
@@ -392,25 +394,13 @@ export class UpdateClubComponent implements OnInit {
 
   // Add player to the squad player table for next season
   onAddPlayerToNextYearSquad() {
-    if (
-      this.squadPlayerNameCtrlNext.value !== "" &&
-      this.squadPlayerPositionCtrlNext.value !== "" &&
-      this.squadPlayerShirtNumberCtrlNext.value !== "" &&
-      Number(this.squadPlayerShirtNumberCtrlNext.value)
-    ) {
-      this.addClubNextSeasonSquadPlayer();
-
-      // reset input fields
-      this.squadPlayerNameCtrlNext.setValue("");
-      this.squadPlayerPositionCtrlNext.setValue("");
-      this.squadPlayerShirtNumberCtrlNext.setValue("");
-    }
+    this.addClubNextSeasonSquadPlayer();
   }
 
   // Delete player from squad player table for current season
   deletePlayerFromNextYearSquad(squadPlayer: SquadPlayer) {
-    this.nextYearSquadSource.forEach( (sp, index) => {
-      if(sp === squadPlayer) {
+    this.nextYearSquadSource.forEach((sp, index) => {
+      if (sp === squadPlayer) {
         this.nextYearSquadSource.splice(index, 1);
       }
     });
@@ -418,26 +408,15 @@ export class UpdateClubComponent implements OnInit {
   }
 
   onAddJobPosition() {
-    
     this.addClubOpenPosition();
-
-    // reset input fields
-    this.openPositionLeague.setValue("");
-    this.openPositionHand.setValue("");
-    this.openPositionHeight.setValue("");
-    this.openPositionMaxAge.setValue("");
-    this.openPositionMinAge.setValue("");
-    this.openPositionSeason.setValue("");
-    this.openPositionContract.setValue("");
-    this.openPositionName.setValue("");
   }
 
   deleteOpenPosition(jobPosition: JobPosition) {
-    this.openPositionSource.forEach( (jp, index) => {
-      if(jp === jobPosition) {
+    this.openPositionSource.forEach((jp, index) => {
+      if (jp === jobPosition) {
         this.openPositionSource.splice(index, 1);
       }
-    })
+    });
     this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
   }
 
@@ -541,7 +520,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClubFacilityImage(imagePath: string) {
-    // Delete facility image from filesystem 
+    // Delete facility image from filesystem
     this.fileService.deleteFile(imagePath).subscribe(
       (succes: any) => {
         //Delete facility image from DB
@@ -557,9 +536,8 @@ export class UpdateClubComponent implements OnInit {
       (succes: any) => {
         this.deleteFacilityImageFromList(imagePath);
       },
-      error => {
-
-      });
+      error => {}
+    );
   }
 
   deleteFacilityImageFromList(imagePath: string) {
@@ -674,35 +652,37 @@ export class UpdateClubComponent implements OnInit {
   }
 
   addClubCurrentSeasonSquadPlayer() {
-    this.updateService.addClubSquadPlayer(this.buildCurrentSquadplayer()).subscribe(
-      (succes:any) => {      
-        this.updateCurrentSquadplayerList();
-      },
-      error => {
-        
-      });
+    this.updateService
+      .addClubSquadPlayer(this.buildCurrentSquadplayer())
+      .subscribe(
+        (succes: any) => {
+          this.updateCurrentSquadplayerList();
+          console.log(this.dataSource);
+        },
+        error => {}
+      );
   }
 
   addClubNextSeasonSquadPlayer() {
-    this.updateService.addClubSquadPlayer(this.buildNextSquadplayer()).subscribe(
-      (succes:any) => {      
-        this.updateNextSquadplayerList();
-      },
-      error => {
-        
-      })
+    this.updateService
+      .addClubSquadPlayer(this.buildNextSquadplayer())
+      .subscribe(
+        (succes: any) => {
+          this.updateNextSquadplayerList();
+        },
+        error => {}
+      );
   }
 
   addClubOpenPosition() {
     this.updateService.addClubOpenPosition(this.buildJobPosition()).subscribe(
-      (succes:any) => {      
+      (succes: any) => {
         this.updateOpenPositionList();
       },
-      error => {
-        
-      });
+      error => {}
+    );
   }
-  
+
   deleteClubRegularTrainingSchedule() {
     
     this.deleteService.deleteTrainingHours("Handball").subscribe(
@@ -714,50 +694,45 @@ export class UpdateClubComponent implements OnInit {
 
       });
   }
-  
+
   deleteClubFitnessTrainingSchedule() {
     this.deleteService.deleteTrainingHours("Fitness training").subscribe(
       (succes:any) => {      
         this.deleteTraininghours();
         this.resetFitnessHoursFields();
       },
-      error => {
-        
-      }); 
+      error => {}
+    );
   }
 
   deleteClubCurrentSquadPlayer(squadPlayer: SquadPlayer) {
     this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
-    (succes:any) => {      
-      this.deletePlayerFromCurrentYearSquad(squadPlayer);
-    },
-    error => {
-      
-    });
+      (succes: any) => {
+        this.deletePlayerFromCurrentYearSquad(squadPlayer);
+      },
+      error => {}
+    );
   }
 
   deleteClubNextYearSquadPlayer(squadPlayer: SquadPlayer) {
     this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
-    (succes:any) => {      
-      this.deletePlayerFromNextYearSquad(squadPlayer);
-    },
-    error => {
-      
-    });
+      (succes: any) => {
+        this.deletePlayerFromNextYearSquad(squadPlayer);
+      },
+      error => {}
+    );
   }
 
   deleteClubOpenPosition(jobPosition: JobPosition) {
     this.deleteService.deleteOpenPosition(jobPosition.id).subscribe(
-      (succes:any) => {      
+      (succes: any) => {
         this.deleteOpenPosition(jobPosition);
       },
-      error => {
-        
-      });
+      error => {}
+    );
   }
 
   deleteClub() {
-
     const message = `Are you sure you want to delete your profile?`;
 
     const dialogData = new ConfirmDialogModel("Confirmation", message);
@@ -768,16 +743,15 @@ export class UpdateClubComponent implements OnInit {
       data: dialogData
     });
 
-    dialogRef.afterClosed().subscribe((res) => {
-      if(res) {
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
         this.deleteService.deleteClub().subscribe(
-          (succes:any) => {      
+          (succes: any) => {
             this.loginService.logout();
-            this.router.navigate(['/']);
+            this.router.navigate(["/"]);
           },
-          error => {
-            
-          });
+          error => {}
+        );
       }
     });
   }
@@ -798,13 +772,12 @@ export class UpdateClubComponent implements OnInit {
   deleteClubValuesAndPreferences() {
     // Delete club values and preferences
     this.deleteService.deleteValuesAndPreferences().subscribe(
-      (succes:any) => { 
+      (succes: any) => {
         // Insert new club values and preferences
         this.updateValuesAndPreferences();
       },
-      error => {
-        
-      });
+      error => {}
+    );
   }
 
   markPreferenceCheckboxes(preferenceList: any) {
@@ -916,6 +889,11 @@ export class UpdateClubComponent implements OnInit {
   updateNextSquadplayerList() {
     this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
     this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+
+    // reset input fields
+    this.squadPlayerNameCtrlNext.setValue("");
+    this.squadPlayerPositionCtrlNext.setValue("");
+    this.squadPlayerShirtNumberCtrlNext.setValue("");
     this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //Overwrite clubBinding jobPosition list
   }
 
@@ -932,9 +910,15 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to update next squadplayers
   updateCurrentSquadplayerList() {
-    this.dataSource.push(this.buildCurrentSquadplayer()); //add the new model object to the dataSource
+    let sp = this.buildCurrentSquadplayer();
+    this.dataSource.push(sp); //add the new model object to the dataSource
     this.dataSource = [...this.dataSource]; //refresh the dataSource
-    this.clubBinding.currentSquadPlayersList = this.dataSource; //Overwrite clubBinding current squadplayer list
+    this.clubBinding.currentSquadPlayersList = this.dataSource;
+
+    // reset input fields
+    this.squadPlayerNameCtrl.setValue("");
+    this.squadPlayerPositionCtrl.setValue("");
+    this.squadPlayerShirtNumberCtrl.setValue("");
   }
 
   deleteTraininghours() {
@@ -1066,20 +1050,20 @@ export class UpdateClubComponent implements OnInit {
   }
 
   resetRegularHoursFields() {
-    this.regularMonFrom.setValue('');
-    this.regularMonTo.setValue('');
-    this.regularTueFrom.setValue('');
-    this.regularTueTo.setValue('');
-    this.regularWedFrom.setValue('');
-    this.regularWedTo.setValue('');
-    this.regularThuFrom.setValue('');
-    this.regularThuTo.setValue('');
-    this.regularFriFrom.setValue('');
-    this.regularFriTo.setValue('');
-    this.regularSatFrom.setValue('');
-    this.regularSatTo.setValue('');
-    this.regularSunFrom.setValue('');
-    this.regularSunTo.setValue('');
+    this.regularMonFrom.setValue("");
+    this.regularMonTo.setValue("");
+    this.regularTueFrom.setValue("");
+    this.regularTueTo.setValue("");
+    this.regularWedFrom.setValue("");
+    this.regularWedTo.setValue("");
+    this.regularThuFrom.setValue("");
+    this.regularThuTo.setValue("");
+    this.regularFriFrom.setValue("");
+    this.regularFriTo.setValue("");
+    this.regularSatFrom.setValue("");
+    this.regularSatTo.setValue("");
+    this.regularSunFrom.setValue("");
+    this.regularSunTo.setValue("");
   }
 
   // Helping method used to split up fitness traininghours into from and to
@@ -1101,20 +1085,20 @@ export class UpdateClubComponent implements OnInit {
   }
 
   resetFitnessHoursFields() {
-    this.fitnessMonFrom.setValue('');
-    this.fitnessMonTo.setValue('');
-    this.fitnessTueFrom.setValue('');
-    this.fitnessTueTo.setValue('');
-    this.fitnessWedFrom.setValue('');
-    this.fitnessWedTo.setValue('');
-    this.fitnessThuFrom.setValue('');
-    this.fitnessThuTo.setValue('');
-    this.fitnessFriFrom.setValue('');
-    this.fitnessFriTo.setValue('');
-    this.fitnessSatFrom.setValue('');
-    this.fitnessSatTo.setValue('');
-    this.fitnessSunFrom.setValue('');
-    this.fitnessSunTo.setValue('');
+    this.fitnessMonFrom.setValue("");
+    this.fitnessMonTo.setValue("");
+    this.fitnessTueFrom.setValue("");
+    this.fitnessTueTo.setValue("");
+    this.fitnessWedFrom.setValue("");
+    this.fitnessWedTo.setValue("");
+    this.fitnessThuFrom.setValue("");
+    this.fitnessThuTo.setValue("");
+    this.fitnessFriFrom.setValue("");
+    this.fitnessFriTo.setValue("");
+    this.fitnessSatFrom.setValue("");
+    this.fitnessSatTo.setValue("");
+    this.fitnessSunFrom.setValue("");
+    this.fitnessSunTo.setValue("");
   }
 
   buildRegularTrainingHours() {
@@ -1316,5 +1300,15 @@ export class UpdateClubComponent implements OnInit {
     this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
     this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
     this.clubBinding.jobPositionsList = this.openPositionSource; //Overwrite clubBinding jobPosition list
+
+    // reset input fields
+    this.openPositionLeague.setValue("");
+    this.openPositionHand.setValue("");
+    this.openPositionHeight.setValue("");
+    this.openPositionMaxAge.setValue("");
+    this.openPositionMinAge.setValue("");
+    this.openPositionSeason.setValue("");
+    this.openPositionContract.setValue("");
+    this.openPositionName.setValue("");
   }
 }
