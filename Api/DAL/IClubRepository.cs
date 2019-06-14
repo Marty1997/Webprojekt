@@ -28,5 +28,6 @@ namespace Api.DAL {
         bool AddOpenPosition(JobPosition entity, int club_ID);
         bool DeleteValuesAndPreferences(int club_ID);
         bool DeleteFacilityImage(string imagePath, int club_ID);
+        IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlPreference, string sqlValue);
     }
 }
