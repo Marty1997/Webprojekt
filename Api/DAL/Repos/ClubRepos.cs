@@ -540,8 +540,9 @@ namespace Api.DAL.Repos {
 
                         return result;
                     }, splitOn: "zipcode, city, value, preference");
+                return clubs;
             }
-            return null;
+            
         }
 
         public bool UpdateInfo(Club entity) {

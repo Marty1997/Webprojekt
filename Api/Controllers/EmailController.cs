@@ -24,12 +24,12 @@ namespace Api.Controllers {
 
         private IConfiguration confirguration;
         private readonly IClubRepository<Club> _clubRepos;
-        private readonly IRepository<Player> _playerRepos;
+        private readonly IPlayerRepository<Player> _playerRepos;
         private readonly Authentication authentication;
         private UserManager<User> userManager;
 
         public EmailController(IConfiguration iConfig, IClubRepository<Club> clubRepos,
-                                    Authentication authentication, IRepository<Player> playerRepos, UserManager<User> userManager) {
+                                    Authentication authentication, IPlayerRepository<Player> playerRepos, UserManager<User> userManager) {
             confirguration = iConfig;
             _clubRepos = clubRepos;
             _playerRepos = playerRepos;
