@@ -16,10 +16,6 @@ import {
   ConfirmationDialogComponent
 } from "src/app/multi-page/confirmation-dialog/confirmation-dialog.component";
 
-/* pls virk */
-/* pls virk #2 */
-/* pls virk #3 */
-
 @Component({
   selector: "app-update-club",
   templateUrl: "./update-club.component.html",

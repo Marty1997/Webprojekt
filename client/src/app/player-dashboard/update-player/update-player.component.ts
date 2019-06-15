@@ -160,7 +160,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.setPersonalInfo();
     this.setAdditionalInfo();
     this.setStrengthsAndWeaknesses();
-
+    this.setSportCV();
   }
 
   setPersonalInfo() {
@@ -190,6 +190,15 @@ export class UpdatePlayerComponent implements OnInit {
   setStrengthsAndWeaknesses() {
     this.strengthsCtrl.setValue(this.playerBinding.strengthDescription);
     this.weaknessesCtrl.setValue(this.playerBinding.weaknessDescription);
+  }
+
+  setSportCV() {
+    this.currentClubCtrl.setValue(this.playerBinding.currentClub);
+    this.currentPrimaryPositionCtrl.setValue(this.playerBinding.currentClubPrimaryPosition);
+    this.currentSecondaryPositionCtrl.setValue(this.playerBinding.currentClubSecondaryPosition);
+    this.accomplishmentsCtrl.setValue(this.playerBinding.accomplishments);
+    this.statistics.setValue(this.playerBinding.statistic);
+    this.formerClubsCtrl.setValue(this.playerBinding.formerClubs);
   }
 
   setStep(index: number) {
@@ -604,7 +613,7 @@ export class UpdatePlayerComponent implements OnInit {
     player.contractExpired =
       this.contractExpiredCtrl.value == ""
         ? null
-        : this.buildDate(this.contractExpiredCtrl.value);
+        : this.contractExpiredCtrl.value;
     player.injuryStatus =
       this.injuryStatusCtrl.value == ""
         ? null
@@ -616,7 +625,7 @@ export class UpdatePlayerComponent implements OnInit {
     player.injuryExpired =
       this.injuryRecoveryDateCtrl.value == ""
         ? null
-        : this.buildDate(this.injuryRecoveryDateCtrl.value);
+        : this.injuryRecoveryDateCtrl.value;
     return player;
   }
 
@@ -704,7 +713,7 @@ export class UpdatePlayerComponent implements OnInit {
     return player;
   }
 
-  deletePlayerNationalTeam(nt: NationalTeam): void {
+  deletePlayerNationalTeam(nt: NationalTeam) {
     this.deleteService.deleteNationalTeam(nt.id).subscribe(
       (succes:any) => {      
         this.deleteNationalTeam(nt);
@@ -745,14 +754,9 @@ export class UpdatePlayerComponent implements OnInit {
       }
     })
     this.nationalTeamSource = [...this.nationalTeamSource]; // refresh the dataSource
+    this.playerBinding.nationalTeamList = this.nationalTeamSource;
   }
 
-  // Helping method used to return the date as a string in the format of DD/MM/YYYY
-  buildDate(date: Date) {
-    return (
-      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
-    );
-  }
 
   positionList: string[] = [
     "Goalkeeper",

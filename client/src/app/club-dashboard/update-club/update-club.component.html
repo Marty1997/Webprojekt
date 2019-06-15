@@ -196,11 +196,13 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!-- Update button -->
-      <input type="button" class="btn btn-success" value="Update" (click)="updateClubRegularTrainingSchedule()">
-      <!-- Delete button -->
-      <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubRegularTrainingSchedule()">
+      
+      <div>
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updateClubRegularTrainingSchedule()">
+        <!-- Delete button -->
+        <input type="button" class="btn btn-danger" value="Delete" (click)="deleteClubRegularTrainingSchedule()">
+      </div>
       
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -306,10 +308,13 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- Update button -->
-      <input type="button" class="btn btn-success" value="Update" (click)="updateClubFitnessTrainingSchedule()">
-      <!-- Delete button -->
-      <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubFitnessTrainingSchedule()">
+      <div>
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updateClubFitnessTrainingSchedule()">
+        <!-- Delete button -->
+        <input type="button" class="btn btn-danger" value="Delete" (click)="deleteClubFitnessTrainingSchedule()">
+      </div>
+      
       
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -393,7 +398,7 @@
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
         <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrlNext" [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+          <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
@@ -635,14 +640,14 @@
       </mat-expansion-panel-header>
 
       <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-6, col-sm-6">
             <mat-label>Values</mat-label><br>
             <mat-checkbox #hardWorking value="Hard working">Hard Working</mat-checkbox><br>
             <mat-checkbox #socialCohesion value="Social cohesion">Social Cohesion</mat-checkbox><br>
             <mat-checkbox #winningMentality value="Winning mentality">Winning Mentality</mat-checkbox><br>
             <br><br>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-6, col-sm-6">
             <mat-label>Preferences</mat-label><br>
             <mat-checkbox #talentDevelopmentClub value="Talent development club">Talent Development Club</mat-checkbox><br>
             <mat-checkbox #strivesForTitles value="Strives for titles">Strives for Titles</mat-checkbox><br>
@@ -686,12 +691,14 @@
           <div>
             <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
           </div>
-          <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-          <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
+          
 
           <div>
+              <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+              <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
+
               <!-- Delete button -->
-              <input type="button" class="btn btn-success" value="Delete profile picture" (click)="deleteClubProfile()">
+              <input type="button" class="btn btn-danger" value="Delete profile picture" (click)="deleteClubProfile()">
           </div>
         </div>
         <div class="col-md-6" style="text-align: center;">
@@ -705,11 +712,12 @@
           <div *ngIf="clubBinding.facilityImagesList != null">
               <carousel [interval]="myInterval">
                   <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-                      <div>
-                        <!-- Delete button -->
-                        <input type="button" class="btn btn-success" value="Delete facility image" (click)="deleteClubFacilityImage(slide)">
-                      </div>
+                      
                       <img [src]="slide" alt="image slide" style="display: block; width: 100%;">
+                      <div>
+                          <!-- Delete button -->
+                          <input type="button" class="btn btn-danger" value="Delete image" (click)="deleteClubFacilityImage(slide)">
+                        </div>
                   </slide>
                 </carousel>
                 
@@ -717,7 +725,7 @@
 
           <div style="text-align: center">
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
-            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload facility image</button>
+            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
           </div>
           
         </div>       
@@ -731,6 +739,6 @@
   </mat-accordion>
   <br>
   <div>
-      <input type="button" class="btn btn-success" value="Delete profile" (click)="deleteClub()">
+      <input type="button" class="btn btn-danger" value="Delete profile" (click)="deleteClub()">
   </div>
 </div>
