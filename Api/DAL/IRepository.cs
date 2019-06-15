@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace Api.DAL {
     public interface IRepository<TEntity> {
         Func<IDbConnection> Connection { get; set; }
-        TEntity Create(TEntity entity);
+        bool Create(TEntity entity);
         IEnumerable<TEntity> GetAll();
         TEntity GetById(int id);
         TEntity GetByEmail(string email);
         bool Delete(int id);
-        UserCredentials getCredentialsByEmail(string email);
         IEnumerable<TEntity> GetBySearchCriteria(string sqlStatement);
+        string GetEmailByID(int id);
     }
 }

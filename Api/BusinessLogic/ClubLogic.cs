@@ -12,20 +12,15 @@ namespace Api.BusinessLogic {
     public class ClubLogic {
         private readonly IClubRepository<Club> _clubRepos;
         private readonly IPlayerRepository<Player> _playerRepos;
-        private readonly Account _account;
-        private readonly UserCredentialsLogic _userCredentialsLogic;
         private readonly Authentication _authentication;
 
-        public ClubLogic(Account account, IClubRepository<Club> clubRepos, IPlayerRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic, Authentication authentication) {
+        public ClubLogic(IClubRepository<Club> clubRepos, IPlayerRepository<Player> playerRepos, Authentication authentication) {
             _clubRepos = clubRepos;
             _playerRepos = playerRepos;
-            _account = account; ;
-            _userCredentialsLogic = userCredentialsLogic;
             _authentication = authentication;
         }
         
-        public Club Create(Club entity) {
-            entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
+        public bool Create(Club entity) {
             return _clubRepos.Create(entity);
         }
 
@@ -166,7 +161,7 @@ namespace Api.BusinessLogic {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlJobposition, sqlPreference, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithPreferenceValue(sqlPreference, sqlValue).ToList();
             }
             // If only season is selected
             else if (criterias.Season != null) {
@@ -341,10 +336,18 @@ namespace Api.BusinessLogic {
         private string GetJobpositionSql(ClubSearchCriteria criterias) {
             string sqlJobposition = "";
             if (sqlJobposition == "") {
-                sqlJobposition += " jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                if(criterias.Season != null) {
+                    sqlJobposition += " jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                } else {
+                    sqlJobposition += " jp.season = 'Current year' and c.isAvailable = 1 ";
+                }
             }
             else {
-                sqlJobposition += " or jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                if(criterias.Season != null) {
+                    sqlJobposition += " or jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
+                } else {
+                    sqlJobposition += " or jp.season = 'Current year' and c.isAvailable = 1 ";
+                }
             }
             return sqlJobposition;
         }

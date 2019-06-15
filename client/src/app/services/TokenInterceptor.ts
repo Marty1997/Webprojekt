@@ -6,6 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { loginService } from "./loginService";
+import { errorService } from "./errorService";
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from "@angular/router";
@@ -13,7 +14,7 @@ import { Router } from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public loginService: loginService, private router: Router) {}
+  constructor(public loginService: loginService, private router: Router, private errorService: errorService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.loginService.getToken();
     if (token != null) {
@@ -25,10 +26,24 @@ export class TokenInterceptor implements HttpInterceptor {
         (succes) => {
         },
         (error: any) => {
-            if(error.status === 401) {
+            if(error.error === "Failed") {
+                //This error is handled in subscribe methods
+            }
+            else {
+              if(error.status === 401) {
                 this.loginService.logout();
                 this.router.navigate(['/'])
+             }
+              else if(error.status === 500) {
+                this.errorService.numberOfError = 500;
+                this.router.navigate(['error']);
+              }
+              else if(error.status === 404) {
+                this.errorService.numberOfError = 404;
+                this.router.navigate(['error']);
+              }
             }
+
         }
     ))
   }

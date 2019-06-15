@@ -12,53 +12,15 @@ using System.Threading.Tasks;
 
 namespace Api.BusinessLogic {
     public class Authentication {
-        private readonly Account account;
         private readonly IPlayerRepository<Player> playerRepos;
         private readonly IClubRepository<Club> clubRepos;
         private readonly AppSettings appSettings;
 
-        public Authentication(Account account, IPlayerRepository<Player> playerRepos, IClubRepository<Club> clubRepos,
+        public Authentication(IPlayerRepository<Player> playerRepos, IClubRepository<Club> clubRepos,
                                     IOptions<AppSettings> appSettings) {
-            this.account = account;
             this.playerRepos = playerRepos;
             this.clubRepos = clubRepos;
             this.appSettings = appSettings.Value;
-        }
-
-        public object Validate(string email, string password) {
-            UserCredentials credentials = playerRepos.getCredentialsByEmail(email);
-
-            if(credentials != null && credentials.Club) {
-                if (account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
-                    Club club = clubRepos.GetByEmail(email);
-                    club.Token = GenerateToken(club.Id, "Club");
-                    return club;
-                }
-            }
-            else {
-                if(credentials != null && !credentials.Club) {
-                    if(account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
-                        Player player = playerRepos.GetByEmail(email);
-                        player.Token = GenerateToken(player.Id, "Player");
-                        return player;
-                    }
-                }
-            }
-            return "Failed to authenticate";
-        }
-
-        public bool CheckPassword(string email, string password) {
-
-            bool res = false;
-
-            UserCredentials credentials = playerRepos.getCredentialsByEmail(email);
-
-            if (credentials != null) {
-                if (account.ValidateLogin(credentials.Salt, credentials.HashPassword, password)) {
-                    res = true;
-                }
-            }
-            return res;
         }
 
         public JwtSecurityToken DecodeTokenFromRequest(string accesToken) {
@@ -80,7 +42,7 @@ namespace Api.BusinessLogic {
             return tokenID;
         }
 
-        private string GenerateToken(int id, string role) {
+        public string GenerateToken(int id, string role) {
             var tokenHandler = new JwtSecurityTokenHandler();
             
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);

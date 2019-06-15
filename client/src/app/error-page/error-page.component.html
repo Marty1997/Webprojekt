@@ -1,0 +1,15 @@
+<app-header *ngIf="userLoggedIn"></app-header>
+<section *ngIf="numberOfError === 500" class=" custom-container forPlayerClubBackgroundColor topMargin" style="height: 90vh">
+    <h1 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+      500 Error <br><br><br> Soory, something went wrong on our end. <br><br> We are currently trying to fix the problem <br> <br> Please contact support if issue persist </h1>
+</section>
+
+<section *ngIf="numberOfError === 404" class="custom-container forPlayerClubBackgroundColor topMargin" style="height: 90vh">
+    <h1 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+      404 Error <br><br><br> Soory, we could not find what you were looking for <br><br> Please try again </h1>
+</section>
+
+<section *ngIf="numberOfError === undefined" class="custom-container forPlayerClubBackgroundColor topMargin" style="height: 90vh">
+    <h1 style="font-family: 'fresno'; text-align: center; margin-top: 40px">
+       <br><br><br> An unknown error has occurred<br><br> Try to navigate back. </h1>
+</section>

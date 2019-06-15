@@ -57,3 +57,9 @@ footer {
     .centerFooter p a {
       color: inherit;
     }
+
+.close {
+  margin-right: 15px;
+  margin-top: 5px;
+  font-size: 60px;
+}

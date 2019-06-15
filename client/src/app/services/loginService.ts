@@ -37,9 +37,6 @@ export class loginService {
         this.router.navigate(['club-dashboard'])
       }
     }
-    else {
-      this.logout();
-    }
   }
 
   //Check if token exists and is expired 
@@ -49,7 +46,7 @@ export class loginService {
       const now = Date.now() / 1000;
       let decodeToken = decode(token);
       if (decodeToken.exp < now) {
-        this.logout()
+        this.logout();
         return false;
       }
       return true;
@@ -69,17 +66,15 @@ export class loginService {
         }
       },
       error => {
-        console.log("LoginUserIfValidTokenOnRefresh failed");
           this.logout();
       })
   }
 
-  revocerPassword(email: string) {
-    let url = "https://localhost:44310/api/email/"
-        const body = {
-            email: email,
-            message: "lkmasdlkmasdlmk"
-        }
+  revocerPassword(email: any) {
+    const body = {
+      email: email,
+  };
+    let url = "https://localhost:44310/api/email/SendResetPassword";
     return this.http.post(url, body);
   }
 
@@ -108,11 +103,11 @@ export class loginService {
 
   logout() {
     // remove token from local storage to log user out
-    console.log("Logget ud"),
     localStorage.removeItem('token');
     this.typeOfLogin = "";
     this.clubInSession = new Club();
     this.playerInSession = new Player();
+    this.router.navigate(['/']);
   }
 
   getToken() {

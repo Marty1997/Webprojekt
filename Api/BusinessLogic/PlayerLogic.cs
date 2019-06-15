@@ -10,23 +10,14 @@ using System.Threading.Tasks;
 namespace Api.BusinessLogic {
 
     public class PlayerLogic {
-
-        private readonly Account _account;
         private readonly IPlayerRepository<Player> _playerRepos;
-        private readonly UserCredentialsLogic _userCredentialsLogic;
 
 
-        public PlayerLogic(Account account, IPlayerRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerLogic(IPlayerRepository<Player> playerRepos) {
             _playerRepos = playerRepos;
-            _account = account;
-            _userCredentialsLogic = userCredentialsLogic;
         }
 
-        public Player Create(Player entity) {
-
-            //Adding userCredentials to player
-            entity.UserCredentials = _userCredentialsLogic.Create(entity.Password);
-            //Creating player
+        public bool Create(Player entity) {
             return _playerRepos.Create(entity);
         }
 
@@ -131,18 +122,18 @@ namespace Api.BusinessLogic {
                 }
                 if (request.SecondaryPosition != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement = " p.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " or s.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.SecondaryPosition = '" + request.SecondaryPosition + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.HandPreference != null) {
                     if (sqlSelectStatement == "") {
-                        sqlSelectStatement = " p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement = " p.preferredhand = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                     else {
-                        sqlSelectStatement += " or p.handpreference = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
+                        sqlSelectStatement += " or p.preferredhand = '" + request.HandPreference + "'" + " and p.isAvailable = 1";
                     }
                 }
                 if (request.InjuryStatus != null) {

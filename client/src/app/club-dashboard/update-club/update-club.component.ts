@@ -9,12 +9,13 @@ import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog } from "@angular/material";
+import { MatCheckbox, MatDialog, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import {
   ConfirmDialogModel,
   ConfirmationDialogComponent
 } from "src/app/multi-page/confirmation-dialog/confirmation-dialog.component";
+import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 
 @Component({
   selector: "app-update-club",
@@ -29,6 +30,9 @@ export class UpdateClubComponent implements OnInit {
   facilityImages: string[] = [];
   regularHours = new TrainingHours();
   fitnessHours = new TrainingHours();
+
+  snackBar: MatSnackBar;
+  updateMessageComponent = new UpdateMessageComponent(this.snackBar);
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -340,6 +344,10 @@ export class UpdateClubComponent implements OnInit {
     this.setClubInfo();
     this.setClubStaff();
     this.setClubValuesAndPreferences();
+  }
+
+  updateMessage(message: string, action: string) {
+    this.updateMessageComponent.openSnackBar(message, action);
   }
 
   setClubInfo() {
@@ -668,6 +676,9 @@ export class UpdateClubComponent implements OnInit {
       .subscribe(
         (succes: any) => {
           this.updateCurrentSquadplayerList();
+          let message = 'Added squadplayer to current squad!';
+          this.updateMessage(message, 'OK');
+          console.log(this.dataSource);
         },
         error => {}
       );

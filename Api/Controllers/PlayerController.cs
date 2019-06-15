@@ -9,6 +9,7 @@ using Api.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -20,25 +21,45 @@ namespace Api.Controllers
     public class PlayerController : ControllerBase {
 
         private readonly PlayerLogic _playerLogic;
-        private readonly IPlayerRepository<Player> _playerRepos;
         private readonly Authentication authentication;
-        private readonly UserCredentialsLogic _userCredentialsLogic;
+        private readonly IRepository<Player> _playerRepos;
+        private UserManager<User> userManager;
 
-        public PlayerController(PlayerLogic playerLogic, IPlayerRepository<Player> playerRepos, Authentication authentication, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerController(PlayerLogic playerLogic, IPlayerRepository<Player> playerRepos, Authentication authentication, UserManager<User> userManager) {
             _playerLogic = playerLogic;
             _playerRepos = playerRepos;
             this.authentication = authentication;
-            _userCredentialsLogic = userCredentialsLogic;
+            this.userManager = userManager;
         }
 
         // api/Player
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Register([FromBody] Player entity) {
+        public async Task<Object> Register([FromBody] Player entity) {
+            User user = new User {
+                Role = "Player",
+                UserName = entity.Email,
+            };
+            try {
+                var result = await userManager.CreateAsync(user, entity.Password);
+                if (result.Succeeded) {
+                    bool resultForPlayerCreate = _playerLogic.Create(entity);
+                    if (resultForPlayerCreate) {
+                        return Ok();
+                    }
+                    else {
+                        await userManager.DeleteAsync(user);
+                        return StatusCode(500, "Failed");
+                    }
+                }
+                else {
+                    return StatusCode(500, "Failed");
+                }
 
-            Player player = _playerLogic.Create(entity);
-
-            return Ok(player);
+            }
+            catch (Exception) {
+                return StatusCode(500, "Failed");
+            }
         }
 
         // api/Player/GetById
@@ -49,7 +70,7 @@ namespace Api.Controllers
                 return Ok(_playerRepos.GetById(id));
             }
             else {
-                return StatusCode(404, "Resource not found");
+                return StatusCode(404);
             }
         }
 
@@ -63,17 +84,7 @@ namespace Api.Controllers
 
             if (role == "Player") {
 
-                //New password
-                if (entity.Password != null && entity.NewPassword != null) {
-                    //Check if current password is correct
-                    if (authentication.CheckPassword(entity.Email, entity.Password)) {
-                        //Create new password
-                        entity.UserCredentials = _userCredentialsLogic.Create(entity.NewPassword);
-                    }
-                    else {
-                        return StatusCode(400, "Invalid password");
-                    }
-                }
+                // new password
 
                 // Update player info
                 entity.Id = id;
@@ -81,7 +92,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateAdditionalInfo
@@ -100,7 +111,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/Deletestrengthsandweaknesses
@@ -117,7 +128,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateStrengthsandweaknesses
@@ -135,7 +146,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateSportCV
@@ -154,7 +165,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateProfile
@@ -172,7 +183,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/UpdateVideo
@@ -190,7 +201,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeletePlayer
@@ -207,7 +218,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/AddNationalTeam
@@ -224,7 +235,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Club/DeleteNationalTeam
@@ -241,7 +252,7 @@ namespace Api.Controllers
                     return Ok();
                 }
             }
-            return StatusCode(400, "Failed");
+            return StatusCode(500, "Failed");
         }
 
         // api/Player/SearchPlayers
