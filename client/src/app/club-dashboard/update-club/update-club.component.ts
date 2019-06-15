@@ -512,13 +512,13 @@ export class UpdateClubComponent implements OnInit {
     else {
       this.clubBinding.isAvailable = false;
     }
-    this.clubBinding.league = this.league.value;
-    this.clubBinding.name = this.name.value == "" ? null : this.name.value;
-    this.clubBinding.streetAddress = this.streetAddress.value;
-    this.clubBinding.streetNumber = this.streetNumber.value;
-    this.clubBinding.country = this.country.value;
-    this.clubBinding.city = this.city.value;
-    this.clubBinding.zipcode = this.zipcode.value;
+    this.clubBinding.league = this.league.value == "" ? this.clubBinding.league : this.league.value;
+    this.clubBinding.name = this.name.value  == "" ? this.clubBinding.name : this.name.value;
+    this.clubBinding.streetAddress = this.streetAddress.value  == "" ? this.clubBinding.streetAddress : this.streetAddress.value;
+    this.clubBinding.streetNumber = this.streetNumber.value  == "" ? this.clubBinding.streetNumber : this.streetNumber.value;
+    this.clubBinding.country = this.country.value  == "" ? this.clubBinding.country : this.country.value;
+    this.clubBinding.city = this.city.value  == "" ? this.clubBinding.city : this.city.value;
+    this.clubBinding.zipcode = this.zipcode.value  == "" ? this.clubBinding.zipcode : this.zipcode.value;
   }
 
   updateClubRegularTrainingSchedule() {
