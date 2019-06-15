@@ -331,7 +331,9 @@
       <br>
       <mat-hint>There can only be one of each</mat-hint><br>
       <mat-form-field>
-        <input matInput placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
+        <mat-select placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
+          <mat-option *ngFor="let nationalTeamName of nationalTeamNames" [value]="nationalTeamName.valueOf()">{{nationalTeamName}}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Appearances" [formControl]="nationalTeamAppearancesCtrl" [errorStateMatcher]="validate">

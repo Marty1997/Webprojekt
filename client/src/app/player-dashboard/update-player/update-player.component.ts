@@ -768,6 +768,14 @@ export class UpdatePlayerComponent implements OnInit {
     "Right wing",
     "Defence"
   ];
+
+  nationalTeamNames: string[] = [
+    "A",
+    "B",
+    "U21",
+    "U18"
+  ];
+
   countryList: string[] = [
     "Denmark",
     "Norway",
