@@ -22,7 +22,7 @@ namespace Api.Controllers
 
         private readonly PlayerLogic _playerLogic;
         private readonly Authentication authentication;
-        private readonly IRepository<Player> _playerRepos;
+        private readonly IPlayerRepository<Player> _playerRepos;
         private UserManager<User> userManager;
 
         public PlayerController(PlayerLogic playerLogic, IPlayerRepository<Player> playerRepos, Authentication authentication, UserManager<User> userManager) {
@@ -35,7 +35,7 @@ namespace Api.Controllers
         // api/Player
         [AllowAnonymous]
         [HttpPost]
-        public async Task<Object> Register([FromBody] Player entity) {
+        public async Task<IActionResult> Register([FromBody] Player entity) {
             User user = new User {
                 Role = "Player",
                 UserName = entity.Email,
@@ -83,9 +83,6 @@ namespace Api.Controllers
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Player") {
-
-                // new password
-
                 // Update player info
                 entity.Id = id;
                 if (_playerLogic.UpdateInfo(entity)) {
@@ -93,6 +90,35 @@ namespace Api.Controllers
                 }
             }
             return StatusCode(500, "Failed");
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> UpdatePassword([FromBody] Player entity) {
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
+
+                if (role == "Player") {
+                    // Update club info
+                    string email = _playerRepos.GetEmailByID(id);
+                    var user = await userManager.FindByNameAsync(email);
+                    if (user != null) {
+                        var result = await userManager.ChangePasswordAsync(user, entity.Password, entity.NewPassword);
+                        if (result.Succeeded) {
+                            return Ok();
+                        }
+                        else {
+                            return StatusCode(500, "Failed");
+                        }
+                    }
+                }
+                return StatusCode(500, "Failed");
+            }
+            catch (Exception) {
+                return StatusCode(500, "Failed");
+            }
         }
 
         // api/Player/UpdateAdditionalInfo

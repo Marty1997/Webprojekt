@@ -273,18 +273,6 @@ namespace Api.DAL.Repos {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
-
-                        if (entity.UserCredentials != null) {
-                            //Update user credentials
-                            string userCredentialsSQL = @"Update UserCredentials Set Hashpassword = @HashPassword, Salt = @Salt Where ID = @ID";
-
-                            _rowCountList.Add(conn.Execute(userCredentialsSQL, new {
-                                entity.UserCredentials.HashPassword,
-                                entity.UserCredentials.Salt,
-                                entity.Id
-                            }, transaction: tran));
-                        }
-
                         //Update player
                         string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country, isAvailable = @isAvailable
                                                         Where ID = @ID";
@@ -779,7 +767,7 @@ namespace Api.DAL.Repos {
                 ntl = conn.Query<NationalTeam>(getNationalTeamsSQL, new { Player_ID = id }).ToList();
 
                 }
-                catch (SqlException e) {
+                catch (SqlException) {
                 }
             }
             return ntl;

@@ -92,6 +92,10 @@ namespace Api.BusinessLogic {
             return _clubRepos.GetById(id);
         }
 
+        public string GetEmailById(int id) {
+            return _clubRepos.GetEmailByID(id);
+        }
+
         /**
          * Search for clubs based on the search criteria
          * Only gets neccessary club info based on the search criteria

@@ -13,7 +13,7 @@ namespace Test {
         [Fact]
         public void SearchForPlayersWithNoCriteria() {
             //Arrange
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer();
             playerRepos.Setup(x => x.GetAll())
                 .Returns(new List<Player>
@@ -23,7 +23,7 @@ namespace Test {
                     new Player { Id = 3, Country = "Sweden" }
                 });
 
-            PlayerLogic pl = new PlayerLogic(null, playerRepos.Object, null);
+            PlayerLogic pl = new PlayerLogic(playerRepos.Object);
 
             var list = pl.HandleSearchAlgorithm(sc);
 
@@ -35,7 +35,7 @@ namespace Test {
         // Testing search criteria. Player with ID 2 should be at number 1 in the list because he match both criterias
         public void SearchForPlayersWithLeaugeAndPosition() {
             //Arrange
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             //Setup search criterias
             SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer {
                 PrimaryPosition = "Playmaker",
@@ -50,7 +50,7 @@ namespace Test {
                     new Player { Id = 3, Country = "Sweden", League = "Third League", PrimaryPosition = "Pivot" }
                 });
 
-            PlayerLogic pl = new PlayerLogic(null, playerRepos.Object, null);
+            PlayerLogic pl = new PlayerLogic(playerRepos.Object);
 
             //Act
             var list = pl.HandleSearchAlgorithm(sc);
@@ -63,7 +63,7 @@ namespace Test {
         // on 3/5 criteria with would be the highest percentage match and he will be number 1 in the list
         public void SearchForPlayersWithCalculatePercentage() {
             //Arrange
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             //Setup search criterias
             SearchCriteriaForPlayer sc = new SearchCriteriaForPlayer {
                 Country = "Sweden",
@@ -85,7 +85,7 @@ namespace Test {
                     new Player { Id = 6, Country = "Sweden", League = "First League", PrimaryPosition = "Pivot", InjuryStatus = "Healthy", Height = 170 }
                 });
 
-            PlayerLogic pl = new PlayerLogic(null, playerRepos.Object, null);
+            PlayerLogic pl = new PlayerLogic(playerRepos.Object);
 
             //Act
             var list = pl.HandleSearchAlgorithm(sc);
@@ -96,7 +96,7 @@ namespace Test {
         [Fact]
         public void SearchForPlayersWithOnlyStrength() {
             //Arrange
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             //Setup search criterias
             List<string> strengthList = new List<string>() { "speedy", "Tactical", "Social" };
             List<string> strengthList2 = new List<string>() { "speedy", "Tactical"};
@@ -115,7 +115,7 @@ namespace Test {
                     new Player { Id = 6, InjuryStatus = "Healthy", Height = 170}
                 });
 
-            PlayerLogic pl = new PlayerLogic(null, playerRepos.Object, null);
+            PlayerLogic pl = new PlayerLogic(playerRepos.Object);
 
             //Act
             var list = pl.HandleSearchAlgorithm(sc);

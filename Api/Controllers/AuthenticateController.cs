@@ -35,7 +35,7 @@ namespace Api.Controllers {
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<Object> Authenticate([FromBody] LoginRequest loginRequest) {
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest loginRequest) {
             try {
                 var userFromIdentity = await userManager.FindByNameAsync(loginRequest.Email);
                 if (userFromIdentity != null && await userManager.CheckPasswordAsync(userFromIdentity, loginRequest.Password)) {
