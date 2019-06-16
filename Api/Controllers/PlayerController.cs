@@ -233,16 +233,27 @@ namespace Api.Controllers
         // api/Club/DeletePlayer
         [HttpPost]
         [Route("[action]")]
-        public IActionResult DeletePlayer() {
+        public async Task<IActionResult> DeletePlayer() {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Player") {
+                string email = _playerRepos.GetEmailByID(id);
                 if (_playerLogic.DeletePlayer(id)) {
-                    return Ok();
+                    var user = await userManager.FindByNameAsync(email);
+                    if (user != null) {
+                        var result = await userManager.DeleteAsync(user);
+                        if (result.Succeeded) {
+                            return Ok();
+                        }
+                        else {
+                            return StatusCode(500, "Failed");
+                        }
+                    }
                 }
+                return StatusCode(500, "Failed");
             }
             return StatusCode(500, "Failed");
         }
