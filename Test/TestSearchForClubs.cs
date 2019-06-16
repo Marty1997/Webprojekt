@@ -23,7 +23,7 @@ namespace Test {
                     new Club { Id = 3, Country = "Sweden" }
                 });
 
-            ClubLogic cl = new ClubLogic(null, clubRepos.Object, null, null);
+            ClubLogic cl = new ClubLogic(clubRepos.Object, null, null);
 
             var list = cl.HandleClubSearchAlgorithm(cc, 0);
 
@@ -36,7 +36,7 @@ namespace Test {
             ClubSearchCriteria cc = new ClubSearchCriteria();
             cc.Country = "Denmark";
 
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             playerRepos.Setup(x => x.GetById(1)).Returns(new Player { Id = 1 });
 
             var clubRepos = new Mock<IClubRepository<Club>>();
@@ -48,7 +48,7 @@ namespace Test {
                     new Club { Id = 3, Country = "Norway" }
                 });
 
-            ClubLogic cl = new ClubLogic(null, clubRepos.Object, playerRepos.Object, null);
+            ClubLogic cl = new ClubLogic(clubRepos.Object, playerRepos.Object, null);
 
             var list = cl.HandleClubSearchAlgorithm(cc, 1);
 
@@ -63,7 +63,7 @@ namespace Test {
             cc.League = "Second League";
 
             //Arrange Player used to match with club jobposition
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             playerRepos.Setup(x => x.GetById(1)).Returns(new Player { Id = 1 });
 
             //Arrange Club 
@@ -76,7 +76,7 @@ namespace Test {
                     new Club { Id = 3, Country = "Norway", League = "First League" }
                 });
 
-            ClubLogic cl = new ClubLogic(null, clubRepos.Object, playerRepos.Object, null);
+            ClubLogic cl = new ClubLogic(clubRepos.Object, playerRepos.Object, null);
 
             var list = cl.HandleClubSearchAlgorithm(cc, 1);
 
@@ -99,7 +99,7 @@ namespace Test {
             l.Add(jp);
 
             //Arrange Player used to match with club jobposition
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             playerRepos.Setup(x => x.GetById(1)).Returns(new Player { Id = 1, PrimaryPosition = "Left back", Height = 191, PreferredHand = "Left hand" });
 
             //Arrange Club 
@@ -114,7 +114,7 @@ namespace Test {
                 });
 
 
-            ClubLogic cl = new ClubLogic(null, clubRepos.Object, playerRepos.Object, null);
+            ClubLogic cl = new ClubLogic(clubRepos.Object, playerRepos.Object, null);
 
             var list = cl.HandleClubSearchAlgorithm(cc, 1);
 
@@ -144,7 +144,7 @@ namespace Test {
 
 
             //Arrange Player used to match with club jobposition
-            var playerRepos = new Mock<IRepository<Player>>();
+            var playerRepos = new Mock<IPlayerRepository<Player>>();
             playerRepos.Setup(x => x.GetById(1)).Returns(new Player { Id = 1, PrimaryPosition = "Left back", Height = 195, PreferredHand = "Left hand" });
 
             //Arrange Club 
@@ -158,7 +158,7 @@ namespace Test {
                 });
 
 
-            ClubLogic cl = new ClubLogic(null, clubRepos.Object, playerRepos.Object, null);
+            ClubLogic cl = new ClubLogic(clubRepos.Object, playerRepos.Object, null);
 
             var list = cl.HandleClubSearchAlgorithm(cc, 1);
 

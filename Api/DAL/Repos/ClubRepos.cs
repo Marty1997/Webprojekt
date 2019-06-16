@@ -1294,7 +1294,7 @@ namespace Api.DAL.Repos {
                     spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
 
                 }
-                catch (SqlException e) {
+                catch (SqlException) {
                 }
             }
             return spl;
@@ -1312,7 +1312,7 @@ namespace Api.DAL.Repos {
                     spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
 
                 }
-                catch (SqlException e) {
+                catch (SqlException) {
                 }
             }
             return spl;
@@ -1330,7 +1330,7 @@ namespace Api.DAL.Repos {
                     opl = conn.Query<JobPosition>(getOpenPositionsSQL, new { Club_ID = id }).ToList();
 
                 }
-                catch (SqlException e) {
+                catch (SqlException) {
                 }
             }
             return opl;

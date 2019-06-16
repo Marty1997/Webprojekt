@@ -31,7 +31,7 @@ namespace Api.Controllers {
         // api/Club
         [AllowAnonymous]
         [HttpPost]
-        public async Task<Object> Register([FromBody] Club entity) {
+        public async Task<IActionResult> Register([FromBody] Club entity) {
             User user = new User {
                 Role = "Club",
                 UserName = entity.Email,
@@ -51,7 +51,6 @@ namespace Api.Controllers {
                 else {
                     return StatusCode(500, "Failed");
                 }
-
             }
             catch (Exception) {
                 return StatusCode(500, "Failed");
@@ -67,10 +66,6 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
             
             if (role == "Club") {
-
-                //New password
-
-
                 // Update club info
                 entity.Id = id;
                 if(_clubLogic.UpdateInfo(entity)) {
@@ -78,6 +73,35 @@ namespace Api.Controllers {
                 }    
             }
             return StatusCode(500, "Failed");
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> UpdatePassword([FromBody] Club entity) {
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
+
+                if (role == "Club") {
+                    // Update club info
+                    string email = _clubLogic.GetEmailById(id);
+                    var user = await userManager.FindByNameAsync(email);
+                    if(user != null) {
+                        var result = await userManager.ChangePasswordAsync(user, entity.Password, entity.NewPassword);
+                        if(result.Succeeded) {
+                            return Ok();
+                        }
+                        else {
+                            return StatusCode(500, "Failed");
+                        }
+                    }
+                }
+                return StatusCode(500, "Failed");
+            }
+            catch (Exception) {
+               return StatusCode(500, "Failed");
+            }
         }
 
         // api/Club/UpdateTrainingHours

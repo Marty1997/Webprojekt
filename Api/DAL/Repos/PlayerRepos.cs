@@ -768,7 +768,7 @@ namespace Api.DAL.Repos {
                 ntl = conn.Query<NationalTeam>(getNationalTeamsSQL, new { Player_ID = id }).ToList();
 
                 }
-                catch (SqlException e) {
+                catch (SqlException) {
                 }
             }
             return ntl;

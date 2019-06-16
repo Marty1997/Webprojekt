@@ -72,7 +72,7 @@ namespace Api.Controllers {
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<Object> CheckIfEmailExists([FromQuery] string email) {
+        public async Task<IActionResult> CheckIfEmailExists([FromQuery] string email) {
             try {
                 var user = await userManager.FindByNameAsync(email);
                 if (user != null) {
@@ -90,7 +90,7 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult> SendResetPassword(EmailRequest request) {
+        public async Task<IActionResult> SendResetPassword(EmailRequest request) {
             try {
                 var result = await userManager.FindByNameAsync(request.Email);
 
@@ -118,7 +118,7 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult> HandlePasswordReset(ResetPasswordRequest request) {
+        public async Task<IActionResult> HandlePasswordReset(ResetPasswordRequest request) {
             request.Url = request.Url.Substring(21);
             string[] strings = request.Url.Split(new[] { "userId" }, StringSplitOptions.None);
             string token = System.Web.HttpUtility.UrlDecode(strings[0]);
