@@ -6,29 +6,6 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Personal Info</mat-panel-title>
       </mat-expansion-panel-header>
-
-      <mat-label>Update Password</mat-label><br>
-      <mat-form-field>
-        <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="currentPassword?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="New Password" [formControl]="password" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="password?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <br>
       <mat-checkbox #isLooking>Currently looking for clubs</mat-checkbox>
       <br>
       <mat-form-field>
@@ -102,8 +79,47 @@
       </mat-action-row>
     </mat-expansion-panel>
 
-    <!-- Additional Info -->
+
+    <!-- Update password -->
     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Update password</mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <mat-label>Update Password</mat-label><br>
+        <mat-form-field>
+          <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="currentPassword?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="New Password" [formControl]="password" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updatePassword()">
+  
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+
+    <!-- Additional Info -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
       <mat-expansion-panel-header>
         <mat-panel-title>Additional Info</mat-panel-title>
       </mat-expansion-panel-header>
@@ -214,7 +230,7 @@
     </mat-expansion-panel>
 
     <!-- Strengths and Weaknesses -->
-    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
       <mat-expansion-panel-header>
         <mat-panel-title>Strengths and Weaknesses</mat-panel-title>
       </mat-expansion-panel-header>
@@ -268,7 +284,7 @@
     </mat-expansion-panel>
 
     <!-- Sport CV -->
-    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
       <mat-expansion-panel-header>
         <mat-panel-title>Sport CV</mat-panel-title>
       </mat-expansion-panel-header>
@@ -322,7 +338,7 @@
     </mat-expansion-panel>
 
     <!-- National Team -->
-    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
       <mat-expansion-panel-header>
         <mat-panel-title>National Team</mat-panel-title>
       </mat-expansion-panel-header>
@@ -398,7 +414,7 @@
     </mat-expansion-panel>
 
     <!-- Profile Picture -->
-    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
       <mat-expansion-panel-header>
         <mat-panel-title>Profile Picture</mat-panel-title>
       </mat-expansion-panel-header>
@@ -429,7 +445,7 @@
     </mat-expansion-panel>
 
   <!-- Presentation video -->
-  <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+  <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
       <mat-expansion-panel-header>
         <mat-panel-title>Presentation Video</mat-panel-title>
       </mat-expansion-panel-header>

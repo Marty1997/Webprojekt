@@ -36,6 +36,16 @@ export class updateService {
     return this.http.post(url, club);
   }
 
+  updateClubPassword(club: Club) {
+    let url = "https://localhost:44310/api/Club/UpdatePassword";
+    return this.http.post(url, club);
+  }
+
+  updatePlayerPassword(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdatePassword";
+    return this.http.post(url, player);
+  }
+
   updateTrainingSchedule(trainingHours: TrainingHours) {
     let url = "https://localhost:44310/api/Club/UpdateTrainingHours";
     return this.http.post(url, trainingHours);

@@ -499,6 +499,16 @@ export class UpdateClubComponent implements OnInit {
 
       },
       error => {
+        
+      });
+  }
+
+  updatePassword() {
+    this.updateService.updateClubPassword(this.buildPassword()).subscribe(
+      (succes: any) => {
+
+      },
+      error => {
         if(error.error == "Invalid password") {
           this.wrongPassword = true;
         }
@@ -984,6 +994,14 @@ export class UpdateClubComponent implements OnInit {
     club.country = this.country.value == "" ? this.clubBinding.country : this.country.value;
     club.city = this.city.value == "" ? this.clubBinding.city : this.city.value;
     club.zipcode = this.zipcode.value == "" ? this.clubBinding.zipcode : this.zipcode.value;
+    return club;
+  }
+
+
+  buildPassword() {
+    var club = new Club();
+    club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
+    club.newPassword = this.password.value == "" ? null : this.password.value;
     return club;
   }
 

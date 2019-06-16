@@ -281,6 +281,19 @@ export class UpdatePlayerComponent implements OnInit {
     );
   }
 
+  updatePassword() {
+    this.updateService.updatePlayerPassword(this.buildPassword()).subscribe(
+      (succes: any) => {
+
+      },
+      error => {
+        if (error.error == "Invalid password") {
+          // this.wrongPassword = true;
+        }
+      }
+    );
+  }
+
   overWritePlayerInfo() {
     this.playerBinding.firstName = this.firstNameControl.value == "" ? null : this.firstNameControl.value;
     this.playerBinding.lastName = this.lastNameControl.value == "" ? null : this.lastNameControl.value;
@@ -573,6 +586,14 @@ export class UpdatePlayerComponent implements OnInit {
       this.yearControl.value == ""
         ? this.playerBinding.year
         : this.yearControl.value;
+    return player;
+  }
+
+  buildPassword() {
+    var player = new Player();
+    player.password =
+      this.currentPassword.value == "" ? null : this.currentPassword.value;
+    player.newPassword = this.password.value == "" ? null : this.password.value;
     return player;
   }
 

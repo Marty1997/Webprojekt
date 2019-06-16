@@ -3,35 +3,12 @@
 <div class="well custom-container forPlayerClubBackgroundColor">
 
   <mat-accordion class="example-headers-align">
+
     <!-- Club Info -->
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
       <mat-expansion-panel-header>
         <mat-panel-title>Club Info</mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field>
-        <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="currentPassword?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="New Password" [formControl]="password" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="password?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="wrongPassword">
-          Password is invalid
-        </mat-error>
-      </mat-form-field>
-      <br>
       <mat-checkbox #isLooking>Currently looking for players</mat-checkbox>
       <br>
       <mat-form-field>
@@ -99,8 +76,47 @@
       </mat-action-row>
     </mat-expansion-panel>
 
-    <!-- Regular Training Schedule -->
+
+    <!-- Update password -->
     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Update password</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+          <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="currentPassword?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="New Password" [formControl]="password" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="wrongPassword">
+            Password is invalid
+          </mat-error>
+        </mat-form-field>
+        
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updatePassword()">
+  
+        <mat-action-row>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+
+    <!-- Regular Training Schedule -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
       <mat-expansion-panel-header>
         <mat-panel-title>Regular Training Schedule</mat-panel-title>
       </mat-expansion-panel-header>
@@ -211,7 +227,7 @@
     </mat-expansion-panel>
 
     <!-- Fitness Training Schedule -->
-    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
       <mat-expansion-panel-header>
         <mat-panel-title>Fitness Training Schedule</mat-panel-title>
       </mat-expansion-panel-header>
@@ -323,7 +339,7 @@
     </mat-expansion-panel>
 
     <!-- Current Season Squad -->
-    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
       <mat-expansion-panel-header>
         <mat-panel-title>Current Season Squad</mat-panel-title>
       </mat-expansion-panel-header>
@@ -387,7 +403,7 @@
     </mat-expansion-panel>
 
     <!-- Next Season Squad -->
-    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
       <mat-expansion-panel-header>
         <mat-panel-title>Next Season Squad</mat-panel-title>
       </mat-expansion-panel-header>
@@ -451,7 +467,7 @@
     </mat-expansion-panel>
 
     <!-- Open Positions -->
-    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
       <mat-expansion-panel-header>
         <mat-panel-title>Open Positions</mat-panel-title>
       </mat-expansion-panel-header>
@@ -600,7 +616,7 @@
     </mat-expansion-panel>
 
     <!-- Staff -->
-    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
       <mat-expansion-panel-header>
         <mat-panel-title>Staff</mat-panel-title>
       </mat-expansion-panel-header>
@@ -634,7 +650,7 @@
     </mat-expansion-panel>
 
     <!-- Values and Preferences -->
-    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
+    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
       <mat-expansion-panel-header>
         <mat-panel-title>Values and Preferences</mat-panel-title>
       </mat-expansion-panel-header>
@@ -679,7 +695,7 @@
     </mat-expansion-panel>
 
     <!-- Pictures -->
-    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
+    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)">
       <mat-expansion-panel-header>
         <mat-panel-title>Pictures</mat-panel-title>
       </mat-expansion-panel-header>
