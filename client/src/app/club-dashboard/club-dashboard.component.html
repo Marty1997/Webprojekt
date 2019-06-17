@@ -347,5 +347,6 @@
     </div>
   </div>
   <app-contact-adviser *ngIf="isClub"></app-contact-adviser>
+  <div style="height: 100px;" *ngIf="clubBinding.currentSquadPlayersList.length == 0 && clubBinding.nextYearSquadPlayersList.length == 0 && clubBinding.trainingHoursList.length == 0"></div>
 </section>
 <div style="height: 15px;"></div>

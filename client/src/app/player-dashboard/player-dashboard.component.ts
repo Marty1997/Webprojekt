@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
 import { updateService } from "src/app/services/updateService";
 import { ActivatedRoute } from "@angular/router";
@@ -11,7 +10,6 @@ import { Router } from "@angular/router";
   selector: "app-player-dashboard",
   templateUrl: "./player-dashboard.component.html",
   styleUrls: ["./player-dashboard.component.css"],
-  encapsulation: ViewEncapsulation.None,
   providers: []
 })
 export class PlayerDashboardComponent implements OnInit {

@@ -32,10 +32,10 @@
                     <a mat-button [matMenuTriggerFor]="menu" class="headerLinks">Account <span class="caret"></span></a>
                     <mat-menu id="dropdownMenu" #menu="matMenu">
                         <!-- add routerlinks -->
-                        <button mat-menu-item>Settings</button>
+                        <button mat-menu-item *ngIf="isClub" [routerLink]="['/update-club']">Settings</button>
+                        <button mat-menu-item *ngIf="isPlayer" [routerLink]="['/update-player']">Settings</button>
                         <button mat-menu-item *ngIf="isClub" [routerLink]="['/club-how-to']">How to Use</button>
                         <button mat-menu-item *ngIf="isPlayer" [routerLink]="['/player-how-to']">How to Use</button>
-                        <button mat-menu-item>Contact Support</button>
                         <mat-divider></mat-divider>
                         <button mat-menu-item (click)="logout()" [routerLink]="['/']">Logout</button>
                     </mat-menu>

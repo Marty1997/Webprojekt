@@ -8,7 +8,6 @@ import { Router } from "@angular/router";
   selector: "app-club-dashboard",
   templateUrl: "./club-dashboard.component.html",
   styleUrls: ["./club-dashboard.component.css"],
-  encapsulation: ViewEncapsulation.None,
   providers: []
 })
 export class ClubDashboardComponent implements OnInit {
