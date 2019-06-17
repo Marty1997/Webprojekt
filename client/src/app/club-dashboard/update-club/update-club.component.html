@@ -9,7 +9,9 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Club Info</mat-panel-title>
       </mat-expansion-panel-header>
+      <p>If left unchecked, you will not show up when players search for clubs</p>
       <mat-checkbox #isLooking>Currently looking for players</mat-checkbox>
+      <hr>
       <br>
       <mat-form-field>
         <input matInput placeholder="Club Name" [value]="clubBinding.name" [formControl]="name"
