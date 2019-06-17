@@ -128,10 +128,6 @@ namespace Api.BusinessLogic {
                     sql += " and c.country = '" + criterias.Country + "' and isavailable = 1 ";
                 }
 
-                if(criterias.Position != null) {
-                    sql += GetJobpositionSql(criterias);
-                }
-
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPosition().ToList();
             }
             // If Country, League and Position is not selected as a criteria
@@ -140,28 +136,24 @@ namespace Api.BusinessLogic {
             // If only preference, season and value is selected
             else if (criterias.PreferencesList.Count > 0 && criterias.Season != null && criterias.ValuesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
-                sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue).ToList();
             }
             // If only season and value is selected
             else if (criterias.Season != null && criterias.ValuesList.Count > 0) {
-                sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue).ToList();
             }
             // If only season and preference is selected
             else if (criterias.Season != null && criterias.PreferencesList.Count > 0) {
-                sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference).ToList();
             }
             // If only preference and value is selected
             else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
-                sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
@@ -169,20 +161,16 @@ namespace Api.BusinessLogic {
             }
             // If only season is selected
             else if (criterias.Season != null) {
-                sqlJobposition = GetJobpositionSql(criterias);
-
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPosition().ToList();
             }
             // If only preference is selected
             else if (criterias.PreferencesList.Count > 0) {
-                sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithPreference(sqlPreference).ToList();
             }
             // If only value is selected
             else if (criterias.ValuesList.Count > 0) {
-                sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithValue(sqlValue).ToList();
@@ -332,28 +320,6 @@ namespace Api.BusinessLogic {
                 }
             }
             return sqlPreference;
-        }
-
-        /**
-         * Helping method used to get the SQL for jobpositions
-         */
-        private string GetJobpositionSql(ClubSearchCriteria criterias) {
-            string sqlJobposition = "";
-            if (sqlJobposition == "") {
-                if(criterias.Season != null) {
-                    sqlJobposition += " jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
-                } else {
-                    sqlJobposition += " jp.season = 'Current year' and c.isAvailable = 1 ";
-                }
-            }
-            else {
-                if(criterias.Season != null) {
-                    sqlJobposition += " or jp.season = '" + criterias.Season + "' and c.isAvailable = 1 ";
-                } else {
-                    sqlJobposition += " or jp.season = 'Current year' and c.isAvailable = 1 ";
-                }
-            }
-            return sqlJobposition;
         }
 
         /**

@@ -7,9 +7,10 @@ import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog } from "@angular/material";
+import { MatCheckbox, MatDialog, MatSnackBar } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
+import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 
 @Component({
   selector: "app-update-player",
@@ -19,6 +20,8 @@ import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-p
 export class UpdatePlayerComponent implements OnInit {
   playerBinding: Player;
   step: number;
+  snackBar: MatSnackBar;
+  notify: UpdateMessageComponent = new UpdateMessageComponent(this.snackBar);
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -126,8 +129,8 @@ export class UpdatePlayerComponent implements OnInit {
     private updateService: updateService,
     private fileService: FileService,
     private deleteService: deleteService,
-      private router: Router,
-    public dialog: MatDialog
+    private router: Router,
+    public dialog: MatDialog,
     ) { }
 
   ngOnInit() {
@@ -155,6 +158,8 @@ export class UpdatePlayerComponent implements OnInit {
         this.nationalTeamSource = [...this.nationalTeamSource];
       });
     }
+
+
 
     // set the values
     this.setPersonalInfo();
@@ -241,7 +246,9 @@ export class UpdatePlayerComponent implements OnInit {
 
   updatePlayerProfile() {
     this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
-      (succes: any) => {},
+      (succes: any) => {
+        this.notify.openSnackBar('Successfully updated your profile', 'OK');
+      },
       error => {
 
       });
@@ -255,7 +262,9 @@ export class UpdatePlayerComponent implements OnInit {
 
   updatePlayerVideo() {
     this.updateService.updatePlayerVideo(this.buildPlayerVideo()).subscribe(
-      (succes: any) => {},
+      (succes: any) => {
+        this.notify.openSnackBar('Successfully updated your video', 'OK');
+      },
       error => {
         // Delete video from filesystem
       }
@@ -272,6 +281,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
       (succes: any) => {
         this.overWritePlayerInfo();
+        this.notify.openSnackBar('Successfully updated your player info', 'OK');
       },
       error => {
         if (error.error == "Invalid password") {
