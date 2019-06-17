@@ -11,8 +11,6 @@ namespace Api.DAL {
                                                                             string sqlWhereStatementValue);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue);
-        IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
-        IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
         bool UpdateInfo(Club entity);
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition();
@@ -30,6 +28,5 @@ namespace Api.DAL {
         List<SquadPlayer> GetNextSquadplayer(int club_ID);
         List<SquadPlayer> GetCurrentSquadplayer(int club_ID);
         List<JobPosition> GetOpenPositions(int id);
-        IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlPreference, string sqlValue);
     }
 }
