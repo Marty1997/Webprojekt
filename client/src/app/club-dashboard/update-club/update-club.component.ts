@@ -504,15 +504,16 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updatePassword() {
-    this.updateService.updateClubPassword(this.buildPassword()).subscribe(
-      (succes: any) => {
 
-      },
-      error => {
-        if(error.error == "Invalid password") {
-          this.wrongPassword = true;
-        }
-      });
+    if(this.currentPassword.value === this.password.value) {
+      this.updateService.updateClubPassword(this.buildPassword()).subscribe(
+        (succes: any) => {
+  
+        },
+        error => {
+          
+        });
+    }
   }
 
   overWriteClubInfo() {

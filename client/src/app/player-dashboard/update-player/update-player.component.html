@@ -17,8 +17,8 @@
           [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="Country" [formControl]="countryControl" [errorStateMatcher]="validate">
-          <mat-option *ngFor="let country of countryList" value="country">{{country}}</mat-option>
+        <mat-select placeholder="Country" [formControl]="countryControl" [value]="playerBinding.country" [errorStateMatcher]="validate">
+          <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
         </mat-select>
       </mat-form-field><br>
       <mat-form-field class="threeFieldsOnSameRow">

@@ -791,7 +791,7 @@ export class UpdatePlayerComponent implements OnInit {
   ];
 
   nationalTeamNames: string[] = [
-    "A",
+    "01",
     "B",
     "U21",
     "U18"
