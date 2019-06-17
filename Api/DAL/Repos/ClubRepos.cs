@@ -526,7 +526,7 @@ namespace Api.DAL.Repos {
             using (var conn = Connection()) {
                 Club result = null;
                 conn.Query<Club, int, string, string, string, JobPosition, Club >(sql,
-                    (clubinside, zipcode, city, preference, value, jobPosition) => {
+                    (clubinside, zipcode, city, value, preference, jobPosition) => {
                         Club c = null;
                         if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
                             c = BuildClub(clubinside, zipcode, city);

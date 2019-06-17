@@ -20,8 +20,7 @@ import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update
 export class UpdatePlayerComponent implements OnInit {
   playerBinding: Player;
   step: number;
-  snackBar: MatSnackBar;
-  notify: UpdateMessageComponent = new UpdateMessageComponent(this.snackBar);
+  notify: MatSnackBar;
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -244,10 +243,16 @@ export class UpdatePlayerComponent implements OnInit {
     }
   };
 
+  openSnackBar(message: string, action: string) {
+    this.notify.open(message, action, {
+      duration: 2000,
+    });
+  }
+
   updatePlayerProfile() {
     this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
       (succes: any) => {
-        this.notify.openSnackBar('Successfully updated your profile', 'OK');
+        this.openSnackBar('Successfully updated your profile picture!', 'OK');
       },
       error => {
 
@@ -263,7 +268,7 @@ export class UpdatePlayerComponent implements OnInit {
   updatePlayerVideo() {
     this.updateService.updatePlayerVideo(this.buildPlayerVideo()).subscribe(
       (succes: any) => {
-        this.notify.openSnackBar('Successfully updated your video', 'OK');
+        this.openSnackBar('Successfully updated your video!', 'OK');
       },
       error => {
         // Delete video from filesystem
@@ -281,7 +286,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
       (succes: any) => {
         this.overWritePlayerInfo();
-        this.notify.openSnackBar('Successfully updated your player info', 'OK');
+        this.openSnackBar('Successfully updated player info!', 'OK');
       },
       error => {
         if (error.error == "Invalid password") {
