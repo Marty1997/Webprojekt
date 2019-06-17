@@ -369,8 +369,8 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
                 Club result = null;
-                conn.Query<Club, int, string, JobPosition, string, string, Club>(sql,
-                    (clubinside, zipcode, city, jobposition, preference, value) => {
+                conn.Query<Club, int, string, string, string, JobPosition, Club>(sql,
+                    (clubinside, zipcode, city, value, preference, jobPosition) => {
                         Club c = null;
                         if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
                             c = BuildClub(clubinside, zipcode, city);
@@ -381,8 +381,8 @@ namespace Api.DAL.Repos {
                             result = clubs.Single(cl => cl.Id == clubinside.Id);
                         }
 
-                        if (jobposition != null) {
-                            result.JobPositionsList.Add(jobposition);
+                        if (jobPosition != null) {
+                            result.JobPositionsList.Add(jobPosition);
                         }
 
                         if (preference != null) {
@@ -394,7 +394,7 @@ namespace Api.DAL.Repos {
                         }
 
                         return result;
-                    }, splitOn: "zipcode, city, id, preference, value");
+                    }, splitOn: "zipcode, city, value, preference, id");
             }
 
             return clubs;

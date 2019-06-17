@@ -105,7 +105,6 @@ namespace Api.BusinessLogic {
             string sql = "";
             string sqlPreference = "";
             string sqlValue = "";
-            string sqlJobposition = "";
             List<Club> clubs = new List<Club>();
 
             // If no criteria is selected all clubs is returned
@@ -215,66 +214,68 @@ namespace Api.BusinessLogic {
                     int playerAge = DateTime.Now.Year - player.Year;
 
                     foreach (JobPosition jobPosition in club.JobPositionsList) {
-                        if(jobPosition.Position != null) {
-                            amountOfCriterias++;
-                            if (player.PrimaryPosition == jobPosition.Position) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if (criterias.Position != null) {
-                            amountOfCriterias++;
-                            if (criterias.Position == jobPosition.Position) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if (jobPosition.Season != null) {
-                            amountOfCriterias++;
-                            if (criterias.Season == jobPosition.Season) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.League != null) {
-                            amountOfCriterias++;
-                            if (player.League == jobPosition.League) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.PreferredHand != null) {
-                            amountOfCriterias++;
-                            if (player.PreferredHand == jobPosition.PreferredHand) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.Height != null) {
-                            amountOfCriterias++;
-                            if (player.Height >= jobPosition.Height) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.MinAge != null) {
-                            amountOfCriterias++;
-                            if (playerAge > jobPosition.MinAge) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.MaxAge != null) {
-                            amountOfCriterias++;
-                            if (playerAge < jobPosition.MaxAge) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.ContractStatus != null) {
-                            amountOfCriterias++;
-                            if(player.ContractStatus == jobPosition.ContractStatus) {
-                                amountOfMatches++;
-                            }
-                        }
-                        if(jobPosition.StrengthsList.Count > 0) {
-                            foreach (string jobStrength in jobPosition.StrengthsList) {
+                        if(player.PrimaryPosition == jobPosition.Position || player.SecondaryPosition == jobPosition.Position || criterias.Position == jobPosition.Position) {
+                            if (jobPosition.Position != null) {
                                 amountOfCriterias++;
-                                foreach (string playerStrength in player.StrengthList) {
-                                    if(playerStrength == jobStrength) {
-                                        amountOfMatches++;
+                                if (player.PrimaryPosition == jobPosition.Position) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (criterias.Position != null) {
+                                amountOfCriterias++;
+                                if (criterias.Position == jobPosition.Position) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.Season != null) {
+                                amountOfCriterias++;
+                                if (criterias.Season == jobPosition.Season) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.League != null) {
+                                amountOfCriterias++;
+                                if (player.League == jobPosition.League) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.PreferredHand != null) {
+                                amountOfCriterias++;
+                                if (player.PreferredHand == jobPosition.PreferredHand) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.Height != null) {
+                                amountOfCriterias++;
+                                if (player.Height >= jobPosition.Height) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.MinAge != null) {
+                                amountOfCriterias++;
+                                if (playerAge > jobPosition.MinAge) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.MaxAge != null) {
+                                amountOfCriterias++;
+                                if (playerAge < jobPosition.MaxAge) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.ContractStatus != null) {
+                                amountOfCriterias++;
+                                if (player.ContractStatus == jobPosition.ContractStatus) {
+                                    amountOfMatches++;
+                                }
+                            }
+                            if (jobPosition.StrengthsList.Count > 0) {
+                                foreach (string jobStrength in jobPosition.StrengthsList) {
+                                    amountOfCriterias++;
+                                    foreach (string playerStrength in player.StrengthList) {
+                                        if (playerStrength == jobStrength) {
+                                            amountOfMatches++;
+                                        }
                                     }
                                 }
                             }
