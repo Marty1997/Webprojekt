@@ -132,7 +132,7 @@ namespace Api.BusinessLogic {
                     sql += GetSeasonSql(criterias);
                 }
                 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
+                clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
             }
             // If Country, League and Position is not selected as a criteria
             // We continue to match with the 'less important' criterias
@@ -163,7 +163,7 @@ namespace Api.BusinessLogic {
             else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
-                sqlSeason = GetSeasonSql(criterias);
+                sqlSeason = "";
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
             }
