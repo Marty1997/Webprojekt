@@ -344,7 +344,8 @@ namespace Api.DAL.Repos {
          * Get clubs with jobposition, preference and value
          */
         public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementPreference,
-                                                                                   string sqlWhereStatementValue) {
+                                                                                   string sqlWhereStatementValue,
+                                                                                   string sqlSeason) {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, v.name as value, null as preference, " +
@@ -365,7 +366,7 @@ namespace Api.DAL.Repos {
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge, " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 ";
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " + sqlSeason;
 
             using (var conn = Connection()) {
                 Club result = null;
@@ -403,13 +404,13 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with jobposition and preference
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference) {
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference, string sqlSeason) {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, null as preference, " +
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge,  " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " + sqlSeason + 
                 " UNION ALL " +
                 "SELECT c.*, ci.zipcode, ci.city, p.name as preference, " +
                 "null as id, null as league, null as preferredHand, null as height, null as minAge, " +
@@ -450,14 +451,14 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with jobposition and value
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue) {
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue, string sqlSeason) {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, null as value, " +
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge, " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " + sqlSeason +
                 " UNION ALL " +
                 "SELECT c.*, ci.zipcode, ci.city, v.name as value, " +
                 "null as id, null as league, null as preferredHand, null as height, null as minAge, " +
@@ -502,7 +503,7 @@ namespace Api.DAL.Repos {
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, jp.* FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE " + sqlSeason;
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " + sqlSeason;
 
             using (var conn = Connection()) {
                 Club result = null;

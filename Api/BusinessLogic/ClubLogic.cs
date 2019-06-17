@@ -105,6 +105,7 @@ namespace Api.BusinessLogic {
             string sql = "";
             string sqlPreference = "";
             string sqlValue = "";
+            string sqlSeason = "";
             List<Club> clubs = new List<Club>();
 
             // If no criteria is selected all clubs is returned
@@ -118,15 +119,19 @@ namespace Api.BusinessLogic {
             // Country, league and position is a must-match when selected
             // Get all clubs with matching league, country and/or position
             if(criterias.Country != null || criterias.League != null || criterias.Position != null) {
-                sql += " c.isAvailable = 1 ";
+                sql = "";
                 if(criterias.League != null) {
-                    sql += " and c.league = '" + criterias.League + "' and isavailable = 1 ";
+                    sql += " and c.league = '" + criterias.League + "' and isAvailable = 1 ";
                 }
 
                 if(criterias.Country != null) {
-                    sql += " and c.country = '" + criterias.Country + "' and isavailable = 1 ";
+                    sql += " and c.country = '" + criterias.Country + "' and isAvailable = 1 ";
                 }
-                // needs sql with it
+
+                if(criterias.Season != null) {
+                    sql += GetSeasonSql(criterias);
+                }
+                
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
             }
             // If Country, League and Position is not selected as a criteria
@@ -136,50 +141,48 @@ namespace Api.BusinessLogic {
             else if (criterias.PreferencesList.Count > 0 && criterias.Season != null && criterias.ValuesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
+                sqlSeason = GetSeasonSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
             }
             // If only season and value is selected
             else if (criterias.Season != null && criterias.ValuesList.Count > 0) {
                 sqlValue = GetValueSql(criterias);
+                sqlSeason = GetSeasonSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue, sqlSeason).ToList();
             }
             // If only season and preference is selected
             else if (criterias.Season != null && criterias.PreferencesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
+                sqlSeason = GetSeasonSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference, sqlSeason).ToList();
             }
             // If only preference and value is selected
             else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
+                sqlSeason = GetSeasonSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
             }
             // If only season is selected
             else if (criterias.Season != null) {
-                sql += " c.isAvailable = 1 ";
-                if(criterias.Season == "Current year") {
-                    sql += " and jp.Season = 'Current year' ";
-                }
-                if(criterias.Season == "Next year") {
-                    sql += " and jp.Season = 'Next year' ";
-                }
+                sql += GetSeasonSql(criterias);
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
             }
             // If only preference is selected
             else if (criterias.PreferencesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference, sqlSeason).ToList();
             }
             // If only value is selected
             else if (criterias.ValuesList.Count > 0) {
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue, sqlSeason).ToList();
             }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first
@@ -344,6 +347,22 @@ namespace Api.BusinessLogic {
                 }
             }
             return sqlValue;
+        }
+
+        /**
+         * Helping method used to get the SQL for season
+         */
+        private string GetSeasonSql(ClubSearchCriteria criterias) {
+            string sql = "";
+
+            if (criterias.Season == "Current year") {
+                sql += " and jp.Season = 'Current year' ";
+            }
+            else if (criterias.Season == "Next year") {
+                sql += " and jp.Season = 'Next year' ";
+            }
+
+            return sql;
         }
     }
 }

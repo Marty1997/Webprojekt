@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Api.DAL {
     public interface IClubRepository<TEntity> : IRepository<TEntity> {
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementPreference,
-                                                                            string sqlWhereStatementValue);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue);
+                                                                            string sqlWhereStatementValue, string sqlSeason);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference, string sqlSeason);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue, string sqlSeason);
         bool UpdateInfo(Club entity);
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sql);
