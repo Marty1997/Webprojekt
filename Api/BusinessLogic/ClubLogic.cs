@@ -120,7 +120,7 @@ namespace Api.BusinessLogic {
                     sql += GetJobpositionSql(criterias);
                 }
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition().ToList();
             }
             // If Country, League and Position is not selected as a criteria
             // We continue to match with the 'less important' criterias
@@ -131,21 +131,21 @@ namespace Api.BusinessLogic {
                 sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlJobposition, sqlPreference, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue).ToList();
             }
             // If only season and value is selected
             else if (criterias.Season != null && criterias.ValuesList.Count > 0) {
                 sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlJobposition, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue).ToList();
             }
             // If only season and preference is selected
             else if (criterias.Season != null && criterias.PreferencesList.Count > 0) {
                 sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlJobposition, sqlPreference).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference).ToList();
             }
             // If only preference and value is selected
             else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
@@ -159,21 +159,21 @@ namespace Api.BusinessLogic {
             else if (criterias.Season != null) {
                 sqlJobposition = GetJobpositionSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sqlJobposition).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition().ToList();
             }
             // If only preference is selected
             else if (criterias.PreferencesList.Count > 0) {
                 sqlJobposition = GetJobpositionSql(criterias);
                 sqlPreference = GetPreferenceSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlJobposition, sqlPreference).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithPreference(sqlPreference).ToList();
             }
             // If only value is selected
             else if (criterias.ValuesList.Count > 0) {
                 sqlJobposition = GetJobpositionSql(criterias);
                 sqlValue = GetValueSql(criterias);
 
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlJobposition, sqlValue).ToList();
+                clubs = _clubRepos.GetBySearchCriteriaWithValue(sqlValue).ToList();
             }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first

@@ -343,8 +343,7 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with jobposition, preference and value
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementJobposition,
-                                                                                   string sqlWhereStatementPreference,
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementPreference,
                                                                                    string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
             string sql =
@@ -361,12 +360,12 @@ namespace Api.DAL.Repos {
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
                 "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
                 "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference +
-                " UNION ALL " +
+                " UNION ALL" +
                 "SELECT c.*, ci.zipcode, ci.city, null as value, null as preference, " +
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge, " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE " + sqlWhereStatementJobposition;
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 ";
 
             using (var conn = Connection()) {
                 Club result = null;
@@ -382,15 +381,15 @@ namespace Api.DAL.Repos {
                             result = clubs.Single(cl => cl.Id == clubinside.Id);
                         }
 
-                        if(jobposition != null) {
+                        if (jobposition != null) {
                             result.JobPositionsList.Add(jobposition);
                         }
 
-                        if(preference != null) {
+                        if (preference != null) {
                             result.PreferenceList.Add(preference);
                         }
 
-                        if(value != null) {
+                        if (value != null) {
                             result.ValuesList.Add(value);
                         }
 
@@ -404,14 +403,13 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with jobposition and preference
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementJobposition,
-                                                                               string sqlWhereStatementPreference) {
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference) {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, null as preference, " +
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge,  " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id WHERE " + sqlWhereStatementJobposition +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " +
                 "INNER JOIN jobposition jp ON jp.club_id = c.id " +
                 " UNION ALL " +
                 "SELECT c.*, ci.zipcode, ci.city, p.name as preference, " +
@@ -453,15 +451,14 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with jobposition and value
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementJobposition,
-                                                                          string sqlWhereStatementValue) {
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue) {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, null as value, " +
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge, " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE " + sqlWhereStatementJobposition +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " +
                 " UNION ALL " +
                 "SELECT c.*, ci.zipcode, ci.city, v.name as value, " +
                 "null as id, null as league, null as preferredHand, null as height, null as minAge, " +
@@ -507,14 +504,15 @@ namespace Api.DAL.Repos {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, v.name as value, null as preference FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN clubvalue cv ON cv.club_id = c.id " +
-                "INNER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue +
+                " OUTER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+                " OUTER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " +
+                " OUTER JOIN clubvalue cv ON cv.club_id = c.id " +
+                " OUTER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue +
                 " UNION ALL " +
-                "SELECT c.*, ci.zipcode, ci.city, null as value, p.name as preference FROM club c " +
-                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
-                "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
+                " SELECT c.*, ci.zipcode, ci.city, null as value, p.name as preference FROM club c " +
+                " OUTER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+                " OUTER JOIN clubpreference cp ON cp.club_id = c.id " +
+                " OUTER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
 
             using (var conn = Connection()) {
                 Club result = null;
@@ -540,9 +538,112 @@ namespace Api.DAL.Repos {
 
                         return result;
                     }, splitOn: "zipcode, city, value, preference");
-                return clubs;
             }
-            
+
+            return clubs;
+        }
+
+        /**
+         * Get clubs with job position
+         */
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPosition() {
+            List<Club> clubs = new List<Club>();
+            string sql =
+                "SELECT c.*, ci.zipcode, ci.city, jp.* FROM club c " +
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 ";
+
+            using (var conn = Connection()) {
+                Club result = null;
+                conn.Query<Club, int, string, JobPosition, Club>(sql, (clubinside, zipcode, city, jobposition) => {
+                    Club c = null;
+                    if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+                        c = BuildClub(clubinside, zipcode, city);
+                        result = c;
+                        clubs.Add(result);
+                    }
+                    else {
+                        result = clubs.Single(cl => cl.Id == clubinside.Id);
+                    }
+
+                    if (jobposition != null) {
+                        result.JobPositionsList.Add(jobposition);
+                    }
+
+                    return result;
+                }, splitOn: "zipcode, city, id");
+            }
+            return clubs;
+        }
+
+        /**
+         * Get clubs with preference
+         */
+        public IEnumerable<Club> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference) {
+            List<Club> clubs = new List<Club>();
+            string sql =
+                "SELECT c.*, ci.zipcode, ci.city, p.name as preference FROM club c " +
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " +
+                "INNER JOIN clubpreference cp ON cp.club_id = c.id " +
+                "INNER JOIN preference p ON cp.preference_id = p.id WHERE " + sqlWhereStatementPreference;
+
+            using (var conn = Connection()) {
+                Club result = null;
+                conn.Query<Club, int, string, string, Club>(sql, (clubinside, zipcode, city, preference) => {
+                    Club c = null;
+                    if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+                        c = BuildClub(clubinside, zipcode, city);
+                        result = c;
+                        clubs.Add(result);
+                    }
+                    else {
+                        result = clubs.Single(cl => cl.Id == clubinside.Id);
+                    }
+
+                    if (preference != null) {
+                        result.PreferenceList.Add(preference);
+                    }
+
+                    return result;
+                }, splitOn: "zipcode, city, preference");
+            }
+            return clubs;
+        }
+
+        /**
+         * Get clubs with value
+         */
+        public IEnumerable<Club> GetBySearchCriteriaWithValue(string sqlWhereStatementValue) {
+            List<Club> clubs = new List<Club>();
+            string sql =
+                "SELECT c.*, ci.zipcode, ci.city, v.name as value FROM club c " +
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " +
+                "INNER JOIN clubvalue cv ON cv.club_id = c.id " +
+                "INNER JOIN value v ON cv.value_ID = v.id WHERE " + sqlWhereStatementValue;
+
+            using (var conn = Connection()) {
+                Club result = null;
+                conn.Query<Club, int, string, string, Club>(sql, (clubinside, zipcode, city, value) => {
+                    Club c = null;
+                    if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
+                        c = BuildClub(clubinside, zipcode, city);
+                        result = c;
+                        clubs.Add(result);
+                    }
+                    else {
+                        result = clubs.Single(cl => cl.Id == clubinside.Id);
+                    }
+
+                    if (value != null) {
+                        result.ValuesList.Add(value);
+                    }
+
+                    return result;
+                }, splitOn: "zipcode, city, value");
+            }
+            return clubs;
         }
 
         public bool UpdateInfo(Club entity) {

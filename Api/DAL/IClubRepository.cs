@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace Api.DAL {
     public interface IClubRepository<TEntity> : IRepository<TEntity> {
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementJobposition,
-                                                                            string sqlWhereStatementPreference,
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementPreference,
                                                                             string sqlWhereStatementValue);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementJobposition,
-                                                                        string sqlWhereStatementPreference);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementJobposition,
-                                                                   string sqlWhereStatementValue);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue);
+        IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
+        IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
         bool UpdateInfo(Club entity);
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition();
         bool AddSquadPlayer(SquadPlayer entity, int club_ID);
         bool UpdateStaff(Club entity);
         bool UpdateValuesAndPreferences(Club entity);
