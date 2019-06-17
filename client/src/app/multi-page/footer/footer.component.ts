@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-footer',
@@ -8,10 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class FooterComponent implements OnInit {
 
   currentYear = new Date().getFullYear();
+  privacyPolicyModal: BsModalRef | null;
 
-  constructor() { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+  }
+
+  openPolicyModalRef(template: TemplateRef<any>) {
+    this.privacyPolicyModal = this.modalService.show(template, {class: 'customModalForPrivacyPolicy'});
   }
 
   

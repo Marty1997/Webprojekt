@@ -3,35 +3,12 @@
 <div class="well custom-container forPlayerClubBackgroundColor">
 
   <mat-accordion class="example-headers-align">
+
     <!-- Club Info -->
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
       <mat-expansion-panel-header>
         <mat-panel-title>Club Info</mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field>
-        <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="currentPassword?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="New Password" [formControl]="password" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="password?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="wrongPassword">
-          Password is invalid
-        </mat-error>
-      </mat-form-field>
-      <br>
       <mat-checkbox #isLooking>Currently looking for players</mat-checkbox>
       <br>
       <mat-form-field>
@@ -99,8 +76,47 @@
       </mat-action-row>
     </mat-expansion-panel>
 
-    <!-- Regular Training Schedule -->
+
+    <!-- Update password -->
     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Update password</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+          <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="currentPassword?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="New Password" [formControl]="password" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="wrongPassword">
+            Password is invalid
+          </mat-error>
+        </mat-form-field>
+        
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updatePassword()">
+  
+        <mat-action-row>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+
+    <!-- Regular Training Schedule -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
       <mat-expansion-panel-header>
         <mat-panel-title>Regular Training Schedule</mat-panel-title>
       </mat-expansion-panel-header>
@@ -196,11 +212,13 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!-- Update button -->
-      <input type="button" class="btn btn-success" value="Update" (click)="updateClubRegularTrainingSchedule()">
-      <!-- Delete button -->
-      <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubRegularTrainingSchedule()">
+      
+      <div>
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updateClubRegularTrainingSchedule()">
+        <!-- Delete button -->
+        <input type="button" class="btn btn-danger" value="Delete" (click)="deleteClubRegularTrainingSchedule()">
+      </div>
       
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -209,107 +227,110 @@
     </mat-expansion-panel>
 
     <!-- Fitness Training Schedule -->
-    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
       <mat-expansion-panel-header>
         <mat-panel-title>Fitness Training Schedule</mat-panel-title>
       </mat-expansion-panel-header>
       <mat-hint>Continue to keep your current schedule or delete to remove your schedule.</mat-hint><br><br>
       <mat-label>Monday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessMonFrom.value">
+        <mat-select matInput [placeholder]="fitnessMonFrom.value" [formControl]="fitnessMonFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessMonTo.value">
+        <mat-select matInput [placeholder]="fitnessMonTo.value" [formControl]="fitnessMonTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Tuesday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessTueFrom.value">
+        <mat-select matInput [placeholder]="fitnessTueFrom.value" [formControl]="fitnessTueFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessTueTo.value">
+        <mat-select matInput [placeholder]="fitnessTueTo.value" [formControl]="fitnessTueTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Wednesday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessWedFrom.value">
+        <mat-select matInput [placeholder]="fitnessWedFrom.value" [formControl]="fitnessWedFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessWedTo.value">
+        <mat-select matInput [placeholder]="fitnessWedTo.value" [formControl]="fitnessWedTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Thursday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessThuFrom.value">
+        <mat-select matInput [placeholder]="fitnessThuFrom.value" [formControl]="fitnessThuFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessThuTo.value">
+        <mat-select matInput [placeholder]="fitnessThuTo.value" [formControl]="fitnessThuTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Friday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessFriFrom.value">
+        <mat-select matInput [placeholder]="fitnessFriFrom.value" [formControl]="fitnessFriFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessFriTo.value">
+        <mat-select matInput [placeholder]="fitnessFriTo.value" [formControl]="fitnessFriTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Saturday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSatFrom.value">
+        <mat-select matInput [placeholder]="fitnessSatFrom.value" [formControl]="fitnessSatFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSatTo.value">
+        <mat-select matInput [placeholder]="fitnessSatTo.value" [formControl]="fitnessSatTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Sunday</mat-label><br>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSunFrom.value">
+        <mat-select matInput [placeholder]="fitnessSunFrom.value" [formControl]="fitnessSunFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput [placeholder]="fitnessSunTo.value">
+        <mat-select matInput [placeholder]="fitnessSunTo.value" [formControl]="fitnessSunTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <!-- Update button -->
-      <input type="button" class="btn btn-success" value="Update" (click)="updateClubFitnessTrainingSchedule()">
-      <!-- Delete button -->
-      <input type="button" class="btn btn-success" value="Delete" (click)="deleteClubFitnessTrainingSchedule()">
+      <div>
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updateClubFitnessTrainingSchedule()">
+        <!-- Delete button -->
+        <input type="button" class="btn btn-danger" value="Delete" (click)="deleteClubFitnessTrainingSchedule()">
+      </div>
+      
       
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -318,7 +339,7 @@
     </mat-expansion-panel>
 
     <!-- Current Season Squad -->
-    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
       <mat-expansion-panel-header>
         <mat-panel-title>Current Season Squad</mat-panel-title>
       </mat-expansion-panel-header>
@@ -382,7 +403,7 @@
     </mat-expansion-panel>
 
     <!-- Next Season Squad -->
-    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
       <mat-expansion-panel-header>
         <mat-panel-title>Next Season Squad</mat-panel-title>
       </mat-expansion-panel-header>
@@ -393,7 +414,7 @@
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
         <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrlNext" [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+          <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="addPlayerFields">
@@ -446,7 +467,7 @@
     </mat-expansion-panel>
 
     <!-- Open Positions -->
-    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
       <mat-expansion-panel-header>
         <mat-panel-title>Open Positions</mat-panel-title>
       </mat-expansion-panel-header>
@@ -595,26 +616,26 @@
     </mat-expansion-panel>
 
     <!-- Staff -->
-    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
       <mat-expansion-panel-header>
         <mat-panel-title>Staff</mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-label>Technical Staff</mat-label><br>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Trainer" [value]="clubBinding.trainer" [formControl]="trainerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Trainer" [value]="trainerCtrl.value" [formControl]="trainerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Trainer" [value]="clubBinding.assistantTrainer" [formControl]="assistantTrainerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Trainer" [value]="assistantTrainerCtrl.value" [formControl]="assistantTrainerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Physiotherapist" [value]="clubBinding.physiotherapist" [formControl]="physiotherapistCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Physiotherapist" [value]="physiotherapistCtrl.value" [formControl]="physiotherapistCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Physiotherapist" [value]="clubBinding.assistantPhysiotherapist" [formControl]="assistantPhysiotherapistCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Physiotherapist" [value]="assistantPhysiotherapistCtrl.value" [formControl]="assistantPhysiotherapistCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Team Manager" [value]="clubBinding.manager" [formControl]="managerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Team Manager" [value]="managerCtrl.value" [formControl]="managerCtrl" [errorStateMatcher]="validate">
       </mat-form-field>
 
       <div>
@@ -629,20 +650,20 @@
     </mat-expansion-panel>
 
     <!-- Values and Preferences -->
-    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
+    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
       <mat-expansion-panel-header>
         <mat-panel-title>Values and Preferences</mat-panel-title>
       </mat-expansion-panel-header>
 
       <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-6, col-sm-6">
             <mat-label>Values</mat-label><br>
             <mat-checkbox #hardWorking value="Hard working">Hard Working</mat-checkbox><br>
             <mat-checkbox #socialCohesion value="Social cohesion">Social Cohesion</mat-checkbox><br>
             <mat-checkbox #winningMentality value="Winning mentality">Winning Mentality</mat-checkbox><br>
             <br><br>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-6, col-sm-6">
             <mat-label>Preferences</mat-label><br>
             <mat-checkbox #talentDevelopmentClub value="Talent development club">Talent Development Club</mat-checkbox><br>
             <mat-checkbox #strivesForTitles value="Strives for titles">Strives for Titles</mat-checkbox><br>
@@ -654,11 +675,11 @@
         <div class="row">
           <mat-form-field>
             <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="clubBinding.valueDescription" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
+              matAutosizeMaxRows="10" [value]="valueDescription.value" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
           </mat-form-field>
           <mat-form-field>
             <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="clubBinding.preferenceDescription" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
+              matAutosizeMaxRows="10" [value]="preferenceDescription.value" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
           </mat-form-field>
         </div>
 
@@ -674,7 +695,7 @@
     </mat-expansion-panel>
 
     <!-- Pictures -->
-    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
+    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)">
       <mat-expansion-panel-header>
         <mat-panel-title>Pictures</mat-panel-title>
       </mat-expansion-panel-header>
@@ -686,12 +707,14 @@
           <div>
             <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
           </div>
-          <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-          <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
+          
 
           <div>
+              <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+              <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
+
               <!-- Delete button -->
-              <input type="button" class="btn btn-success" value="Delete profile picture" (click)="deleteClubProfile()">
+              <input type="button" class="btn btn-danger" value="Delete profile picture" (click)="deleteClubProfile()">
           </div>
         </div>
         <div class="col-md-6" style="text-align: center;">
@@ -705,11 +728,12 @@
           <div *ngIf="clubBinding.facilityImagesList != null">
               <carousel [interval]="myInterval">
                   <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-                      <div>
-                        <!-- Delete button -->
-                        <input type="button" class="btn btn-success" value="Delete facility image" (click)="deleteClubFacilityImage(slide)">
-                      </div>
+                      
                       <img [src]="slide" alt="image slide" style="display: block; width: 100%;">
+                      <div>
+                          <!-- Delete button -->
+                          <input type="button" class="btn btn-danger" value="Delete image" (click)="deleteClubFacilityImage(slide)">
+                        </div>
                   </slide>
                 </carousel>
                 
@@ -717,7 +741,7 @@
 
           <div style="text-align: center">
             <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
-            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload facility image</button>
+            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
           </div>
           
         </div>       
@@ -731,6 +755,6 @@
   </mat-accordion>
   <br>
   <div>
-      <input type="button" class="btn btn-success" value="Delete profile" (click)="deleteClub()">
+      <input type="button" class="btn btn-danger" value="Delete profile" (click)="deleteClub()">
   </div>
 </div>

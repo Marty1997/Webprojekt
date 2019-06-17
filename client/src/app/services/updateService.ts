@@ -36,6 +36,16 @@ export class updateService {
     return this.http.post(url, club);
   }
 
+  updateClubPassword(club: Club) {
+    let url = "https://localhost:44310/api/Club/UpdatePassword";
+    return this.http.post(url, club);
+  }
+
+  updatePlayerPassword(player: Player) {
+    let url = "https://localhost:44310/api/Player/UpdatePassword";
+    return this.http.post(url, player);
+  }
+
   updateTrainingSchedule(trainingHours: TrainingHours) {
     let url = "https://localhost:44310/api/Club/UpdateTrainingHours";
     return this.http.post(url, trainingHours);
@@ -93,5 +103,25 @@ export class updateService {
   addPlayerNationalTeam(nationalTeam : NationalTeam) {
     let url = "https://localhost:44310/api/Player/AddNationalTeam";
     return this.http.post(url, nationalTeam);
+  }
+
+  getNextSquadplayer() {
+    let url = "https://localhost:44310/api/Club/GetNextSquadplayer";
+    return this.http.get(url);
+  }
+
+  getCurrentSquadplayer() {
+    let url = "https://localhost:44310/api/Club/GetCurrentSquadplayer";
+    return this.http.get(url);
+  }
+
+  getOpenPositions() {
+    let url = "https://localhost:44310/api/Club/GetOpenPositions";
+    return this.http.get(url);
+  }
+
+  getNationalTeams() {
+    let url = "https://localhost:44310/api/Player/GetNationalTeams";
+    return this.http.get(url);
   }
 }

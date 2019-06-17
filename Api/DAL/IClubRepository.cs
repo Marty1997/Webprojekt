@@ -22,11 +22,14 @@ namespace Api.DAL {
         bool UpdateProfile(Club entity);
         bool UpdateFacility(Club entity);
         bool DeleteJobPosition(int jobPosition_ID, int club_ID);
-        bool DeleteTrainingHours(int trainingHours_ID, int club_ID);
+        bool DeleteTrainingHours(string name, int club_ID);
         bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID);
         bool AddOpenPosition(JobPosition entity, int club_ID);
         bool DeleteValuesAndPreferences(int club_ID);
         bool DeleteFacilityImage(string imagePath, int club_ID);
+        List<SquadPlayer> GetNextSquadplayer(int club_ID);
+        List<SquadPlayer> GetCurrentSquadplayer(int club_ID);
+        List<JobPosition> GetOpenPositions(int id);
         IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlPreference, string sqlValue);
     }
 }

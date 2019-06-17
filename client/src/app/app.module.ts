@@ -54,6 +54,7 @@ import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/co
 import { UpdateMessageComponent } from './multi-page/update-message/update-message.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { PrivacyPolicyComponent } from './multi-page/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     UpdateMessageComponent,
     ErrorPageComponent,
     ResetPasswordComponent,
+    PrivacyPolicyComponent,
     
   ],
   imports: [

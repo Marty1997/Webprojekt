@@ -6,29 +6,6 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Personal Info</mat-panel-title>
       </mat-expansion-panel-header>
-
-      <mat-label>Update Password</mat-label><br>
-      <mat-form-field>
-        <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="currentPassword?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="New Password" [formControl]="password" type="password"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
-          Password must be at least 6 characters
-        </mat-error>
-        <mat-error *ngIf="password?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <br>
       <mat-checkbox #isLooking>Currently looking for clubs</mat-checkbox>
       <br>
       <mat-form-field>
@@ -102,8 +79,47 @@
       </mat-action-row>
     </mat-expansion-panel>
 
-    <!-- Additional Info -->
+
+    <!-- Update password -->
     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Update password</mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <mat-label>Update Password</mat-label><br>
+        <mat-form-field>
+          <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="currentPassword?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="New Password" [formControl]="password" type="password"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
+            Password must be at least 6 characters
+          </mat-error>
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Update button -->
+        <input type="button" class="btn btn-success" value="Update" (click)="updatePassword()">
+  
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+
+    <!-- Additional Info -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
       <mat-expansion-panel-header>
         <mat-panel-title>Additional Info</mat-panel-title>
       </mat-expansion-panel-header>
@@ -136,13 +152,13 @@
       <br>
       <mat-form-field>
         <mat-select placeholder="Primary position" [formControl]="primaryPositionCtrl" [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Secondary position" [formControl]="secondaryPositionCtrl"
           [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -214,13 +230,13 @@
     </mat-expansion-panel>
 
     <!-- Strengths and Weaknesses -->
-    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
       <mat-expansion-panel-header>
         <mat-panel-title>Strengths and Weaknesses</mat-panel-title>
       </mat-expansion-panel-header>
 
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-6, col-sm-6">
           <mat-label>Strengths</mat-label><br>
           <mat-checkbox #speedy value="Speedy">Speedy</mat-checkbox><br>
           <mat-checkbox #athletic value="Athletic">Athletic</mat-checkbox><br>
@@ -234,7 +250,7 @@
           <mat-checkbox #longRangeShooter value="Long range shooter">Long Range Shooter</mat-checkbox><br>
           <br>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6, col-sm-6">
           <mat-label>Weaknesses</mat-label><br>
           <mat-checkbox #slowMoving value="Slow moving">Slow Moving</mat-checkbox><br>
           <mat-checkbox #badEndurance value="Bad endurance">Bad Endurance</mat-checkbox><br>
@@ -268,7 +284,7 @@
     </mat-expansion-panel>
 
     <!-- Sport CV -->
-    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
       <mat-expansion-panel-header>
         <mat-panel-title>Sport CV</mat-panel-title>
       </mat-expansion-panel-header>
@@ -281,13 +297,13 @@
       <mat-form-field class="threeFieldsOnSameRow">
         <mat-select placeholder="Current position" [formControl]="currentPrimaryPositionCtrl"
           [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <mat-select placeholder="Current secondary position" [formControl]="currentSecondaryPositionCtrl"
           [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let position of positionList" value="position">{{position}}</mat-option>
+          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -322,15 +338,18 @@
     </mat-expansion-panel>
 
     <!-- National Team -->
-    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
       <mat-expansion-panel-header>
         <mat-panel-title>National Team</mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-label>Add national team</mat-label>
+      <br>
       <mat-hint>There can only be one of each</mat-hint><br>
       <mat-form-field>
-        <input matInput placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
+        <mat-select placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
+          <mat-option *ngFor="let nationalTeamName of nationalTeamNames" [value]="nationalTeamName.valueOf()">{{nationalTeamName}}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Appearances" [formControl]="nationalTeamAppearancesCtrl" [errorStateMatcher]="validate">
@@ -395,24 +414,27 @@
     </mat-expansion-panel>
 
     <!-- Profile Picture -->
-    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
       <mat-expansion-panel-header>
         <mat-panel-title>Profile Picture</mat-panel-title>
       </mat-expansion-panel-header>
 
       <div class="row">
-          <div class="col-md-12" style="text-align: center;">
+          <div class="col-xs-12, col-sm-12, col-md-12" style="text-align: center;">
             
             <h3>Profile picture</h3>
+            
             <div>
               <img class="responsiveImage" src="{{playerBinding.imagePath}}" height="150" width="150" />
             </div>
-            <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-            <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
 
             <div>
+                <!-- Upload button -->
+                <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
+                <button type="button" class="btn btn-success" (click)="profile.click()">Upload profile picture</button>
+
                 <!-- Delete button -->
-                <input type="button" class="btn btn-success" value="Delete profile picture" (click)="deletePlayerProfile()">
+                <input type="button" class="btn btn-danger" value="Delete profile picture" (click)="deletePlayerProfile()">
             </div>
           </div>
         </div>
@@ -423,13 +445,13 @@
     </mat-expansion-panel>
 
   <!-- Presentation video -->
-  <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+  <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
       <mat-expansion-panel-header>
         <mat-panel-title>Presentation Video</mat-panel-title>
       </mat-expansion-panel-header>
 
       <div class="row">
-          <div class="col-md-12" style="text-align: center;">
+          <div class="col-xs-12, col-sm-12, col-md-12" style="text-align: center;">
             
             <h3>Presentation</h3>
 
@@ -442,12 +464,13 @@
                 <video src="{{playerBinding.videoPath}}" width="100%" controls></video>
             </div>
 
-            <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
-            <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
-            
             <div>
+                <!-- Upload button -->
+                <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
+                <button type="button" class="btn btn-success" (click)="video.click()">Upload video</button>
+
                 <!-- Delete button -->
-                <input type="button" class="btn btn-success" value="Delete video" (click)="deletePlayerVideo()">
+                <input type="button" class="btn btn-danger" value="Delete video" (click)="deletePlayerVideo()">
             </div>
           </div>
         </div>
@@ -459,6 +482,6 @@
   </mat-accordion>
   <br>
   <div>
-      <input type="button" class="btn btn-success" value="Delete profile" (click)="deletePlayer()">
+      <input type="button" class="btn btn-danger" value="Delete profile" (click)="deletePlayer()">
   </div>
 </div>

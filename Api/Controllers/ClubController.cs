@@ -31,7 +31,7 @@ namespace Api.Controllers {
         // api/Club
         [AllowAnonymous]
         [HttpPost]
-        public async Task<Object> Register([FromBody] Club entity) {
+        public async Task<IActionResult> Register([FromBody] Club entity) {
             User user = new User {
                 Role = "Club",
                 UserName = entity.Email,
@@ -51,7 +51,6 @@ namespace Api.Controllers {
                 else {
                     return StatusCode(500, "Failed");
                 }
-
             }
             catch (Exception) {
                 return StatusCode(500, "Failed");
@@ -67,10 +66,6 @@ namespace Api.Controllers {
             int id = authentication.GetIDFromToken(decodedToken);
             
             if (role == "Club") {
-
-                //New password
-
-
                 // Update club info
                 entity.Id = id;
                 if(_clubLogic.UpdateInfo(entity)) {
@@ -78,6 +73,35 @@ namespace Api.Controllers {
                 }    
             }
             return StatusCode(500, "Failed");
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> UpdatePassword([FromBody] Club entity) {
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
+
+                if (role == "Club") {
+                    // Update club info
+                    string email = _clubLogic.GetEmailById(id);
+                    var user = await userManager.FindByNameAsync(email);
+                    if(user != null) {
+                        var result = await userManager.ChangePasswordAsync(user, entity.Password, entity.NewPassword);
+                        if(result.Succeeded) {
+                            return Ok();
+                        }
+                        else {
+                            return StatusCode(500, "Failed");
+                        }
+                    }
+                }
+                return StatusCode(500, "Failed");
+            }
+            catch (Exception) {
+               return StatusCode(500, "Failed");
+            }
         }
 
         // api/Club/UpdateTrainingHours
@@ -237,17 +261,39 @@ namespace Api.Controllers {
             return StatusCode(500, "Failed");
         }
 
-        // api/Club/DeleteTrainingHours
-        [HttpPost]
+        // api/Club/GetOpenPositions
+        [HttpGet]
         [Route("[action]")]
-        public IActionResult DeleteTrainingHours([FromBody] IDRequest data) {
+        public IActionResult GetOpenPositions() {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
-                if(_clubLogic.DeleteTrainingHours(data.ID, id)) {
+                List<JobPosition> opl = _clubLogic.GetOpenPositions(id);
+
+                if (opl != null) {
+                    return Ok(opl);
+                }
+                else {
+                    return StatusCode(404, "Resource not found");
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/DeleteTrainingHours
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DeleteTrainingHours([FromBody] NameRequest data) {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                if(_clubLogic.DeleteTrainingHours(data.Name, id)) {
                     return Ok();
                 }
                 
@@ -255,6 +301,49 @@ namespace Api.Controllers {
             return StatusCode(500, "Failed");
         }
 
+        // api/Club/GetNextSquadplayer
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetNextSquadplayer() {
+            
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                List<SquadPlayer> spl = _clubLogic.GetNextSquadplayer(id);
+
+                if (spl != null) {
+                    return Ok(spl);
+                }
+                else {
+                    return StatusCode(404, "Resource not found");
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
+
+        // api/Club/GetCurrentSquadplayer
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetCurrentSquadplayer() {
+
+            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+            string role = authentication.GetRoleFromToken(decodedToken);
+            int id = authentication.GetIDFromToken(decodedToken);
+
+            if (role == "Club") {
+                List<SquadPlayer> spl = _clubLogic.GetCurrentSquadplayer(id);
+
+                if (spl != null) {
+                    return Ok(spl);
+                }
+                else {
+                    return StatusCode(404, "Resource not found");
+                }
+            }
+            return StatusCode(400, "Failed");
+        }
 
         // api/Club/DeleteFacilityImage
         [HttpPost]
@@ -294,16 +383,27 @@ namespace Api.Controllers {
         // api/Club/DeleteClub
         [HttpPost]
         [Route("[action]")]
-        public IActionResult DeleteClub() {
+        public async Task<IActionResult> DeleteClub() {
 
             var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
             string role = authentication.GetRoleFromToken(decodedToken);
             int id = authentication.GetIDFromToken(decodedToken);
 
             if (role == "Club") {
+                string email = _clubLogic.GetEmailById(id);
                 if (_clubLogic.DeleteClub(id)) {
-                    return Ok();
+                    var user = await userManager.FindByNameAsync(email);
+                    if (user != null) {
+                        var result = await userManager.DeleteAsync(user);
+                        if (result.Succeeded) {
+                            return Ok();
+                        }
+                        else {
+                            return StatusCode(500, "Failed");
+                        }
+                    }
                 }
+                return StatusCode(500, "Failed");
             }
             return StatusCode(500, "Failed");
         }

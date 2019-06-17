@@ -267,28 +267,17 @@ namespace Api.DAL.Repos {
 
             bool res = false;
 
-            List<int> _rowCountList = new List<int>();
+            int rowCount = 0;
 
             using (var conn = Connection()) {
 
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
 
-                        if (entity.UserCredentials != null) {
-                            //Update user credentials
-                            string userCredentialsSQL = @"Update UserCredentials Set Hashpassword = @HashPassword, Salt = @Salt Where ID = @ID";
-
-                            _rowCountList.Add(conn.Execute(userCredentialsSQL, new {
-                                entity.UserCredentials.HashPassword,
-                                entity.UserCredentials.Salt,
-                                entity.Id
-                            }, transaction: tran));
-                        }
-
                         //Update player
                         string updatePlayerSQL = @"Update Player Set Firstname = @FirstName, Lastname = @LastName, Day = @Day, Month = @Month, Year = @Year, Country = @Country, isAvailable = @isAvailable
                                                         Where ID = @ID";
-                        _rowCountList.Add(conn.Execute(updatePlayerSQL, new {
+                        rowCount = conn.Execute(updatePlayerSQL, new {
                             entity.FirstName,
                             entity.LastName,
                             entity.Day,
@@ -297,9 +286,9 @@ namespace Api.DAL.Repos {
                             entity.Country,
                             entity.IsAvailable,
                             entity.Id
-                        }, transaction: tran));
+                        }, transaction: tran);
 
-                        if (_rowCountList.Contains(0)) {
+                        if (rowCount == 0) {
                             tran.Rollback();
                         }
                         else {
@@ -767,5 +756,22 @@ namespace Api.DAL.Repos {
             };
         }
 
+        public List<NationalTeam> GetNationalTeams(int id) {
+            List<NationalTeam> ntl = new List<NationalTeam>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                string getNationalTeamsSQL = "Select * from NationalTeam where Player_ID = @Player_ID";
+
+                ntl = conn.Query<NationalTeam>(getNationalTeamsSQL, new { Player_ID = id }).ToList();
+
+                }
+                catch (SqlException) {
+                }
+            }
+            return ntl;
+        }
     }
 }

@@ -17,10 +17,6 @@ import {
 } from "src/app/multi-page/confirmation-dialog/confirmation-dialog.component";
 import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 
-/* pls virk */
-/* pls virk #2 */
-/* pls virk #3 */
-
 @Component({
   selector: "app-update-club",
   templateUrl: "./update-club.component.html",
@@ -365,16 +361,17 @@ export class UpdateClubComponent implements OnInit {
   }
 
   setClubStaff() {
-    this.trainerCtrl.setValue(this.clubBinding.trainer);
-    this.assistantTrainerCtrl.setValue(this.clubBinding.assistantTrainer);
-    this.physiotherapistCtrl.setValue(this.clubBinding.physiotherapist);
-    this.assistantPhysiotherapistCtrl.setValue(this.clubBinding.assistantPhysiotherapist);
-    this.managerCtrl.setValue(this.clubBinding.manager);
+    
+    this.trainerCtrl.setValue(this.clubBinding.trainer == "Not specified" ? null : this.clubBinding.trainer);
+    this.assistantTrainerCtrl.setValue(this.clubBinding.assistantTrainer == "Not specified" ? null : this.clubBinding.assistantTrainer);
+    this.physiotherapistCtrl.setValue(this.clubBinding.physiotherapist == "Not specified" ? null : this.clubBinding.physiotherapist);
+    this.assistantPhysiotherapistCtrl.setValue(this.clubBinding.assistantPhysiotherapist == "Not specified" ? null : this.clubBinding.assistantPhysiotherapist);
+    this.managerCtrl.setValue(this.clubBinding.manager == "Not specified" ? null : this.clubBinding.manager);
   }
 
   setClubValuesAndPreferences() {
-    this.valueDescription.setValue(this.clubBinding.valueDescription);
-    this.preferenceDescription.setValue(this.clubBinding.preferenceDescription);
+    this.valueDescription.setValue(this.clubBinding.valueDescription == "Not specified" ? null : this.clubBinding.valueDescription);
+    this.preferenceDescription.setValue(this.clubBinding.preferenceDescription == "Not specified" ? null : this.clubBinding.preferenceDescription);
   }
 
   // Add player to the squad player table for current season
@@ -397,11 +394,20 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     this.dataSource = [...this.dataSource]; //refresh the dataSource
+    this.clubBinding.currentSquadPlayersList = this.dataSource;
   }
 
   // Add player to the squad player table for next season
   onAddPlayerToNextYearSquad() {
-    this.addClubNextSeasonSquadPlayer();
+
+    if (
+      this.squadPlayerNameCtrlNext.value !== "" &&
+      this.squadPlayerPositionCtrlNext.value !== "" &&
+      this.squadPlayerShirtNumberCtrlNext.value !== "" &&
+      Number(this.squadPlayerShirtNumberCtrlNext.value)
+    ) {
+      this.addClubNextSeasonSquadPlayer();
+    }
   }
 
   // Delete player from squad player table for current season
@@ -412,10 +418,15 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+    this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //refresh the clubBinding
   }
 
   onAddJobPosition() {
-    this.addClubOpenPosition();
+    if (this.openPositionName.value !== "")
+    {
+      this.addClubOpenPosition();
+    }
+    
   }
 
   deleteOpenPosition(jobPosition: JobPosition) {
@@ -425,6 +436,7 @@ export class UpdateClubComponent implements OnInit {
       }
     });
     this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
+    this.clubBinding.jobPositionsList = this.openPositionSource; //refresh the clubBinding
   }
 
   setStep(index: number) {
@@ -443,43 +455,57 @@ export class UpdateClubComponent implements OnInit {
     if (files.length === 0) {
       return;
     } else {
-      this.fileService.uploadFile(files).subscribe(
-        res => {
-          this.fileService.createPath(JSON.stringify(res.body), "image");
-          if (type === "profile") {
-            //Delete former image file from filesystem
-            this.deleteFile(this.clubBinding.imagePath);
-            this.clubBinding.imagePath = this.fileService.imagePath;
-            // Update new club profile
-            this.updateClubProfile();
+      this.fileService.uploadFile(files).subscribe(res => {
+        this.fileService.createPath(JSON.stringify(res.body), "image");
+        if (type === "profile") {
+          //Delete former image file from filesystem
+          this.deleteFile(this.clubBinding.imagePath);
+          this.clubBinding.imagePath = this.fileService.imagePath;
+          // Update new club profile
+          this.updateClubProfile(); 
+        }
+        if (type === "facility") {
+          if (this.clubBinding.facilityImagesList != null) {
+            this.facilityImages = this.clubBinding.facilityImagesList;
           }
-          if (type === "facility") {
-            if (this.clubBinding.facilityImagesList != null) {
-              this.facilityImages = this.clubBinding.facilityImagesList;
-            }
-            this.facilityImages.push(this.fileService.imagePath);
-            this.clubBinding.facilityImagesList = this.facilityImages;
-            // Update club facility
-            this.updateClubFacility();
-          }
-        },
-        error => {}
-      );
+        this.facilityImages.push(this.fileService.imagePath);
+        this.clubBinding.facilityImagesList = this.facilityImages;
+        // Update club facility
+        this.updateClubFacility();
+        }
+      },
+      error => {
+
+      });;
     }
   };
 
   deleteFile(filename: string) {
-    // Delete former image from filesystem
-    this.fileService
-      .deleteFile(filename)
-      .subscribe((succes: any) => {}, error => {});
+    // Delete former image from filesystem 
+    this.fileService.deleteFile(filename).subscribe(
+      (succes: any) => {
+  
+      },
+      error => {
+
+      });
   }
 
   updateClubInfo() {
     this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
       (succes: any) => {
 
-        this.overWriteClubBinding();
+        this.overWriteClubInfo();
+
+      },
+      error => {
+        
+      });
+  }
+
+  updatePassword() {
+    this.updateService.updateClubPassword(this.buildPassword()).subscribe(
+      (succes: any) => {
 
       },
       error => {
@@ -489,26 +515,37 @@ export class UpdateClubComponent implements OnInit {
       });
   }
 
-  overWriteClubBinding() {
+  overWriteClubInfo() {
     if(this.isLooking.checked == true) {
       this.clubBinding.isAvailable = true;
     }
     else {
       this.clubBinding.isAvailable = false;
     }
-    this.clubBinding.league = this.league.value;
-    this.clubBinding.name = this.name.value;
-    this.clubBinding.streetAddress = this.streetAddress.value;
-    this.clubBinding.streetNumber = this.streetNumber.value;
-    this.clubBinding.country = this.country.value;
-    this.clubBinding.city = this.city.value;
-    this.clubBinding.zipcode = this.zipcode.value;
+    this.clubBinding.league = this.league.value == "" ? this.clubBinding.league : this.league.value;
+    this.clubBinding.name = this.name.value  == "" ? this.clubBinding.name : this.name.value;
+    this.clubBinding.streetAddress = this.streetAddress.value  == "" ? this.clubBinding.streetAddress : this.streetAddress.value;
+    this.clubBinding.streetNumber = this.streetNumber.value  == "" ? this.clubBinding.streetNumber : this.streetNumber.value;
+    this.clubBinding.country = this.country.value  == "" ? this.clubBinding.country : this.country.value;
+    this.clubBinding.city = this.city.value  == "" ? this.clubBinding.city : this.city.value;
+    this.clubBinding.zipcode = this.zipcode.value  == "" ? this.clubBinding.zipcode : this.zipcode.value;
   }
 
   updateClubRegularTrainingSchedule() {
-    this.updateService
-      .updateTrainingSchedule(this.buildRegularTrainingHours())
-      .subscribe((succes: any) => {}, error => {});
+    this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
+      (succes: any) => {
+        
+        this.clubBinding.trainingHoursList.forEach( (elm, index) => {
+          if(elm.name == 'Handball') {
+            this.clubBinding.trainingHoursList.splice(index, 1);
+          } 
+        });
+        
+        this.clubBinding.trainingHoursList.push(this.regularHours);
+      },
+      error => {
+
+      });
   }
 
   deleteClubFacilityImage(imagePath: string) {
@@ -518,8 +555,9 @@ export class UpdateClubComponent implements OnInit {
         //Delete facility image from DB
         this.deleteFacilityImage(imagePath);
       },
-      error => {}
-    );
+      error => {
+
+      });
   }
 
   deleteFacilityImage(imagePath: string) {
@@ -532,50 +570,114 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteFacilityImageFromList(imagePath: string) {
-    this.clubBinding.facilityImagesList.forEach((elm, index) => {
-      if (elm === imagePath) {
+    this.clubBinding.facilityImagesList.forEach( (elm, index) => {
+      if(elm === imagePath ) {
         this.clubBinding.facilityImagesList.splice(index, 1);
-      }
-      this.clubBinding.facilityImagesList = [
-        ...this.clubBinding.facilityImagesList
-      ];
+      } 
+      this.clubBinding.facilityImagesList = [...this.clubBinding.facilityImagesList];
     });
   }
 
   updateClubFitnessTrainingSchedule() {
-    this.updateService
-      .updateTrainingSchedule(this.buildFitnessTrainingHours())
-      .subscribe((succes: any) => {}, error => {});
-  }
+    this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
+      (succes: any) => {
+        this.clubBinding.trainingHoursList.forEach( (elm, index) => {
+          if(elm.name == 'Fitness training') {
+            this.clubBinding.trainingHoursList.splice(index, 1);
+          } 
+        });
+        
+        this.clubBinding.trainingHoursList.push(this.fitnessHours);
+        
+      },
+      error => {
 
+      });;
+  }
+  
   updateClubStaff() {
-    this.updateService
-      .updateClubStaff(this.buildClubStaff())
-      .subscribe((succes: any) => {}, error => {});
+    this.updateService.updateClubStaff(this.buildClubStaff()).subscribe(
+      (succes: any) => {
+        this.overWriteClubStaff();
+      },
+      error => {
+        
+      });;
+  }
+  
+  overWriteClubStaff() {
+    this.clubBinding.trainer = this.trainerCtrl.value == "" ? null : this.trainerCtrl.value;
+    this.clubBinding.assistantTrainer = this.assistantTrainerCtrl.value == "" ? null : this.assistantTrainerCtrl.value;
+    this.clubBinding.physiotherapist = this.physiotherapistCtrl.value == "" ? null : this.physiotherapistCtrl.value;
+    this.clubBinding.assistantPhysiotherapist = this.assistantPhysiotherapistCtrl.value == "" ? null : this.assistantPhysiotherapistCtrl.value;
+    this.clubBinding.manager = this.managerCtrl.value == "" ? null : this.managerCtrl.value;
+  }
+  
+  updateValuesAndPreferences() {
+    this.updateService.updateClubValuesAndPreferences(this.buildClubValuesAndPreferences()).subscribe(
+      (succes: any) => {
+        this.overWriteValuesAndPrefs();
+      },
+      error => {
+
+      });;
   }
 
-  updateValuesAndPreferences() {
-    this.updateService
-      .updateClubValuesAndPreferences(this.buildClubValuesAndPreferences())
-      .subscribe((succes: any) => {}, error => {});
+  overWriteValuesAndPrefs() {
+
+    //Reset clubBinding values and prefs lists
+    this.clubBinding.valuesList = [];
+    this.clubBinding.preferenceList = [];
+
+    // values
+    if (this.hardWorking.checked) {
+      this.clubBinding.valuesList.push(this.hardWorking.value);
+    }
+    if (this.socialCohesion.checked) {
+      this.clubBinding.valuesList.push(this.socialCohesion.value);
+    }
+    if (this.winningMentality.checked) {
+      this.clubBinding.valuesList.push(this.winningMentality.value);
+    }
+
+    // preferences
+    if (this.talentDevelopmentClub.checked) {
+      this.clubBinding.preferenceList.push(this.talentDevelopmentClub.value);
+    }
+    if (this.strivesForTitles.checked) {
+      this.clubBinding.preferenceList.push(this.strivesForTitles.value);
+    }
+    if (this.resultOriented.checked) {
+      this.clubBinding.preferenceList.push(this.resultOriented.value);
+    }
+    if (this.processOriented.checked) {
+      this.clubBinding.preferenceList.push(this.processOriented.value);
+    }
+
+    // value description
+    this.clubBinding.valueDescription = this.valueDescription.value;
+
+    // preference description
+    this.clubBinding.preferenceDescription = this.preferenceDescription.value;
   }
 
   updateClubProfile() {
     this.updateService.updateClubProfile(this.buildClubProfile()).subscribe(
-      (succes: any) => {},
+      (succes: any) => {      
+      },
       error => {
         // Delete image from filesystem
-      }
-    );
+      });;
   }
 
   updateClubFacility() {
     this.updateService.updateClubFacility(this.buildClubFacility()).subscribe(
-      (succes: any) => {},
+      (succes: any) => {
+        
+      },
       error => {
         // Delete from filesystem
-      }
-    );
+      });;
   }
 
   addClubCurrentSeasonSquadPlayer() {
@@ -613,18 +715,22 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClubRegularTrainingSchedule() {
-    this.deleteService.deleteTrainingHours(this.regularHours.id).subscribe(
+    
+    this.deleteService.deleteTrainingHours("Handball").subscribe(
       (succes: any) => {
         this.deleteTraininghours();
+        this.resetRegularHoursFields();
       },
-      error => {}
-    );
+      error => {
+
+      });
   }
 
   deleteClubFitnessTrainingSchedule() {
-    this.deleteService.deleteTrainingHours(this.fitnessHours.id).subscribe(
-      (succes: any) => {
+    this.deleteService.deleteTrainingHours("Fitness training").subscribe(
+      (succes:any) => {      
         this.deleteTraininghours();
+        this.resetFitnessHoursFields();
       },
       error => {}
     );
@@ -682,16 +788,16 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteClubProfile() {
-    // Delete image from filesystem
+    // Delete image from filesystem 
     this.fileService.deleteFile(this.clubBinding.imagePath).subscribe(
       (succes: any) => {
-        this.clubBinding.imagePath =
-          "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
+        this.clubBinding.imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
         //Update club imagePath in DB to default image
         this.updateClubProfile();
       },
-      error => {}
-    );
+      error => {
+
+      });
   }
 
   deleteClubValuesAndPreferences() {
@@ -812,13 +918,34 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to update current squadplayers
   updateNextSquadplayerList() {
-    this.nextYearSquadSource.push(this.buildNextSquadplayer()); //add the new model object to the dataSource
-    this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
+    
+    this.getNextSquadplayer();
 
     // reset input fields
     this.squadPlayerNameCtrlNext.setValue("");
     this.squadPlayerPositionCtrlNext.setValue("");
     this.squadPlayerShirtNumberCtrlNext.setValue("");
+    this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //Overwrite clubBinding jobPosition list
+  }
+
+  getNextSquadplayer() {
+    this.updateService.getNextSquadplayer().subscribe(
+      (succes: any) => {
+        this.nextYearSquadSource = succes; //refresh the dataSource
+        this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //refresh the clubBinding
+      },
+      error => {}
+    );
+  }
+
+  getCurrentSquadplayer() {
+    this.updateService.getCurrentSquadplayer().subscribe(
+      (succes: any) => {
+        this.dataSource = succes; //refresh the dataSource
+        this.clubBinding.currentSquadPlayersList = this.dataSource; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 
   // Helping method used to build current season squadplayer
@@ -834,10 +961,7 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to update next squadplayers
   updateCurrentSquadplayerList() {
-    let sp = this.buildCurrentSquadplayer();
-    this.dataSource.push(sp); //add the new model object to the dataSource
-    this.dataSource = [...this.dataSource]; //refresh the dataSource
-    this.clubBinding.currentSquadPlayersList = this.dataSource;
+    this.getCurrentSquadplayer();
 
     // reset input fields
     this.squadPlayerNameCtrl.setValue("");
@@ -846,15 +970,13 @@ export class UpdateClubComponent implements OnInit {
   }
 
   deleteTraininghours() {
-    this.clubBinding.trainingHoursList.forEach((elm, index) => {
-      if (elm.name === "Handball") {
+    this.clubBinding.trainingHoursList.forEach( (elm, index) => {
+      if(elm.name == 'Handball') {
         this.clubBinding.trainingHoursList.splice(index, 1);
-      } else if (elm.name === "Fitness training") {
+      } else if(elm.name == 'Fitness training') {
         this.clubBinding.trainingHoursList.splice(index, 1);
       }
-      this.clubBinding.trainingHoursList = [
-        ...this.clubBinding.trainingHoursList
-      ];
+      this.clubBinding.trainingHoursList = [...this.clubBinding.trainingHoursList];
     });
   }
 
@@ -871,110 +993,95 @@ export class UpdateClubComponent implements OnInit {
     club.streetNumber = this.streetNumber.value == "" ? this.clubBinding.streetNumber : this.streetNumber.value;
     club.country = this.country.value == "" ? this.clubBinding.country : this.country.value;
     club.city = this.city.value == "" ? this.clubBinding.city : this.city.value;
-    club.zipcode =
-      this.zipcode.value == "" ? this.clubBinding.zipcode : this.zipcode.value;
+    club.zipcode = this.zipcode.value == "" ? this.clubBinding.zipcode : this.zipcode.value;
+    return club;
+  }
+
+
+  buildPassword() {
+    var club = new Club();
+    club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
+    club.newPassword = this.password.value == "" ? null : this.password.value;
     return club;
   }
 
   buildJobPosition() {
-    if (this.openPositionName.value !== "") {
-      this.openPosition = new JobPosition();
-      if (this.openPositionLeague.value !== "") {
-        this.openPosition.league = this.openPositionLeague.value;
-      } else {
-        this.openPosition.league = null;
-      }
-      if (this.openPositionHand.value !== "") {
-        this.openPosition.preferredHand = this.openPositionHand.value;
-      } else {
-        this.openPosition.preferredHand = null;
-      }
-      this.openPosition.height = this.openPositionHeight.value;
-      this.openPosition.maxAge = this.openPositionMaxAge.value;
-      this.openPosition.minAge = this.openPositionMinAge.value;
-      if (this.openPositionSeason.value !== "") {
-        this.openPosition.season = this.openPositionSeason.value;
-      } else {
-        this.openPosition.season = null;
-      }
-      if (this.openPositionContract.value !== "") {
-        this.openPosition.contractStatus = this.openPositionContract.value;
-      } else {
-        this.openPosition.contractStatus = null;
-      }
-      if (this.openPositionName.value !== "") {
-        this.openPosition.position = this.openPositionName.value;
-      } else {
-        this.openPosition.position = null;
-      }
+    this.openPosition = new JobPosition();
 
-      if (this.openPositionSpeedy.checked) {
-        this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
-        this.openPositionSpeedy.toggle();
-      }
-      if (this.openPositionAthletic.checked) {
-        this.openPosition.strengthsList.push(this.openPositionAthletic.value);
-        this.openPositionAthletic.toggle();
-      }
-      if (this.openPositionGreatShape.checked) {
-        this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
-        this.openPositionGreatShape.toggle();
-      }
-      if (this.openPositionQuickShots.checked) {
-        this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
-        this.openPositionQuickShots.toggle();
-      }
-      if (this.openPositionAccurateShooter.checked) {
-        this.openPosition.strengthsList.push(
-          this.openPositionAccurateShooter.value
-        );
-        this.openPositionAccurateShooter.toggle();
-      }
-      if (this.openPositionTactical.checked) {
-        this.openPosition.strengthsList.push(this.openPositionTactical.value);
-        this.openPositionTactical.toggle();
-      }
-      if (this.openPositionTeamplayer.checked) {
-        this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
-        this.openPositionTeamplayer.toggle();
-      }
-      if (this.openPositionSocial.checked) {
-        this.openPosition.strengthsList.push(this.openPositionSocial.value);
-        this.openPositionSocial.toggle();
-      }
-      if (this.openPositionWinAtAllCosts.checked) {
-        this.openPosition.strengthsList.push(
-          this.openPositionWinAtAllCosts.value
-        );
-        this.openPositionWinAtAllCosts.toggle();
-      }
-      if (this.openPositionLongRangeShooter.checked) {
-        this.openPosition.strengthsList.push(
-          this.openPositionLongRangeShooter.value
-        );
-        this.openPositionLongRangeShooter.toggle();
-      }
+    this.openPosition.position = this.openPositionName.value;
+    this.openPosition.league = this.openPositionLeague.value == "" ? null : this.openPositionLeague.value;
+    this.openPosition.preferredHand = this.openPositionHand.value !== "" ? null : this.openPositionHand.value;
+    this.openPosition.height = this.openPositionHeight.value;
+    this.openPosition.maxAge = this.openPositionMaxAge.value;
+    this.openPosition.minAge = this.openPositionMinAge.value;
+    this.openPosition.season = this.openPositionSeason.value == "" ? null : this.openPositionSeason.value;
+    this.openPosition.contractStatus = this.openPositionContract.value == "" ? null : this.openPositionContract.value;
+    
+    if (this.openPositionSpeedy.checked) {
+      this.openPosition.strengthsList.push(this.openPositionSpeedy.value);
+      this.openPositionSpeedy.toggle();
+    }
+    if (this.openPositionAthletic.checked) {
+      this.openPosition.strengthsList.push(this.openPositionAthletic.value);
+      this.openPositionAthletic.toggle();
+    }
+    if (this.openPositionGreatShape.checked) {
+      this.openPosition.strengthsList.push(this.openPositionGreatShape.value);
+      this.openPositionGreatShape.toggle();
+    }
+    if (this.openPositionQuickShots.checked) {
+      this.openPosition.strengthsList.push(this.openPositionQuickShots.value);
+      this.openPositionQuickShots.toggle();
+    }
+    if (this.openPositionAccurateShooter.checked) {
+      this.openPosition.strengthsList.push(
+        this.openPositionAccurateShooter.value
+      );
+      this.openPositionAccurateShooter.toggle();
+    }
+    if (this.openPositionTactical.checked) {
+      this.openPosition.strengthsList.push(this.openPositionTactical.value);
+      this.openPositionTactical.toggle();
+    }
+    if (this.openPositionTeamplayer.checked) {
+      this.openPosition.strengthsList.push(this.openPositionTeamplayer.value);
+      this.openPositionTeamplayer.toggle();
+    }
+    if (this.openPositionSocial.checked) {
+      this.openPosition.strengthsList.push(this.openPositionSocial.value);
+      this.openPositionSocial.toggle();
+    }
+    if (this.openPositionWinAtAllCosts.checked) {
+      this.openPosition.strengthsList.push(
+        this.openPositionWinAtAllCosts.value
+      );
+      this.openPositionWinAtAllCosts.toggle();
+    }
+    if (this.openPositionLongRangeShooter.checked) {
+      this.openPosition.strengthsList.push(
+        this.openPositionLongRangeShooter.value
+      );
+      this.openPositionLongRangeShooter.toggle();
     }
     return this.openPosition;
   }
 
   // Helping method used to display current regular traininghours
   buildRegularHours(element: any) {
-    this.regularHours.id = element.id;
-    this.regularMonFrom.setValue(element.mon.slice(0, 5));
-    this.regularMonTo.setValue(element.mon.slice(8, 13));
-    this.regularTueFrom.setValue(element.tue.slice(0, 5));
-    this.regularTueTo.setValue(element.tue.slice(8, 13));
-    this.regularWedFrom.setValue(element.wed.slice(0, 5));
-    this.regularWedTo.setValue(element.wed.slice(8, 13));
-    this.regularThuFrom.setValue(element.thu.slice(0, 5));
-    this.regularThuTo.setValue(element.thu.slice(8, 13));
-    this.regularFriFrom.setValue(element.fri.slice(0, 5));
-    this.regularFriTo.setValue(element.fri.slice(8, 13));
-    this.regularSatFrom.setValue(element.sat.slice(0, 5));
-    this.regularSatTo.setValue(element.sat.slice(8, 13));
-    this.regularSunFrom.setValue(element.sun.slice(0, 5));
-    this.regularSunTo.setValue(element.sun.slice(8, 13));
+    this.regularMonFrom.setValue((element.mon == null ? element.mon : element.mon.slice(0, 5)));
+    this.regularMonTo.setValue(element.mon == null ? element.mon : element.mon.slice(8, 13));
+    this.regularTueFrom.setValue(element.tue == null ? element.tue : element.tue.slice(0, 5));
+    this.regularTueTo.setValue(element.tue == null ? element.tue : element.tue.slice(8, 13));
+    this.regularWedFrom.setValue(element.wed == null ? element.wed : element.wed.slice(0, 5));
+    this.regularWedTo.setValue(element.wed == null ? element.wed : element.wed.slice(8, 13));
+    this.regularThuFrom.setValue(element.thu == null ? element.thu : element.thu.slice(0, 5));
+    this.regularThuTo.setValue(element.thu == null ? element.thu : element.thu.slice(8, 13));
+    this.regularFriFrom.setValue(element.fri == null ? element.fri : element.fri.slice(0, 5));
+    this.regularFriTo.setValue(element.fri == null ? element.fri : element.fri.slice(8, 13));
+    this.regularSatFrom.setValue(element.sat == null ? element.sat : element.sat.slice(0, 5));
+    this.regularSatTo.setValue(element.sat == null ? element.sat : element.sat.slice(8, 13));
+    this.regularSunFrom.setValue(element.sun == null ? element.sun : element.sun.slice(0, 5));
+    this.regularSunTo.setValue(element.sun == null ? element.sun : element.sun.slice(8, 13));
   }
 
   resetRegularHoursFields() {
@@ -996,21 +1103,20 @@ export class UpdateClubComponent implements OnInit {
 
   // Helping method used to split up fitness traininghours into from and to
   buildFitnessHours(element: any) {
-    this.fitnessHours.id = element.id;
-    this.fitnessMonFrom.setValue(element.mon.slice(0, 5));
-    this.fitnessMonTo.setValue(element.mon.slice(8, 13));
-    this.fitnessTueFrom.setValue(element.tue.slice(0, 5));
-    this.fitnessTueTo.setValue(element.tue.slice(8, 13));
-    this.fitnessWedFrom.setValue(element.wed.slice(0, 5));
-    this.fitnessWedTo.setValue(element.wed.slice(8, 13));
-    this.fitnessThuFrom.setValue(element.thu.slice(0, 5));
-    this.fitnessThuTo.setValue(element.thu.slice(8, 13));
-    this.fitnessFriFrom.setValue(element.fri.slice(0, 5));
-    this.fitnessFriTo.setValue(element.fri.slice(8, 13));
-    this.fitnessSatFrom.setValue(element.sat.slice(0, 5));
-    this.fitnessSatTo.setValue(element.sat.slice(8, 13));
-    this.fitnessSunFrom.setValue(element.sun.slice(0, 5));
-    this.fitnessSunTo.setValue(element.sun.slice(8, 13));
+    this.fitnessMonFrom.setValue(element.mon == null ? element.mon : element.mon.slice(0, 5));
+    this.fitnessMonTo.setValue(element.mon == null ? element.mon : element.mon.slice(8, 13));
+    this.fitnessTueFrom.setValue(element.tue == null ? element.tue : element.tue.slice(0, 5));
+    this.fitnessTueTo.setValue(element.tue == null ? element.tue : element.tue.slice(8, 13));
+    this.fitnessWedFrom.setValue(element.wed == null ? element.wed : element.wed.slice(0, 5));
+    this.fitnessWedTo.setValue(element.wed == null ? element.wed : element.wed.slice(8, 13));
+    this.fitnessThuFrom.setValue(element.thu == null ? element.thu : element.thu.slice(0, 5));
+    this.fitnessThuTo.setValue(element.thu == null ? element.thu : element.thu.slice(8, 13));
+    this.fitnessFriFrom.setValue(element.fri == null ? element.fri : element.fri.slice(0, 5));
+    this.fitnessFriTo.setValue(element.fri == null ? element.fri : element.fri.slice(8, 13));
+    this.fitnessSatFrom.setValue(element.sat == null ? element.sat : element.sat.slice(0, 5));
+    this.fitnessSatTo.setValue(element.sat == null ? element.sat : element.sat.slice(8, 13));
+    this.fitnessSunFrom.setValue(element.sun == null ? element.sun : element.sun.slice(0, 5));
+    this.fitnessSunTo.setValue(element.sun == null ? element.sun : element.sun.slice(8, 13));
   }
 
   resetFitnessHoursFields() {
@@ -1033,102 +1139,95 @@ export class UpdateClubComponent implements OnInit {
   buildRegularTrainingHours() {
     this.regularHours.name = "Handball";
 
-    if (this.regularMonFrom.value == "-" || this.regularMonTo.value == "-") {
+    if(this.regularMonFrom.value == null  ||  this.regularMonTo.value == null) {
       this.regularHours.mon = null;
-    } else {
-      if (
-        this.regularMonFrom.value == "Rest" &&
-        this.regularMonTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularMonFrom.value == ""  ||  this.regularMonTo.value == "") {
+      this.regularHours.mon = null;
+    }
+    else if (this.regularMonFrom.value == "Rest" && this.regularMonTo.value == "Rest") {
         this.regularHours.mon = "Rest";
-      } else {
-        this.regularHours.mon =
-          this.regularMonFrom.value + " - " + this.regularMonTo.value;
-      }
+    }
+    else {
+        this.regularHours.mon = this.regularMonFrom.value + " - " + this.regularMonTo.value;
     }
 
-    if (this.regularTueFrom.value == "-" || this.regularTueTo.value == "-") {
+    if(this.regularTueFrom.value == null  ||  this.regularTueTo.value == null) {
       this.regularHours.tue = null;
-    } else {
-      if (
-        this.regularTueFrom.value == "Rest" &&
-        this.regularTueTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularTueFrom.value == ""  ||  this.regularTueTo.value == "") {
+      this.regularHours.tue = null;
+    }
+    else if (this.regularTueFrom.value == "Rest" && this.regularTueTo.value == "Rest") {
         this.regularHours.tue = "Rest";
-      } else {
-        this.regularHours.tue =
-          this.regularTueFrom.value + " - " + this.regularTueTo.value;
-      }
+    }
+    else {
+        this.regularHours.tue = this.regularTueFrom.value + " - " + this.regularTueTo.value;
     }
 
-    if (this.regularWedFrom.value == "-" || this.regularWedTo.value == "-") {
+    if(this.regularWedFrom.value == null  ||  this.regularWedTo.value == null) {
       this.regularHours.wed = null;
-    } else {
-      if (
-        this.regularWedFrom.value == "Rest" &&
-        this.regularWedTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularWedFrom.value == ""  ||  this.regularWedTo.value == "") {
+      this.regularHours.wed = null;
+    }
+    else if (this.regularWedFrom.value == "Rest" && this.regularWedTo.value == "Rest") {
         this.regularHours.wed = "Rest";
-      } else {
-        this.regularHours.wed =
-          this.regularWedFrom.value + " - " + this.regularWedTo.value;
-      }
     }
-
-    if (this.regularThuFrom.value == "-" || this.regularThuTo.value == "-") {
+    else {
+        this.regularHours.wed = this.regularWedFrom.value + " - " + this.regularWedTo.value;
+    }
+    
+    if(this.regularThuFrom.value == null  ||  this.regularThuTo.value == null) {
       this.regularHours.thu = null;
-    } else {
-      if (
-        this.regularThuFrom.value == "Rest" &&
-        this.regularThuTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularThuFrom.value == ""  ||  this.regularThuTo.value == "") {
+      this.regularHours.thu = null;
+    }
+    else if (this.regularThuFrom.value == "Rest" && this.regularThuTo.value == "Rest") {
         this.regularHours.thu = "Rest";
-      } else {
-        this.regularHours.thu =
-          this.regularThuFrom.value + " - " + this.regularThuTo.value;
-      }
+    }
+    else {
+        this.regularHours.thu = this.regularThuFrom.value + " - " + this.regularThuTo.value;
     }
 
-    if (this.regularFriFrom.value == "-" || this.regularFriTo.value == "-") {
+    if(this.regularFriFrom.value == null  ||  this.regularFriTo.value == null) {
       this.regularHours.fri = null;
-    } else {
-      if (
-        this.regularFriFrom.value == "Rest" &&
-        this.regularFriTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularFriFrom.value == ""  ||  this.regularFriTo.value == "") {
+      this.regularHours.fri = null;
+    }
+    else if (this.regularFriFrom.value == "Rest" && this.regularFriTo.value == "Rest") {
         this.regularHours.fri = "Rest";
-      } else {
-        this.regularHours.fri =
-          this.regularFriFrom.value + " - " + this.regularFriTo.value;
-      }
     }
-
-    if (this.regularSatFrom.value == "-" || this.regularSatTo.value == "-") {
+    else {
+        this.regularHours.fri = this.regularFriFrom.value + " - " + this.regularFriTo.value;
+    }
+    
+    if(this.regularSatFrom.value == null  ||  this.regularSatTo.value == null) {
       this.regularHours.sat = null;
-    } else {
-      if (
-        this.regularSatFrom.value == "Rest" &&
-        this.regularSatTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularSatFrom.value == ""  ||  this.regularSatTo.value == "") {
+      this.regularHours.sat = null;
+    }
+    else if (this.regularSatFrom.value == "Rest" && this.regularSatTo.value == "Rest") {
         this.regularHours.sat = "Rest";
-      } else {
-        this.regularHours.sat =
-          this.regularSatFrom.value + " - " + this.regularSatTo.value;
-      }
+    }
+    else {
+        this.regularHours.sat = this.regularSatFrom.value + " - " + this.regularSatTo.value;
     }
 
-    if (this.regularSunFrom.value == "-" || this.regularSunTo.value == "-") {
+    if(this.regularSunFrom.value == null  ||  this.regularSunTo.value == null) {
       this.regularHours.sun = null;
-    } else {
-      if (
-        this.regularSunFrom.value == "Rest" &&
-        this.regularSunTo.value == "Rest"
-      ) {
+    }
+    else if(this.regularSunFrom.value == ""  ||  this.regularSunTo.value == "") {
+      this.regularHours.sun = null;
+    }
+    else if (this.regularSunFrom.value == "Rest" && this.regularSunTo.value == "Rest") {
         this.regularHours.sun = "Rest";
-      } else {
-        this.regularHours.sun =
-          this.regularSunFrom.value + " - " + this.regularSunTo.value;
-      }
+    }
+    else {
+        this.regularHours.sun = this.regularSunFrom.value + " - " + this.regularSunTo.value;
     }
 
     return this.regularHours;
@@ -1137,112 +1236,104 @@ export class UpdateClubComponent implements OnInit {
   buildFitnessTrainingHours() {
     this.fitnessHours.name = "Fitness training";
 
-    if (this.fitnessMonFrom.value == "-" || this.fitnessMonTo.value == "-") {
+    if(this.fitnessMonFrom.value == null  ||  this.fitnessMonTo.value == null) {
       this.fitnessHours.mon = null;
-    } else {
-      if (
-        this.fitnessMonFrom.value == "Rest" &&
-        this.fitnessMonTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessMonFrom.value == ""  ||  this.fitnessMonTo.value == "") {
+      this.fitnessHours.mon = null;
+    }
+    else if (this.fitnessMonFrom.value == "Rest" && this.fitnessMonTo.value == "Rest") {
         this.fitnessHours.mon = "Rest";
-      } else {
-        this.fitnessHours.mon =
-          this.fitnessMonFrom.value + " - " + this.fitnessMonTo.value;
-      }
+    }
+    else {
+        this.fitnessHours.mon = this.fitnessMonFrom.value + " - " + this.fitnessMonTo.value;
     }
 
-    if (this.fitnessTueFrom.value == "-" || this.fitnessTueTo.value == "-") {
+    if(this.fitnessTueFrom.value == null  ||  this.fitnessTueTo.value == null) {
       this.fitnessHours.tue = null;
-    } else {
-      if (
-        this.fitnessTueFrom.value == "Rest" &&
-        this.fitnessTueTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessTueFrom.value == ""  ||  this.fitnessTueTo.value == "") {
+      this.fitnessHours.tue = null;
+    }
+    else if (this.fitnessTueFrom.value == "Rest" && this.fitnessTueTo.value == "Rest") {
         this.fitnessHours.tue = "Rest";
-      } else {
-        this.fitnessHours.tue =
-          this.fitnessTueFrom.value + " - " + this.fitnessTueTo.value;
-      }
+    }
+    else {
+        this.fitnessHours.tue = this.fitnessTueFrom.value + " - " + this.fitnessTueTo.value;
     }
 
-    if (this.fitnessWedFrom.value == "-" || this.fitnessWedTo.value == "-") {
+    if(this.fitnessWedFrom.value == null  ||  this.fitnessWedTo.value == null) {
       this.fitnessHours.wed = null;
-    } else {
-      if (
-        this.fitnessWedFrom.value == "Rest" &&
-        this.fitnessWedTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessWedFrom.value == ""  ||  this.fitnessWedTo.value == "") {
+      this.fitnessHours.wed = null;
+    }
+    else if (this.fitnessWedFrom.value == "Rest" && this.fitnessWedTo.value == "Rest") {
         this.fitnessHours.wed = "Rest";
-      } else {
-        this.fitnessHours.wed =
-          this.fitnessWedFrom.value + " - " + this.fitnessWedTo.value;
-      }
     }
-
-    if (this.fitnessThuFrom.value == "-" || this.fitnessThuTo.value == "-") {
+    else {
+        this.fitnessHours.wed = this.fitnessWedFrom.value + " - " + this.fitnessWedTo.value;
+    }
+    
+    if(this.fitnessThuFrom.value == null  ||  this.fitnessThuTo.value == null) {
       this.fitnessHours.thu = null;
-    } else {
-      if (
-        this.fitnessThuFrom.value == "Rest" &&
-        this.fitnessThuTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessThuFrom.value == ""  ||  this.fitnessThuTo.value == "") {
+      this.fitnessHours.thu = null;
+    }
+    else if (this.fitnessThuFrom.value == "Rest" && this.fitnessThuTo.value == "Rest") {
         this.fitnessHours.thu = "Rest";
-      } else {
-        this.fitnessHours.thu =
-          this.fitnessThuFrom.value + " - " + this.fitnessThuTo.value;
-      }
+    }
+    else {
+        this.fitnessHours.thu = this.fitnessThuFrom.value + " - " + this.fitnessThuTo.value;
     }
 
-    if (this.fitnessFriFrom.value == "-" || this.fitnessFriTo.value == "-") {
+    if(this.fitnessFriFrom.value == null  ||  this.fitnessFriTo.value == null) {
       this.fitnessHours.fri = null;
-    } else {
-      if (
-        this.fitnessFriFrom.value == "Rest" &&
-        this.fitnessFriTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessFriFrom.value == ""  ||  this.fitnessFriTo.value == "") {
+      this.fitnessHours.fri = null;
+    }
+    else if (this.fitnessFriFrom.value == "Rest" && this.fitnessFriTo.value == "Rest") {
         this.fitnessHours.fri = "Rest";
-      } else {
-        this.fitnessHours.fri =
-          this.fitnessFriFrom.value + " - " + this.fitnessFriTo.value;
-      }
     }
-
-    if (this.fitnessSatFrom.value == "-" || this.fitnessSatTo.value == "-") {
+    else {
+        this.fitnessHours.fri = this.fitnessFriFrom.value + " - " + this.fitnessFriTo.value;
+    }
+    
+    if(this.fitnessSatFrom.value == null  ||  this.fitnessSatTo.value == null) {
       this.fitnessHours.sat = null;
-    } else {
-      if (
-        this.fitnessSatFrom.value == "Rest" &&
-        this.fitnessSatTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessSatFrom.value == ""  ||  this.fitnessSatTo.value == "") {
+      this.fitnessHours.sat = null;
+    }
+    else if (this.fitnessSatFrom.value == "Rest" && this.fitnessSatTo.value == "Rest") {
         this.fitnessHours.sat = "Rest";
-      } else {
-        this.fitnessHours.sat =
-          this.fitnessSatFrom.value + " - " + this.fitnessSatTo.value;
-      }
+    }
+    else {
+        this.fitnessHours.sat = this.fitnessSatFrom.value + " - " + this.fitnessSatTo.value;
     }
 
-    if (this.fitnessSunFrom.value == "-" || this.fitnessSunTo.value == "-") {
+    if(this.fitnessSunFrom.value == null  ||  this.fitnessSunTo.value == null) {
       this.fitnessHours.sun = null;
-    } else {
-      if (
-        this.fitnessSunFrom.value == "Rest" &&
-        this.fitnessSunTo.value == "Rest"
-      ) {
+    }
+    else if(this.fitnessSunFrom.value == ""  ||  this.fitnessSunTo.value == "") {
+      this.fitnessHours.sun = null;
+    }
+    else if (this.fitnessSunFrom.value == "Rest" && this.fitnessSunTo.value == "Rest") {
         this.fitnessHours.sun = "Rest";
-      } else {
-        this.fitnessHours.sun =
-          this.fitnessSunFrom.value + " - " + this.fitnessSunTo.value;
-      }
+    }
+    else {
+        this.fitnessHours.sun = this.fitnessSunFrom.value + " - " + this.fitnessSunTo.value;
     }
 
-    return this.regularHours;
+    return this.fitnessHours;
   }
 
   // Helping method used to update open position list
   updateOpenPositionList() {
-    this.openPositionSource.push(this.buildJobPosition()); // add the new model object to the dataSource
-    this.openPositionSource = [...this.openPositionSource]; // refresh the dataSource
-    this.clubBinding.jobPositionsList = this.openPositionSource; //Overwrite clubBinding jobPosition list
+
+    this.getOpenPositions();
 
     // reset input fields
     this.openPositionLeague.setValue("");
@@ -1253,5 +1344,16 @@ export class UpdateClubComponent implements OnInit {
     this.openPositionSeason.setValue("");
     this.openPositionContract.setValue("");
     this.openPositionName.setValue("");
+  }
+
+  getOpenPositions() {
+    this.updateService.getOpenPositions().subscribe(
+      (succes: any) => {
+        console.log(succes);
+        this.openPositionSource = succes; //refresh the dataSource
+        this.clubBinding.jobPositionsList = this.openPositionSource; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 }

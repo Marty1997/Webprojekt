@@ -710,22 +710,49 @@ namespace Api.DAL.Repos {
                 using (IDbTransaction tran = conn.BeginTransaction()) {
                     try {
 
-                        string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
+                        //Create training hours if not existing
+                        string trainingHoursIDSQL = @"Select id from TrainingHours where Name = @Name AND club_ID = @club_ID";
+                        int trainingHours_ID = conn.Query<int>(trainingHoursIDSQL, new { entity.Name, club_ID }, transaction: tran).FirstOrDefault();
+
+                        if (trainingHours_ID == 0) {
+
+                            //Insert Training hours
+                            string trainingHoursSQL = @"INSERT INTO TrainingHours (Name, Mon, Tue, Wed, Thu, Fri, Sat, Sun, Club_ID) 
+                                        VALUES (@Name, @Mon, @Tue, @Wed, @Thu, @Fri, @Sat, @Sun, @Club_ID)";
+
+                            rowCount = conn.Execute(trainingHoursSQL, new {
+                                entity.Name,
+                                entity.Mon,
+                                entity.Tue,
+                                entity.Wed,
+                                entity.Thu,
+                                entity.Fri,
+                                entity.Sat,
+                                entity.Sun,
+                                Club_ID = club_ID
+                            }, transaction: tran);
+
+                        }
+                        //Update if exists
+                        else {
+
+                            string trainingHoursSQL = @"Update TrainingHours Set Name = @Name, Mon = @Mon, Tue = @Tue, Wed = @Wed, Thu = @Thu, Fri = @Fri, Sat = @Sat, Sun = @Sun
                                                                  Where ID = @ID AND club_ID = @club_ID";
 
-                        rowCount = conn.Execute(trainingHoursSQL, new {
-                            entity.Name,
-                            entity.Mon,
-                            entity.Tue,
-                            entity.Wed,
-                            entity.Thu,
-                            entity.Fri,
-                            entity.Sat,
-                            entity.Sun,
-                            ID = entity.Id,
-                            club_ID
-                        }, transaction: tran);
-
+                            rowCount = conn.Execute(trainingHoursSQL, new {
+                                entity.Name,
+                                entity.Mon,
+                                entity.Tue,
+                                entity.Wed,
+                                entity.Thu,
+                                entity.Fri,
+                                entity.Sat,
+                                entity.Sun,
+                                ID = trainingHours_ID,
+                                club_ID
+                            }, transaction: tran);
+                        }
+                        
                         if (rowCount == 0) {
                             tran.Rollback();
                         }
@@ -1136,7 +1163,7 @@ namespace Api.DAL.Repos {
             return res;
         }
 
-        public bool DeleteTrainingHours(int trainingHours_ID, int club_ID) {
+        public bool DeleteTrainingHours(string name, int club_ID) {
 
             bool res = false;
 
@@ -1148,10 +1175,10 @@ namespace Api.DAL.Repos {
                     try {
 
                         //Delete trainingHours
-                        string deleteTrainingHoursSQL = @"Delete From TrainingHours Where ID = @ID AND club_ID = @Club_ID";
+                        string deleteTrainingHoursSQL = @"Delete From TrainingHours Where Name = @Name AND club_ID = @Club_ID";
 
                         rowCount = conn.Execute(deleteTrainingHoursSQL, new {
-                            ID = trainingHours_ID,
+                            name,
                             club_ID
                         }, transaction: tran);
 
@@ -1354,6 +1381,60 @@ namespace Api.DAL.Repos {
                 }
             }
             return res;
+        }
+
+        public List<SquadPlayer> GetNextSquadplayer(int club_ID) {
+            List<SquadPlayer> spl = new List<SquadPlayer>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                    string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Next year' And club_ID = @Club_ID";
+
+                    spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
+
+                }
+                catch (SqlException) {
+                }
+            }
+            return spl;
+        }
+
+        public List<SquadPlayer> GetCurrentSquadplayer(int club_ID) {
+            List<SquadPlayer> spl = new List<SquadPlayer>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                    string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Current year' And club_ID = @Club_ID";
+
+                    spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
+
+                }
+                catch (SqlException) {
+                }
+            }
+            return spl;
+        }
+
+        public List<JobPosition> GetOpenPositions(int id) {
+            List<JobPosition> opl = new List<JobPosition>();
+
+            using (var conn = Connection()) {
+
+                try {
+
+                    string getOpenPositionsSQL = "Select * from JobPosition where Club_ID = @Club_ID";
+
+                    opl = conn.Query<JobPosition>(getOpenPositionsSQL, new { Club_ID = id }).ToList();
+
+                }
+                catch (SqlException) {
+                }
+            }
+            return opl;
         }
 
         public string GetEmailByID(int id) {

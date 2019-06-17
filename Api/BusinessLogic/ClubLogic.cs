@@ -64,8 +64,16 @@ namespace Api.BusinessLogic {
             return _clubRepos.DeleteFacilityImage(imagePath, club_ID);
         }
 
-        public bool DeleteTrainingHours(int trainingHours_ID, int club_ID) {
-            return _clubRepos.DeleteTrainingHours(trainingHours_ID, club_ID);
+        public bool DeleteTrainingHours(string name, int club_ID) {
+            return _clubRepos.DeleteTrainingHours(name, club_ID);
+        }
+
+        public List<SquadPlayer> GetNextSquadplayer(int club_ID) {
+            return _clubRepos.GetNextSquadplayer(club_ID);
+        }
+
+        public List<SquadPlayer> GetCurrentSquadplayer(int club_ID) {
+            return _clubRepos.GetCurrentSquadplayer(club_ID);
         }
 
         public bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
@@ -82,6 +90,10 @@ namespace Api.BusinessLogic {
 
         public Club GetById(int id) {
             return _clubRepos.GetById(id);
+        }
+
+        public string GetEmailById(int id) {
+            return _clubRepos.GetEmailByID(id);
         }
 
         /**
@@ -183,6 +195,10 @@ namespace Api.BusinessLogic {
             SortListByPercentage sort = new SortListByPercentage();
             clubs.Sort(sort.CompareClub);
             return clubs;
+        }
+
+        public List<JobPosition> GetOpenPositions(int id) {
+            return _clubRepos.GetOpenPositions(id);
         }
 
         /**
