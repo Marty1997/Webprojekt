@@ -497,12 +497,12 @@ namespace Api.DAL.Repos {
         /**
          * Get clubs with job position
          */
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPosition() {
+        public IEnumerable<Club> GetBySearchCriteriaWithJobPosition(string sqlSeason) {
             List<Club> clubs = new List<Club>();
             string sql =
                 "SELECT c.*, ci.zipcode, ci.city, jp.* FROM club c " +
                 "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
-                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 ";
+                "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE " + sqlSeason;
 
             using (var conn = Connection()) {
                 Club result = null;
@@ -1296,10 +1296,6 @@ namespace Api.DAL.Repos {
                 email = conn.QueryFirstOrDefault<string>("select email from Club where id = " + id);
             }
             return email;
-        }
-
-        public IEnumerable<Club> GetBySearchCriteriaWithJobPosition(string sqlWhereStatementJobposition) {
-            throw new NotImplementedException();
         }
     }
 }

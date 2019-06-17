@@ -13,7 +13,7 @@ namespace Api.DAL {
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue);
         bool UpdateInfo(Club entity);
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition();
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sql);
         bool AddSquadPlayer(SquadPlayer entity, int club_ID);
         bool UpdateStaff(Club entity);
         bool UpdateValuesAndPreferences(Club entity);

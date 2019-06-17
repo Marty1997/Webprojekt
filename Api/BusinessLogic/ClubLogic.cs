@@ -126,8 +126,8 @@ namespace Api.BusinessLogic {
                 if(criterias.Country != null) {
                     sql += " and c.country = '" + criterias.Country + "' and isavailable = 1 ";
                 }
-
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition().ToList();
+                // needs sql with it
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
             }
             // If Country, League and Position is not selected as a criteria
             // We continue to match with the 'less important' criterias
@@ -160,7 +160,14 @@ namespace Api.BusinessLogic {
             }
             // If only season is selected
             else if (criterias.Season != null) {
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition().ToList();
+                sql += " c.isAvailable = 1 ";
+                if(criterias.Season == "Current year") {
+                    sql += " and jp.Season = 'Current year' ";
+                }
+                if(criterias.Season == "Next year") {
+                    sql += " and jp.Season = 'Next year' ";
+                }
+                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
             }
             // If only preference is selected
             else if (criterias.PreferencesList.Count > 0) {
