@@ -126,7 +126,8 @@ import { PrivacyPolicyComponent } from './multi-page/privacy-policy/privacy-poli
     NgxSpinnerModule
   ],
   entryComponents: [
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    UpdateMessageComponent
   ],
   providers: [
     ErrorStateMatcher,

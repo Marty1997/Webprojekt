@@ -15,7 +15,7 @@
         <br>
         <mat-form-field>
           <input id="playerEmail" matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]='validate'>
-          <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
+          <mat-error *ngIf="emailControl?.hasError('pattern') && !emailControl?.hasError('required')">
             Please enter a valid email address
           </mat-error>
           <div *ngIf="existingEmail" style="color:red; font-size:13px; margin-top: 6px">Email already exists</div>

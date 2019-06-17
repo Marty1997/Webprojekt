@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 namespace Api.DAL {
     public interface IClubRepository<TEntity> : IRepository<TEntity> {
         IEnumerable<TEntity> GetBySearchCriteriaWithJobPositionPreferenceValue(string sqlWhereStatementPreference,
-                                                                            string sqlWhereStatementValue);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue);
-        IEnumerable<TEntity> GetBySearchCriteriaWithPreference(string sqlWhereStatementPreference);
-        IEnumerable<TEntity> GetBySearchCriteriaWithValue(string sqlWhereStatementValue);
+                                                                            string sqlWhereStatementValue, string sqlSeason);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionPreference(string sqlWhereStatementPreference, string sqlSeason);
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPoisitionValue(string sqlWhereStatementValue, string sqlSeason);
         bool UpdateInfo(Club entity);
         bool UpdateTrainingHours(TrainingHours entity, int club_ID);
-        IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition();
+        IEnumerable<TEntity> GetBySearchCriteriaWithJobPosition(string sql);
         bool AddSquadPlayer(SquadPlayer entity, int club_ID);
         bool UpdateStaff(Club entity);
         bool UpdateValuesAndPreferences(Club entity);
@@ -30,6 +28,5 @@ namespace Api.DAL {
         List<SquadPlayer> GetNextSquadplayer(int club_ID);
         List<SquadPlayer> GetCurrentSquadplayer(int club_ID);
         List<JobPosition> GetOpenPositions(int id);
-        IEnumerable<TEntity> GetBySearchCriteriaWithPreferenceValue(string sqlPreference, string sqlValue);
     }
 }

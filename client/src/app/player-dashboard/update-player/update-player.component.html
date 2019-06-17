@@ -6,7 +6,9 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Personal Info</mat-panel-title>
       </mat-expansion-panel-header>
+      <p>If left unchecked, you will not show up when clubs search for players</p>
       <mat-checkbox #isLooking>Currently looking for clubs</mat-checkbox>
+      <hr>
       <br>
       <mat-form-field>
         <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName"
