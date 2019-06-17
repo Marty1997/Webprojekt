@@ -30,6 +30,7 @@ export class UpdateClubComponent implements OnInit {
   facilityImages: string[] = [];
   regularHours = new TrainingHours();
   fitnessHours = new TrainingHours();
+  passwordCheck: boolean = false;
 
   snackBar: MatSnackBar;
   updateMessageComponent = new UpdateMessageComponent(this.snackBar);
@@ -504,16 +505,18 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updatePassword() {
+    this.passwordCheck = false;
+     
+    this.updateService.updateClubPassword(this.buildPassword()).subscribe(
+      (succes: any) => {
 
-    if(this.currentPassword.value === this.password.value) {
-      this.updateService.updateClubPassword(this.buildPassword()).subscribe(
-        (succes: any) => {
-  
-        },
-        error => {
-          
-        });
-    }
+      },
+      error => {
+        if(error.error == "Invalid password") {
+          this.passwordCheck = true;
+        }
+      });
+    
   }
 
   overWriteClubInfo() {
@@ -687,9 +690,10 @@ export class UpdateClubComponent implements OnInit {
       .subscribe(
         (succes: any) => {
           this.updateCurrentSquadplayerList();
+          console.log("Hej");
           let message = 'Added squadplayer to current squad!';
           this.updateMessage(message, 'OK');
-          console.log(this.dataSource);
+          console.log("Hej med dig");
         },
         error => {}
       );

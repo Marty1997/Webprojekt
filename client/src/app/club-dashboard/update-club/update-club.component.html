@@ -52,6 +52,7 @@
         <mat-error *ngIf="country?.hasError('required')">
           Country is <strong>required</strong>
         </mat-error>
+        
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <input matInput placeholder="City" [value]="clubBinding.city" [formControl]="city"
@@ -90,6 +91,9 @@
           </mat-error>
           <mat-error *ngIf="currentPassword?.hasError('required')">
             Password is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordCheck">
+              Password is invalid
           </mat-error>
         </mat-form-field>
         <mat-form-field>

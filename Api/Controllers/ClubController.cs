@@ -93,7 +93,7 @@ namespace Api.Controllers {
                             return Ok();
                         }
                         else {
-                            return StatusCode(500, "Failed");
+                            return StatusCode(400, "Invalid password");
                         }
                     }
                 }

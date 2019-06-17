@@ -18,7 +18,8 @@ import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-p
 })
 export class UpdatePlayerComponent implements OnInit {
   playerBinding: Player;
-  step: number;
+  step: number = 0;
+  passwordCheck: boolean = false;
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -131,7 +132,6 @@ export class UpdatePlayerComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.setStep(-1); // start with closed accordions
     this.playerBinding = this.loginService.playerInSession;
 
     if(this.playerBinding.isAvailable) {
@@ -181,10 +181,8 @@ export class UpdatePlayerComponent implements OnInit {
     this.preferredHandCtrl.setValue(this.playerBinding.preferredHand);
     this.leagueCtrl.setValue(this.playerBinding.league);
     this.contractStatusCtrl.setValue(this.playerBinding.contractStatus);
-    this.contractExpiredCtrl.setValue(this.playerBinding.contractExpired);
     this.injuryStatusCtrl.setValue(this.playerBinding.injuryStatus);
     this.injuryDescriptionCtrl.setValue(this.playerBinding.injuryDescription);
-    this.injuryRecoveryDateCtrl.setValue(this.playerBinding.injuryExpired);
   }
 
   setStrengthsAndWeaknesses() {
@@ -282,13 +280,15 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePassword() {
+    this.passwordCheck = false;
+
     this.updateService.updatePlayerPassword(this.buildPassword()).subscribe(
       (succes: any) => {
 
       },
       error => {
-        if (error.error == "Invalid password") {
-          // this.wrongPassword = true;
+        if(error.error == "Invalid password") {
+          this.passwordCheck = true;
         }
       }
     );
@@ -322,10 +322,29 @@ export class UpdatePlayerComponent implements OnInit {
     this.playerBinding.preferredHand = this.preferredHandCtrl.value == "" ? null : this.preferredHandCtrl.value;
     this.playerBinding.league = this.leagueCtrl.value == "" ? null : this.leagueCtrl.value;
     this.playerBinding.contractStatus = this.contractStatusCtrl.value == "" ? null : this.contractStatusCtrl.value;
-    this.playerBinding.contractExpired = this.contractExpiredCtrl.value == "" ? null : this.contractExpiredCtrl.value;
+    
+    if(this.contractExpiredCtrl.value == "") {
+      this.playerBinding.contractExpired = null;
+    }
+    else {
+      this.playerBinding.contractExpiredDate = new Date(this.contractExpiredCtrl.value);
+      this.playerBinding.contractExpired = this.playerBinding.contractExpiredDate.getDate() + 
+      "/" + (this.playerBinding.contractExpiredDate.getMonth() + 1) +
+      "/" + this.playerBinding.contractExpiredDate.getFullYear();
+    }
+
     this.playerBinding.injuryStatus = this.injuryStatusCtrl.value == "" ? null : this.injuryStatusCtrl.value;
     this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value == "" ? null : this.injuryDescriptionCtrl.value;
-    this.playerBinding.injuryExpired = this.injuryRecoveryDateCtrl.value == "" ? null : this.injuryRecoveryDateCtrl.value;
+    
+    if(this.injuryRecoveryDateCtrl.value == "") {
+      this.playerBinding.injuryExpired = null;
+    }
+    else {
+      this.playerBinding.injuryExpiredDate = new Date(this.injuryRecoveryDateCtrl.value);
+      this.playerBinding.injuryExpired = this.playerBinding.injuryExpiredDate.getDate() + 
+      "/" + (this.playerBinding.injuryExpiredDate.getMonth() + 1) +
+      "/" + this.playerBinding.injuryExpiredDate.getFullYear();
+    }
   }
 
   deletePlayerStrengthsAndWeaknesses() {
@@ -631,10 +650,17 @@ export class UpdatePlayerComponent implements OnInit {
       this.contractStatusCtrl.value == ""
         ? null
         : this.contractStatusCtrl.value;
-    player.contractExpired =
-      this.contractExpiredCtrl.value == ""
-        ? null
-        : this.contractExpiredCtrl.value;
+
+    if(this.contractExpiredCtrl.value == "") {
+      player.contractExpired = null;
+    }
+    else {
+      player.contractExpiredDate = new Date(this.contractExpiredCtrl.value);
+      player.contractExpired = player.contractExpiredDate.getDate() + 
+      "/" + (player.contractExpiredDate.getMonth() + 1) +
+      "/" + player.contractExpiredDate.getFullYear();
+    }
+
     player.injuryStatus =
       this.injuryStatusCtrl.value == ""
         ? null
@@ -643,10 +669,16 @@ export class UpdatePlayerComponent implements OnInit {
       this.injuryDescriptionCtrl.value == ""
         ? null
         : this.injuryDescriptionCtrl.value;
-    player.injuryExpired =
-      this.injuryRecoveryDateCtrl.value == ""
-        ? null
-        : this.injuryRecoveryDateCtrl.value;
+
+    if (this.injuryRecoveryDateCtrl.value == "") {
+      player.injuryExpired = null;
+    }
+    else {
+      player.injuryExpiredDate = new Date(this.injuryRecoveryDateCtrl.value);
+      player.injuryExpired = player.injuryExpiredDate.getDate() +
+        "/" + (player.injuryExpiredDate.getMonth() + 1) +
+        "/" + player.injuryExpiredDate.getFullYear();
+    }
     return player;
   }
 
