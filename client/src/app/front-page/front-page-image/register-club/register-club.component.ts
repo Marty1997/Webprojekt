@@ -131,7 +131,7 @@ export class RegisterClubComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
-  emailControl = new FormControl("", [Validators.required, Validators.email]);
+  emailControl = new FormControl("", [Validators.required, Validators.pattern(/.+@.+\..+/)]);
   passwordControl = new FormControl("", [
     Validators.required,
     Validators.minLength(6)

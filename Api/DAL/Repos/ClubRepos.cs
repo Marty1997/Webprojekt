@@ -550,7 +550,7 @@ namespace Api.DAL.Repos {
                         }
 
                         return result;
-                    }, splitOn: "zipcode, city, value, preference, Id");
+                    }, splitOn: "zipcode, city, value, preference, id");
             }
 
             return clubs;
