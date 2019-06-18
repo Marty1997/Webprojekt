@@ -410,6 +410,7 @@ namespace Api.DAL.Repos {
                 "SELECT c.*, ci.zipcode, ci.city, null as preference, " +
                 "jp.id as id, jp.league as league, jp.preferredHand as preferredHand, jp.height as height, jp.minAge as minAge,  " +
                 "jp.maxAge as maxAge, jp.season as season, jp.contractStatus as contractStatus, jp.position as position, jp.club_id as club_id FROM club c " +
+                "INNER JOIN zipcodecity ci ON c.zipcodecity_id = ci.id " +
                 "INNER JOIN jobposition jp ON jp.club_id = c.id WHERE c.isAvailable = 1 " + sqlSeason + 
                 " UNION ALL " +
                 "SELECT c.*, ci.zipcode, ci.city, p.name as preference, " +
@@ -421,8 +422,8 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
                 Club result = null;
-                conn.Query<Club, int, string, JobPosition, string, Club>(sql,
-                    (clubinside, zipcode, city, jobposition, preference) => {
+                conn.Query<Club, int, string, string, JobPosition, Club>(sql,
+                    (clubinside, zipcode, city, preference, jobposition) => {
                         Club c = null;
                         if (!clubs.Any(cl => cl.Id == clubinside.Id)) {
                             c = BuildClub(clubinside, zipcode, city);
@@ -442,7 +443,7 @@ namespace Api.DAL.Repos {
                         }
 
                         return result;
-                    }, splitOn: "zipcode, city, id, preference");
+                    }, splitOn: "zipcode, city, preference, id ");
             }
 
             return clubs;
@@ -1250,7 +1251,6 @@ namespace Api.DAL.Repos {
                         return result;
                     }, splitOn: "zipcode, city, value, preference, id");
             }
-
             return clubs;
         }
 

@@ -237,10 +237,15 @@ namespace Api.BusinessLogic {
                                     amountOfMatches++;
                                 }
                             }
-                            if (jobPosition.Season != null) {
+                            if (criterias.Season != null) {
                                 amountOfCriterias++;
-                                if (criterias.Season == jobPosition.Season) {
-                                    amountOfMatches++;
+                                if(jobPosition.Season != null) {
+                                    if(criterias.Season == "None") {
+                                        amountOfMatches++;
+                                    }
+                                    else if(criterias.Season == jobPosition.Season) {
+                                        amountOfMatches++;
+                                    }
                                 }
                             }
                             if (jobPosition.League != null) {
@@ -251,7 +256,13 @@ namespace Api.BusinessLogic {
                             }
                             if (jobPosition.PreferredHand != null) {
                                 amountOfCriterias++;
-                                if (player.PreferredHand == jobPosition.PreferredHand) {
+                                if(jobPosition.PreferredHand == "None") {
+                                    amountOfMatches++;
+                                }
+                                else if (player.PreferredHand == jobPosition.PreferredHand) {
+                                    amountOfMatches++;
+                                }
+                                else if(player.PreferredHand == "Both") {
                                     amountOfMatches++;
                                 }
                             }
@@ -275,7 +286,10 @@ namespace Api.BusinessLogic {
                             }
                             if (jobPosition.ContractStatus != null) {
                                 amountOfCriterias++;
-                                if (player.ContractStatus == jobPosition.ContractStatus) {
+                                if (jobPosition.ContractStatus == "None") {
+                                    amountOfMatches++;
+                                }
+                                else if (player.ContractStatus == jobPosition.ContractStatus) {
                                     amountOfMatches++;
                                 }
                             }
