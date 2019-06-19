@@ -38,20 +38,20 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Select Month" [value]="playerBinding.month" [formControl]="monthControl"
+        <mat-select placeholder="Select Month"  [formControl]="monthControl"
           [errorStateMatcher]='validate'>
-          <mat-option value="1">January</mat-option>
-          <mat-option value="2">February</mat-option>
-          <mat-option value="3">March</mat-option>
-          <mat-option value="4">April</mat-option>
-          <mat-option value="5">May</mat-option>
-          <mat-option value="6">June</mat-option>
-          <mat-option value="7">July</mat-option>
-          <mat-option value="8">August</mat-option>
-          <mat-option value="9">September</mat-option>
-          <mat-option value="10">October</mat-option>
-          <mat-option value="11">November</mat-option>
-          <mat-option value="12">December</mat-option>
+          <mat-option [value]="1">January</mat-option>
+          <mat-option [value]="2">February</mat-option>
+          <mat-option [value]="3">March</mat-option>
+          <mat-option [value]="4">April</mat-option>
+          <mat-option [value]="5">May</mat-option>
+          <mat-option [value]="6">June</mat-option>
+          <mat-option [value]="7">July</mat-option>
+          <mat-option [value]="8">August</mat-option>
+          <mat-option [value]="9">September</mat-option>
+          <mat-option [value]="10">October</mat-option>
+          <mat-option [value]="11">November</mat-option>
+          <mat-option [value]="12">December</mat-option>
         </mat-select>
         <mat-error *ngIf="monthControl?.hasError('required')">
           Month is <strong>required</strong>
@@ -200,7 +200,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [matDatepicker]="contractPicker" [value]="playerBinding.contractExpiredDate"
+        <input matInput [value]="dateContract" [matDatepicker]="contractPicker" 
           [formControl]="contractExpiredCtrl" placeholder="Contract Expiration">
         <mat-datepicker-toggle matSuffix [for]="contractPicker"></mat-datepicker-toggle>
         <mat-datepicker #contractPicker></mat-datepicker>
@@ -219,7 +219,7 @@
           [formControl]="injuryDescriptionCtrl" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput [matDatepicker]="picker" [value]="playerBinding.injuryExpiredDate"
+        <input matInput [matDatepicker]="picker" [value]="dateInjury"
           [formControl]="injuryRecoveryDateCtrl" placeholder="Expected Recovery Date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>

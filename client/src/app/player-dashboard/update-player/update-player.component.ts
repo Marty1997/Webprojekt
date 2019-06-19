@@ -140,7 +140,8 @@ export class UpdatePlayerComponent implements OnInit {
   nationalTeamData: NationalTeam[] = [];
   nationalTeamSource = this.nationalTeamData;
   nationalTeam = new NationalTeam();
-
+  dateContract: Date;
+  dateInjury: Date;
   constructor(
     private loginService: loginService,
     private updateService: updateService,
@@ -174,6 +175,16 @@ export class UpdatePlayerComponent implements OnInit {
         this.nationalTeamSource = [...this.nationalTeamSource];
       });
     }
+    
+    if(this.playerBinding.contractExpired != null) {
+      var splittedContract = this.playerBinding.contractExpired.split("/", 3);
+      this.dateContract = new Date(Number(splittedContract[2]), Number(splittedContract[1]) - 1, Number(splittedContract[0]));
+    }
+
+    if(this.playerBinding.injuryExpired != null) {
+      var splittedInjury = this.playerBinding.injuryExpired.split("/", 3);
+      this.dateInjury = new Date(Number(splittedInjury[2]), Number(splittedInjury[1]) - 1, Number(splittedInjury[0]));
+    }
 
 
 
@@ -183,6 +194,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.setStrengthsAndWeaknesses();
     this.setSportCV();
   }
+
 
   setPersonalInfo() {
     this.firstNameControl.setValue(this.playerBinding.firstName);
@@ -336,6 +348,7 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerAdditionalInfo() {
+    
     this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
       (succes: any) => {
           this.overWriteAdditionalInfo();
@@ -343,6 +356,8 @@ export class UpdatePlayerComponent implements OnInit {
       error => {
         
       });
+      console.log(this.contractExpiredCtrl.value);
+      console.log(this.injuryRecoveryDateCtrl.value);
   }
 
   overWriteAdditionalInfo() {
