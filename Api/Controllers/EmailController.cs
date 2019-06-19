@@ -101,8 +101,20 @@ namespace Api.Controllers {
                 var code = await userManager.GeneratePasswordResetTokenAsync(result);
                 code = System.Web.HttpUtility.UrlEncode(code);
                 var callbackUrl = new Uri("http://localhost:4200/reset-password/token" + code + "userId" + result.Id);
-                
-                string message = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+
+                string message = /*"Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";*/
+                    "<img src='Resources/Files/SportconnectorsEmail.PNG' alt='SCLogo'/> <br><br><br>" +
+                    "Hi, <br><br>" +
+                    "You recently requested to reset your password for your SportConnectors account. Please use the link below to reset it." +
+                    "<b><u>This password reset is only valid for the next 10 minutes</u></b>. <br><br>" +
+                    "<a href=\"" + callbackUrl + "\">Reset your password</a> <br><br>" +
+                    "If you did not request a password reset, please ignore this email or contact support support@support.com if you have questions. <br><br>" +
+                    "Thanks from, <br> The SportConnectors Team <br><br><br>" +
+                    "©2019 SportConnectors. All rights reserved. <br>" +
+                    "SportConnectors, LLC <br>" +
+                    "Fyensgade 2 <br>" +
+                    "9000 Aalborg <br>" +
+                    "Denmark";
 
                 bool res = SetupEmail(request.Email, "Reset Password", message);
                 if (res) {
