@@ -6,16 +6,20 @@ import { deleteService } from "src/app/services/deleteService";
 import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
-import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog, MatSnackBar } from "@angular/material";
+import { MyErrorStateMatcher, MY_FORMATS } from "src/app/front-page/front-page-image/register-player/register-player.component";
+import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @Component({
   selector: "app-update-player",
   templateUrl: "./update-player.component.html",
-  styleUrls: ["./update-player.component.css"]
+  styleUrls: ["./update-player.component.css"],
+  providers: [
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]}]
 })
 export class UpdatePlayerComponent implements OnInit {
   playerBinding: Player;
