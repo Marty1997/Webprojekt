@@ -215,6 +215,7 @@ export class RegisterClubComponent implements OnInit {
       openPositionHeight: [""],
       openPositionHand: [""]
     });
+    this.openPositionsFormGroup.get("openPositionSeason").setValue("Current year");
     this.clubStaffFormGroup = this._formBuilder.group({
       trainerControl: [""],
       assistantTrainerControl: [""],
@@ -369,7 +370,7 @@ export class RegisterClubComponent implements OnInit {
       this.openPositionsFormGroup.get("openPositionHeight").setValue("");
       this.openPositionsFormGroup.get("openPositionMaxAge").setValue("");
       this.openPositionsFormGroup.get("openPositionMinAge").setValue("");
-      this.openPositionsFormGroup.get("openPositionSeason").setValue("");
+      this.openPositionsFormGroup.get("openPositionSeason").setValue("Current year");
       this.openPositionsFormGroup.get("openPositionContract").setValue("");
       this.openPositionsFormGroup.get("openPositionName").setValue("");
     }

@@ -108,37 +108,41 @@ namespace Api.BusinessLogic {
             string sqlSeason = "";
             List<Club> clubs = new List<Club>();
 
-            // If no criteria is selected all clubs is returned
+            // If no criteria is selected all clubs is returned with season match
             // Since no criteria is selected, all clubs match 100%
             if(criterias.Country == null && criterias.League == null && 
                 criterias.Position == null && criterias.PreferencesList.Count == 0 && 
-                criterias.Season == null && criterias.ValuesList.Count == 0) {
-                return (List<Club>)_clubRepos.GetAll();
+                criterias.ValuesList.Count == 0) {
+                string seasonSql = "";
+                if(criterias.Season == "Current year") {
+                    seasonSql = "and jp.season = 'Current year'";
+                }
+                else if(criterias.Season == "Next year") {
+                    seasonSql = "and jp.season = 'Next year'";
+                }
+                return (List<Club>)_clubRepos.GetAll(seasonSql);
             }
 
             // Country, league and position is a must-match when selected
             // Get all clubs with matching league, country and/or position
             if(criterias.Country != null || criterias.League != null || criterias.Position != null) {
-                sql = "";
-                if(criterias.League != null) {
+                sql += GetSeasonSql(criterias);
+                if (criterias.League != null) {
                     sql += " and c.league = '" + criterias.League + "' and isAvailable = 1 ";
                 }
-
                 if(criterias.Country != null) {
                     sql += " and c.country = '" + criterias.Country + "' and isAvailable = 1 ";
                 }
-
-                if(criterias.Season != null) {
-                    sql += GetSeasonSql(criterias);
+                if(criterias.Position != null) {
+                    sql += " and jp.position = '" + criterias.Position + "' and isAvailable = 1 ";
                 }
-                
                 clubs = _clubRepos.GetBySearchCriteria(sql).ToList();
             }
             // If Country, League and Position is not selected as a criteria
             // We continue to match with the 'less important' criterias
 
             // If only preference, season and value is selected
-            else if (criterias.PreferencesList.Count > 0 && criterias.Season != null && criterias.ValuesList.Count > 0) {
+            else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
                 sqlSeason = GetSeasonSql(criterias);
@@ -146,14 +150,14 @@ namespace Api.BusinessLogic {
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
             }
             // If only season and value is selected
-            else if (criterias.Season != null && criterias.ValuesList.Count > 0) {
+            else if (criterias.ValuesList.Count > 0) {
                 sqlValue = GetValueSql(criterias);
                 sqlSeason = GetSeasonSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue, sqlSeason).ToList();
             }
             // If only season and preference is selected
-            else if (criterias.Season != null && criterias.PreferencesList.Count > 0) {
+            else if (criterias.PreferencesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlSeason = GetSeasonSql(criterias);
 
@@ -163,7 +167,7 @@ namespace Api.BusinessLogic {
             else if (criterias.PreferencesList.Count > 0 && criterias.ValuesList.Count > 0) {
                 sqlPreference = GetPreferenceSql(criterias);
                 sqlValue = GetValueSql(criterias);
-                sqlSeason = "";
+                sqlSeason = GetSeasonSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
             }
@@ -171,18 +175,6 @@ namespace Api.BusinessLogic {
             else if (criterias.Season != null) {
                 sql += GetSeasonSql(criterias);
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
-            }
-            // If only preference is selected
-            else if (criterias.PreferencesList.Count > 0) {
-                sqlPreference = GetPreferenceSql(criterias);
-
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionPreference(sqlPreference, sqlSeason).ToList();
-            }
-            // If only value is selected
-            else if (criterias.ValuesList.Count > 0) {
-                sqlValue = GetValueSql(criterias);
-
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPoisitionValue(sqlValue, sqlSeason).ToList();
             }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first
@@ -207,88 +199,28 @@ namespace Api.BusinessLogic {
             foreach (Club club in clubs) {
                 int amountOfCriterias = 0; // how many criterias is selected
                 int amountOfMatches = 0; // how many criterias matches with club
-                if (criterias.Country != null) {
-                    amountOfCriterias++;
-                    if(criterias.Country == club.Country) {
-                        amountOfMatches++;
-                    }
-                }
-                if(criterias.League != null) {
-                    amountOfCriterias++;
-                    if(criterias.League == club.League) {
-                        amountOfMatches++;
-                    }
-                }
-                if(club.JobPositionsList.Count > 0) {
-
-                    int playerAge = DateTime.Now.Year - player.Year;
+                bool secondaryPosition = false;
+                bool mainPosition = false;
+                if (club.JobPositionsList.Count > 0) {
 
                     foreach (JobPosition jobPosition in club.JobPositionsList) {
-                        if(player.PrimaryPosition == jobPosition.Position || player.SecondaryPosition == jobPosition.Position || criterias.Position == jobPosition.Position) {
-                            if (jobPosition.Position != null) {
-                                amountOfCriterias++;
-                                if (player.PrimaryPosition == jobPosition.Position) {
-                                    amountOfMatches++;
-                                }
+                        //If theres a primary position match we calculate percentage only for 1 jobposition
+                        if(player.PrimaryPosition == jobPosition.Position && !mainPosition || criterias.Position == jobPosition.Position && !mainPosition) {
+                            mainPosition = true;
+                            //if there has been a secondary position in the list before we get here, we reset the values.
+                            if(secondaryPosition) {
+                                amountOfCriterias = 0;
+                                amountOfMatches = 0;
                             }
-                            if (criterias.Position != null) {
-                                amountOfCriterias++;
-                                if (criterias.Position == jobPosition.Position) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.Season != null) {
-                                amountOfCriterias++;
-                                if (criterias.Season == jobPosition.Season) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.League != null) {
-                                amountOfCriterias++;
-                                if (player.League == jobPosition.League) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.PreferredHand != null) {
-                                amountOfCriterias++;
-                                if (player.PreferredHand == jobPosition.PreferredHand) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.Height != null) {
-                                amountOfCriterias++;
-                                if (player.Height >= jobPosition.Height) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.MinAge != null) {
-                                amountOfCriterias++;
-                                if (playerAge > jobPosition.MinAge) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.MaxAge != null) {
-                                amountOfCriterias++;
-                                if (playerAge < jobPosition.MaxAge) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.ContractStatus != null) {
-                                amountOfCriterias++;
-                                if (player.ContractStatus == jobPosition.ContractStatus) {
-                                    amountOfMatches++;
-                                }
-                            }
-                            if (jobPosition.StrengthsList.Count > 0) {
-                                foreach (string jobStrength in jobPosition.StrengthsList) {
-                                    amountOfCriterias++;
-                                    foreach (string playerStrength in player.StrengthList) {
-                                        if (playerStrength == jobStrength) {
-                                            amountOfMatches++;
-                                        }
-                                    }
-                                }
-                            }
+                            List<int> list = CalculateJobPosition(jobPosition, criterias, player);
+                            amountOfCriterias = list[0];
+                            amountOfMatches = list[1];
+                        }
+                        else if (player.SecondaryPosition == jobPosition.Position && !mainPosition) {
+                            secondaryPosition = true;
+                            List<int> list = CalculateJobPosition(jobPosition, criterias, player);
+                            amountOfCriterias = list[0];
+                            amountOfMatches = list[1];
                         }
                     }
                 }
@@ -310,6 +242,18 @@ namespace Api.BusinessLogic {
                                 amountOfMatches++;
                             }
                         }
+                    }
+                }
+                if (criterias.Country != null) {
+                    amountOfCriterias++;
+                    if (criterias.Country == club.Country) {
+                        amountOfMatches++;
+                    }
+                }
+                if (criterias.League != null) {
+                    amountOfCriterias++;
+                    if (criterias.League == club.League) {
+                        amountOfMatches++;
                     }
                 }
                 club.CalculatePercentage(amountOfMatches, amountOfCriterias);
@@ -363,6 +307,82 @@ namespace Api.BusinessLogic {
             }
 
             return sql;
+        }
+
+        //Calculates criterias and matches on jobposition and return them in a List
+        private List<int> CalculateJobPosition(JobPosition jobPosition, ClubSearchCriteria criterias, Player player) {
+            int amountOfCriterias = 0; // how many criterias is selected
+            int amountOfMatches = 0; // how many criterias matches with club
+            int playerAge = DateTime.Now.Year - player.Year;
+            if (jobPosition.Position != null) {
+                amountOfCriterias++;
+                if (player.PrimaryPosition == jobPosition.Position) {
+                    amountOfMatches++;
+                }
+            }
+            if (criterias.Position != null) {
+                amountOfCriterias++;
+                if (criterias.Position == jobPosition.Position) {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.League != null) {
+                amountOfCriterias++;
+                if (player.League == jobPosition.League) {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.PreferredHand != null) {
+                amountOfCriterias++;
+                if (jobPosition.PreferredHand == "None") {
+                    amountOfMatches++;
+                }
+                else if (player.PreferredHand == jobPosition.PreferredHand) {
+                    amountOfMatches++;
+                }
+                else if (player.PreferredHand == "Both") {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.Height != null) {
+                amountOfCriterias++;
+                if (player.Height >= jobPosition.Height) {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.MinAge != null) {
+                amountOfCriterias++;
+                if (playerAge > jobPosition.MinAge) {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.MaxAge != null) {
+                amountOfCriterias++;
+                if (playerAge < jobPosition.MaxAge) {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.ContractStatus != null) {
+                amountOfCriterias++;
+                if (jobPosition.ContractStatus == "None") {
+                    amountOfMatches++;
+                }
+                else if (player.ContractStatus == jobPosition.ContractStatus) {
+                    amountOfMatches++;
+                }
+            }
+            if (jobPosition.StrengthsList.Count > 0) {
+                foreach (string jobStrength in jobPosition.StrengthsList) {
+                    amountOfCriterias++;
+                    foreach (string playerStrength in player.StrengthList) {
+                        if (playerStrength == jobStrength) {
+                            amountOfMatches++;
+                        }
+                    }
+                }
+            }
+            int[] array = { amountOfCriterias, amountOfMatches };
+            return array.ToList();
         }
     }
 }
