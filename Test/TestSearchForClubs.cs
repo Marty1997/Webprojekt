@@ -40,7 +40,7 @@ namespace Test {
             playerRepos.Setup(x => x.GetById(1)).Returns(new Player { Id = 1 });
 
             var clubRepos = new Mock<IClubRepository<Club>>();
-            clubRepos.Setup(x => x.GetBySearchCriteriaWithJobPosition())
+            clubRepos.Setup(x => x.GetBySearchCriteriaWithJobPosition("asd"))
                 .Returns(new List<Club>
                 {
                     new Club { Id = 1, Country = "Sweden" },

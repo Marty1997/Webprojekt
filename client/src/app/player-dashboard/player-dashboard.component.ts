@@ -27,6 +27,7 @@ export class PlayerDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     if (this.loginService.typeOfLogin == "Player") {
       this.isPlayer = true;
       if (this.loginService.refreshValue) {

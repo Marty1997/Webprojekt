@@ -9,6 +9,7 @@ namespace Api.DAL {
     public interface IPlayerRepository<TEntity> : IRepository<TEntity> {
         bool DeleteStrengthsAndWeaknesses(int player_ID);
         bool UpdateAdditionalInfo(Player entity);
+        IEnumerable<TEntity> GetAll();
         bool UpdateInfo(Player entity);
         bool UpdateStrengthsAndWeaknesses(Player entity);
         bool UpdateSportCV(Player entity);

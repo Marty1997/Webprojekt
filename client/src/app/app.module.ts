@@ -110,8 +110,8 @@ import { PrivacyPolicyComponent } from './multi-page/privacy-policy/privacy-poli
       { path: 'error', component: ErrorPageComponent },
       { path: 'reset-password/:token', component: ResetPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuardService]},
-
-    ], ),
+      
+    ],/* { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled'}*/ ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),

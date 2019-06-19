@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ClubSearchCriteriaComponent implements OnInit {
   searchForm: FormGroup;
+
   searchCriteria: ClubSearchCriteria = new ClubSearchCriteria();
   club: Club = new Club();
   isLoading: boolean = false;
@@ -29,7 +30,8 @@ export class ClubSearchCriteriaComponent implements OnInit {
     "Right wing",
     "Defence"
   ];
-  seasonList: string[] = ["None", "Current year", "Next year"];
+  seasonList: string[] = ["Current year", "Next year"];
+
 
   // values
   @ViewChild("hardWorking") hardWorking: MatCheckbox;
@@ -55,6 +57,7 @@ export class ClubSearchCriteriaComponent implements OnInit {
       position: [""],
       season: [""]
     });
+    this.searchForm.controls["season"].setValue("Current year");
   }
 
   searchForClubs() {

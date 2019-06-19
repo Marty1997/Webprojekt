@@ -9,7 +9,6 @@ namespace Api.DAL {
     public interface IRepository<TEntity> {
         Func<IDbConnection> Connection { get; set; }
         bool Create(TEntity entity);
-        IEnumerable<TEntity> GetAll();
         TEntity GetById(int id);
         TEntity GetByEmail(string email);
         bool Delete(int id);
