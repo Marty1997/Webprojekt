@@ -188,8 +188,6 @@ export class UpdatePlayerComponent implements OnInit {
       this.dateInjury = new Date(Number(splittedInjury[2]), Number(splittedInjury[1]) - 1, Number(splittedInjury[0]));
     }
 
-
-
     // set the values
     this.setPersonalInfo();
     this.setAdditionalInfo();
@@ -325,6 +323,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
       (succes: any) => {
         this.overWritePlayerInfo();
+
         this.showNotificationBar('Update was successful');
       },
       error => {
@@ -895,7 +894,7 @@ export class UpdatePlayerComponent implements OnInit {
   ];
 
   nationalTeamNames: string[] = [
-    "01",
+    "A",
     "B",
     "U21",
     "U18"

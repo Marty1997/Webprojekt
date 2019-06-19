@@ -1,5 +1,10 @@
 <app-header></app-header>
 <div class="well custom-container forPlayerClubBackgroundColor">
+
+  <div>
+    <app-update-message [showMessage]="showMessage" [message]="message"></app-update-message>
+  </div>
+
   <mat-accordion class="example-headers-align">
     <!-- Personal Info -->
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
