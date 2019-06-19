@@ -13,12 +13,24 @@ import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-p
 import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
+export const MY_FORMATS2 = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
 @Component({
   selector: "app-update-player",
   templateUrl: "./update-player.component.html",
   styleUrls: ["./update-player.component.css"],
   providers: [
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS2},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]}]
 })
 export class UpdatePlayerComponent implements OnInit {
