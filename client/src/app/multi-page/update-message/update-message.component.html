@@ -1,7 +1,3 @@
-
-<!-- <button mat-button (click)="openSnackBar('Party', 'act')">Show snack-bar</button> -->
-
-<div>
-    {{openSnackBar('Party', 'act')}}
+<div *ngIf="showMessage">
+    {{openSnackBar('OK')}}
 </div>
-

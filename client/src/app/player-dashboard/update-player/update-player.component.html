@@ -87,8 +87,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Update password</mat-panel-title>
         </mat-expansion-panel-header>
-  
-        <mat-label>Update Password</mat-label><br>
+        <div style="color:red; font-size:20px;" *ngIf="passwordCheck">Password is invalid</div>
         <mat-form-field>
           <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
             [errorStateMatcher]="validate">

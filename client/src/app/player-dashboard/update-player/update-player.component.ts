@@ -10,7 +10,6 @@ import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/registe
 import { MatCheckbox, MatDialog, MatSnackBar } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
-import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 
 @Component({
   selector: "app-update-player",
@@ -22,6 +21,8 @@ export class UpdatePlayerComponent implements OnInit {
   step: number = 0;
   passwordCheck: boolean = false;
   notify: MatSnackBar;
+  showMessage: boolean = false;
+  message: string;
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -158,13 +159,16 @@ export class UpdatePlayerComponent implements OnInit {
       });
     }
 
-
-
     // set the values
     this.setPersonalInfo();
     this.setAdditionalInfo();
     this.setStrengthsAndWeaknesses();
     this.setSportCV();
+  }
+
+  showNotificationBar(message: string) {
+    this.showMessage = true;
+    this.message = message;
   }
 
   setPersonalInfo() {
@@ -220,6 +224,7 @@ export class UpdatePlayerComponent implements OnInit {
       return;
     }
     else {
+      this.showMessage = false;
       this.fileService.uploadFile(files).subscribe(res => {
         if(type === 'profile') {
           //Delete former image file from filesystem
@@ -237,6 +242,9 @@ export class UpdatePlayerComponent implements OnInit {
           //Update new video in DB
           this.updatePlayerVideo();
         }
+      },
+      error => {
+        this.showNotificationBar('Failed to upload');
       });
     }
   };
@@ -248,12 +256,12 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerProfile() {
+    this.showMessage = false;
     this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
       (succes: any) => {
-        this.openSnackBar('Successfully updated your profile picture!', 'OK');
       },
       error => {
-
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -264,12 +272,13 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerVideo() {
+    this.showMessage = false;
     this.updateService.updatePlayerVideo(this.buildPlayerVideo()).subscribe(
       (succes: any) => {
-        this.openSnackBar('Successfully updated your video!', 'OK');
+ 
       },
       error => {
-        // Delete video from filesystem
+        this.showNotificationBar('Failed to update');
       }
     );
   }
@@ -281,32 +290,34 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerInfo() {
+    this.showMessage = false;
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
       (succes: any) => {
         this.overWritePlayerInfo();
-        this.openSnackBar('Successfully updated player info!', 'OK');
+        this.showNotificationBar('Update was successful');
       },
       error => {
-        if (error.error == "Invalid password") {
-          // this.wrongPassword = true;
-        }
+        this.showNotificationBar('Failed to update');
       }
     );
   }
 
   updatePassword() {
     this.passwordCheck = false;
-
+    this.showMessage = false;
+     
     this.updateService.updatePlayerPassword(this.buildPassword()).subscribe(
       (succes: any) => {
+
+        this.showNotificationBar('Password was updated')
 
       },
       error => {
         if(error.error == "Invalid password") {
           this.passwordCheck = true;
         }
-      }
-    );
+        this.showNotificationBar('Update failed')
+      });
   }
 
   overWritePlayerInfo() {
@@ -319,12 +330,14 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerAdditionalInfo() {
+    this.showMessage = false;
     this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
       (succes: any) => {
           this.overWriteAdditionalInfo();
+          this.showNotificationBar('Update was successful');
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -363,6 +376,7 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   deletePlayerStrengthsAndWeaknesses() {
+    this.showMessage = false;
     // Delete player strengths and weaknesses
     this.deleteService.deleteStrengthsAndWeaknesses().subscribe(
       (succes: any) => {
@@ -370,16 +384,19 @@ export class UpdatePlayerComponent implements OnInit {
         this.updateStrengthsAndWeaknesses();
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
   updateStrengthsAndWeaknesses() {
+    this.showMessage = false;
     this.updateService.updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses()).subscribe(
       (succes: any) => {
         this.overWriteStrengthAndWeaknesses();
+        this.showNotificationBar('Update was successful');
       },
       error => {
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -440,12 +457,14 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updateSportCV() {
+    this.showMessage = false;
     this.updateService.updateSportCV(this.buildSportCv()).subscribe(
       (succes: any) => {
         this.overWriteSportCV();
+        this.showNotificationBar('Update was successful');
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -470,6 +489,7 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   deletePlayerProfile() {
+    this.showMessage = false;
     // Delete image from filesystem 
     this.fileService.deleteFile(this.playerBinding.imagePath).subscribe(
       (succes: any) => {
@@ -478,12 +498,13 @@ export class UpdatePlayerComponent implements OnInit {
         this.updatePlayerProfile();
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
   
 
   deletePlayerVideo() {
+    this.showMessage = false;
     // Delete video from filesystem 
     this.fileService.deleteFile(this.playerBinding.videoPath).subscribe(
       (succes: any) => {
@@ -492,7 +513,7 @@ export class UpdatePlayerComponent implements OnInit {
         this.updatePlayerVideo();
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
 
@@ -511,7 +532,6 @@ export class UpdatePlayerComponent implements OnInit {
 
   updateNationalTeamList() {
     this.getNationalTeams();
-
 
     // reset input fields
     this.nationalTeamNameCtrl.setValue('');
@@ -540,12 +560,14 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   addPlayerNationalTeam() {
+    this.showMessage = false;
     this.updateService.addPlayerNationalTeam(this.buildNationalTeam()).subscribe(
       (succes:any) => {      
         this.updateNationalTeamList();
+        
       },
       error => {
-        
+        this.showNotificationBar('Failed to add national team');
       })
   }
 
@@ -782,12 +804,13 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   deletePlayerNationalTeam(nt: NationalTeam) {
+    this.showMessage = false;
     this.deleteService.deleteNationalTeam(nt.id).subscribe(
       (succes:any) => {      
         this.deleteNationalTeam(nt);
       },
       error => {
-        
+        this.showNotificationBar('Failed to delete');
       });
   }
 
@@ -804,13 +827,14 @@ export class UpdatePlayerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       if(res) {
+        this.showMessage = false;
         this.deleteService.deletePlayer().subscribe(
           (succes:any) => {      
             this.loginService.logout();
             this.router.navigate(['/']);
           },
           error => {
-            
+            this.showNotificationBar('Failed to delete');
           });
       }
     });

@@ -31,6 +31,7 @@ export class UpdateClubComponent implements OnInit {
   fitnessHours = new TrainingHours();
   passwordCheck: boolean = false;
   showMessage: boolean = false;
+  message: string;
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -302,6 +303,7 @@ export class UpdateClubComponent implements OnInit {
     this.clubBinding = this.loginService.clubInSession;
     this.clubLeague = this.clubBinding.league;
     this.clubCountry = this.clubBinding.country;
+    this.showMessage = false;
     if (this.clubBinding.isAvailable) {
       this.isLooking.checked = true;
     } else {
@@ -343,6 +345,11 @@ export class UpdateClubComponent implements OnInit {
     this.setClubInfo();
     this.setClubStaff();
     this.setClubValuesAndPreferences();
+  }
+
+  showNotificationBar(message: string) {
+    this.showMessage = true;
+    this.message = message;
   }
 
   setClubInfo() {
@@ -450,6 +457,7 @@ export class UpdateClubComponent implements OnInit {
     if (files.length === 0) {
       return;
     } else {
+      this.showMessage = false;
       this.fileService.uploadFile(files).subscribe(res => {
         this.fileService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {
@@ -470,7 +478,7 @@ export class UpdateClubComponent implements OnInit {
         }
       },
       error => {
-
+        this.showNotificationBar('Failed to upload');
       });;
     }
   };
@@ -487,28 +495,35 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubInfo() {
+    this.showMessage = false;
     this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
       (succes: any) => {
 
         this.overWriteClubInfo();
 
+        this.showNotificationBar('Update was successful');
+
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
   updatePassword() {
     this.passwordCheck = false;
+    this.showMessage = false;
      
     this.updateService.updateClubPassword(this.buildPassword()).subscribe(
       (succes: any) => {
+
+        this.showNotificationBar('Password was updated')
 
       },
       error => {
         if(error.error == "Invalid password") {
           this.passwordCheck = true;
         }
+        this.showNotificationBar('Failed to update')
       });
     
   }
@@ -530,6 +545,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubRegularTrainingSchedule() {
+    this.showMessage = false;
     this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
       (succes: any) => {
         
@@ -541,14 +557,15 @@ export class UpdateClubComponent implements OnInit {
         
         this.clubBinding.trainingHoursList.push(this.regularHours);
 
-        this.showMessage = true;
+        this.showNotificationBar('Update was successful');
       },
       error => {
-
+        this.showNotificationBar('Failed to update');
       });
   }
 
   deleteClubFacilityImage(imagePath: string) {
+    this.showMessage = false;
     // Delete facility image from filesystem
     this.fileService.deleteFile(imagePath).subscribe(
       (succes: any) => {
@@ -556,16 +573,19 @@ export class UpdateClubComponent implements OnInit {
         this.deleteFacilityImage(imagePath);
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
 
   deleteFacilityImage(imagePath: string) {
+    this.showMessage = false;
     this.deleteService.deleteFacilityImage(imagePath).subscribe(
       (succes: any) => {
         this.deleteFacilityImageFromList(imagePath);
       },
-      error => {}
+      error => {
+        this.showNotificationBar('Failed to delete');
+      }
     );
   }
 
@@ -579,6 +599,7 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubFitnessTrainingSchedule() {
+    this.showMessage = false;
     this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
       (succes: any) => {
         this.clubBinding.trainingHoursList.forEach( (elm, index) => {
@@ -588,20 +609,24 @@ export class UpdateClubComponent implements OnInit {
         });
         
         this.clubBinding.trainingHoursList.push(this.fitnessHours);
+
+        this.showNotificationBar('Update was successful');
         
       },
       error => {
-
+        this.showNotificationBar('Failed to update');
       });;
   }
   
   updateClubStaff() {
+    this.showMessage = false;
     this.updateService.updateClubStaff(this.buildClubStaff()).subscribe(
       (succes: any) => {
         this.overWriteClubStaff();
+        this.showNotificationBar("Update was successful");
       },
       error => {
-        
+        this.showNotificationBar("Failed to update");
       });;
   }
   
@@ -614,12 +639,14 @@ export class UpdateClubComponent implements OnInit {
   }
   
   updateValuesAndPreferences() {
+    this.showMessage = false;
     this.updateService.updateClubValuesAndPreferences(this.buildClubValuesAndPreferences()).subscribe(
       (succes: any) => {
         this.overWriteValuesAndPrefs();
+        this.showNotificationBar("Update was successful");
       },
       error => {
-
+        this.showNotificationBar("Failed to update");
       });;
   }
 
@@ -662,101 +689,128 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubProfile() {
+    this.showMessage = false;
     this.updateService.updateClubProfile(this.buildClubProfile()).subscribe(
       (succes: any) => {      
       },
       error => {
-        // Delete image from filesystem
+        this.showNotificationBar("Failed to update");
       });;
   }
 
   updateClubFacility() {
+    this.showMessage = false;
     this.updateService.updateClubFacility(this.buildClubFacility()).subscribe(
       (succes: any) => {
         
       },
       error => {
-        // Delete from filesystem
+        this.showNotificationBar("Failed to update");
       });;
   }
 
   addClubCurrentSeasonSquadPlayer() {
+    this.showMessage = false;
     this.updateService
       .addClubSquadPlayer(this.buildCurrentSquadplayer())
       .subscribe(
         (succes: any) => {
           this.updateCurrentSquadplayerList();
+          
         },
-        error => {}
+        error => {
+          this.showNotificationBar('Failed to add squadplayer');
+        }
       );
   }
 
   addClubNextSeasonSquadPlayer() {
+    this.showMessage = false;
     this.updateService
       .addClubSquadPlayer(this.buildNextSquadplayer())
       .subscribe(
         (succes: any) => {
           this.updateNextSquadplayerList();
         },
-        error => {}
+        error => {
+          this.showNotificationBar('Failed to add squadplayer');
+        }
       );
   }
 
   addClubOpenPosition() {
+    this.showMessage = false;
     this.updateService.addClubOpenPosition(this.buildJobPosition()).subscribe(
       (succes: any) => {
         this.updateOpenPositionList();
       },
-      error => {}
+      error => {
+        this.showNotificationBar('Failed to add open position');
+      }
     );
   }
 
   deleteClubRegularTrainingSchedule() {
-    
+    this.showMessage = false;
     this.deleteService.deleteTrainingHours("Handball").subscribe(
       (succes: any) => {
         this.deleteTraininghours();
         this.resetRegularHoursFields();
+
+        this.showNotificationBar("Schedule has been deleted");
       },
       error => {
-
+        this.showNotificationBar("Failed to delete");
       });
   }
 
   deleteClubFitnessTrainingSchedule() {
+    this.showMessage = false;
     this.deleteService.deleteTrainingHours("Fitness training").subscribe(
       (succes:any) => {      
         this.deleteTraininghours();
         this.resetFitnessHoursFields();
+        this.showNotificationBar("Schedule has been deleted");
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
   deleteClubCurrentSquadPlayer(squadPlayer: SquadPlayer) {
+    this.showMessage = false;
     this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
       (succes: any) => {
         this.deletePlayerFromCurrentYearSquad(squadPlayer);
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
   deleteClubNextYearSquadPlayer(squadPlayer: SquadPlayer) {
+    this.showMessage = false;
     this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
       (succes: any) => {
         this.deletePlayerFromNextYearSquad(squadPlayer);
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
   deleteClubOpenPosition(jobPosition: JobPosition) {
+    this.showMessage = false;
     this.deleteService.deleteOpenPosition(jobPosition.id).subscribe(
       (succes: any) => {
         this.deleteOpenPosition(jobPosition);
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
@@ -773,18 +827,22 @@ export class UpdateClubComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.showMessage = false;
         this.deleteService.deleteClub().subscribe(
           (succes: any) => {
             this.loginService.logout();
             this.router.navigate(["/"]);
           },
-          error => {}
+          error => {
+            this.showNotificationBar("Failed to delete");
+          }
         );
       }
     });
   }
 
   deleteClubProfile() {
+    this.showMessage = false;
     // Delete image from filesystem 
     this.fileService.deleteFile(this.clubBinding.imagePath).subscribe(
       (succes: any) => {
@@ -793,18 +851,21 @@ export class UpdateClubComponent implements OnInit {
         this.updateClubProfile();
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
 
   deleteClubValuesAndPreferences() {
+    this.showMessage = false;
     // Delete club values and preferences
     this.deleteService.deleteValuesAndPreferences().subscribe(
       (succes: any) => {
         // Insert new club values and preferences
         this.updateValuesAndPreferences();
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to update");
+      }
     );
   }
 
