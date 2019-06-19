@@ -171,11 +171,6 @@ namespace Api.BusinessLogic {
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
             }
-            // If only season is selected
-            else if (criterias.Season != null) {
-                sql += GetSeasonSql(criterias);
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
-            }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first
             Player player = _playerRepos.GetById(id);
