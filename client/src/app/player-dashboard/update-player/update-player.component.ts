@@ -158,7 +158,12 @@ export class UpdatePlayerComponent implements OnInit {
       });
     }
 
-
+    console.log(this.playerBinding.contractExpired);
+    var splitted = this.playerBinding.contractExpired.split("/", 3);
+    console.log(splitted);
+    var date = new Date(Number(splitted[2]), Number(splitted[1]), Number(splitted[0]));
+    console.log(date.toLocaleString());
+    console.log(date);
 
     // set the values
     this.setPersonalInfo();
