@@ -127,7 +127,8 @@ export class UpdatePlayerComponent implements OnInit {
   nationalTeamData: NationalTeam[] = [];
   nationalTeamSource = this.nationalTeamData;
   nationalTeam = new NationalTeam();
-
+  dateContract: Date;
+  dateInjury: Date;
   constructor(
     private loginService: loginService,
     private updateService: updateService,
@@ -161,13 +162,18 @@ export class UpdatePlayerComponent implements OnInit {
         this.nationalTeamSource = [...this.nationalTeamSource];
       });
     }
+    
+    if(this.playerBinding.contractExpired != null) {
+      var splittedContract = this.playerBinding.contractExpired.split("/", 3);
+      this.dateContract = new Date(Number(splittedContract[2]), Number(splittedContract[1]) - 1, Number(splittedContract[0]));
+    }
 
-    console.log(this.playerBinding.contractExpired);
-    var splitted = this.playerBinding.contractExpired.split("/", 3);
-    console.log(splitted);
-    var date = new Date(Number(splitted[2]), Number(splitted[1]), Number(splitted[0]));
-    console.log(date.toLocaleString());
-    console.log(date);
+    if(this.playerBinding.injuryExpired != null) {
+      var splittedInjury = this.playerBinding.injuryExpired.split("/", 3);
+      this.dateInjury = new Date(Number(splittedInjury[2]), Number(splittedInjury[1]) - 1, Number(splittedInjury[0]));
+    }
+
+
 
     // set the values
     this.setPersonalInfo();
@@ -175,6 +181,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.setStrengthsAndWeaknesses();
     this.setSportCV();
   }
+
 
   setPersonalInfo() {
     this.firstNameControl.setValue(this.playerBinding.firstName);
@@ -328,6 +335,7 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerAdditionalInfo() {
+    
     this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
       (succes: any) => {
           this.overWriteAdditionalInfo();
@@ -335,6 +343,8 @@ export class UpdatePlayerComponent implements OnInit {
       error => {
         
       });
+      console.log(this.contractExpiredCtrl.value);
+      console.log(this.injuryRecoveryDateCtrl.value);
   }
 
   overWriteAdditionalInfo() {

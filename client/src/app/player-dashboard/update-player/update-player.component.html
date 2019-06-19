@@ -200,7 +200,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [matDatepicker]="contractPicker" [value]="playerBinding.contractExpired"
+        <input matInput [value]="dateContract" [matDatepicker]="contractPicker" 
           [formControl]="contractExpiredCtrl" placeholder="Contract Expiration">
         <mat-datepicker-toggle matSuffix [for]="contractPicker"></mat-datepicker-toggle>
         <mat-datepicker #contractPicker></mat-datepicker>
@@ -219,7 +219,7 @@
           [formControl]="injuryDescriptionCtrl" [errorStateMatcher]='validate'>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput [matDatepicker]="picker" [value]="playerBinding.injuryExpired"
+        <input matInput [matDatepicker]="picker" [value]="dateInjury"
           [formControl]="injuryRecoveryDateCtrl" placeholder="Expected Recovery Date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
