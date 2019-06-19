@@ -1,25 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {Component, Injectable, Input} from '@angular/core';
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: 'app-update-message',
   templateUrl: './update-message.component.html',
   styleUrls: ['./update-message.component.css']
 })
-export class UpdateMessageComponent implements OnInit {
 
-  // @Input() message: string;
-  // @Input() action: string;
+export class UpdateMessageComponent {
 
-  constructor(private _snackBar: MatSnackBar) { }
+   @Input() showMessage: boolean;
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
+   constructor(public snackBar: MatSnackBar) {}
 
-  ngOnInit() {
-  }
-
-}
+   openSnackBar(message: string, action: string) {
+      if(this.showMessage) {
+        this.showMessage = false;
+        this.snackBar.open(message, action, {
+          duration: 2000,
+       });
+       
+      }
+   } 
+}   

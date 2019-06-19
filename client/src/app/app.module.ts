@@ -6,7 +6,11 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule, MatExpansionModule } from '@angular/material';
+import { MatStepperModule, MatTabsModule, 
+  MatInputModule, MatButtonModule, MatAutocompleteModule, 
+  MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, 
+  MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule, 
+  MatExpansionModule, MatSnackBarModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -119,15 +123,14 @@ import { PrivacyPolicyComponent } from './multi-page/privacy-policy/privacy-poli
     CdkStepperModule,
       MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
       MatPaginatorModule, MatCheckboxModule, MatTableModule, MatDatepickerModule, MatMomentDateModule, MatMenuModule, MatDividerModule,
-    MatCardModule, MatExpansionModule,
+    MatCardModule, MatExpansionModule, MatSnackBarModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialFileInputModule,
     NgxSpinnerModule
   ],
   entryComponents: [
-    ConfirmationDialogComponent,
-    UpdateMessageComponent
+    ConfirmationDialogComponent
   ],
   providers: [
     ErrorStateMatcher,
