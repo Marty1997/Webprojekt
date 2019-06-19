@@ -10,8 +10,9 @@ import { MyErrorStateMatcher, MY_FORMATS } from "src/app/front-page/front-page-i
 import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
-import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
+
 
 export const MY_FORMATS2 = {
   parse: {
@@ -95,10 +96,10 @@ export class UpdatePlayerComponent implements OnInit {
   preferredHandCtrl = new FormControl("");
   leagueCtrl = new FormControl("");
   contractStatusCtrl = new FormControl("");
-  contractExpiredCtrl = new FormControl("");
+  contractExpiredCtrl = new FormControl(moment());
   injuryStatusCtrl = new FormControl("");
   injuryDescriptionCtrl = new FormControl("");
-  injuryRecoveryDateCtrl = new FormControl("");
+  injuryRecoveryDateCtrl = new FormControl(moment());
   strengthsCtrl = new FormControl("");
   weaknessesCtrl = new FormControl("");
   currentClubCtrl = new FormControl("");
