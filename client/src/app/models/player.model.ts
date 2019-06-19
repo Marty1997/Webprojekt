@@ -34,11 +34,11 @@ export class Player {
   statistic: string = "";
   formerClubs: string = "";
   contractStatus: string = "";
-  contractExpired: string = ""
-  contractExpiredDate: Date = new Date();
+  contractExpired: string = "";
+  contractExpiredDate: Date;
   injuryStatus: string = "";
   injuryExpired: string = "";
-  injuryExpiredDate: Date = new Date();
+  injuryExpiredDate: Date;
   injuryDescription: string = "";
   // national team
   nationalTeamList: NationalTeam[] = [];

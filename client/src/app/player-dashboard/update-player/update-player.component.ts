@@ -6,15 +6,33 @@ import { deleteService } from "src/app/services/deleteService";
 import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
-import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog, MatSnackBar } from "@angular/material";
+import { MyErrorStateMatcher, MY_FORMATS } from "src/app/front-page/front-page-image/register-player/register-player.component";
+import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
+
+
+export const MY_FORMATS2 = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
 
 @Component({
   selector: "app-update-player",
   templateUrl: "./update-player.component.html",
-  styleUrls: ["./update-player.component.css"]
+  styleUrls: ["./update-player.component.css"],
+  providers: [
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS2},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]}]
 })
 export class UpdatePlayerComponent implements OnInit {
   playerBinding: Player;
@@ -80,10 +98,10 @@ export class UpdatePlayerComponent implements OnInit {
   preferredHandCtrl = new FormControl("");
   leagueCtrl = new FormControl("");
   contractStatusCtrl = new FormControl("");
-  contractExpiredCtrl = new FormControl("");
+  contractExpiredCtrl = new FormControl(moment());
   injuryStatusCtrl = new FormControl("");
   injuryDescriptionCtrl = new FormControl("");
-  injuryRecoveryDateCtrl = new FormControl("");
+  injuryRecoveryDateCtrl = new FormControl(moment());
   strengthsCtrl = new FormControl("");
   weaknessesCtrl = new FormControl("");
   currentClubCtrl = new FormControl("");
@@ -124,7 +142,8 @@ export class UpdatePlayerComponent implements OnInit {
   nationalTeamData: NationalTeam[] = [];
   nationalTeamSource = this.nationalTeamData;
   nationalTeam = new NationalTeam();
-
+  dateContract: Date;
+  dateInjury: Date;
   constructor(
     private loginService: loginService,
     private updateService: updateService,
@@ -158,6 +177,18 @@ export class UpdatePlayerComponent implements OnInit {
         this.nationalTeamSource = [...this.nationalTeamSource];
       });
     }
+    
+    if(this.playerBinding.contractExpired != null) {
+      var splittedContract = this.playerBinding.contractExpired.split("/", 3);
+      this.dateContract = new Date(Number(splittedContract[2]), Number(splittedContract[1]) - 1, Number(splittedContract[0]));
+    }
+
+    if(this.playerBinding.injuryExpired != null) {
+      var splittedInjury = this.playerBinding.injuryExpired.split("/", 3);
+      this.dateInjury = new Date(Number(splittedInjury[2]), Number(splittedInjury[1]) - 1, Number(splittedInjury[0]));
+    }
+
+
 
     // set the values
     this.setPersonalInfo();
@@ -339,6 +370,8 @@ export class UpdatePlayerComponent implements OnInit {
       error => {
         this.showNotificationBar('Failed to update');
       });
+      console.log(this.contractExpiredCtrl.value);
+      console.log(this.injuryRecoveryDateCtrl.value);
   }
 
   overWriteAdditionalInfo() {
