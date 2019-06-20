@@ -571,22 +571,35 @@ export class UpdateClubComponent implements OnInit {
 
   updateClubRegularTrainingSchedule() {
     this.showMessage = false;
-    this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
-      (succes: any) => {
-        
-        this.clubBinding.trainingHoursList.forEach( (elm, index) => {
-          if(elm.name == 'Handball') {
-            this.clubBinding.trainingHoursList.splice(index, 1);
-          } 
-        });
-        
-        this.clubBinding.trainingHoursList.push(this.regularHours);
 
-        this.showNotificationBar('Update was successful');
-      },
-      error => {
-        this.showNotificationBar('Failed to update');
-      });
+    console.log(this.regularMonFrom.value);
+
+    if(
+      this.regularMonFrom.value != ""  &&  this.regularMonTo.value != "" || 
+      
+      this.regularTueFrom.value != ""  &&  this.regularTueTo.value != "" ||
+     
+      this.regularWedFrom.value != ""  &&  this.regularWedTo.value != "" ||
+     
+      this.regularThuFrom.value != ""  &&  this.regularThuTo.value != "" || 
+     
+      this.regularFriFrom.value != ""  &&  this.regularFriTo.value != "" ||
+     
+      this.regularSatFrom.value != ""  &&  this.regularSatTo.value != "" ||
+    
+      this.regularSunFrom.value != ""  &&  this.regularSunTo.value != "") 
+      {
+        this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
+          (succes: any) => {
+
+            this.getTrainingHours();
+            
+            this.showNotificationBar('Update was successful');
+          },
+          error => {
+            this.showNotificationBar('Failed to update');
+          });
+      }
   }
 
   deleteClubFacilityImage(imagePath: string) {
@@ -625,22 +638,34 @@ export class UpdateClubComponent implements OnInit {
 
   updateClubFitnessTrainingSchedule() {
     this.showMessage = false;
-    this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
-      (succes: any) => {
-        this.clubBinding.trainingHoursList.forEach( (elm, index) => {
-          if(elm.name == 'Fitness training') {
-            this.clubBinding.trainingHoursList.splice(index, 1);
-          } 
-        });
-        
-        this.clubBinding.trainingHoursList.push(this.fitnessHours);
 
-        this.showNotificationBar('Update was successful');
-        
-      },
-      error => {
-        this.showNotificationBar('Failed to update');
-      });;
+    if(
+      this.fitnessMonFrom.value != ""  &&  this.fitnessMonTo.value != "" || 
+      
+      this.fitnessTueFrom.value != ""  &&  this.fitnessTueTo.value != "" ||
+     
+      this.fitnessWedFrom.value != ""  &&  this.fitnessWedTo.value != "" ||
+     
+      this.fitnessThuFrom.value != ""  &&  this.fitnessThuTo.value != "" || 
+     
+      this.fitnessFriFrom.value != ""  &&  this.fitnessFriTo.value != "" ||
+     
+      this.fitnessSatFrom.value != ""  &&  this.fitnessSatTo.value != "" ||
+    
+      this.fitnessSunFrom.value != ""  &&  this.fitnessSunTo.value != "") 
+      {
+        this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
+          (succes: any) => {
+
+            this.getTrainingHours();
+    
+            this.showNotificationBar('Update was successful');
+            
+          },
+          error => {
+            this.showNotificationBar('Failed to update');
+          });
+      }
   }
   
   updateClubStaff() {
@@ -779,9 +804,7 @@ export class UpdateClubComponent implements OnInit {
     this.showMessage = false;
     this.deleteService.deleteTrainingHours("Handball").subscribe(
       (succes: any) => {
-        this.deleteTraininghours();
-        this.resetRegularHoursFields();
-
+        this.deleteRegularTrainingHours();
         this.showNotificationBar("Schedule has been deleted");
       },
       error => {
@@ -793,8 +816,7 @@ export class UpdateClubComponent implements OnInit {
     this.showMessage = false;
     this.deleteService.deleteTrainingHours("Fitness training").subscribe(
       (succes:any) => {      
-        this.deleteTraininghours();
-        this.resetFitnessHoursFields();
+        this.deleteFitnessTrainingHours();
         this.showNotificationBar("Schedule has been deleted");
       },
       error => {
@@ -1052,15 +1074,27 @@ export class UpdateClubComponent implements OnInit {
     this.squadPlayerShirtNumberCtrl.setValue("");
   }
 
-  deleteTraininghours() {
-    this.clubBinding.trainingHoursList.forEach( (elm, index) => {
-      if(elm.name == 'Handball') {
-        this.clubBinding.trainingHoursList.splice(index, 1);
-      } else if(elm.name == 'Fitness training') {
-        this.clubBinding.trainingHoursList.splice(index, 1);
-      }
-      this.clubBinding.trainingHoursList = [...this.clubBinding.trainingHoursList];
-    });
+  deleteRegularTrainingHours() {
+
+    this.getTrainingHours();
+
+    this.resetRegularHoursFields();
+  }
+
+  deleteFitnessTrainingHours() {
+
+    this.getTrainingHours();
+
+    this.resetFitnessHoursFields();
+  }
+
+  getTrainingHours() {
+    this.updateService.getTrainingHours().subscribe(
+      (succes: any) => {
+        this.clubBinding.trainingHoursList = succes; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 
   buildClubInfo() {

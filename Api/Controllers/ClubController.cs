@@ -266,21 +266,54 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult GetOpenPositions() {
 
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            if (role == "Club") {
-                List<JobPosition> opl = _clubLogic.GetOpenPositions(id);
+                if (role == "Club") {
+                    List<JobPosition> opl = _clubLogic.GetOpenPositions(id);
 
-                if (opl != null) {
-                    return Ok(opl);
+                    if (opl != null) {
+                        return Ok(opl);
+                    }
+                    else {
+                        return StatusCode(404, "Resource not found");
+                    }
                 }
-                else {
-                    return StatusCode(404, "Resource not found");
-                }
+                return StatusCode(500, "Failed");
             }
-            return StatusCode(400, "Failed");
+            catch(Exception) {
+                return StatusCode(500, "Failed");
+            }       
+        }
+
+        // api/Club/GetOpenPositions
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetTrainingHours() {
+
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
+
+                if (role == "Club") {
+                    List<TrainingHours> thl = _clubLogic.GetTrainingHours(id);
+
+                    if (thl != null) {
+                        return Ok(thl);
+                    }
+                    else {
+                        return StatusCode(404, "Resource not found");
+                    }
+                }
+                return StatusCode(500, "Failed");
+            }
+            catch(Exception) {
+                return StatusCode(500, "Failed");
+            }
+            
         }
 
         // api/Club/DeleteTrainingHours
@@ -306,21 +339,27 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult GetNextSquadplayer() {
             
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            if (role == "Club") {
-                List<SquadPlayer> spl = _clubLogic.GetNextSquadplayer(id);
+                if (role == "Club") {
+                    List<SquadPlayer> spl = _clubLogic.GetNextSquadplayer(id);
 
-                if (spl != null) {
-                    return Ok(spl);
+                    if (spl != null) {
+                        return Ok(spl);
+                    }
+                    else {
+                        return StatusCode(404, "Resource not found");
+                    }
                 }
-                else {
-                    return StatusCode(404, "Resource not found");
-                }
+                return StatusCode(500, "Failed");
             }
-            return StatusCode(400, "Failed");
+            catch(Exception) {
+                return StatusCode(500, "Failed");
+            }
+            
         }
 
         // api/Club/GetCurrentSquadplayer
@@ -328,21 +367,27 @@ namespace Api.Controllers {
         [Route("[action]")]
         public IActionResult GetCurrentSquadplayer() {
 
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            if (role == "Club") {
-                List<SquadPlayer> spl = _clubLogic.GetCurrentSquadplayer(id);
+                if (role == "Club") {
+                    List<SquadPlayer> spl = _clubLogic.GetCurrentSquadplayer(id);
 
-                if (spl != null) {
-                    return Ok(spl);
+                    if (spl != null) {
+                        return Ok(spl);
+                    }
+                    else {
+                        return StatusCode(404, "Resource not found");
+                    }
                 }
-                else {
-                    return StatusCode(404, "Resource not found");
-                }
+                return StatusCode(500, "Failed");
             }
-            return StatusCode(400, "Failed");
+            catch(Exception) {
+                return StatusCode(500, "Failed");
+            }
+            
         }
 
         // api/Club/DeleteFacilityImage

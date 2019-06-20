@@ -124,4 +124,9 @@ export class updateService {
     let url = "https://localhost:44310/api/Player/GetNationalTeams";
     return this.http.get(url);
   }
+
+  getTrainingHours() {
+    let url = "https://localhost:44310/api/Club/GetTrainingHours";
+    return this.http.get(url);
+  }
 }

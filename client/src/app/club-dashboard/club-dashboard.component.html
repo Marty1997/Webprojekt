@@ -221,7 +221,7 @@
               </tr>
             </thead>
             <tbody *ngFor="let training of clubBinding.trainingHoursList">
-              <tr *ngIf="training.name == 'Handball'">
+              <tr *ngIf="training.name === 'Handball'">
                 <td>Handball training</td>
                 <td>{{training.mon}}</td>
                 <td>{{training.tue}}</td>
@@ -231,7 +231,7 @@
                 <td>{{training.sat}}</td>
                 <td>{{training.sun}}</td>
               </tr>
-              <tr *ngIf="training.name == 'Fitness training'">
+              <tr *ngIf="training.name === 'Fitness training'">
                 <td>Fitness training</td>
                 <td>{{training.mon}}</td>
                 <td>{{training.tue}}</td>
