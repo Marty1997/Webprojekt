@@ -76,6 +76,10 @@ namespace Api.BusinessLogic {
             return _clubRepos.GetCurrentSquadplayer(club_ID);
         }
 
+        public List<TrainingHours> GetTrainingHours(int club_ID) {
+            return _clubRepos.GetTrainingHours(club_ID);
+        }
+
         public bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
             return _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
         }

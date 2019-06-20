@@ -306,21 +306,27 @@ namespace Api.Controllers
         [Route("[action]")]
         public IActionResult GetNationalTeams() {
 
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            if (role == "Player") {
-                List<NationalTeam> ntl = _playerLogic.GetNationalTeams(id);
+                if (role == "Player") {
+                    List<NationalTeam> ntl = _playerLogic.GetNationalTeams(id);
 
-                if (ntl != null) {
-                    return Ok(ntl);
+                    if (ntl != null) {
+                        return Ok(ntl);
+                    }
+                    else {
+                        return StatusCode(404, "Resource not found");
+                    }
                 }
-                else {
-                    return StatusCode(404, "Resource not found");
-                }
+                return StatusCode(500, "Failed");
             }
-            return StatusCode(400, "Failed");
+            catch(Exception) {
+                return StatusCode(500, "Failed");
+            }
+            
         }
     }
 }
