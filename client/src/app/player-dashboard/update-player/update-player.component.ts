@@ -369,8 +369,6 @@ export class UpdatePlayerComponent implements OnInit {
       error => {
         this.showNotificationBar('Failed to update');
       });
-      console.log(this.contractExpiredCtrl.value);
-      console.log(this.injuryRecoveryDateCtrl.value);
   }
 
   overWriteAdditionalInfo() {
@@ -383,7 +381,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.playerBinding.league = this.leagueCtrl.value == "" ? null : this.leagueCtrl.value;
     this.playerBinding.contractStatus = this.contractStatusCtrl.value == "" ? null : this.contractStatusCtrl.value;
     
-    if(this.contractExpiredCtrl.value == "") {
+    if(this.contractExpiredCtrl.value == null) {
       this.playerBinding.contractExpired = null;
     }
     else {
@@ -396,7 +394,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.playerBinding.injuryStatus = this.injuryStatusCtrl.value == "" ? null : this.injuryStatusCtrl.value;
     this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value == "" ? null : this.injuryDescriptionCtrl.value;
     
-    if(this.injuryRecoveryDateCtrl.value == "") {
+    if(this.injuryRecoveryDateCtrl.value == null) {
       this.playerBinding.injuryExpired = null;
     }
     else {
@@ -719,8 +717,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.contractStatusCtrl.value == ""
         ? null
         : this.contractStatusCtrl.value;
-
-    if(this.contractExpiredCtrl.value == "") {
+    if(this.contractExpiredCtrl.value == null) {
       player.contractExpired = null;
     }
     else {
@@ -739,7 +736,7 @@ export class UpdatePlayerComponent implements OnInit {
         ? null
         : this.injuryDescriptionCtrl.value;
 
-    if (this.injuryRecoveryDateCtrl.value == "") {
+    if (this.injuryRecoveryDateCtrl.value == null) {
       player.injuryExpired = null;
     }
     else {
