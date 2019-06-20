@@ -8,6 +8,6 @@ export class ErrorsHandler implements ErrorHandler {
       let service = this.injector.get(loginService);
 
       // Handle Client Error (Angular Error, ReferenceError...) 
-      //console.log(error)
+      // console.log(error)
   }
 }

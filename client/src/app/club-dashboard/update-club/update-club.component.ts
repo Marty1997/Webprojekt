@@ -340,7 +340,7 @@ export class UpdateClubComponent implements OnInit {
     if (this.clubBinding.valuesList.length > 0) {
       this.markValueCheckboxes(this.clubBinding.valuesList);
     }
-    this.openPositionSeason.get("openPositionSeason").setValue("Current year");
+    this.openPositionSeason.setValue("Current year");
 
     this.setClubInfo();
     this.setClubStaff();
