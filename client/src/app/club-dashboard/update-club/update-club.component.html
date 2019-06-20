@@ -17,66 +17,69 @@
       <mat-checkbox #isLooking>Currently looking for players</mat-checkbox>
       <hr>
       <br>
-      <mat-form-field>
-        <input matInput placeholder="Club Name" [value]="clubBinding.name" [formControl]="name"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="name?.hasError('required')">
-          Club name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select matInput placeholder="League" [value]="clubBinding.league" [formControl]="league"
-          [errorStateMatcher]="validate">
-          <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="league?.hasError('required')">
-          League is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Street Address" [value]="clubBinding.streetAddress" [formControl]="streetAddress"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="streetAddress?.hasError('required')">
-          Street Address is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Street Number" [value]="clubBinding.streetNumber" [formControl]="streetNumber"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="streetNumber?.hasError('pattern') && !streetNumber.hasError('required')">
-          Street number must be a number
-        </mat-error>
-        <mat-error *ngIf="streetNumber?.hasError('required')">
-          Street number is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select matInput placeholder="Country" [value]="clubBinding.country" [formControl]="country"
-          [errorStateMatcher]="validate">
-          <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="country?.hasError('required')">
-          Country is <strong>required</strong>
-        </mat-error>
-        
-      </mat-form-field>
-      <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="City" [value]="clubBinding.city" [formControl]="city"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="city?.hasError('required')">
-          City is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Zipcode" [value]="clubBinding.zipcode" [formControl]="zipcode"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="zipcode.hasError('required')">
-          Zipcode is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+      <form [formGroup]="clubRequiredInfoFormGroup" (ngSubmit)="clubRequiredInfoFormGroup.valid && updateClubInfo()" >
+          <mat-form-field>
+          <input matInput placeholder="Club Name" [value]="clubBinding.name" [formControl]="name"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="name?.hasError('required')">
+            Club name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select matInput placeholder="League" [value]="clubBinding.league" [formControl]="league"
+            [errorStateMatcher]="validate">
+            <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="league?.hasError('required')">
+            League is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Street Address" [value]="clubBinding.streetAddress" [formControl]="streetAddress"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="streetAddress?.hasError('required')">
+            Street Address is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Street Number" [value]="clubBinding.streetNumber" [formControl]="streetNumber"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="streetNumber?.hasError('pattern') && !streetNumber.hasError('required')">
+            Street number must be a number
+          </mat-error>
+          <mat-error *ngIf="streetNumber?.hasError('required')">
+            Street number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <mat-select matInput placeholder="Country" [value]="clubBinding.country" [formControl]="country"
+            [errorStateMatcher]="validate">
+            <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="country?.hasError('required')">
+            Country is <strong>required</strong>
+          </mat-error>
+          
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <input matInput placeholder="City" [value]="clubBinding.city" [formControl]="city"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="city?.hasError('required')">
+            City is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <input matInput placeholder="Zipcode" [value]="clubBinding.zipcode" [formControl]="zipcode"
+            [errorStateMatcher]="validate">
+          <mat-error *ngIf="zipcode.hasError('required')">
+            Zipcode is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <!-- Update button -->
-      <input type="button" class="btn btn-success" value="Update" (click)="updateClubInfo()">
+        <!-- Update button -->
+        <input type="submit" class="btn btn-success" value="Update" >
+      </form>
+     
 
       <mat-action-row>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -89,33 +92,33 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Update password</mat-panel-title>
         </mat-expansion-panel-header>
-        <div style="color:red; font-size:20px;" *ngIf="passwordCheck">Password is invalid</div>
-        <mat-form-field>
-          <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-            [errorStateMatcher]="validate">
-          <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
-            Password must be at least 6 characters
-          </mat-error>
-          <mat-error *ngIf="currentPassword?.hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="New Password" [formControl]="password" type="password"
-            [errorStateMatcher]="validate">
-          <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
-            Password must be at least 6 characters
-          </mat-error>
-          <mat-error *ngIf="password?.hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-          <mat-error *ngIf="wrongPassword">
-            Password is invalid
-          </mat-error>
-        </mat-form-field>
-        
-        <!-- Update button -->
-        <input type="button" class="btn btn-success" value="Update" (click)="updatePassword()">
+        <div style="color:red; font-size:20px;" *ngIf="passwordCheck">Current password is wrong</div>
+        <form [formGroup]="clubRequiredPasswordFormGroup" (ngSubmit)="clubRequiredPasswordFormGroup.valid && updatePassword(f) " #f="ngForm">
+            <mat-form-field>
+            <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+              [errorStateMatcher]="validate">
+            <mat-error *ngIf="currentPassword?.hasError('minlength') && !currentPassword?.hasError('required')">
+              Password must be at least 6 characters
+            </mat-error>
+            <mat-error *ngIf="currentPassword?.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="New Password" [formControl]="password" type="password"
+              [errorStateMatcher]="validate">
+            <mat-error *ngIf="password?.hasError('minlength') && !password?.hasError('required')">
+              Password must be at least 6 characters
+            </mat-error>
+            <mat-error *ngIf="password?.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          
+          <!-- Update button -->
+          <input type="submit" class="btn btn-success" value="Update">
+        </form>
+
   
         <mat-action-row>
           <button mat-button color="primary" (click)="nextStep()">Next</button>

@@ -5,10 +5,10 @@ import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
 import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
-import { FormControl, Validators } from "@angular/forms";
-import { MyErrorStateMatcher, MY_FORMATS } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
+import { FormControl, Validators, FormGroup, FormGroupDirective, NgForm, FormBuilder } from "@angular/forms";
+import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, ErrorStateMatcher } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
+import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
@@ -41,6 +41,8 @@ export class UpdatePlayerComponent implements OnInit {
   notify: MatSnackBar;
   showMessage: boolean = false;
   message: string;
+  playerRequiredPasswordFormGroup: FormGroup;
+  playerRequiredInfoFormGroup: FormGroup;
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -49,6 +51,9 @@ export class UpdatePlayerComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
+
+  @ViewChild("isLooking") private isLooking: MatCheckbox;
+
   currentPassword = new FormControl("", [
     Validators.required,
     Validators.minLength(6)
@@ -57,17 +62,9 @@ export class UpdatePlayerComponent implements OnInit {
     Validators.required,
     Validators.minLength(6)
   ]);
-  emailControl = new FormControl("", [Validators.required, Validators.email]);
-  passwordControl = new FormControl("", [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
-
-  @ViewChild("isLooking") private isLooking: MatCheckbox;
-
-  firstNameControl = new FormControl("", Validators.required);
-  lastNameControl = new FormControl("", Validators.required);
-  countryControl = new FormControl("", Validators.required);
+  firstNameControl = new FormControl("", [Validators.required]);
+  lastNameControl = new FormControl("", [Validators.required]);
+  countryControl = new FormControl("", [Validators.required]);
   dayControl = new FormControl("", [
     Validators.required,
     Validators.minLength(2),
@@ -151,6 +148,7 @@ export class UpdatePlayerComponent implements OnInit {
     private deleteService: deleteService,
     private router: Router,
     public dialog: MatDialog,
+    private formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
@@ -161,6 +159,22 @@ export class UpdatePlayerComponent implements OnInit {
     } else {
       this.isLooking.checked = false;
     }
+
+    //Formgroup for required password
+    this.playerRequiredPasswordFormGroup = this.formBuilder.group({
+      currentPassword : this.currentPassword,
+      password : this.password
+    });
+
+    //Formgroup for required info
+    this.playerRequiredInfoFormGroup = this.formBuilder.group({
+          firstName : this.firstNameControl,
+          lastName : this.lastNameControl,
+          country : this.countryControl,
+          day : this.dayControl,
+          month : this.monthControl,
+          year : this.yearControl
+    });
 
     // set strengths and weaknesses
     if (this.playerBinding.strengthList.length > 0) {
@@ -332,13 +346,14 @@ export class UpdatePlayerComponent implements OnInit {
     );
   }
 
-  updatePassword() {
+  updatePassword(formDirective:FormGroupDirective) {
     this.passwordCheck = false;
     this.showMessage = false;
      
     this.updateService.updatePlayerPassword(this.buildPassword()).subscribe(
       (succes: any) => {
-
+        formDirective.resetForm();
+        this.playerRequiredPasswordFormGroup.reset();
         this.showNotificationBar('Password was updated')
 
       },
@@ -643,43 +658,20 @@ export class UpdatePlayerComponent implements OnInit {
 
   buildPlayerInfo() {
     var player = new Player();
-    player.email = this.playerBinding.email;
-    player.password =
-      this.currentPassword.value == "" ? null : this.currentPassword.value;
-    player.newPassword = this.password.value == "" ? null : this.password.value;
     player.isAvailable = this.isLooking.checked;
-    player.firstName =
-      this.firstNameControl.value == ""
-        ? this.playerBinding.firstName
-        : this.firstNameControl.value;
-    player.lastName =
-      this.lastNameControl.value == ""
-        ? this.playerBinding.lastName
-        : this.lastNameControl.value;
-    player.country =
-      this.countryControl.value == ""
-        ? this.playerBinding.country
-        : this.countryControl.value;
-    player.day =
-      this.dayControl.value == ""
-        ? this.playerBinding.day
-        : this.dayControl.value;
-    player.month =
-      this.monthControl.value == ""
-        ? this.playerBinding.month
-        : this.monthControl.value;
-    player.year =
-      this.yearControl.value == ""
-        ? this.playerBinding.year
-        : this.yearControl.value;
+    player.firstName = this.playerRequiredInfoFormGroup.value.firstName;
+    player.lastName = this.playerRequiredInfoFormGroup.value.lastName;
+    player.country = this.playerRequiredInfoFormGroup.value.country;
+    player.day = this.playerRequiredInfoFormGroup.value.day;
+    player.month = this.playerRequiredInfoFormGroup.value.month;
+    player.year = this.playerRequiredInfoFormGroup.value.year;
     return player;
   }
 
   buildPassword() {
     var player = new Player();
-    player.password =
-      this.currentPassword.value == "" ? null : this.currentPassword.value;
-    player.newPassword = this.password.value == "" ? null : this.password.value;
+    player.password = this.playerRequiredPasswordFormGroup.value.currentPassword;
+    player.newPassword = this.playerRequiredPasswordFormGroup.value.password;
     return player;
   }
 

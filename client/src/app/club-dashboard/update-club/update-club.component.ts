@@ -7,7 +7,7 @@ import { FileService } from "src/app/services/FileService";
 import { SquadPlayer } from "src/app/models/squadPlayer.model";
 import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
-import { FormControl, Validators } from "@angular/forms";
+import { FormControl, Validators, FormGroup, FormGroupDirective, FormBuilder } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
@@ -32,6 +32,8 @@ export class UpdateClubComponent implements OnInit {
   passwordCheck: boolean = false;
   showMessage: boolean = false;
   message: string;
+  clubRequiredPasswordFormGroup: FormGroup;
+  clubRequiredInfoFormGroup: FormGroup;
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -188,9 +190,14 @@ export class UpdateClubComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
-  currentPassword = new FormControl("", [Validators.minLength(6)]);
-
-  password = new FormControl("", [Validators.minLength(6)]);
+  currentPassword = new FormControl("", [
+    Validators.required,
+    Validators.minLength(6)
+  ]);
+  password = new FormControl("",[
+    Validators.required,
+    Validators.minLength(6)
+  ]);
 
   @ViewChild("isLooking") private isLooking: MatCheckbox;
 
@@ -296,7 +303,8 @@ export class UpdateClubComponent implements OnInit {
     private fileService: FileService,
     private deleteService: deleteService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -341,6 +349,22 @@ export class UpdateClubComponent implements OnInit {
       this.markValueCheckboxes(this.clubBinding.valuesList);
     }
     this.openPositionSeason.setValue("Current year");
+    //Formgroup for required password
+    this.clubRequiredPasswordFormGroup = this.formBuilder.group({
+      currentPassword : this.currentPassword,
+      password : this.password
+    });
+
+    //Formgroup for required info
+    this.clubRequiredInfoFormGroup = this.formBuilder.group({
+      name : this.name,
+      league : this.league,
+      streetAddress : this.streetAddress,
+      streetNumber : this.streetNumber,
+      country : this.country,
+      city : this.city,
+      zipcode : this.zipcode
+    });
 
     this.setClubInfo();
     this.setClubStaff();
@@ -509,13 +533,14 @@ export class UpdateClubComponent implements OnInit {
       });
   }
 
-  updatePassword() {
+  updatePassword(formDirective:FormGroupDirective) {
     this.passwordCheck = false;
     this.showMessage = false;
      
     this.updateService.updateClubPassword(this.buildPassword()).subscribe(
       (succes: any) => {
-
+        formDirective.resetForm();
+        this.clubRequiredPasswordFormGroup.reset();
         this.showNotificationBar('Password was updated')
 
       },
@@ -1040,26 +1065,24 @@ export class UpdateClubComponent implements OnInit {
 
   buildClubInfo() {
     var club = new Club();
-    club.email = this.clubBinding.email;
     club.zipcodeCity_ID = this.clubBinding.zipcodeCity_ID;
-    club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
     club.isAvailable = this.isLooking.checked;
-    club.newPassword = this.password.value == "" ? null : this.password.value;
-    club.name = this.name.value == "" ? this.clubBinding.league : this.name.value;
-    club.league = this.league.value == "" ? this.clubBinding.league : this.league.value;
-    club.streetAddress = this.streetAddress.value == "" ? this.clubBinding.streetAddress : this.streetAddress.value;
-    club.streetNumber = this.streetNumber.value == "" ? this.clubBinding.streetNumber : this.streetNumber.value;
-    club.country = this.country.value == "" ? this.clubBinding.country : this.country.value;
-    club.city = this.city.value == "" ? this.clubBinding.city : this.city.value;
-    club.zipcode = this.zipcode.value == "" ? this.clubBinding.zipcode : this.zipcode.value;
+
+    club.name = this.clubRequiredInfoFormGroup.value.name;
+    club.league = this.clubRequiredInfoFormGroup.value.league;
+    club.streetAddress = this.clubRequiredInfoFormGroup.value.streetAddress;
+    club.streetNumber = this.clubRequiredInfoFormGroup.value.streetNumber;
+    club.country = this.clubRequiredInfoFormGroup.value.country;
+    club.city = this.clubRequiredInfoFormGroup.value.city;
+    club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
     return club;
   }
 
 
   buildPassword() {
     var club = new Club();
-    club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
-    club.newPassword = this.password.value == "" ? null : this.password.value;
+    club.password = this.clubRequiredPasswordFormGroup.value.currentPassword;
+    club.newPassword = this.clubRequiredPasswordFormGroup.value.password;
     return club;
   }
 
@@ -1407,7 +1430,6 @@ export class UpdateClubComponent implements OnInit {
   getOpenPositions() {
     this.updateService.getOpenPositions().subscribe(
       (succes: any) => {
-        console.log(succes);
         this.openPositionSource = succes; //refresh the dataSource
         this.clubBinding.jobPositionsList = this.openPositionSource; //refresh the clubBinding
       },

@@ -76,6 +76,9 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> CheckIfEmailExists([FromQuery] string email) {
+            if(email == null) {
+                return Ok(false);
+            }
             try {
                 var user = await userManager.FindByNameAsync(email);
                 if (user != null) {
