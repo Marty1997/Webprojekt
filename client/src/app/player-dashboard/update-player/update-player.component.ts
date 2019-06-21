@@ -267,11 +267,14 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   upload = (files, type: string) => {
+    this.showMessage = false;
     if (files.length === 0) {
       return;
     }
+    else if(files[0].size > 100000000){
+      this.showNotificationBar('File is too big!');
+    }
     else {
-      this.showMessage = false;
       this.fileService.uploadFile(files).subscribe(res => {
         if(type === 'profile') {
           //Delete former image file from filesystem
