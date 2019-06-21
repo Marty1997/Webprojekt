@@ -386,25 +386,25 @@
         <!-- Team Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Team </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.name}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Team:</span> {{nationalTeam.name}} </td>
         </ng-container>
 
         <!-- Appearances Column -->
         <ng-container matColumnDef="appearances">
           <th mat-header-cell *matHeaderCellDef> Appearances </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.appearances}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Appearances:</span> {{nationalTeam.appearances}} </td>
         </ng-container>
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> Position </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.position}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Position:</span> {{nationalTeam.position}} </td>
         </ng-container>
 
         <!-- Statistics Column -->
         <ng-container matColumnDef="statistics">
           <th mat-header-cell *matHeaderCellDef> Stats </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.statistics}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Stats:</span> {{nationalTeam.statistic}} </td>
         </ng-container>
 
         <!-- Delete Column -->

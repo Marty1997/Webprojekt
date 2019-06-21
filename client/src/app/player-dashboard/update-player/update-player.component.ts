@@ -148,7 +148,6 @@ export class UpdatePlayerComponent implements OnInit {
 
   ngOnInit() {
     this.playerBinding = this.loginService.playerInSession;
-
     if(this.playerBinding.isAvailable) {
       this.isLooking.checked = true;
     } else {
