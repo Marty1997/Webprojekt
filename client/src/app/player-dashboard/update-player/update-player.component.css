@@ -68,6 +68,12 @@ table {
   display: none;
 }
 
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+    padding-left: 0px !important;
+}
+
 /* Handle rows on mobile */
 @media(max-width: 480px) {
   /* // Custom header label that shows in each column, with a set width and bold font */

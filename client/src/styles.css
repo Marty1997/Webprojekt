@@ -127,6 +127,12 @@ h1 {
   } 
 }
 
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+    padding-left: 0px !important;
+}
+
 body {
   background-color: #000115;
   font-family: 'Roboto';
