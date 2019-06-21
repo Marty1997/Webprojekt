@@ -126,10 +126,6 @@ namespace Api.Controllers {
 
                     "<div alt='footer' style='background-color: #252525; color: white; padding: 15px; border-radius: 4px;'>" +
                     "©2019 SportConnectors. All rights reserved. <br>" +
-                    "SportConnectors, LLC. <br>" +
-                    "og alt <br>" +
-                    "muligt <br>" +
-                    "andet" +
                     "</div>" +
 
                     "</div>" +
