@@ -580,49 +580,49 @@
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> Position </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.position}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label" style="padding: 0 16px;">Position:</span> {{jobPosition.position}} </td>
         </ng-container>
 
         <!-- League Column -->
         <ng-container matColumnDef="league">
           <th mat-header-cell *matHeaderCellDef> League </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.league}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">League:</span> {{jobPosition.league}} </td>
         </ng-container>
 
         <!-- Hand Column -->
         <ng-container matColumnDef="hand">
           <th mat-header-cell *matHeaderCellDef> Hand </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.preferredHand}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Hand:</span> {{jobPosition.preferredHand}} </td>
         </ng-container>
 
         <!-- Height Column -->
         <ng-container matColumnDef="height">
           <th mat-header-cell *matHeaderCellDef> Height </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.height}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Height:</span> {{jobPosition.height}} </td>
         </ng-container>
 
         <!-- Age Column -->
         <ng-container matColumnDef="age">
           <th mat-header-cell *matHeaderCellDef> Age </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Age:</span> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
         </ng-container>
 
         <!-- Season Column -->
         <ng-container matColumnDef="season">
           <th mat-header-cell *matHeaderCellDef> Season </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.season}}</td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Season:</span> {{jobPosition.season}}</td>
         </ng-container>
 
         <!-- Contract Column -->
         <ng-container matColumnDef="contract">
           <th mat-header-cell *matHeaderCellDef> Contract </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.contractStatus}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Contract:</span> {{jobPosition.contractStatus}} </td>
         </ng-container>
 
         <!-- Strengths Column -->
         <ng-container matColumnDef="strengths">
           <th mat-header-cell *matHeaderCellDef> Strengths </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.strengthsList.length}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Strengths:</span> {{jobPosition.strengthsList.length}} </td>
         </ng-container>
 
         <!-- Actions -->
