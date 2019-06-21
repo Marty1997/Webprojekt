@@ -8,7 +8,6 @@ import { SquadPlayer } from "src/app/models/squadPlayer.model";
 import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
 import { FormControl, Validators, FormGroup, FormGroupDirective, FormBuilder } from "@angular/forms";
-import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
 import {
@@ -34,6 +33,9 @@ export class UpdateClubComponent implements OnInit {
   message: string;
   clubRequiredPasswordFormGroup: FormGroup;
   clubRequiredInfoFormGroup: FormGroup;
+  clubCurrentYearSquadFormGroup: FormGroup;
+  clubNextYearSquadFormGroup: FormGroup;
+  clubOpenJobPositionFormGroup: FormGroup;
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -184,12 +186,8 @@ export class UpdateClubComponent implements OnInit {
   ];
   // validate inputs
   errorMessage = "";
-  validate = new MyErrorStateMatcher();
+  validate
   numbersOnlyRegex = /^[0-9]*$/;
-  numbersOnlyControl = new FormControl(
-    "",
-    Validators.pattern(this.numbersOnlyRegex)
-  );
   currentPassword = new FormControl("", [
     Validators.required,
     Validators.minLength(6)
@@ -214,24 +212,24 @@ export class UpdateClubComponent implements OnInit {
     Validators.required,
     Validators.pattern(this.numbersOnlyRegex)
   ]);
-  squadPlayerNameCtrl = new FormControl("");
-  squadPlayerPositionCtrl = new FormControl("");
-  squadPlayerShirtNumberCtrl = new FormControl("");
+  squadPlayerNameCtrl = new FormControl("", Validators.required);
+  squadPlayerPositionCtrl = new FormControl("", Validators.required);
+  squadPlayerShirtNumberCtrl = new FormControl("", [Validators.required, Validators.pattern(this.numbersOnlyRegex)]);
 
-  squadPlayerNameCtrlNext = new FormControl("");
-  squadPlayerPositionCtrlNext = new FormControl("");
-  squadPlayerShirtNumberCtrlNext = new FormControl("");
+  squadPlayerNameCtrlNext = new FormControl("", Validators.required);
+  squadPlayerPositionCtrlNext = new FormControl("", Validators.required);
+  squadPlayerShirtNumberCtrlNext = new FormControl("", [Validators.required, Validators.pattern(this.numbersOnlyRegex)]);
 
   valueDescription = new FormControl("");
   preferenceDescription = new FormControl("");
 
-  openPositionName = new FormControl("");
+  openPositionName = new FormControl("", Validators.required);
   openPositionLeague = new FormControl("");
   openPositionSeason = new FormControl("");
   openPositionContract = new FormControl("");
-  openPositionMinAge = new FormControl("");
-  openPositionMaxAge = new FormControl("");
-  openPositionHeight = new FormControl("");
+  openPositionMinAge = new FormControl("", Validators.pattern(this.numbersOnlyRegex));
+  openPositionMaxAge = new FormControl("", Validators.pattern(this.numbersOnlyRegex));
+  openPositionHeight = new FormControl("", Validators.pattern(this.numbersOnlyRegex));
   openPositionHand = new FormControl("");
 
   // squad table
@@ -349,6 +347,7 @@ export class UpdateClubComponent implements OnInit {
       this.markValueCheckboxes(this.clubBinding.valuesList);
     }
     this.openPositionSeason.setValue("Current year");
+
     //Formgroup for required password
     this.clubRequiredPasswordFormGroup = this.formBuilder.group({
       currentPassword : this.currentPassword,
@@ -364,6 +363,25 @@ export class UpdateClubComponent implements OnInit {
       country : this.country,
       city : this.city,
       zipcode : this.zipcode
+    });
+
+    //Formgroup for current year squad
+    this.clubCurrentYearSquadFormGroup = this.formBuilder.group({
+      name : this.squadPlayerNameCtrl,
+      position : this.squadPlayerPositionCtrl,
+      shirt : this.squadPlayerShirtNumberCtrl
+    });
+
+    //Formgroup for next year squad
+    this.clubNextYearSquadFormGroup = this.formBuilder.group({
+      name : this.squadPlayerNameCtrlNext,
+      position : this.squadPlayerPositionCtrlNext,
+      shirt : this.squadPlayerShirtNumberCtrlNext
+    });
+
+    //Formgroup for openJobPosition
+    this.clubOpenJobPositionFormGroup = this.formBuilder.group({
+      position : this.openPositionName
     });
 
     this.setClubInfo();
@@ -400,18 +418,6 @@ export class UpdateClubComponent implements OnInit {
     this.preferenceDescription.setValue(this.clubBinding.preferenceDescription == "Not specified" ? null : this.clubBinding.preferenceDescription);
   }
 
-  // Add player to the squad player table for current season
-  onAddPlayerToCurrentYearSquad() {
-    if (
-      this.squadPlayerNameCtrl.value !== "" &&
-      this.squadPlayerPositionCtrl.value !== "" &&
-      this.squadPlayerShirtNumberCtrl.value !== "" &&
-      Number(this.squadPlayerShirtNumberCtrl.value)
-    ) {
-      this.addClubCurrentSeasonSquadPlayer();
-    }
-  }
-
   // Delete player from squad player table for current season
   deletePlayerFromCurrentYearSquad(squadPlayer: SquadPlayer) {
     this.dataSource.forEach((sp, index) => {
@@ -423,19 +429,6 @@ export class UpdateClubComponent implements OnInit {
     this.clubBinding.currentSquadPlayersList = this.dataSource;
   }
 
-  // Add player to the squad player table for next season
-  onAddPlayerToNextYearSquad() {
-
-    if (
-      this.squadPlayerNameCtrlNext.value !== "" &&
-      this.squadPlayerPositionCtrlNext.value !== "" &&
-      this.squadPlayerShirtNumberCtrlNext.value !== "" &&
-      Number(this.squadPlayerShirtNumberCtrlNext.value)
-    ) {
-      this.addClubNextSeasonSquadPlayer();
-    }
-  }
-
   // Delete player from squad player table for current season
   deletePlayerFromNextYearSquad(squadPlayer: SquadPlayer) {
     this.nextYearSquadSource.forEach((sp, index) => {
@@ -445,14 +438,6 @@ export class UpdateClubComponent implements OnInit {
     });
     this.nextYearSquadSource = [...this.nextYearSquadSource]; //refresh the dataSource
     this.clubBinding.nextYearSquadPlayersList = this.nextYearSquadSource; //refresh the clubBinding
-  }
-
-  onAddJobPosition() {
-    if (this.openPositionName.value !== "")
-    {
-      this.addClubOpenPosition();
-    }
-    
   }
 
   deleteOpenPosition(jobPosition: JobPosition) {
@@ -759,13 +744,15 @@ export class UpdateClubComponent implements OnInit {
       });;
   }
 
-  addClubCurrentSeasonSquadPlayer() {
+  addClubCurrentSeasonSquadPlayer(formDirective:FormGroupDirective) {
     this.showMessage = false;
     this.updateService
       .addClubSquadPlayer(this.buildCurrentSquadplayer())
       .subscribe(
         (succes: any) => {
           this.updateCurrentSquadplayerList();
+          formDirective.resetForm();
+          this.clubCurrentYearSquadFormGroup.reset();
           
         },
         error => {
@@ -774,13 +761,15 @@ export class UpdateClubComponent implements OnInit {
       );
   }
 
-  addClubNextSeasonSquadPlayer() {
+  addClubNextSeasonSquadPlayer(formDirective:FormGroupDirective) {
     this.showMessage = false;
     this.updateService
       .addClubSquadPlayer(this.buildNextSquadplayer())
       .subscribe(
         (succes: any) => {
           this.updateNextSquadplayerList();
+          formDirective.resetForm();
+          this.clubNextYearSquadFormGroup.reset();
         },
         error => {
           this.showNotificationBar('Failed to add squadplayer');
@@ -788,11 +777,14 @@ export class UpdateClubComponent implements OnInit {
       );
   }
 
-  addClubOpenPosition() {
+  addClubOpenPosition(formDirective:FormGroupDirective) {
     this.showMessage = false;
     this.updateService.addClubOpenPosition(this.buildJobPosition()).subscribe(
       (succes: any) => {
         this.updateOpenPositionList();
+        formDirective.resetForm();
+        this.clubOpenJobPositionFormGroup.reset();
+        this.openPositionSeason.setValue("Current year");
       },
       error => {
         this.showNotificationBar('Failed to add open position');
@@ -1014,9 +1006,9 @@ export class UpdateClubComponent implements OnInit {
   buildCurrentSquadplayer() {
     this.squadPlayer = new SquadPlayer();
     this.squadPlayer.season = "Current year";
-    this.squadPlayer.name = this.squadPlayerNameCtrl.value;
-    this.squadPlayer.position = this.squadPlayerPositionCtrl.value;
-    this.squadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrl.value;
+    this.squadPlayer.name = this.clubCurrentYearSquadFormGroup.value.name;
+    this.squadPlayer.position = this.clubCurrentYearSquadFormGroup.value.position;
+    this.squadPlayer.shirtNumber = this.clubCurrentYearSquadFormGroup.value.shirt;
 
     return this.squadPlayer;
   }
@@ -1057,9 +1049,9 @@ export class UpdateClubComponent implements OnInit {
   buildNextSquadplayer() {
     this.nextYearSquadPlayer = new SquadPlayer();
     this.nextYearSquadPlayer.season = "Next year";
-    this.nextYearSquadPlayer.name = this.squadPlayerNameCtrlNext.value;
-    this.nextYearSquadPlayer.position = this.squadPlayerPositionCtrlNext.value;
-    this.nextYearSquadPlayer.shirtNumber = this.squadPlayerShirtNumberCtrlNext.value;
+    this.nextYearSquadPlayer.name = this.clubNextYearSquadFormGroup.value.name;
+    this.nextYearSquadPlayer.position = this.clubNextYearSquadFormGroup.value.position;
+    this.nextYearSquadPlayer.shirtNumber = this.clubNextYearSquadFormGroup.value.shirt;
 
     return this.nextYearSquadPlayer;
   }

@@ -8,7 +8,6 @@ import { Router } from "@angular/router";
 import { FormControl, Validators, FormGroup, FormGroupDirective, NgForm, FormBuilder } from "@angular/forms";
 import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, ErrorStateMatcher } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
-import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
@@ -43,14 +42,10 @@ export class UpdatePlayerComponent implements OnInit {
   message: string;
   playerRequiredPasswordFormGroup: FormGroup;
   playerRequiredInfoFormGroup: FormGroup;
+  playerRequiredNationalTeamFormGroup: FormGroup;
 
   // Validators
-  validate = new MyErrorStateMatcher();
   numbersOnlyRegex = /^[0-9]*$/;
-  numbersOnlyControl = new FormControl(
-    "",
-    Validators.pattern(this.numbersOnlyRegex)
-  );
 
   @ViewChild("isLooking") private isLooking: MatCheckbox;
 
@@ -107,9 +102,9 @@ export class UpdatePlayerComponent implements OnInit {
   accomplishmentsCtrl = new FormControl("");
   statistics = new FormControl("");
   formerClubsCtrl = new FormControl("");
-  nationalTeamNameCtrl = new FormControl("");
-  nationalTeamAppearancesCtrl = new FormControl("");
-  nationalTeamPositionCtrl = new FormControl("");
+  nationalTeamNameCtrl = new FormControl("", Validators.required);
+  nationalTeamAppearancesCtrl = new FormControl("", [Validators.required, Validators.pattern(this.numbersOnlyRegex)]);
+  nationalTeamPositionCtrl = new FormControl("", Validators.required);
   nationalTeamStatisticsCtrl = new FormControl("");
 
   // strengths and weaknesses
@@ -176,6 +171,14 @@ export class UpdatePlayerComponent implements OnInit {
           year : this.yearControl
     });
 
+    //Formgroup for required national team
+    this.playerRequiredNationalTeamFormGroup = this.formBuilder.group({
+      name : this.nationalTeamNameCtrl,
+      appearances : this.nationalTeamAppearancesCtrl,
+      position : this.nationalTeamPositionCtrl,
+      statistic : this.nationalTeamStatisticsCtrl
+    });
+
     // set strengths and weaknesses
     if (this.playerBinding.strengthList.length > 0) {
       this.checkStrengthBoxes(this.playerBinding.strengthList);
@@ -207,6 +210,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.setAdditionalInfo();
     this.setStrengthsAndWeaknesses();
     this.setSportCV();
+    this.calculateTeamNames();
   }
 
   showNotificationBar(message: string) {
@@ -386,6 +390,19 @@ export class UpdatePlayerComponent implements OnInit {
       });
   }
 
+  calculateTeamNames() {
+    this.nationalTeamNames = ["A", "B", "U21", "U18"];
+    if(this.playerBinding.nationalTeamList.length > 0) {
+      this.playerBinding.nationalTeamList.forEach(element => {
+        let index = null;
+        index = this.nationalTeamNames.indexOf(element.name);
+        if(index > -1 && index != null) {
+          this.nationalTeamNames.splice(index, 1);
+        }
+      });
+    }
+  }
+
   overWriteAdditionalInfo() {
     this.playerBinding.height = this.heightControl.value == "" ? null : this.heightControl.value;
     this.playerBinding.weight = this.weightControl.value == "" ? null : this.weightControl.value;
@@ -562,34 +579,12 @@ export class UpdatePlayerComponent implements OnInit {
       });
   }
 
-  onAddNationalTeamToPlayer() {
-    if(
-      this.nationalTeamNameCtrl.value !== "" &&
-      this.nationalTeamAppearancesCtrl.value !== "" &&
-      this.nationalTeamPositionCtrl.value !== "" &&
-      Number(this.nationalTeamAppearancesCtrl.value)
-    ) {
-      // add national team to the list
-      this.addPlayerNationalTeam();
-
-    }
-  }
-
-  updateNationalTeamList() {
-    this.getNationalTeams();
-
-    // reset input fields
-    this.nationalTeamNameCtrl.setValue('');
-    this.nationalTeamAppearancesCtrl.setValue('');
-    this.nationalTeamPositionCtrl.setValue('');
-    this.nationalTeamStatisticsCtrl.setValue('');
-  }
-
   getNationalTeams() {
     this.updateService.getNationalTeams().subscribe(
       (succes: any) => {
         this.nationalTeamSource = succes; //refresh the dataSource
         this.playerBinding.nationalTeamList = this.nationalTeamSource; //refresh the clubBinding
+        this.calculateTeamNames();
       },
       error => {}
     );
@@ -597,19 +592,20 @@ export class UpdatePlayerComponent implements OnInit {
 
   buildNationalTeam() {
     let nt = new NationalTeam();
-    nt.name = this.nationalTeamNameCtrl.value;
-    nt.appearances = this.nationalTeamAppearancesCtrl.value;
-    nt.position = this.nationalTeamPositionCtrl.value;
-    nt.statistic = this.nationalTeamStatisticsCtrl.value;
+    nt.name = this.playerRequiredNationalTeamFormGroup.value.name;
+    nt.appearances = this.playerRequiredNationalTeamFormGroup.value.appearances;
+    nt.position = this.playerRequiredNationalTeamFormGroup.value.position;
+    nt.statistic = this.playerRequiredNationalTeamFormGroup.value.statistic;
     return nt;
   }
 
-  addPlayerNationalTeam() {
+  addPlayerNationalTeam(formDirective:FormGroupDirective) {
     this.showMessage = false;
     this.updateService.addPlayerNationalTeam(this.buildNationalTeam()).subscribe(
       (succes:any) => {      
-        this.updateNationalTeamList();
-        
+        this.getNationalTeams();
+        formDirective.resetForm();
+        this.playerRequiredNationalTeamFormGroup.reset();
       },
       error => {
         this.showNotificationBar('Failed to add national team');
@@ -829,6 +825,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.deleteService.deleteNationalTeam(nt.id).subscribe(
       (succes:any) => {      
         this.deleteNationalTeam(nt);
+        this.calculateTeamNames();
       },
       error => {
         this.showNotificationBar('Failed to delete');
@@ -882,12 +879,7 @@ export class UpdatePlayerComponent implements OnInit {
     "Defence"
   ];
 
-  nationalTeamNames: string[] = [
-    "A",
-    "B",
-    "U21",
-    "U18"
-  ];
+  nationalTeamNames: string[] = [];
 
   countryList: string[] = [
     "Denmark",
