@@ -478,10 +478,15 @@ export class UpdateClubComponent implements OnInit {
   }
 
   upload = (files, type: string) => {
+    console.log(this.clubBinding.facilityImagesList.length);
+    this.showMessage = false;
     if (files.length === 0) {
       return;
-    } else {
-      this.showMessage = false;
+    }
+    else if(this.clubBinding.facilityImagesList.length == 5) {
+      this.showNotificationBar('Maximum of 5 facility images');
+    } 
+    else {
       this.fileService.uploadFile(files).subscribe(res => {
         this.fileService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {

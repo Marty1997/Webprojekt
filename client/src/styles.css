@@ -338,3 +338,9 @@ accordion-group h5 {
     cursor: pointer;
     
   }
+
+  .verticalSnackBar {
+    
+    position: absolute;
+    top: 50%;
+  }
