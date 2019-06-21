@@ -22,11 +22,6 @@ mat-form-field {
     width: 100%;
 }
 
-.trainingHoursFields {
-    width: 15.66%;
-    margin: 0.5;
-}
-
 .threeFieldsOnSameRow {
     width: 32.33%;
     margin: 0.5%;
@@ -34,10 +29,6 @@ mat-form-field {
 
 .fourFieldsOnSameRow {
     width: 24%;
-}
-
-.addPlayerFields {
-    width: 28%;
 }
 
 /* Accordion */
