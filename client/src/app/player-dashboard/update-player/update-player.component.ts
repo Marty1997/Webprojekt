@@ -5,14 +5,14 @@ import { updateService } from "src/app/services/updateService";
 import { deleteService } from "src/app/services/deleteService";
 import { FileService} from "src/app/services/FileService";
 import { Router } from "@angular/router";
-import { FormControl, Validators } from "@angular/forms";
-import { MyErrorStateMatcher, MY_FORMATS } from "src/app/front-page/front-page-image/register-player/register-player.component";
-import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
+import { FormControl, Validators, FormGroup, FormGroupDirective, NgForm, FormBuilder } from "@angular/forms";
+import { MatCheckbox, MatDialog, MatSnackBar, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, ErrorStateMatcher } from "@angular/material";
 import { NationalTeam } from "src/app/models/nationalTeam.model";
+import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { ConfirmDialogModel, ConfirmationDialogComponent } from 'src/app/multi-page/confirmation-dialog/confirmation-dialog.component';
-import { UpdateMessageComponent } from 'src/app/multi-page/update-message/update-message.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
+
 
 export const MY_FORMATS2 = {
   parse: {
@@ -39,6 +39,10 @@ export class UpdatePlayerComponent implements OnInit {
   step: number = 0;
   passwordCheck: boolean = false;
   notify: MatSnackBar;
+  showMessage: boolean = false;
+  message: string;
+  playerRequiredPasswordFormGroup: FormGroup;
+  playerRequiredInfoFormGroup: FormGroup;
 
   // Validators
   validate = new MyErrorStateMatcher();
@@ -47,6 +51,9 @@ export class UpdatePlayerComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
+
+  @ViewChild("isLooking") private isLooking: MatCheckbox;
+
   currentPassword = new FormControl("", [
     Validators.required,
     Validators.minLength(6)
@@ -55,17 +62,9 @@ export class UpdatePlayerComponent implements OnInit {
     Validators.required,
     Validators.minLength(6)
   ]);
-  emailControl = new FormControl("", [Validators.required, Validators.email]);
-  passwordControl = new FormControl("", [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
-
-  @ViewChild("isLooking") private isLooking: MatCheckbox;
-
-  firstNameControl = new FormControl("", Validators.required);
-  lastNameControl = new FormControl("", Validators.required);
-  countryControl = new FormControl("", Validators.required);
+  firstNameControl = new FormControl("", [Validators.required]);
+  lastNameControl = new FormControl("", [Validators.required]);
+  countryControl = new FormControl("", [Validators.required]);
   dayControl = new FormControl("", [
     Validators.required,
     Validators.minLength(2),
@@ -149,6 +148,7 @@ export class UpdatePlayerComponent implements OnInit {
     private deleteService: deleteService,
     private router: Router,
     public dialog: MatDialog,
+    private formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
@@ -159,6 +159,22 @@ export class UpdatePlayerComponent implements OnInit {
     } else {
       this.isLooking.checked = false;
     }
+
+    //Formgroup for required password
+    this.playerRequiredPasswordFormGroup = this.formBuilder.group({
+      currentPassword : this.currentPassword,
+      password : this.password
+    });
+
+    //Formgroup for required info
+    this.playerRequiredInfoFormGroup = this.formBuilder.group({
+          firstName : this.firstNameControl,
+          lastName : this.lastNameControl,
+          country : this.countryControl,
+          day : this.dayControl,
+          month : this.monthControl,
+          year : this.yearControl
+    });
 
     // set strengths and weaknesses
     if (this.playerBinding.strengthList.length > 0) {
@@ -186,8 +202,6 @@ export class UpdatePlayerComponent implements OnInit {
       this.dateInjury = new Date(Number(splittedInjury[2]), Number(splittedInjury[1]) - 1, Number(splittedInjury[0]));
     }
 
-
-
     // set the values
     this.setPersonalInfo();
     this.setAdditionalInfo();
@@ -195,6 +209,10 @@ export class UpdatePlayerComponent implements OnInit {
     this.setSportCV();
   }
 
+  showNotificationBar(message: string) {
+    this.showMessage = true;
+    this.message = message;
+  }
 
   setPersonalInfo() {
     this.firstNameControl.setValue(this.playerBinding.firstName);
@@ -249,6 +267,7 @@ export class UpdatePlayerComponent implements OnInit {
       return;
     }
     else {
+      this.showMessage = false;
       this.fileService.uploadFile(files).subscribe(res => {
         if(type === 'profile') {
           //Delete former image file from filesystem
@@ -266,6 +285,9 @@ export class UpdatePlayerComponent implements OnInit {
           //Update new video in DB
           this.updatePlayerVideo();
         }
+      },
+      error => {
+        this.showNotificationBar('Failed to upload');
       });
     }
   };
@@ -277,12 +299,12 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerProfile() {
+    this.showMessage = false;
     this.updateService.updatePlayerProfile(this.buildPlayerProfile()).subscribe(
       (succes: any) => {
-        this.openSnackBar('Successfully updated your profile picture!', 'OK');
       },
       error => {
-
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -293,12 +315,13 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerVideo() {
+    this.showMessage = false;
     this.updateService.updatePlayerVideo(this.buildPlayerVideo()).subscribe(
       (succes: any) => {
-        this.openSnackBar('Successfully updated your video!', 'OK');
+ 
       },
       error => {
-        // Delete video from filesystem
+        this.showNotificationBar('Failed to update');
       }
     );
   }
@@ -310,32 +333,36 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerInfo() {
+    this.showMessage = false;
     this.updateService.updatePlayerInfo(this.buildPlayerInfo()).subscribe(
       (succes: any) => {
         this.overWritePlayerInfo();
-        this.openSnackBar('Successfully updated player info!', 'OK');
+
+        this.showNotificationBar('Update was successful');
       },
       error => {
-        if (error.error == "Invalid password") {
-          // this.wrongPassword = true;
-        }
+        this.showNotificationBar('Failed to update');
       }
     );
   }
 
-  updatePassword() {
+  updatePassword(formDirective:FormGroupDirective) {
     this.passwordCheck = false;
-
+    this.showMessage = false;
+     
     this.updateService.updatePlayerPassword(this.buildPassword()).subscribe(
       (succes: any) => {
+        formDirective.resetForm();
+        this.playerRequiredPasswordFormGroup.reset();
+        this.showNotificationBar('Password was updated')
 
       },
       error => {
         if(error.error == "Invalid password") {
           this.passwordCheck = true;
         }
-      }
-    );
+        this.showNotificationBar('Update failed')
+      });
   }
 
   overWritePlayerInfo() {
@@ -348,16 +375,15 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayerAdditionalInfo() {
-    
+    this.showMessage = false;
     this.updateService.updatePlayerAdditionalInfo(this.buildPlayerAdditionalInfo()).subscribe(
       (succes: any) => {
           this.overWriteAdditionalInfo();
+          this.showNotificationBar('Update was successful');
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
-      console.log(this.contractExpiredCtrl.value);
-      console.log(this.injuryRecoveryDateCtrl.value);
   }
 
   overWriteAdditionalInfo() {
@@ -370,7 +396,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.playerBinding.league = this.leagueCtrl.value == "" ? null : this.leagueCtrl.value;
     this.playerBinding.contractStatus = this.contractStatusCtrl.value == "" ? null : this.contractStatusCtrl.value;
     
-    if(this.contractExpiredCtrl.value == "") {
+    if(this.contractExpiredCtrl.value == null) {
       this.playerBinding.contractExpired = null;
     }
     else {
@@ -383,7 +409,7 @@ export class UpdatePlayerComponent implements OnInit {
     this.playerBinding.injuryStatus = this.injuryStatusCtrl.value == "" ? null : this.injuryStatusCtrl.value;
     this.playerBinding.injuryDescription = this.injuryDescriptionCtrl.value == "" ? null : this.injuryDescriptionCtrl.value;
     
-    if(this.injuryRecoveryDateCtrl.value == "") {
+    if(this.injuryRecoveryDateCtrl.value == null) {
       this.playerBinding.injuryExpired = null;
     }
     else {
@@ -395,6 +421,7 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   deletePlayerStrengthsAndWeaknesses() {
+    this.showMessage = false;
     // Delete player strengths and weaknesses
     this.deleteService.deleteStrengthsAndWeaknesses().subscribe(
       (succes: any) => {
@@ -402,16 +429,19 @@ export class UpdatePlayerComponent implements OnInit {
         this.updateStrengthsAndWeaknesses();
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
   updateStrengthsAndWeaknesses() {
+    this.showMessage = false;
     this.updateService.updateStrengthsAndWeaknesses(this.buildStrengthsAndWeaknesses()).subscribe(
       (succes: any) => {
         this.overWriteStrengthAndWeaknesses();
+        this.showNotificationBar('Update was successful');
       },
       error => {
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -472,12 +502,14 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updateSportCV() {
+    this.showMessage = false;
     this.updateService.updateSportCV(this.buildSportCv()).subscribe(
       (succes: any) => {
         this.overWriteSportCV();
+        this.showNotificationBar('Update was successful');
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
@@ -502,6 +534,7 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   deletePlayerProfile() {
+    this.showMessage = false;
     // Delete image from filesystem 
     this.fileService.deleteFile(this.playerBinding.imagePath).subscribe(
       (succes: any) => {
@@ -510,12 +543,13 @@ export class UpdatePlayerComponent implements OnInit {
         this.updatePlayerProfile();
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
   
 
   deletePlayerVideo() {
+    this.showMessage = false;
     // Delete video from filesystem 
     this.fileService.deleteFile(this.playerBinding.videoPath).subscribe(
       (succes: any) => {
@@ -524,7 +558,7 @@ export class UpdatePlayerComponent implements OnInit {
         this.updatePlayerVideo();
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
 
@@ -543,7 +577,6 @@ export class UpdatePlayerComponent implements OnInit {
 
   updateNationalTeamList() {
     this.getNationalTeams();
-
 
     // reset input fields
     this.nationalTeamNameCtrl.setValue('');
@@ -572,12 +605,14 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   addPlayerNationalTeam() {
+    this.showMessage = false;
     this.updateService.addPlayerNationalTeam(this.buildNationalTeam()).subscribe(
       (succes:any) => {      
         this.updateNationalTeamList();
+        
       },
       error => {
-        
+        this.showNotificationBar('Failed to add national team');
       })
   }
 
@@ -623,43 +658,20 @@ export class UpdatePlayerComponent implements OnInit {
 
   buildPlayerInfo() {
     var player = new Player();
-    player.email = this.playerBinding.email;
-    player.password =
-      this.currentPassword.value == "" ? null : this.currentPassword.value;
-    player.newPassword = this.password.value == "" ? null : this.password.value;
     player.isAvailable = this.isLooking.checked;
-    player.firstName =
-      this.firstNameControl.value == ""
-        ? this.playerBinding.firstName
-        : this.firstNameControl.value;
-    player.lastName =
-      this.lastNameControl.value == ""
-        ? this.playerBinding.lastName
-        : this.lastNameControl.value;
-    player.country =
-      this.countryControl.value == ""
-        ? this.playerBinding.country
-        : this.countryControl.value;
-    player.day =
-      this.dayControl.value == ""
-        ? this.playerBinding.day
-        : this.dayControl.value;
-    player.month =
-      this.monthControl.value == ""
-        ? this.playerBinding.month
-        : this.monthControl.value;
-    player.year =
-      this.yearControl.value == ""
-        ? this.playerBinding.year
-        : this.yearControl.value;
+    player.firstName = this.playerRequiredInfoFormGroup.value.firstName;
+    player.lastName = this.playerRequiredInfoFormGroup.value.lastName;
+    player.country = this.playerRequiredInfoFormGroup.value.country;
+    player.day = this.playerRequiredInfoFormGroup.value.day;
+    player.month = this.playerRequiredInfoFormGroup.value.month;
+    player.year = this.playerRequiredInfoFormGroup.value.year;
     return player;
   }
 
   buildPassword() {
     var player = new Player();
-    player.password =
-      this.currentPassword.value == "" ? null : this.currentPassword.value;
-    player.newPassword = this.password.value == "" ? null : this.password.value;
+    player.password = this.playerRequiredPasswordFormGroup.value.currentPassword;
+    player.newPassword = this.playerRequiredPasswordFormGroup.value.password;
     return player;
   }
 
@@ -697,8 +709,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.contractStatusCtrl.value == ""
         ? null
         : this.contractStatusCtrl.value;
-
-    if(this.contractExpiredCtrl.value == "") {
+    if(this.contractExpiredCtrl.value == null) {
       player.contractExpired = null;
     }
     else {
@@ -717,7 +728,7 @@ export class UpdatePlayerComponent implements OnInit {
         ? null
         : this.injuryDescriptionCtrl.value;
 
-    if (this.injuryRecoveryDateCtrl.value == "") {
+    if (this.injuryRecoveryDateCtrl.value == null) {
       player.injuryExpired = null;
     }
     else {
@@ -814,12 +825,13 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   deletePlayerNationalTeam(nt: NationalTeam) {
+    this.showMessage = false;
     this.deleteService.deleteNationalTeam(nt.id).subscribe(
       (succes:any) => {      
         this.deleteNationalTeam(nt);
       },
       error => {
-        
+        this.showNotificationBar('Failed to delete');
       });
   }
 
@@ -836,13 +848,14 @@ export class UpdatePlayerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       if(res) {
+        this.showMessage = false;
         this.deleteService.deletePlayer().subscribe(
           (succes:any) => {      
             this.loginService.logout();
             this.router.navigate(['/']);
           },
           error => {
-            
+            this.showNotificationBar('Failed to delete');
           });
       }
     });
@@ -870,7 +883,7 @@ export class UpdatePlayerComponent implements OnInit {
   ];
 
   nationalTeamNames: string[] = [
-    "01",
+    "A",
     "B",
     "U21",
     "U18"

@@ -7,7 +7,7 @@ import { FileService } from "src/app/services/FileService";
 import { SquadPlayer } from "src/app/models/squadPlayer.model";
 import { TrainingHours } from "src/app/models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
-import { FormControl, Validators } from "@angular/forms";
+import { FormControl, Validators, FormGroup, FormGroupDirective, FormBuilder } from "@angular/forms";
 import { MyErrorStateMatcher } from "src/app/front-page/front-page-image/register-player/register-player.component";
 import { MatCheckbox, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
@@ -31,6 +31,9 @@ export class UpdateClubComponent implements OnInit {
   fitnessHours = new TrainingHours();
   passwordCheck: boolean = false;
   showMessage: boolean = false;
+  message: string;
+  clubRequiredPasswordFormGroup: FormGroup;
+  clubRequiredInfoFormGroup: FormGroup;
 
   fitnessMonTo = new FormControl("");
   fitnessMonFrom = new FormControl("");
@@ -187,9 +190,14 @@ export class UpdateClubComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
-  currentPassword = new FormControl("", [Validators.minLength(6)]);
-
-  password = new FormControl("", [Validators.minLength(6)]);
+  currentPassword = new FormControl("", [
+    Validators.required,
+    Validators.minLength(6)
+  ]);
+  password = new FormControl("",[
+    Validators.required,
+    Validators.minLength(6)
+  ]);
 
   @ViewChild("isLooking") private isLooking: MatCheckbox;
 
@@ -295,13 +303,15 @@ export class UpdateClubComponent implements OnInit {
     private fileService: FileService,
     private deleteService: deleteService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
     this.clubBinding = this.loginService.clubInSession;
     this.clubLeague = this.clubBinding.league;
     this.clubCountry = this.clubBinding.country;
+    this.showMessage = false;
     if (this.clubBinding.isAvailable) {
       this.isLooking.checked = true;
     } else {
@@ -338,11 +348,32 @@ export class UpdateClubComponent implements OnInit {
     if (this.clubBinding.valuesList.length > 0) {
       this.markValueCheckboxes(this.clubBinding.valuesList);
     }
-    this.openPositionSeason.get("openPositionSeason").setValue("Current year");
+    this.openPositionSeason.setValue("Current year");
+    //Formgroup for required password
+    this.clubRequiredPasswordFormGroup = this.formBuilder.group({
+      currentPassword : this.currentPassword,
+      password : this.password
+    });
+
+    //Formgroup for required info
+    this.clubRequiredInfoFormGroup = this.formBuilder.group({
+      name : this.name,
+      league : this.league,
+      streetAddress : this.streetAddress,
+      streetNumber : this.streetNumber,
+      country : this.country,
+      city : this.city,
+      zipcode : this.zipcode
+    });
 
     this.setClubInfo();
     this.setClubStaff();
     this.setClubValuesAndPreferences();
+  }
+
+  showNotificationBar(message: string) {
+    this.showMessage = true;
+    this.message = message;
   }
 
   setClubInfo() {
@@ -450,6 +481,7 @@ export class UpdateClubComponent implements OnInit {
     if (files.length === 0) {
       return;
     } else {
+      this.showMessage = false;
       this.fileService.uploadFile(files).subscribe(res => {
         this.fileService.createPath(JSON.stringify(res.body), "image");
         if (type === "profile") {
@@ -470,7 +502,7 @@ export class UpdateClubComponent implements OnInit {
         }
       },
       error => {
-
+        this.showNotificationBar('Failed to upload');
       });;
     }
   };
@@ -487,28 +519,36 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubInfo() {
+    this.showMessage = false;
     this.updateService.updateClubInfo(this.buildClubInfo()).subscribe(
       (succes: any) => {
 
         this.overWriteClubInfo();
 
+        this.showNotificationBar('Update was successful');
+
       },
       error => {
-        
+        this.showNotificationBar('Failed to update');
       });
   }
 
-  updatePassword() {
+  updatePassword(formDirective:FormGroupDirective) {
     this.passwordCheck = false;
+    this.showMessage = false;
      
     this.updateService.updateClubPassword(this.buildPassword()).subscribe(
       (succes: any) => {
+        formDirective.resetForm();
+        this.clubRequiredPasswordFormGroup.reset();
+        this.showNotificationBar('Password was updated')
 
       },
       error => {
         if(error.error == "Invalid password") {
           this.passwordCheck = true;
         }
+        this.showNotificationBar('Failed to update')
       });
     
   }
@@ -530,25 +570,40 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubRegularTrainingSchedule() {
-    this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
-      (succes: any) => {
-        
-        this.clubBinding.trainingHoursList.forEach( (elm, index) => {
-          if(elm.name == 'Handball') {
-            this.clubBinding.trainingHoursList.splice(index, 1);
-          } 
-        });
-        
-        this.clubBinding.trainingHoursList.push(this.regularHours);
+    this.showMessage = false;
 
-        this.showMessage = true;
-      },
-      error => {
+    console.log(this.regularMonFrom.value);
 
-      });
+    if(
+      this.regularMonFrom.value != ""  &&  this.regularMonTo.value != "" || 
+      
+      this.regularTueFrom.value != ""  &&  this.regularTueTo.value != "" ||
+     
+      this.regularWedFrom.value != ""  &&  this.regularWedTo.value != "" ||
+     
+      this.regularThuFrom.value != ""  &&  this.regularThuTo.value != "" || 
+     
+      this.regularFriFrom.value != ""  &&  this.regularFriTo.value != "" ||
+     
+      this.regularSatFrom.value != ""  &&  this.regularSatTo.value != "" ||
+    
+      this.regularSunFrom.value != ""  &&  this.regularSunTo.value != "") 
+      {
+        this.updateService.updateTrainingSchedule(this.buildRegularTrainingHours()).subscribe(
+          (succes: any) => {
+
+            this.getTrainingHours();
+            
+            this.showNotificationBar('Update was successful');
+          },
+          error => {
+            this.showNotificationBar('Failed to update');
+          });
+      }
   }
 
   deleteClubFacilityImage(imagePath: string) {
+    this.showMessage = false;
     // Delete facility image from filesystem
     this.fileService.deleteFile(imagePath).subscribe(
       (succes: any) => {
@@ -556,16 +611,19 @@ export class UpdateClubComponent implements OnInit {
         this.deleteFacilityImage(imagePath);
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
 
   deleteFacilityImage(imagePath: string) {
+    this.showMessage = false;
     this.deleteService.deleteFacilityImage(imagePath).subscribe(
       (succes: any) => {
         this.deleteFacilityImageFromList(imagePath);
       },
-      error => {}
+      error => {
+        this.showNotificationBar('Failed to delete');
+      }
     );
   }
 
@@ -579,29 +637,46 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubFitnessTrainingSchedule() {
-    this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
-      (succes: any) => {
-        this.clubBinding.trainingHoursList.forEach( (elm, index) => {
-          if(elm.name == 'Fitness training') {
-            this.clubBinding.trainingHoursList.splice(index, 1);
-          } 
-        });
-        
-        this.clubBinding.trainingHoursList.push(this.fitnessHours);
-        
-      },
-      error => {
+    this.showMessage = false;
 
-      });;
+    if(
+      this.fitnessMonFrom.value != ""  &&  this.fitnessMonTo.value != "" || 
+      
+      this.fitnessTueFrom.value != ""  &&  this.fitnessTueTo.value != "" ||
+     
+      this.fitnessWedFrom.value != ""  &&  this.fitnessWedTo.value != "" ||
+     
+      this.fitnessThuFrom.value != ""  &&  this.fitnessThuTo.value != "" || 
+     
+      this.fitnessFriFrom.value != ""  &&  this.fitnessFriTo.value != "" ||
+     
+      this.fitnessSatFrom.value != ""  &&  this.fitnessSatTo.value != "" ||
+    
+      this.fitnessSunFrom.value != ""  &&  this.fitnessSunTo.value != "") 
+      {
+        this.updateService.updateTrainingSchedule(this.buildFitnessTrainingHours()).subscribe(
+          (succes: any) => {
+
+            this.getTrainingHours();
+    
+            this.showNotificationBar('Update was successful');
+            
+          },
+          error => {
+            this.showNotificationBar('Failed to update');
+          });
+      }
   }
   
   updateClubStaff() {
+    this.showMessage = false;
     this.updateService.updateClubStaff(this.buildClubStaff()).subscribe(
       (succes: any) => {
         this.overWriteClubStaff();
+        this.showNotificationBar("Update was successful");
       },
       error => {
-        
+        this.showNotificationBar("Failed to update");
       });;
   }
   
@@ -614,12 +689,14 @@ export class UpdateClubComponent implements OnInit {
   }
   
   updateValuesAndPreferences() {
+    this.showMessage = false;
     this.updateService.updateClubValuesAndPreferences(this.buildClubValuesAndPreferences()).subscribe(
       (succes: any) => {
         this.overWriteValuesAndPrefs();
+        this.showNotificationBar("Update was successful");
       },
       error => {
-
+        this.showNotificationBar("Failed to update");
       });;
   }
 
@@ -662,101 +739,125 @@ export class UpdateClubComponent implements OnInit {
   }
 
   updateClubProfile() {
+    this.showMessage = false;
     this.updateService.updateClubProfile(this.buildClubProfile()).subscribe(
       (succes: any) => {      
       },
       error => {
-        // Delete image from filesystem
+        this.showNotificationBar("Failed to update");
       });;
   }
 
   updateClubFacility() {
+    this.showMessage = false;
     this.updateService.updateClubFacility(this.buildClubFacility()).subscribe(
       (succes: any) => {
         
       },
       error => {
-        // Delete from filesystem
+        this.showNotificationBar("Failed to update");
       });;
   }
 
   addClubCurrentSeasonSquadPlayer() {
+    this.showMessage = false;
     this.updateService
       .addClubSquadPlayer(this.buildCurrentSquadplayer())
       .subscribe(
         (succes: any) => {
           this.updateCurrentSquadplayerList();
+          
         },
-        error => {}
+        error => {
+          this.showNotificationBar('Failed to add squadplayer');
+        }
       );
   }
 
   addClubNextSeasonSquadPlayer() {
+    this.showMessage = false;
     this.updateService
       .addClubSquadPlayer(this.buildNextSquadplayer())
       .subscribe(
         (succes: any) => {
           this.updateNextSquadplayerList();
         },
-        error => {}
+        error => {
+          this.showNotificationBar('Failed to add squadplayer');
+        }
       );
   }
 
   addClubOpenPosition() {
+    this.showMessage = false;
     this.updateService.addClubOpenPosition(this.buildJobPosition()).subscribe(
       (succes: any) => {
         this.updateOpenPositionList();
       },
-      error => {}
+      error => {
+        this.showNotificationBar('Failed to add open position');
+      }
     );
   }
 
   deleteClubRegularTrainingSchedule() {
-    
+    this.showMessage = false;
     this.deleteService.deleteTrainingHours("Handball").subscribe(
       (succes: any) => {
-        this.deleteTraininghours();
-        this.resetRegularHoursFields();
+        this.deleteRegularTrainingHours();
+        this.showNotificationBar("Schedule has been deleted");
       },
       error => {
-
+        this.showNotificationBar("Failed to delete");
       });
   }
 
   deleteClubFitnessTrainingSchedule() {
+    this.showMessage = false;
     this.deleteService.deleteTrainingHours("Fitness training").subscribe(
       (succes:any) => {      
-        this.deleteTraininghours();
-        this.resetFitnessHoursFields();
+        this.deleteFitnessTrainingHours();
+        this.showNotificationBar("Schedule has been deleted");
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
   deleteClubCurrentSquadPlayer(squadPlayer: SquadPlayer) {
+    this.showMessage = false;
     this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
       (succes: any) => {
         this.deletePlayerFromCurrentYearSquad(squadPlayer);
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
   deleteClubNextYearSquadPlayer(squadPlayer: SquadPlayer) {
+    this.showMessage = false;
     this.deleteService.deleteSquadPlayer(squadPlayer.id).subscribe(
       (succes: any) => {
         this.deletePlayerFromNextYearSquad(squadPlayer);
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
   deleteClubOpenPosition(jobPosition: JobPosition) {
+    this.showMessage = false;
     this.deleteService.deleteOpenPosition(jobPosition.id).subscribe(
       (succes: any) => {
         this.deleteOpenPosition(jobPosition);
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to delete");
+      }
     );
   }
 
@@ -773,18 +874,22 @@ export class UpdateClubComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.showMessage = false;
         this.deleteService.deleteClub().subscribe(
           (succes: any) => {
             this.loginService.logout();
             this.router.navigate(["/"]);
           },
-          error => {}
+          error => {
+            this.showNotificationBar("Failed to delete");
+          }
         );
       }
     });
   }
 
   deleteClubProfile() {
+    this.showMessage = false;
     // Delete image from filesystem 
     this.fileService.deleteFile(this.clubBinding.imagePath).subscribe(
       (succes: any) => {
@@ -793,18 +898,21 @@ export class UpdateClubComponent implements OnInit {
         this.updateClubProfile();
       },
       error => {
-
+        this.showNotificationBar('Failed to delete');
       });
   }
 
   deleteClubValuesAndPreferences() {
+    this.showMessage = false;
     // Delete club values and preferences
     this.deleteService.deleteValuesAndPreferences().subscribe(
       (succes: any) => {
         // Insert new club values and preferences
         this.updateValuesAndPreferences();
       },
-      error => {}
+      error => {
+        this.showNotificationBar("Failed to update");
+      }
     );
   }
 
@@ -966,39 +1074,49 @@ export class UpdateClubComponent implements OnInit {
     this.squadPlayerShirtNumberCtrl.setValue("");
   }
 
-  deleteTraininghours() {
-    this.clubBinding.trainingHoursList.forEach( (elm, index) => {
-      if(elm.name == 'Handball') {
-        this.clubBinding.trainingHoursList.splice(index, 1);
-      } else if(elm.name == 'Fitness training') {
-        this.clubBinding.trainingHoursList.splice(index, 1);
-      }
-      this.clubBinding.trainingHoursList = [...this.clubBinding.trainingHoursList];
-    });
+  deleteRegularTrainingHours() {
+
+    this.getTrainingHours();
+
+    this.resetRegularHoursFields();
+  }
+
+  deleteFitnessTrainingHours() {
+
+    this.getTrainingHours();
+
+    this.resetFitnessHoursFields();
+  }
+
+  getTrainingHours() {
+    this.updateService.getTrainingHours().subscribe(
+      (succes: any) => {
+        this.clubBinding.trainingHoursList = succes; //refresh the clubBinding
+      },
+      error => {}
+    );
   }
 
   buildClubInfo() {
     var club = new Club();
-    club.email = this.clubBinding.email;
     club.zipcodeCity_ID = this.clubBinding.zipcodeCity_ID;
-    club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
     club.isAvailable = this.isLooking.checked;
-    club.newPassword = this.password.value == "" ? null : this.password.value;
-    club.name = this.name.value == "" ? this.clubBinding.league : this.name.value;
-    club.league = this.league.value == "" ? this.clubBinding.league : this.league.value;
-    club.streetAddress = this.streetAddress.value == "" ? this.clubBinding.streetAddress : this.streetAddress.value;
-    club.streetNumber = this.streetNumber.value == "" ? this.clubBinding.streetNumber : this.streetNumber.value;
-    club.country = this.country.value == "" ? this.clubBinding.country : this.country.value;
-    club.city = this.city.value == "" ? this.clubBinding.city : this.city.value;
-    club.zipcode = this.zipcode.value == "" ? this.clubBinding.zipcode : this.zipcode.value;
+
+    club.name = this.clubRequiredInfoFormGroup.value.name;
+    club.league = this.clubRequiredInfoFormGroup.value.league;
+    club.streetAddress = this.clubRequiredInfoFormGroup.value.streetAddress;
+    club.streetNumber = this.clubRequiredInfoFormGroup.value.streetNumber;
+    club.country = this.clubRequiredInfoFormGroup.value.country;
+    club.city = this.clubRequiredInfoFormGroup.value.city;
+    club.zipcode = this.clubRequiredInfoFormGroup.value.zipcode;
     return club;
   }
 
 
   buildPassword() {
     var club = new Club();
-    club.password = this.currentPassword.value == "" ? null : this.currentPassword.value;
-    club.newPassword = this.password.value == "" ? null : this.password.value;
+    club.password = this.clubRequiredPasswordFormGroup.value.currentPassword;
+    club.newPassword = this.clubRequiredPasswordFormGroup.value.password;
     return club;
   }
 
@@ -1346,7 +1464,6 @@ export class UpdateClubComponent implements OnInit {
   getOpenPositions() {
     this.updateService.getOpenPositions().subscribe(
       (succes: any) => {
-        console.log(succes);
         this.openPositionSource = succes; //refresh the dataSource
         this.clubBinding.jobPositionsList = this.openPositionSource; //refresh the clubBinding
       },

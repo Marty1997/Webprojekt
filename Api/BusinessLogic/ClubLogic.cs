@@ -76,6 +76,10 @@ namespace Api.BusinessLogic {
             return _clubRepos.GetCurrentSquadplayer(club_ID);
         }
 
+        public List<TrainingHours> GetTrainingHours(int club_ID) {
+            return _clubRepos.GetTrainingHours(club_ID);
+        }
+
         public bool DeleteSquadPlayer(int squadPlayer_ID, int club_ID) {
             return _clubRepos.DeleteSquadPlayer(squadPlayer_ID, club_ID);
         }
@@ -170,11 +174,6 @@ namespace Api.BusinessLogic {
                 sqlSeason = GetSeasonSql(criterias);
 
                 clubs = _clubRepos.GetBySearchCriteriaWithJobPositionPreferenceValue(sqlPreference, sqlValue, sqlSeason).ToList();
-            }
-            // If only season is selected
-            else if (criterias.Season != null) {
-                sql += GetSeasonSql(criterias);
-                clubs = _clubRepos.GetBySearchCriteriaWithJobPosition(sql).ToList();
             }
             // When the clubs list is build it is ready to be sorted by match percentage
             // Since we match player with open job positions, we need to get the player first

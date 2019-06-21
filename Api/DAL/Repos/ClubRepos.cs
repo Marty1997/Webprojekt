@@ -1297,16 +1297,11 @@ namespace Api.DAL.Repos {
             List<SquadPlayer> spl = new List<SquadPlayer>();
 
             using (var conn = Connection()) {
+                
+                string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Next year' And club_ID = @Club_ID";
 
-                try {
+                spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
 
-                    string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Next year' And club_ID = @Club_ID";
-
-                    spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
-
-                }
-                catch (SqlException) {
-                }
             }
             return spl;
         }
@@ -1316,15 +1311,10 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
 
-                try {
+                string getCurrentYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Current year' And club_ID = @Club_ID";
 
-                    string getNextYearSquadPlayerSQL = "Select * from Squadplayers where Season = 'Current year' And club_ID = @Club_ID";
+                spl = conn.Query<SquadPlayer>(getCurrentYearSquadPlayerSQL, new { club_ID }).ToList();
 
-                    spl = conn.Query<SquadPlayer>(getNextYearSquadPlayerSQL, new { club_ID }).ToList();
-
-                }
-                catch (SqlException) {
-                }
             }
             return spl;
         }
@@ -1334,17 +1324,25 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
 
-                try {
+                string getOpenPositionsSQL = "Select * from JobPosition where Club_ID = @Club_ID";
 
-                    string getOpenPositionsSQL = "Select * from JobPosition where Club_ID = @Club_ID";
+                opl = conn.Query<JobPosition>(getOpenPositionsSQL, new { Club_ID = id }).ToList();
 
-                    opl = conn.Query<JobPosition>(getOpenPositionsSQL, new { Club_ID = id }).ToList();
-
-                }
-                catch (SqlException) {
-                }
             }
             return opl;
+        }
+
+        public List<TrainingHours> GetTrainingHours(int id) {
+            List<TrainingHours> thl = new List<TrainingHours>();
+
+            using (var conn = Connection()) {
+
+                string getTrainingHoursSQL = "Select * from TrainingHours where Club_ID = @Club_ID";
+
+                thl = conn.Query<TrainingHours>(getTrainingHoursSQL, new { Club_ID = id }).ToList();
+
+            }
+            return thl;
         }
 
         public string GetEmailByID(int id) {

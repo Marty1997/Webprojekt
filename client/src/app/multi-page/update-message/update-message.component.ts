@@ -10,16 +10,14 @@ import { MatSnackBar } from "@angular/material";
 export class UpdateMessageComponent {
 
    @Input() showMessage: boolean;
+   @Input() message: string;
 
    constructor(public snackBar: MatSnackBar) {}
 
-   openSnackBar(message: string, action: string) {
-      if(this.showMessage) {
+   openSnackBar(action: string) {
         this.showMessage = false;
-        this.snackBar.open(message, action, {
+        this.snackBar.open(this.message, action, {
           duration: 2000,
        });
-       
-      }
    } 
 }   

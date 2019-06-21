@@ -41,38 +41,44 @@ namespace Api.Controllers {
         [HttpPost]
         public IActionResult ContactAdviser([FromBody] ContactAdviserRequest body) {
             string emailFromDB = "";
-            //Gets the user email fi token ID
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                //Gets the user email fi token ID
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            //Find user with ID and get the email
-            if (role == "Club") {
-                emailFromDB = _clubRepos.GetEmailByID(id);
-            }
-            else if (role == "Player") {
-                emailFromDB = _playerRepos.GetEmailByID(id);
-            }
-            else {
+                //Find user with ID and get the email
+                if (role == "Club") {
+                    emailFromDB = _clubRepos.GetEmailByID(id);
+                }
+                else if (role == "Player") {
+                    emailFromDB = _playerRepos.GetEmailByID(id);
+                }
+                else {
+                    return StatusCode(500, "Failed");
+                }
+                if (emailFromDB == null) {
+                    return StatusCode(500, "Failed");
+                }
+
+                bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
+                if (res) {
+                    return Ok();
+                }
                 return StatusCode(500, "Failed");
             }
-            if (emailFromDB == null) {
+            catch (Exception) {
                 return StatusCode(500, "Failed");
             }
-
-            bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
-            if(res) {
-               return Ok();
-            }
-             return StatusCode(500, "Failed");
-
-
         }
 
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> CheckIfEmailExists([FromQuery] string email) {
+            if(email == null) {
+                return Ok(false);
+            }
             try {
                 var user = await userManager.FindByNameAsync(email);
                 if (user != null) {

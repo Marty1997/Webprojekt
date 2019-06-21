@@ -209,7 +209,6 @@ namespace Api.DAL.Repos {
                 " select nt.name, nt.appearances, nt.statistic, nt.position, nt.id from NationalTeam nt where nt.player_id = @id;";
 
             using (var conn = Connection()) {
-                //try {
                     using (var multi = conn.QueryMultiple(sql, new { id })) {
                         player = multi.Read<Player>().First();
                         player.StrengthList = multi.Read<string>().ToList();
@@ -217,10 +216,6 @@ namespace Api.DAL.Repos {
                         player.NationalTeamList = multi.Read<NationalTeam>().ToList();
                     }
                     return player;
-                //}
-                //catch (SqlException) {
-                //    return null;
-                //}
             }
         }
 
@@ -761,15 +756,10 @@ namespace Api.DAL.Repos {
 
             using (var conn = Connection()) {
 
-                try {
-
                 string getNationalTeamsSQL = "Select * from NationalTeam where Player_ID = @Player_ID";
 
                 ntl = conn.Query<NationalTeam>(getNationalTeamsSQL, new { Player_ID = id }).ToList();
 
-                }
-                catch (SqlException) {
-                }
             }
             return ntl;
         }

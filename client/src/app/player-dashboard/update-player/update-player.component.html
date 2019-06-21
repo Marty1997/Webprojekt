@@ -1,5 +1,10 @@
 <app-header></app-header>
 <div class="well custom-container forPlayerClubBackgroundColor">
+
+  <div>
+    <app-update-message [showMessage]="showMessage" [message]="message"></app-update-message>
+  </div>
+
   <mat-accordion class="example-headers-align">
     <!-- Personal Info -->
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
@@ -10,70 +15,79 @@
       <mat-checkbox #isLooking>Currently looking for clubs</mat-checkbox>
       <hr>
       <br>
-      <mat-form-field>
-        <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName"
-          [errorStateMatcher]="validate">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Last Name" [formControl]="lastNameControl" [value]="playerBinding.lastName"
-          [errorStateMatcher]="validate">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Country" [formControl]="countryControl" [value]="playerBinding.country" [errorStateMatcher]="validate">
-          <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
-        </mat-select>
-      </mat-form-field><br>
-      <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Day (DD)" [value]="playerBinding.day" [formControl]="dayControl"
-          [errorStateMatcher]='validate'>
-        <mat-error
-          *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
-          Day of birth must be 2 characters
-        </mat-error>
-        <mat-error *ngIf="dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
-          Day of birth must be a number
-        </mat-error>
-        <mat-error *ngIf="dayControl?.hasError('required')">
-          Day is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Select Month"  [formControl]="monthControl"
-          [errorStateMatcher]='validate'>
-          <mat-option [value]="1">January</mat-option>
-          <mat-option [value]="2">February</mat-option>
-          <mat-option [value]="3">March</mat-option>
-          <mat-option [value]="4">April</mat-option>
-          <mat-option [value]="5">May</mat-option>
-          <mat-option [value]="6">June</mat-option>
-          <mat-option [value]="7">July</mat-option>
-          <mat-option [value]="8">August</mat-option>
-          <mat-option [value]="9">September</mat-option>
-          <mat-option [value]="10">October</mat-option>
-          <mat-option [value]="11">November</mat-option>
-          <mat-option [value]="12">December</mat-option>
-        </mat-select>
-        <mat-error *ngIf="monthControl?.hasError('required')">
-          Month is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Year (YYYY)" [value]="playerBinding.year" [formControl]="yearControl"
-          [errorStateMatcher]='validate'>
-        <mat-error
-          *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
-          Year must be a number
-        </mat-error>
-        <mat-error *ngIf="yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
-          Year must be 4 characters
-        </mat-error>
-        <mat-error *ngIf="yearControl?.hasError('required')">
-          Year is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+      <form [formGroup]="playerRequiredInfoFormGroup" (ngSubmit)="playerRequiredInfoFormGroup.valid && updatePlayerInfo()" >
+          <mat-form-field>
+          <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName"
+            [errorStateMatcher]="validate">
+            <mat-error *ngIf="firstNameControl?.hasError('required')">
+                First name is <strong>required</strong>
+              </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last Name" [formControl]="lastNameControl" [value]="playerBinding.lastName"
+            [errorStateMatcher]="validate">
+            <mat-error *ngIf="lastNameControl?.hasError('required')">
+                Last name is <strong>required</strong>
+              </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Country" [formControl]="countryControl" [value]="playerBinding.country" [errorStateMatcher]="validate">
+            <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
+          </mat-select>
+        </mat-form-field><br>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <input matInput placeholder="Day (DD)" [value]="playerBinding.day" [formControl]="dayControl"
+            [errorStateMatcher]='validate'>
+          <mat-error
+            *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
+            Day of birth must be 2 characters
+          </mat-error>
+          <mat-error *ngIf="dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
+            Day of birth must be a number
+          </mat-error>
+          <mat-error *ngIf="dayControl?.hasError('required')">
+            Day is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <mat-select placeholder="Select Month"  [formControl]="monthControl"
+            [errorStateMatcher]='validate'>
+            <mat-option [value]="1">January</mat-option>
+            <mat-option [value]="2">February</mat-option>
+            <mat-option [value]="3">March</mat-option>
+            <mat-option [value]="4">April</mat-option>
+            <mat-option [value]="5">May</mat-option>
+            <mat-option [value]="6">June</mat-option>
+            <mat-option [value]="7">July</mat-option>
+            <mat-option [value]="8">August</mat-option>
+            <mat-option [value]="9">September</mat-option>
+            <mat-option [value]="10">October</mat-option>
+            <mat-option [value]="11">November</mat-option>
+            <mat-option [value]="12">December</mat-option>
+          </mat-select>
+          <mat-error *ngIf="monthControl?.hasError('required')">
+            Month is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="threeFieldsOnSameRow">
+          <input matInput placeholder="Year (YYYY)" [value]="playerBinding.year" [formControl]="yearControl"
+            [errorStateMatcher]='validate'>
+          <mat-error
+            *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
+            Year must be a number
+          </mat-error>
+          <mat-error *ngIf="yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
+            Year must be 4 characters
+          </mat-error>
+          <mat-error *ngIf="yearControl?.hasError('required')">
+            Year is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <!-- Update button -->
-      <input type="button" class="btn btn-success" value="Update" (click)="updatePlayerInfo()">
+        <!-- Update button -->
+        <input type="submit" class="btn btn-success" value="Update">
+
+      </form>
 
       <mat-action-row>
         <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -84,38 +98,36 @@
 
     <!-- Update password -->
     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Update password</mat-panel-title>
-        </mat-expansion-panel-header>
-  
-        <mat-label>Update Password</mat-label><br>
-        <mat-form-field>
-          <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-            [errorStateMatcher]="validate">
-          <mat-error *ngIf="currentPassword?.hasError('minlength') && !passwordControl?.hasError('required')">
-            Password must be at least 6 characters
-          </mat-error>
-          <mat-error *ngIf="currentPassword?.hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-          <mat-error *ngIf="passwordCheck">
-            Password is invalid
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="New Password" [formControl]="password" type="password"
-            [errorStateMatcher]="validate">
-          <mat-error *ngIf="password?.hasError('minlength') && !passwordControl?.hasError('required')">
-            Password must be at least 6 characters
-          </mat-error>
-          <mat-error *ngIf="password?.hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-  
-        <!-- Update button -->
-        <input type="button" class="btn btn-success" value="Update" (click)="updatePassword()">
-  
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>Update password</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div style="color:red; font-size:20px;" *ngIf="passwordCheck">Current password is wrong</div>
+          <form [formGroup]="playerRequiredPasswordFormGroup" (ngSubmit)="playerRequiredPasswordFormGroup.valid && updatePassword(f) " #f="ngForm">
+          <mat-form-field>
+            <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
+              [errorStateMatcher]="validate">
+            <mat-error *ngIf="currentPassword?.hasError('minlength') && !currentPassword?.hasError('required')">
+              Password must be at least 6 characters
+            </mat-error>
+            <mat-error *ngIf="currentPassword?.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="New Password" [formControl]="password" type="password"
+              [errorStateMatcher]="validate">
+            <mat-error *ngIf="password?.hasError('minlength') && !password?.hasError('required')">
+              Password must be at least 6 characters
+            </mat-error>
+            <mat-error *ngIf="password?.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+    
+          <!-- Update button -->
+          <input type="submit" class="btn btn-success" value="Update" >
+        </form>
         <mat-action-row>
           <button mat-button color="warn" (click)="prevStep()">Previous</button>
           <button mat-button color="primary" (click)="nextStep()">Next</button>

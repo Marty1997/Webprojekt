@@ -52,27 +52,31 @@ namespace Api.Controllers {
         [HttpPost]
         [Route("[action]")]
         public IActionResult DeleteFile([FromBody] FilenameRequest data) {
+            try {
+                string fullPath = "";
 
-            string fullPath = "";
-            
-            if (data.Filename != null 
-                && !data.Filename.Equals("https:\\localhost:44310\\Resources\\Files\\player-icon.png")
-                && !data.Filename.Equals("https:\\localhost:44310\\Resources\\Files\\club-icon.png")) {
-                //Trim to get filename
-                string filename = data.Filename.Substring(data.Filename.LastIndexOf('\\') + 1);
+                if (data.Filename != null
+                    && !data.Filename.Equals("https:\\localhost:44310\\Resources\\Files\\player-icon.png")
+                    && !data.Filename.Equals("https:\\localhost:44310\\Resources\\Files\\club-icon.png")) {
+                    //Trim to get filename
+                    string filename = data.Filename.Substring(data.Filename.LastIndexOf('\\') + 1);
 
-                //Create full path
-                string folderName = Path.Combine("Resources", "Files");
-                string path = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                fullPath = path + "\\" + filename;
+                    //Create full path
+                    string folderName = Path.Combine("Resources", "Files");
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    fullPath = path + "\\" + filename;
+                }
+
+                if ((System.IO.File.Exists(fullPath))) {
+                    System.IO.File.Delete(fullPath);
+                    return Ok();
+                }
+                else {
+                    return StatusCode(500, "Failed");
+                }
             }
-
-            if ((System.IO.File.Exists(fullPath))) {
-                System.IO.File.Delete(fullPath);
-                return Ok();
-            }
-            else {
-                return StatusCode(400, "Failed");
+            catch (Exception) {
+                return StatusCode(500, "Failed");
             }
         }
     }

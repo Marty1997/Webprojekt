@@ -221,7 +221,7 @@
               </tr>
             </thead>
             <tbody *ngFor="let training of clubBinding.trainingHoursList">
-              <tr *ngIf="training.name == 'Handball'">
+              <tr *ngIf="training.name === 'Handball'">
                 <td>Handball training</td>
                 <td>{{training.mon}}</td>
                 <td>{{training.tue}}</td>
@@ -231,7 +231,7 @@
                 <td>{{training.sat}}</td>
                 <td>{{training.sun}}</td>
               </tr>
-              <tr *ngIf="training.name == 'Fitness training'">
+              <tr *ngIf="training.name === 'Fitness training'">
                 <td>Fitness training</td>
                 <td>{{training.mon}}</td>
                 <td>{{training.tue}}</td>
@@ -254,9 +254,9 @@
         </div>
 
         <div *ngIf="clubBinding.facilityImagesList != null">
-            <carousel [interval]="myInterval">
+            <carousel [interval]="myInterval" >
                 <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-                  <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
+                  <img src="{{slide}}" alt="image slide" >
                 </slide>
               </carousel>
         </div>

@@ -29,5 +29,6 @@ namespace Api.DAL {
         List<SquadPlayer> GetNextSquadplayer(int club_ID);
         List<SquadPlayer> GetCurrentSquadplayer(int club_ID);
         List<JobPosition> GetOpenPositions(int id);
+        List<TrainingHours> GetTrainingHours(int club_ID);
     }
 }
