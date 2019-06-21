@@ -254,9 +254,9 @@
         </div>
 
         <div *ngIf="clubBinding.facilityImagesList != null">
-            <carousel [interval]="myInterval">
+            <carousel [interval]="myInterval" >
                 <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-                  <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
+                  <img src="{{slide}}" alt="image slide" >
                 </slide>
               </carousel>
         </div>

@@ -13,14 +13,8 @@ import { Router } from "@angular/router";
 export class ClubDashboardComponent implements OnInit {
   clubBinding: Club;
   isClub: boolean;
-  clubs: Club[] = this.searchService.searchForClubsResult;
+  myInterval = 6000;
 
-  myInterval = 3000;
-  // slides = [
-  //   {image: 'assets/Images/Håndboldbane.jpg'},
-  //   {image: 'assets/Images/omklædning.jpg'},
-  //   {image: 'assets/Images/Styrke.jpg'}
-  // ];
 
   constructor(
     private loginService: loginService,
