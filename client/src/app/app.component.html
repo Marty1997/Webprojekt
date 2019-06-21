@@ -1,5 +1,14 @@
 <meta charset="UTF-8">
-<div class='container-fluid'>
+<!-- Only here for prototype login -->
+<div *ngIf="!loginIn" style="margin-left: 40%; margin-top: 10%;">
+  <form >
+    <input type="text" id="lol">
+    <button type="button" (click)="validate()">Login</button>
+  </form>
+</div>
+
+<!-- Should only show this after prototype -->
+<div class='container-fluid' *ngIf="loginIn">
   <router-outlet></router-outlet>
   <app-footer></app-footer>
 </div>

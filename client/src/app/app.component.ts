@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
+  loginIn = true;
+
+  //Only here for prototype
+  validate() {
+    var inputValue = (<HTMLInputElement>document.getElementById('lol')).value;
+    if(inputValue === "Abc321") {
+      this.loginIn = true
+    }
+  }
 }

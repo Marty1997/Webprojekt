@@ -298,6 +298,7 @@ accordion-group h5 {
 
   .carousel.slide {
     margin: auto;
+    background-color: black;
   }
 
   @media (max-width: 415px) {
@@ -311,8 +312,8 @@ accordion-group h5 {
   }
   
   .item img {
-    object-fit: cover;
-    height: 250px !important;
+    object-fit: contain;
+    height: 300px !important;
     width: 100% !important;
   }
 
