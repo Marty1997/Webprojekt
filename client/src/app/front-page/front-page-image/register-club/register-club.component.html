@@ -15,7 +15,7 @@
       <br>
       <mat-form-field>
         <input id="clubEmail" matInput placeholder="Email" [formControl]="emailControl" [errorStateMatcher]="validate">
-        <mat-error *ngIf="emailControl?.hasError('email') && !emailControl?.hasError('required')">
+        <mat-error *ngIf="emailControl?.hasError('pattern') && !emailControl?.hasError('required')">
           Please enter a valid email address
         </mat-error>
         <div *ngIf="existingEmail" style="color:red; font-size:13px; margin-top: 6px">Email already exists</div>
@@ -432,8 +432,8 @@
       </mat-form-field>
       <mat-form-field class="fourFieldsOnSameRow">
         <mat-select placeholder="Season" formControlName="openPositionSeason" [errorStateMatcher]="validate">
-          <mat-option value="Current year">Current Season</mat-option>
-          <mat-option value="Next year">Next Season</mat-option>
+          <mat-option value="Current year">Current year</mat-option>
+          <mat-option value="Next year">Next year</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="fourFieldsOnSameRow">
@@ -499,7 +499,7 @@
         <!-- League Column -->
         <ng-container matColumnDef="League">
           <th mat-header-cell *matHeaderCellDef> League </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.leauge}} </td>
+          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.league}} </td>
         </ng-container>
 
         <!-- Hand Column -->
@@ -642,7 +642,12 @@
         Please hit the register button down below to sign up as a club.
         <br>
         You can also go back to any step you would like and change your info.
+        <br>
+        <br>
+        Please read and agree to our <a (click)="openPolicyModalRef(policy)" style="cursor: pointer;">privacy policy.</a>
       </p>
+    <mat-checkbox #privacyPolicy style="margin-left: 45%" >I Agree</mat-checkbox>
+    <div style="color:red; font-size:20px; text-align: center;" *ngIf="privacyPolicyUnchecked">You must agree to our privacy policy</div>
       <hr>
         <div style="color:red; font-size:20px; text-align: center;" *ngIf="errorRegister">Something went wrong. Try again</div>
       <br>
@@ -652,3 +657,14 @@
     </form>
   </mat-step>
 </mat-horizontal-stepper>
+
+<ng-template #policy>
+  <div class="privacyPolicyDesign">
+    <button type="button" class="close customCloseForRegister" aria-label="Close" (click)="privacyPolicyModal?.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3>Privacy Policy SportConnectors</h3>
+    <hr style="margin-bottom: -5px; size: 5px;">
+    <app-privacy-policy></app-privacy-policy>
+  </div>
+</ng-template>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
     public class TrainingHours {
-
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Mon { get; set; }
         public string Tue { get; set; }

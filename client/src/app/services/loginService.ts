@@ -17,6 +17,7 @@ export class loginService {
   playerInSession: Player;
 
   constructor(private http: HttpClient, public router: Router) {
+    console.log("Constructor");
     this.isAuthenticated();
     this.clubInSession = new Club();
     this.playerInSession = new Player();

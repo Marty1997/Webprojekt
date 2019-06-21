@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Api.DAL.Entities {
     public class SquadPlayer {
-        [JsonIgnore]
-        public int Position_ID { get; set; }
+        public int Id { get; set; }
         public int ShirtNumber { get; set; }
         public string Season { get; set; }
         public string Name { get; set; }

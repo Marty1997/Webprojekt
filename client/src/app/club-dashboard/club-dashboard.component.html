@@ -2,7 +2,8 @@
 <section class="custom-container forPlayerClubBackgroundColor topMargin" >
   <div class="row">
     <div class="col-md-2" style="text-align: center; margin-top: 15px;">
-      <a class="editProfileButton" *ngIf="isClub">Edit Profile</a>
+      
+      <a class="editProfileButton" *ngIf="isClub" (click)="updateClub()">Edit Profile</a>
     </div>
     <div class="col-md-8" style="text-align: center; margin-top: 15px;">
       <!-- <a class="contactClubButton" *ngIf="!isClub">Contact Club</a> -->
@@ -22,10 +23,6 @@
       <div>
         <img class="responsiveImage" src="{{clubBinding.imagePath}}" height="150" width="150" />
       </div>
-
-      <!-- <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-      <button type="button" class="btn btn-success" (click)="profile.click()">Upload Image</button>
-      <input type="button" class="btn btn-success" value="Update" (click) ="updateClub()"> -->
 
       <h3 style="word-wrap: break-word;">{{clubBinding.name}}</h3>
 
@@ -224,7 +221,7 @@
               </tr>
             </thead>
             <tbody *ngFor="let training of clubBinding.trainingHoursList">
-              <tr *ngIf="training.name == 'Handball'">
+              <tr *ngIf="training.name === 'Handball'">
                 <td>Handball training</td>
                 <td>{{training.mon}}</td>
                 <td>{{training.tue}}</td>
@@ -234,7 +231,7 @@
                 <td>{{training.sat}}</td>
                 <td>{{training.sun}}</td>
               </tr>
-              <tr *ngIf="training.name == 'Fitness training'">
+              <tr *ngIf="training.name === 'Fitness training'">
                 <td>Fitness training</td>
                 <td>{{training.mon}}</td>
                 <td>{{training.tue}}</td>
@@ -251,29 +248,19 @@
         </div>
         <h4 style="text-align: center; font-family: 'Fresno';">Club Facilities</h4>
 
-        <!-- <div *ngIf="clubBinding.facilityImagesList == null">
+        <div *ngIf="clubBinding.facilityImagesList.length == 0">
             <h4 style="text-align: center; font-family: 'Fresno'; margin-bottom: 25px">
               No facility images was specified from the club</h4>
         </div>
 
         <div *ngIf="clubBinding.facilityImagesList != null">
-            <carousel [interval]="myInterval">
+            <carousel [interval]="myInterval" >
                 <slide *ngFor="let slide of clubBinding.facilityImagesList; let index=index">
-                  <img src="{{slide}}" alt="image slide" style="display: block; width: 100%;">
+                  <img src="{{slide}}" alt="image slide" >
                 </slide>
               </carousel>
-        </div> -->
+        </div>
 
-        <carousel [interval]="myInterval">
-          <slide *ngFor="let slide of slides; let index=index">
-            <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
-          </slide>
-        </carousel>
-
-        <!-- <div style="text-align: center">
-            <input type="file" accept="image/*" #slideImage (change)="upload(slideImage.files, 'facility')" style="display:none;">
-            <button type="button" class="btn btn-success" (click)="slideImage.click()">Upload image</button>
-        </div> -->
       </div>
 
       <div style="width: 100%; text-align: center; align-content: center">
@@ -360,5 +347,6 @@
     </div>
   </div>
   <app-contact-adviser *ngIf="isClub"></app-contact-adviser>
+  <div style="height: 100px;" *ngIf="clubBinding.currentSquadPlayersList.length == 0 && clubBinding.nextYearSquadPlayersList.length == 0 && clubBinding.trainingHoursList.length == 0"></div>
 </section>
 <div style="height: 15px;"></div>

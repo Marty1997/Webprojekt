@@ -24,12 +24,12 @@ namespace Api.Controllers {
 
         private IConfiguration confirguration;
         private readonly IClubRepository<Club> _clubRepos;
-        private readonly IRepository<Player> _playerRepos;
+        private readonly IPlayerRepository<Player> _playerRepos;
         private readonly Authentication authentication;
         private UserManager<User> userManager;
 
         public EmailController(IConfiguration iConfig, IClubRepository<Club> clubRepos,
-                                    Authentication authentication, IRepository<Player> playerRepos, UserManager<User> userManager) {
+                                    Authentication authentication, IPlayerRepository<Player> playerRepos, UserManager<User> userManager) {
             confirguration = iConfig;
             _clubRepos = clubRepos;
             _playerRepos = playerRepos;
@@ -41,38 +41,44 @@ namespace Api.Controllers {
         [HttpPost]
         public IActionResult ContactAdviser([FromBody] ContactAdviserRequest body) {
             string emailFromDB = "";
-            //Gets the user email fi token ID
-            var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
-            string role = authentication.GetRoleFromToken(decodedToken);
-            int id = authentication.GetIDFromToken(decodedToken);
+            try {
+                //Gets the user email fi token ID
+                var decodedToken = authentication.DecodeTokenFromRequest(Request.Headers["Authorization"]);
+                string role = authentication.GetRoleFromToken(decodedToken);
+                int id = authentication.GetIDFromToken(decodedToken);
 
-            //Find user with ID and get the email
-            if (role == "Club") {
-                emailFromDB = _clubRepos.GetEmailByID(id);
-            }
-            else if (role == "Player") {
-                emailFromDB = _playerRepos.GetEmailByID(id);
-            }
-            else {
+                //Find user with ID and get the email
+                if (role == "Club") {
+                    emailFromDB = _clubRepos.GetEmailByID(id);
+                }
+                else if (role == "Player") {
+                    emailFromDB = _playerRepos.GetEmailByID(id);
+                }
+                else {
+                    return StatusCode(500, "Failed");
+                }
+                if (emailFromDB == null) {
+                    return StatusCode(500, "Failed");
+                }
+
+                bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
+                if (res) {
+                    return Ok();
+                }
                 return StatusCode(500, "Failed");
             }
-            if (emailFromDB == null) {
+            catch (Exception) {
                 return StatusCode(500, "Failed");
             }
-
-            bool res = SetupEmail("albertsen96@gmail.com", "Contact Adviser question", "From " + emailFromDB + "<br> Message " + body.Message);
-            if(res) {
-               return Ok();
-            }
-             return StatusCode(500, "Failed");
-
-
         }
 
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<Object> CheckIfEmailExists([FromQuery] string email) {
+        public async Task<IActionResult> CheckIfEmailExists([FromQuery] string email) {
+            if(email == null) {
+                return Ok(false);
+            }
             try {
                 var user = await userManager.FindByNameAsync(email);
                 if (user != null) {
@@ -90,7 +96,7 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult> SendResetPassword(EmailRequest request) {
+        public async Task<IActionResult> SendResetPassword(EmailRequest request) {
             try {
                 var result = await userManager.FindByNameAsync(request.Email);
 
@@ -144,7 +150,7 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult> HandlePasswordReset(ResetPasswordRequest request) {
+        public async Task<IActionResult> HandlePasswordReset(ResetPasswordRequest request) {
             request.Url = request.Url.Substring(21);
             string[] strings = request.Url.Split(new[] { "userId" }, StringSplitOptions.None);
             string token = System.Web.HttpUtility.UrlDecode(strings[0]);

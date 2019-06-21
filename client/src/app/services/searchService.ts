@@ -10,6 +10,8 @@ export class searchService {
   player: Player;
   searchForClubsResult: Club[] = [];
   club: Club;
+  scrollPosition1: number;
+  scrollPosition2: number;
 
   constructor(private http: HttpClient) {
     this.player = new Player();

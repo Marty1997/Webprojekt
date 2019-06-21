@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace Api.DAL.Entities {
     public class Club  {
         public int Id { get; set; }
-        [JsonIgnore]
-        public UserCredentials UserCredentials { get; set; }
         public string Password { get; set; }
+        public string NewPassword { get; set; }
         public string ErrorMessage { get; set; }
         public bool IsAvailable { get; set; }
         public string Token { get; set; }
@@ -22,6 +21,7 @@ namespace Api.DAL.Entities {
         public string StreetNumber { get; set; }
         public string City { get; set; }
         public int Zipcode { get; set; }
+        public int ZipcodeCity_ID { get; set; }
         public string Trainer { get; set; }
         public string AssistantTrainer { get; set; }
         public string Physiotherapist { get; set; }
@@ -54,7 +54,11 @@ namespace Api.DAL.Entities {
         }
 
         public void CalculatePercentage(int criteriaMatch, int selectedCriteria) {
-            this.SearchPercentage = criteriaMatch * 100 / selectedCriteria;
+            if(criteriaMatch > 0 && selectedCriteria > 0) {
+                this.SearchPercentage = criteriaMatch * 100 / selectedCriteria;
+            } else {
+                this.SearchPercentage = 0;
+            }
         }
     }
 }

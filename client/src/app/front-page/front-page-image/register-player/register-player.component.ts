@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Attribute, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, Attribute, ViewChild, TemplateRef } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -6,10 +6,12 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm,
+  
   AbstractControl,
   Validator
 } from "@angular/forms";
 import { registerService } from "src/app/services/registerService";
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ErrorStateMatcher, MatCheckbox, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Player } from "../../../models/player.model";
@@ -54,6 +56,7 @@ export const MY_FORMATS = {
 })
 export class RegisterPlayerComponent implements OnInit {
   @Input() modalRef: any;
+  privacyPolicyModal: BsModalRef | null;
   player: Player = new Player();
   nationalTeamA: NationalTeam = new NationalTeam();
   nationalTeamB: NationalTeam = new NationalTeam();
@@ -62,6 +65,10 @@ export class RegisterPlayerComponent implements OnInit {
   errorRegister: boolean = false;
   isLoading: boolean = false;
   existingEmail: boolean = false;
+
+  //privacy policy
+  @ViewChild("privacyPolicy") privacyPolicy: MatCheckbox;
+  privacyPolicyUnchecked: boolean = false;
 
   // strengths
   @ViewChild("speedy") private speedy: MatCheckbox;
@@ -322,7 +329,7 @@ export class RegisterPlayerComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
-  emailControl = new FormControl("", [Validators.required, Validators.email]);
+  emailControl = new FormControl("", [Validators.required, Validators.pattern(/.+@.+\..+/)]);
   passwordControl = new FormControl("", [
     Validators.required,
     Validators.minLength(6)
@@ -358,7 +365,8 @@ export class RegisterPlayerComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private registerService: registerService
+    private registerService: registerService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -447,23 +455,33 @@ export class RegisterPlayerComponent implements OnInit {
     );
   }
 
+  openPolicyModalRef(template: TemplateRef<any>) {
+    this.privacyPolicyModal = this.modalService.show(template, {class: 'customModalForPrivacyPolicy'});
+  }
+
   /* 
     Register player with registerService
   */
   registerPlayer() {
-    this.isLoading = true;
-    this.registerService.registerPlayer(this.buildPlayer()).subscribe(
-      (success) => {
-        this.modalRef.hide();
-        this.modalRef = null;
-        this.isLoading = false;
-        this.errorRegister = false;
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorRegister = true;
-      }
-    );
+    this.privacyPolicyUnchecked = false;
+    if(this.privacyPolicy.checked) {
+      this.isLoading = true;
+      this.registerService.registerPlayer(this.buildPlayer()).subscribe(
+        (success) => {
+          this.modalRef.hide();
+          this.modalRef = null;
+          this.isLoading = false;
+          this.errorRegister = false;
+        },
+        (error) => {
+          this.isLoading = false;
+          this.errorRegister = true;
+        }
+      );
+    }
+    else {
+      this.privacyPolicyUnchecked = true;
+    }
   }
 
 

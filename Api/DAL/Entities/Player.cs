@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace Api.DAL.Entities {
     public class Player  {
         public int Id { get; set; }
-        [JsonIgnore]
-        public UserCredentials UserCredentials { get; set; }
         public string Password { get; set; }
+        public string NewPassword { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

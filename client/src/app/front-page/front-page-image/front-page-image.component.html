@@ -26,7 +26,7 @@
         <!-- Loading spinner component -->
         <app-loading-icon [isLoading]="isLoading"></app-loading-icon>
 
-      <button type="button" class="close" aria-label="Close" (click)="loginModal.hide()">
+      <button type="button" class="close" aria-label="Close" (click)="loginModal?.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
       <h1 >Login</h1>
@@ -41,8 +41,8 @@
         </div>
         <div style="text-align: center; color:red; height:20px;">
           <div *ngIf="f.submitted && email.invalid">
-            <div *ngIf="email.errors.required">Email is required</div>
-            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+            <div *ngIf="email?.errors.required">Email is required</div>
+            <div *ngIf="email?.errors.email">Email must be a valid email address</div>
           </div>
         </div>
         <div class="inner-addon left-addon">
@@ -52,8 +52,8 @@
         </div>
         <div style="text-align: center; color:red; height:20px;">
           <div *ngIf="f.submitted && password.invalid">
-            <div *ngIf="password.errors.required">Password is required</div>
-            <div *ngIf="password.errors.minlength">Password must be 6 characters or longer</div>
+            <div *ngIf="password?.errors.required">Password is required</div>
+            <div *ngIf="password?.errors.minlength">Password must be 6 characters or longer</div>
           </div>
         </div>
         <input type="submit" value="Login" class="loginbutton" />
@@ -81,8 +81,8 @@
         </div>
         <div style="text-align: center; color:red; height:20px;">
           <div *ngIf="f.submitted && email.invalid">
-            <div *ngIf="email.errors.required">Email is required</div>
-            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+            <div *ngIf="email?.errors.required">Email is required</div>
+            <div *ngIf="email?.errors.email">Email must be a valid email address</div>
           </div>
         </div>
         <input type="submit" value="Reset Password" class="loginbutton" />

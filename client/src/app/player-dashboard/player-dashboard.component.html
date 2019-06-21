@@ -3,7 +3,7 @@
 
     <div class="row" style="margin-top: 25px;">
         <div class="col-md-2" style="text-align: center; margin-top: 15px;">
-            <a class="editProfileButton" *ngIf="isPlayer">Edit Profile</a>
+          <button class="editProfileButton" *ngIf="isPlayer" (click)="updatePlayer()">Edit Profile</button>
         </div>
         <div class="col-md-8" style="text-align: center; margin-top: 15px;">
           <!-- <a class="contactButton" *ngIf="!isPlayer">Contact Player</a> -->
@@ -23,10 +23,6 @@
       <div>
         <img class="responsiveImage" src="{{playerBinding.imagePath}}" height="150" width="150" />
       </div>
-
-      <!-- <input type="file" accept="image/*" #profile (change)="upload(profile.files, 'profile')" style="display:none;">
-      <button type="button" class="btn btn-success" (click)="profile.click()">Upload File</button>
-      <input type="button" class="btn btn-success" value="Update" (click) ="updatePlayer()"> -->
 
       <h2 style="word-wrap: break-word;">{{playerBinding.firstName}} {{playerBinding.lastName}}</h2>
       <h4 *ngIf="!playerBinding.isAvailable" style="color: red; font-weight: bold; margin-top: 20px;">Not looking for a new club</h4>
@@ -270,10 +266,7 @@
           <video src="{{playerBinding.videoPath}}" width="100%" controls></video>
       </div>
 
-      <!-- <div style="text-align: center">
-          <input type="file" accept="video/*" #video (change)="upload(video.files, 'video')" style="display:none;">
-          <button type="button" class="btn btn-success" (click)="video.click()">Upload File</button>
-      </div> -->
+      
     </div>
     <div class="col-md-3"></div>
   </div>

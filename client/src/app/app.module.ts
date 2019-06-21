@@ -5,8 +5,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-import { CdkStepperModule } from '@angular/cdk/stepper';
-import { MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule } from '@angular/material';
+import { CdkStepperModule, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatStepperModule, MatTabsModule, 
+  MatInputModule, MatButtonModule, MatAutocompleteModule, 
+  MatSelectModule, MatRadioModule, MatIconModule, MatCardModule, MatCheckboxModule, 
+  MatTableModule, ErrorStateMatcher, MatMenuModule, MatDividerModule, MatDatepickerModule, 
+  MatExpansionModule, MatSnackBarModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -35,7 +39,8 @@ import { TrainingHoursToComponent } from './front-page/front-page-image/register
 import { loginService } from './services/loginService';
 import { errorService } from './services/errorService';
 import { updateService } from './services/updateService';
-import { uploadFilesService } from './services/uploadFilesService';
+import { deleteService } from './services/deleteService';
+import { FileService } from './services/FileService';
 import { searchService } from './services/searchService';
 import { AuthGuardService } from './services/authGuardService';
 import { ErrorsHandler } from './services/errorsHandling';
@@ -47,8 +52,13 @@ import { PlayerSearchCriteriaComponent } from './player-search-criteria/player-s
 import { ClubSearchCriteriaComponent } from './club-search-criteria/club-search-criteria.component';
 import { LoadingIconComponent } from './multi-page/loading-icon/loading-icon.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { UpdateClubComponent } from './club-dashboard/update-club/update-club.component';
+import { UpdatePlayerComponent } from './player-dashboard/update-player/update-player.component';
+import { ConfirmationDialogComponent } from './multi-page/confirmation-dialog/confirmation-dialog.component';
+import { UpdateMessageComponent } from './multi-page/update-message/update-message.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { PrivacyPolicyComponent } from './multi-page/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -73,8 +83,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PlayerSearchCriteriaComponent,
     ClubSearchCriteriaComponent,
     LoadingIconComponent,
+    UpdateClubComponent,
+    UpdatePlayerComponent,
+    ConfirmationDialogComponent,
+    UpdateMessageComponent,
     ErrorPageComponent,
     ResetPasswordComponent,
+    PrivacyPolicyComponent,
     
   ],
   imports: [
@@ -93,12 +108,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
       { path: 'club-search-criteria', component: ClubSearchCriteriaComponent, canActivate: [AuthGuardService] },
       { path: 'club-profile/:id', component: ClubDashboardComponent, canActivate: [AuthGuardService], },
       { path: 'club-how-to', component: ForClubsComponent },
+      { path: 'update-club', component: UpdateClubComponent/*, canActivate: [AuthGuardService]*/ },
+      { path: 'update-player', component: UpdatePlayerComponent, canActivate: [AuthGuardService] },
       { path: 'player-how-to', component: ForPlayersComponent }, 
       { path: 'error', component: ErrorPageComponent },
       { path: 'reset-password/:token', component: ResetPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuardService]},
-
-    ], ),
+      
+    ],/* { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled'}*/ ),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
     AccordionModule.forRoot(),
@@ -106,18 +123,22 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     CdkStepperModule,
       MatStepperModule, MatTabsModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule,
       MatPaginatorModule, MatCheckboxModule, MatTableModule, MatDatepickerModule, MatMomentDateModule, MatMenuModule, MatDividerModule,
-    MatCardModule,
+    MatCardModule, MatExpansionModule, MatSnackBarModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialFileInputModule,
     NgxSpinnerModule
   ],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
   providers: [
     ErrorStateMatcher,
     loginService,
+    FileService,
     errorService,
-    uploadFilesService,
     updateService,
+    deleteService,
     searchService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: ErrorHandler, useClass: ErrorsHandler},

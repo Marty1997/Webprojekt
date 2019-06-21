@@ -10,33 +10,60 @@ using System.Threading.Tasks;
 namespace Api.BusinessLogic {
 
     public class PlayerLogic {
-
-        private readonly Account _account;
-        private readonly IRepository<Player> _playerRepos;
-        private readonly UserCredentialsLogic _userCredentialsLogic;
+        private readonly IPlayerRepository<Player> _playerRepos;
 
 
-        public PlayerLogic(Account account, IRepository<Player> playerRepos, UserCredentialsLogic userCredentialsLogic) {
+        public PlayerLogic(IPlayerRepository<Player> playerRepos) {
             _playerRepos = playerRepos;
-            _account = account;
-            _userCredentialsLogic = userCredentialsLogic;
         }
 
         public bool Create(Player entity) {
             return _playerRepos.Create(entity);
         }
 
-
         public Player GetById(int id) {
             return _playerRepos.GetById(id);
-
         }
 
-
-        public Player Update(Player entity) {
-            return _playerRepos.Update(entity);
+        public bool UpdateInfo(Player entity) {
+            return _playerRepos.UpdateInfo(entity);
         }
 
+        public bool UpdateAdditionalInfo(Player entity) {
+            return _playerRepos.UpdateAdditionalInfo(entity);
+        }
+
+        public bool DeleteStrengthsAndWeaknesses(int player_ID) {
+            return _playerRepos.DeleteStrengthsAndWeaknesses(player_ID);
+        }
+
+        public bool UpdateStrengthsAndWeaknesses(Player entity) {
+            return _playerRepos.UpdateStrengthsAndWeaknesses(entity);
+        }
+
+        public bool UpdateSportCV(Player entity) {
+            return _playerRepos.UpdateSportCV(entity);
+        }
+
+        public bool UpdateProfile(Player entity) {
+            return _playerRepos.UpdateProfile(entity);
+        }
+
+        public bool UpdateVideo(Player entity) {
+            return _playerRepos.UpdateVideo(entity);
+        }
+
+        public bool AddNationalTeam(NationalTeam entity, int player_ID) {
+            return _playerRepos.AddNationalTeam(entity, player_ID);
+        }
+
+        public bool DeleteNationalTeam(int nationalTeam_ID, int player_ID) {
+            return _playerRepos.DeleteNationalTeam(nationalTeam_ID, player_ID);
+        }
+
+        public bool DeletePlayer(int player_ID) {
+            return _playerRepos.Delete(player_ID);
+        }
 
         public List<Player> HandleSearchAlgorithm(SearchCriteriaForPlayer request) {
             string sqlSelectStatement = "";
@@ -242,6 +269,10 @@ namespace Api.BusinessLogic {
                 player.CalculatePercentage(matchedCriteriaNumber, criteriaNumber);
             }
             return playerList;
+        }
+
+        public List<NationalTeam> GetNationalTeams(int id) {
+            return _playerRepos.GetNationalTeams(id);
         }
     }
 }

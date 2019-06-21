@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { loginService } from "src/app/services/loginService";
-import { uploadFilesService } from "src/app/services/uploadFilesService";
 import { updateService } from "src/app/services/updateService";
 import { ActivatedRoute } from "@angular/router";
 import { Player } from "../models/player.model";
 import { searchService } from "../services/searchService";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-player-dashboard",
@@ -19,17 +18,16 @@ export class PlayerDashboardComponent implements OnInit {
 
   isFirstOpen = true;
   
-
   constructor(
     private route: ActivatedRoute,
     private searchService: searchService,
     private loginService: loginService,
-    private uploadFilesService: uploadFilesService,
-    private updateService: updateService
+    private updateService: updateService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (this.loginService.typeOfLogin == "Player") {
       this.isPlayer = true;
       if (this.loginService.refreshValue) {
@@ -47,26 +45,8 @@ export class PlayerDashboardComponent implements OnInit {
       this.loginService.logout();
     }
   }
-
-  upload = (files, type: string) => {
-    if (files.length === 0) {
-      return;
-    }
-    else {
-      this.uploadFilesService.uploadFile(files).subscribe(res => {
-        if(type === 'profile') {
-          this.uploadFilesService.createPath(JSON.stringify(res.body), 'image');
-          this.playerBinding.imagePath = this.uploadFilesService.imagePath;
-        }
-        if(type === 'video') {
-          this.uploadFilesService.createPath(JSON.stringify(res.body), 'video');
-          this.playerBinding.videoPath = this.uploadFilesService.videoPath;
-        }
-      });
-    }
-  }
   
   updatePlayer() {
-    this.updateService.updatePlayer(this.playerBinding);
+    this.router.navigate(['/update-player'])
   }
 }

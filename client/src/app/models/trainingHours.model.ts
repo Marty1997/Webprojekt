@@ -1,4 +1,5 @@
 export class TrainingHours {
+    id: number;
     name: string;
     mon: string;
     tue: string;

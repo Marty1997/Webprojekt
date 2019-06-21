@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, TemplateRef } from "@angular/core";
 import {
   FormGroup,
   FormGroupDirective,
@@ -10,10 +10,10 @@ import {
 import { ErrorStateMatcher, MatCheckbox } from "@angular/material";
 import { registerService } from "src/app/services/registerService";
 import { Club } from "../../../models/club.model";
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SquadPlayer } from "../../../models/squadPlayer.model";
 import { TrainingHours } from "../../../models/trainingHours.model";
 import { JobPosition } from "src/app/models/jobPosition";
-import { viewParentEl } from '@angular/core/src/view/util';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -38,7 +38,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterClubComponent implements OnInit {
   @Input() modalRef: any;
-
+  privacyPolicyModal: BsModalRef | null;
   club: Club = new Club();
   errorRegister: boolean = false;
   isLoading: boolean = false;
@@ -92,6 +92,10 @@ export class RegisterClubComponent implements OnInit {
   @ViewChild("openPositionWinAtAllCosts") openPositionWinAtAllCosts: MatCheckbox;
   @ViewChild("openPositionLongRangeShooter") openPositionLongRangeShooter: MatCheckbox;
 
+  // Checkbox for privacy policy
+  @ViewChild("privacyPolicy") privacyPolicy: MatCheckbox;
+  privacyPolicyUnchecked: boolean = false;
+
   // values&preferences
   @ViewChild("hardWorking") hardWorking: MatCheckbox;
   @ViewChild("socialCohesion") socialCohesion: MatCheckbox;
@@ -127,7 +131,7 @@ export class RegisterClubComponent implements OnInit {
     "",
     Validators.pattern(this.numbersOnlyRegex)
   );
-  emailControl = new FormControl("", [Validators.required, Validators.email]);
+  emailControl = new FormControl("", [Validators.required, Validators.pattern(/.+@.+\..+/)]);
   passwordControl = new FormControl("", [
     Validators.required,
     Validators.minLength(6)
@@ -145,7 +149,8 @@ export class RegisterClubComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private registerService: registerService
+    private registerService: registerService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -210,6 +215,7 @@ export class RegisterClubComponent implements OnInit {
       openPositionHeight: [""],
       openPositionHand: [""]
     });
+    this.openPositionsFormGroup.get("openPositionSeason").setValue("Current year");
     this.clubStaffFormGroup = this._formBuilder.group({
       trainerControl: [""],
       assistantTrainerControl: [""],
@@ -364,7 +370,7 @@ export class RegisterClubComponent implements OnInit {
       this.openPositionsFormGroup.get("openPositionHeight").setValue("");
       this.openPositionsFormGroup.get("openPositionMaxAge").setValue("");
       this.openPositionsFormGroup.get("openPositionMinAge").setValue("");
-      this.openPositionsFormGroup.get("openPositionSeason").setValue("");
+      this.openPositionsFormGroup.get("openPositionSeason").setValue("Current year");
       this.openPositionsFormGroup.get("openPositionContract").setValue("");
       this.openPositionsFormGroup.get("openPositionName").setValue("");
     }
@@ -388,20 +394,30 @@ export class RegisterClubComponent implements OnInit {
     );
   }
 
+  openPolicyModalRef(template: TemplateRef<any>) {
+    this.privacyPolicyModal = this.modalService.show(template, {class: 'customModalForPrivacyPolicy'});
+  }
+
   registerClub() {
-    this.isLoading = true;
-    this.registerService.registerClub(this.buildClub()).subscribe(
-      (success) => {
-        this.modalRef.hide();
-        this.modalRef = null;
-        this.isLoading = false;
-        this.errorRegister = false;
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorRegister = true;
-      }
-    ); 
+    this.privacyPolicyUnchecked = false;
+    if (this.privacyPolicy.checked) {
+      this.isLoading = true;
+      this.registerService.registerClub(this.buildClub()).subscribe(
+        (success) => {
+          this.modalRef.hide();
+          this.modalRef = null;
+          this.isLoading = false;
+          this.errorRegister = false;
+        },
+        (error) => {
+          this.isLoading = false;
+          this.errorRegister = true;
+        }
+      ); 
+    }
+    else {
+      this.privacyPolicyUnchecked = true;
+    }
   }
 
   buildClub() {

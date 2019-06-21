@@ -5,7 +5,8 @@ import { JobPosition } from './jobPosition';
 export class Club {
     // required info
     id: number;
-    password: string;
+    password: string = "";
+    newPassword: string = "";
     isAvailable: boolean;
     name: string = "";
     email: string = "";
@@ -14,13 +15,12 @@ export class Club {
     streetAddress: string = "";
     streetNumber: number; 
     city: string = "";    
-    zipcode: number;      
+    zipcode: number;   
+    zipcodeCity_ID: number;   
     trainingHoursList : TrainingHours[] = [];
     currentSquadPlayersList : SquadPlayer[] = [];
     nextYearSquadPlayersList : SquadPlayer[] = [];
     jobPositionsList : JobPosition[] = [];
-
-    searchPercentage: number;
 
     // staff
     trainer: string = "";
@@ -43,7 +43,6 @@ export class Club {
 
     buildClub(succes:any, club: Club)  {
         this.isAvailable = succes.isAvailable;
-        console.log(this.isAvailable);
         this.name = succes.name;
         this.email = succes.email;
         this.league = succes.league;
@@ -52,6 +51,7 @@ export class Club {
         this.streetNumber = succes.streetNumber;
         this.city = succes.city; 
         this.zipcode = succes.zipcode; 
+        this.zipcodeCity_ID = succes.zipcodeCity_ID;
         this.trainingHoursList = succes.trainingHoursList;
         this.currentSquadPlayersList = succes.currentSquadPlayersList;
         this.nextYearSquadPlayersList = succes.nextYearSquadPlayersList;

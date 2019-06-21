@@ -85,3 +85,9 @@ mat-form-field,
 .lastStepInfo {
     color: darkgray;
 }
+
+.close {
+    margin-right: 15px;
+    margin-top: 5px;
+    font-size: 60px;
+  }
