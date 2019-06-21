@@ -41,6 +41,9 @@ mat-expansion-panel {
 
 @media only screen and (max-width: 480px) {
     /* Accordion */
+    mat-form-field,
+    .threeFieldsOnSameRow,
+    .fourFieldsOnSameRow,
     mat-accordion,
     mat-expansion-panel {
         width: 100%;
