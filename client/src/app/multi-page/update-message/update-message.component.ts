@@ -18,8 +18,7 @@ export class UpdateMessageComponent {
         this.showMessage = false;
         this.snackBar.open(this.message, action, {
           duration: 2000,
-          // verticalPosition: 'top',
-          panelClass: ['verticalSnackBar']
+          verticalPosition: 'top'
        });
    } 
 }   
