@@ -23,7 +23,7 @@ namespace Api.DAL.Repos {
                     try {
 
                         //Set imagePath to default image
-                        string imagePath = "\\Resources\\Files\\player-icon.png";
+                        string imagePath = "https:\\localhost:44310\\Resources\\Files\\player-icon.png";
                         
                         //Insert player and return player_ID
                         string playerSQL = @"INSERT INTO Player (Firstname, Lastname, Email, Day, Month, Year, Country, League, Height, Weight, Bodyfat, PreferredHand, CurrentClub, Accomplishments, Statistic, StrengthDescription, 

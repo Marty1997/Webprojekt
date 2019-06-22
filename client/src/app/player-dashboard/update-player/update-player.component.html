@@ -17,7 +17,7 @@
       <br>
       <form [formGroup]="playerRequiredInfoFormGroup" (ngSubmit)="playerRequiredInfoFormGroup.valid && updatePlayerInfo()" >
           <mat-form-field>
-          <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName">
+          <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName" [errorStateMatcher]="validate">
             <mat-error *ngIf="firstNameControl?.hasError('required')">
                 First name is <strong>required</strong>
               </mat-error>

@@ -17,6 +17,7 @@ using MailKit.Net.Smtp;
 
 namespace Api.Controllers {
     [Authorize]
+    [EnableCors("allowOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmailController : ControllerBase {
@@ -182,7 +183,7 @@ namespace Api.Controllers {
                 };
 
                 using (var client = new SmtpClient()) {
-                    client.Connect("asmtp.unoeuro.com", 587, true);
+                    client.Connect("smtp.gmail.com", 587);
                     client.Authenticate(email, password);
                     client.Send(message);
                     client.Disconnect(true);
