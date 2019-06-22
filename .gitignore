@@ -70,9 +70,6 @@ artifacts/
 *.svclog
 *.scc
 
-*.appsettings.json
-appsettings.json
-
 # Chutzpah Test files
 _Chutzpah*
 
