@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Api.Controllers {
     [Authorize]
-    [EnableCors("allowOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase {

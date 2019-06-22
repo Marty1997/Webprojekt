@@ -65,7 +65,7 @@
       </mat-form-field>
       <mat-form-field>
         <input id="clubStreetNumber" matInput placeholder="Street Number" [formControl]="streetNumberControl" [errorStateMatcher]="validate">
-        <mat-error *ngIf="streetNumberControl?.hasError('pattern') && !streetNumber?.hasError('required')">
+        <mat-error *ngIf="streetNumberControl?.hasError('pattern') && !streetNumberControl?.hasError('required')">
           Street number must be a number
         </mat-error>
         <mat-error *ngIf="streetNumberControl?.hasError('required')">

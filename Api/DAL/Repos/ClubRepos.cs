@@ -23,7 +23,7 @@ namespace Api.DAL.Repos {
                     try {
 
                         //Set imagePath to default image
-                        string imagePath = "https:\\localhost:44310\\Resources\\Files\\club-icon.png";
+                        string imagePath = "\\Resources\\Files\\club-icon.png";
 
                         //Return zipcodeCity ID
                         string zipcodeCitySQL = @"INSERT INTO ZipcodeCity (Zipcode, City) VALUES (@Zipcode, @City);
