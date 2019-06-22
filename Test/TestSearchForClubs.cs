@@ -15,7 +15,7 @@ namespace Test {
             //Arrange
             var clubRepos = new Mock<IClubRepository<Club>>();
             ClubSearchCriteria cc = new ClubSearchCriteria();
-            clubRepos.Setup(x => x.GetAll())
+            clubRepos.Setup(x => x.GetAll(""))
                 .Returns(new List<Club>
                 {
                     new Club { Id = 1, Country = "Denmark" },

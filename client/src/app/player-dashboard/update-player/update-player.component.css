@@ -22,11 +22,6 @@ mat-form-field {
     width: 100%;
 }
 
-.trainingHoursFields {
-    width: 15.66%;
-    margin: 0.5;
-}
-
 .threeFieldsOnSameRow {
     width: 32.33%;
     margin: 0.5%;
@@ -34,10 +29,6 @@ mat-form-field {
 
 .fourFieldsOnSameRow {
     width: 24%;
-}
-
-.addPlayerFields {
-    width: 28%;
 }
 
 /* Accordion */
@@ -48,8 +39,66 @@ mat-expansion-panel {
     margin-right: auto;
 }
 
+@media only screen and (max-width: 480px) {
+    /* Accordion */
+    mat-form-field,
+    .threeFieldsOnSameRow,
+    .fourFieldsOnSameRow,
+    mat-accordion,
+    mat-expansion-panel {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+  }
+
 /* data table */
 table {
     width: 100%;
 }
+
+/* // By default, the mobile label shouldn't show */
+.mobile-label {
+  display: none;
+}
+
+/* Handle rows on mobile */
+@media(max-width: 480px) {
+  /* // Custom header label that shows in each column, with a set width and bold font */
+  .mat-header-row {
+    display: none;
+  }
+  
+  .mobile-label {
+    width: 90px;
+    display: inline-block;
+    font-weight: bold;
+  }
+  
+    .mat-row {
+      display: block;
+      overflow: hidden;
+      height: auto;
+      position: relative;
+      clear: both;
+      box-shadow: 2px 2px 2px 2px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+      background-color: #fff;
+      border-radius: 3px;
+      margin-top: 15px;
+    }
+
+    .mat-cell {
+      display: block;
+      width: 100%;
+      padding: 0 8px;
+      margin: 7px 0;
+      border: 0 none;
+      overflow: hidden; 
+      text-overflow: ellipsis;
+      word-break: break-word;
+    }
+}
+
+
+
 

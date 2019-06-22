@@ -27,7 +27,15 @@ mat-checkbox {
     margin: 1.5%;
 }
 
-.halfSizeField {
-    width: 24.75%;
-    margin: 0 0.25%;
-}
+@media only screen and (max-width: 480px) {
+    mat-form-field,
+    button {
+    width: 80%;
+    margin: 0 2%;
+    }
+
+    p {
+        width: 80%;
+        display: inline-block;
+    }
+  }

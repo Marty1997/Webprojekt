@@ -17,27 +17,24 @@
       <br>
       <form [formGroup]="playerRequiredInfoFormGroup" (ngSubmit)="playerRequiredInfoFormGroup.valid && updatePlayerInfo()" >
           <mat-form-field>
-          <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="First Name" [formControl]="firstNameControl" [value]="playerBinding.firstName" [errorStateMatcher]="validate">
             <mat-error *ngIf="firstNameControl?.hasError('required')">
                 First name is <strong>required</strong>
               </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Last Name" [formControl]="lastNameControl" [value]="playerBinding.lastName"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="Last Name" [formControl]="lastNameControl" [value]="playerBinding.lastName">
             <mat-error *ngIf="lastNameControl?.hasError('required')">
                 Last name is <strong>required</strong>
               </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-select placeholder="Country" [formControl]="countryControl" [value]="playerBinding.country" [errorStateMatcher]="validate">
+          <mat-select placeholder="Country" [formControl]="countryControl" [value]="playerBinding.country">
             <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
           </mat-select>
         </mat-form-field><br>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Day (DD)" [value]="playerBinding.day" [formControl]="dayControl"
-            [errorStateMatcher]='validate'>
+          <input matInput placeholder="Day (DD)" [value]="playerBinding.day" [formControl]="dayControl">
           <mat-error
             *ngIf="dayControl?.hasError('minlength') || dayControl?.hasError('maxlength') && !dayControl?.hasError('pattern') && !dayControl?.hasError('required')">
             Day of birth must be 2 characters
@@ -50,8 +47,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <mat-select placeholder="Select Month"  [formControl]="monthControl"
-            [errorStateMatcher]='validate'>
+          <mat-select placeholder="Select Month"  [formControl]="monthControl">
             <mat-option [value]="1">January</mat-option>
             <mat-option [value]="2">February</mat-option>
             <mat-option [value]="3">March</mat-option>
@@ -70,8 +66,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Year (YYYY)" [value]="playerBinding.year" [formControl]="yearControl"
-            [errorStateMatcher]='validate'>
+          <input matInput placeholder="Year (YYYY)" [value]="playerBinding.year" [formControl]="yearControl">
           <mat-error
             *ngIf="yearControl?.hasError('minlength') || yearControl?.hasError('maxlength') && !yearControl?.hasError('pattern') && !yearControl?.hasError('required')">
             Year must be a number
@@ -105,8 +100,7 @@
           <div style="color:red; font-size:20px;" *ngIf="passwordCheck">Current password is wrong</div>
           <form [formGroup]="playerRequiredPasswordFormGroup" (ngSubmit)="playerRequiredPasswordFormGroup.valid && updatePassword(f) " #f="ngForm">
           <mat-form-field>
-            <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-              [errorStateMatcher]="validate">
+            <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password">
             <mat-error *ngIf="currentPassword?.hasError('minlength') && !currentPassword?.hasError('required')">
               Password must be at least 6 characters
             </mat-error>
@@ -115,8 +109,7 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="New Password" [formControl]="password" type="password"
-              [errorStateMatcher]="validate">
+            <input matInput placeholder="New Password" [formControl]="password" type="password">
             <mat-error *ngIf="password?.hasError('minlength') && !password?.hasError('required')">
               Password must be at least 6 characters
             </mat-error>
@@ -144,22 +137,19 @@
       <mat-label>Measurements</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Height in cm" [value]="playerBinding.height" [formControl]="heightControl"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Height in cm" [value]="playerBinding.height" [formControl]="heightControl">
         <mat-error *ngIf="heightControl?.hasError('pattern')">
           Height must be a number
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Weight in kg" [value]="playerBinding.weight" [formControl]="weightControl"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Weight in kg" [value]="playerBinding.weight" [formControl]="weightControl">
         <mat-error *ngIf="weightControl?.hasError('pattern')">
           Weight must be a number
         </mat-error>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Bodyfat in %" [value]="playerBinding.bodyfat" [formControl]="bodyfatControl"
-          [errorStateMatcher]='validate'>
+        <input matInput placeholder="Bodyfat in %" [value]="playerBinding.bodyfat" [formControl]="bodyfatControl">
         <mat-error *ngIf="bodyfatControl?.hasError('pattern')">
           Body fat must be a number
         </mat-error>
@@ -168,13 +158,12 @@
       <mat-label>Positions</mat-label>
       <br>
       <mat-form-field>
-        <mat-select placeholder="Primary position" [formControl]="primaryPositionCtrl" [errorStateMatcher]='validate'>
+        <mat-select placeholder="Primary position" [formControl]="primaryPositionCtrl" >
           <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="Secondary position" [formControl]="secondaryPositionCtrl"
-          [errorStateMatcher]='validate'>
+        <mat-select placeholder="Secondary position" [formControl]="secondaryPositionCtrl">
           <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -182,7 +171,7 @@
       <mat-label>Preferred hand</mat-label>
       <br>
       <mat-form-field class="doubleSizeField">
-        <mat-select placeholder="Select Hand" [formControl]="preferredHandCtrl" [errorStateMatcher]='validate'>
+        <mat-select placeholder="Select Hand" [formControl]="preferredHandCtrl">
           <mat-option value="Right">Right Hand</mat-option>
           <mat-option value="Left">Left Hand</mat-option>
           <mat-option value="Both">Both Hands</mat-option>
@@ -193,7 +182,7 @@
       <mat-label>League</mat-label>
       <br>
       <mat-form-field class="doubleSizeField">
-        <mat-select placeholder="Select League" [formControl]="leagueCtrl" [errorStateMatcher]='validate'>
+        <mat-select placeholder="Select League" [formControl]="leagueCtrl">
           <mat-option value="First League">First League</mat-option>
           <mat-option value="Second League">Second League</mat-option>
           <mat-option value="Third League">Third League</mat-option>
@@ -203,8 +192,7 @@
       <br>
       <mat-label>Contract Status</mat-label><br>
       <mat-form-field>
-        <mat-select matInput placeholder="Contract Status" [formControl]="contractStatusCtrl"
-          [errorStateMatcher]='validate'>
+        <mat-select matInput placeholder="Contract Status" [formControl]="contractStatusCtrl">
           <mat-option value="Active">Active</mat-option>
           <mat-option value="Open for Offers">Open for Offers</mat-option>
           <mat-option value="In Negotiation">In Negotiation</mat-option>
@@ -221,14 +209,14 @@
       <br>
       <mat-label>Injury</mat-label><br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Status" [formControl]="injuryStatusCtrl" [errorStateMatcher]="validate">
+        <mat-select placeholder="Status" [formControl]="injuryStatusCtrl">
           <mat-option value="Injured">Injured</mat-option>
           <mat-option value="Healthy">Healthy</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <input matInput placeholder="Injury" [value]="playerBinding.injuryDescription"
-          [formControl]="injuryDescriptionCtrl" [errorStateMatcher]='validate'>
+          [formControl]="injuryDescriptionCtrl">
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <input matInput [matDatepicker]="picker" [value]="dateInjury"
@@ -280,12 +268,12 @@
         <mat-form-field>
           <textarea matInput [value]="playerBinding.strengthDescription"
             placeholder="Describe your strengths in depth..." matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" [formControl]="strengthsCtrl" [errorStateMatcher]='validate'></textarea>
+            matAutosizeMaxRows="10" [formControl]="strengthsCtrl" ></textarea>
         </mat-form-field>
         <mat-form-field>
           <textarea matInput [value]="playerBinding.weaknessDescription"
             placeholder="Describe your weaknesses in depth..." matTextareaAutosize matAutosizeMinRows="10"
-            matAutosizeMaxRows="10" [formControl]="weaknessesCtrl" [errorStateMatcher]='validate'></textarea>
+            matAutosizeMaxRows="10" [formControl]="weaknessesCtrl"></textarea>
         </mat-form-field>
       </div>
 
@@ -309,17 +297,15 @@
       <mat-label>Club info</mat-label>
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
-        <input matInput placeholder="Current club" [value]="playerBinding.currentClub" [formControl]="currentClubCtrl" [errorStateMatcher]='validate'>
+        <input matInput placeholder="Current club" [value]="playerBinding.currentClub" [formControl]="currentClubCtrl">
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Current position" [formControl]="currentPrimaryPositionCtrl"
-          [errorStateMatcher]='validate'>
+        <mat-select placeholder="Current position" [formControl]="currentPrimaryPositionCtrl">
           <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
-        <mat-select placeholder="Current secondary position" [formControl]="currentSecondaryPositionCtrl"
-          [errorStateMatcher]='validate'>
+        <mat-select placeholder="Current secondary position" [formControl]="currentSecondaryPositionCtrl">
           <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -329,18 +315,15 @@
       <br>
       <mat-form-field class="threeFieldsOnSameRow">
         <textarea matInput [value]="playerBinding.accomplishments" placeholder="Accomplishments" matTextareaAutosize
-          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="accomplishmentsCtrl"
-          [errorStateMatcher]='validate'></textarea>
+          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="accomplishmentsCtrl"></textarea>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <textarea matInput [value]="playerBinding.statistic" placeholder="Statistics" matTextareaAutosize
-          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="statistics"
-          [errorStateMatcher]='validate'></textarea>
+          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="statistics"></textarea>
       </mat-form-field>
       <mat-form-field class="threeFieldsOnSameRow">
         <textarea matInput [value]="playerBinding.formerClubs" placeholder="Former clubs" matTextareaAutosize
-          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="formerClubsCtrl"
-          [errorStateMatcher]='validate'></textarea>
+          matAutosizeMinRows="10" matAutosizeMaxRows="10" [formControl]="formerClubsCtrl"></textarea>
       </mat-form-field>
 
       <div>
@@ -363,27 +346,39 @@
       <mat-label>Add national team</mat-label>
       <br>
       <mat-hint>There can only be one of each</mat-hint><br>
-      <mat-form-field>
-        <mat-select placeholder="Name" [formControl]="nationalTeamNameCtrl" [errorStateMatcher]="validate">
-          <mat-option *ngFor="let nationalTeamName of nationalTeamNames" [value]="nationalTeamName.valueOf()">{{nationalTeamName}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Appearances" [formControl]="nationalTeamAppearancesCtrl" [errorStateMatcher]="validate">
-        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-          Appearances must be a number
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Position" [formControl]="nationalTeamPositionCtrl" [errorStateMatcher]="validate">
-          <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRow="3"
-          matAutosizeMaxRow="3" [formControl]="nationalTeamStatisticsCtrl" [errorStateMatcher]="validate"></textarea>
-      </mat-form-field>
-      <button class="btn btn-success" (click)="onAddNationalTeamToPlayer()">Add</button><br><br><br>
+      <form [formGroup]="playerRequiredNationalTeamFormGroup" (ngSubmit)="playerRequiredNationalTeamFormGroup.valid && addPlayerNationalTeam(fnational)" #fnational="ngForm">
+        <mat-form-field>
+          <mat-select placeholder="Name" [formControl]="nationalTeamNameCtrl">
+            <mat-option *ngFor="let nationalTeamName of nationalTeamNames" [value]="nationalTeamName.valueOf()">{{nationalTeamName}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="nationalTeamNameCtrl?.hasError('required')">
+              Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Appearances" [formControl]="nationalTeamAppearancesCtrl" >
+          <mat-error *ngIf="nationalTeamAppearancesCtrl?.hasError('pattern')">
+            Appearances must be a number
+          </mat-error>
+          <mat-error *ngIf="nationalTeamAppearancesCtrl?.hasError('required')">
+              Appearances is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Position" [formControl]="nationalTeamPositionCtrl">
+            <mat-option *ngFor="let position of positionList" [value]="position.valueOf()">{{position}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="nationalTeamPositionCtrl?.hasError('required')">
+              Position is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Statistics" matTextareaAutosize matAutosizeMinRow="3"
+            matAutosizeMaxRow="3" [formControl]="nationalTeamStatisticsCtrl"></textarea>
+        </mat-form-field>
+        <button type="submit" class="btn btn-success">Add</button><br><br><br>
+      </form>
+
 
       <!-- National Team Table -->
       <table mat-table [dataSource]="nationalTeamSource" class="mat-elevation-z8">
@@ -391,25 +386,25 @@
         <!-- Team Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Team </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.name}} </td>
+          <td mat-cell *matCellDef="let nationalTeam" style="padding: 0 8px;"><span class="mobile-label">Team:</span> {{nationalTeam.name}} </td>
         </ng-container>
 
         <!-- Appearances Column -->
         <ng-container matColumnDef="appearances">
           <th mat-header-cell *matHeaderCellDef> Appearances </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.appearances}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Appearances:</span> {{nationalTeam.appearances}} </td>
         </ng-container>
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> Position </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.position}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Position:</span> {{nationalTeam.position}} </td>
         </ng-container>
 
         <!-- Statistics Column -->
         <ng-container matColumnDef="statistics">
           <th mat-header-cell *matHeaderCellDef> Stats </th>
-          <td mat-cell *matCellDef="let nationalTeam"> {{nationalTeam.statistics}} </td>
+          <td mat-cell *matCellDef="let nationalTeam"><span class="mobile-label">Stats:</span> {{nationalTeam.statistic}} </td>
         </ng-container>
 
         <!-- Delete Column -->

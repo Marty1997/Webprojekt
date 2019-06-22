@@ -19,15 +19,13 @@
       <br>
       <form [formGroup]="clubRequiredInfoFormGroup" (ngSubmit)="clubRequiredInfoFormGroup.valid && updateClubInfo()" >
           <mat-form-field>
-          <input matInput placeholder="Club Name" [value]="clubBinding.name" [formControl]="name"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="Club Name" [value]="clubBinding.name" [formControl]="name">
           <mat-error *ngIf="name?.hasError('required')">
             Club name is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-select matInput placeholder="League" [value]="clubBinding.league" [formControl]="league"
-            [errorStateMatcher]="validate">
+          <mat-select matInput placeholder="League" [value]="clubBinding.league" [formControl]="league">
             <mat-option *ngFor="let league of leagueList" [value]="league.valueOf()">{{league}}</mat-option>
           </mat-select>
           <mat-error *ngIf="league?.hasError('required')">
@@ -35,15 +33,13 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Street Address" [value]="clubBinding.streetAddress" [formControl]="streetAddress"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="Street Address" [value]="clubBinding.streetAddress" [formControl]="streetAddress">
           <mat-error *ngIf="streetAddress?.hasError('required')">
             Street Address is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Street Number" [value]="clubBinding.streetNumber" [formControl]="streetNumber"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="Street Number" [value]="clubBinding.streetNumber" [formControl]="streetNumber">
           <mat-error *ngIf="streetNumber?.hasError('pattern') && !streetNumber.hasError('required')">
             Street number must be a number
           </mat-error>
@@ -52,8 +48,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <mat-select matInput placeholder="Country" [value]="clubBinding.country" [formControl]="country"
-            [errorStateMatcher]="validate">
+          <mat-select matInput placeholder="Country" [value]="clubBinding.country" [formControl]="country">
             <mat-option *ngFor="let country of countryList" [value]="country.valueOf()">{{country}}</mat-option>
           </mat-select>
           <mat-error *ngIf="country?.hasError('required')">
@@ -62,15 +57,13 @@
           
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="City" [value]="clubBinding.city" [formControl]="city"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="City" [value]="clubBinding.city" [formControl]="city">
           <mat-error *ngIf="city?.hasError('required')">
             City is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="threeFieldsOnSameRow">
-          <input matInput placeholder="Zipcode" [value]="clubBinding.zipcode" [formControl]="zipcode"
-            [errorStateMatcher]="validate">
+          <input matInput placeholder="Zipcode" [value]="clubBinding.zipcode" [formControl]="zipcode">
           <mat-error *ngIf="zipcode.hasError('required')">
             Zipcode is <strong>required</strong>
           </mat-error>
@@ -95,8 +88,7 @@
         <div style="color:red; font-size:20px;" *ngIf="passwordCheck">Current password is wrong</div>
         <form [formGroup]="clubRequiredPasswordFormGroup" (ngSubmit)="clubRequiredPasswordFormGroup.valid && updatePassword(f) " #f="ngForm">
             <mat-form-field>
-            <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password"
-              [errorStateMatcher]="validate">
+            <input matInput placeholder="Current Password" [formControl]="currentPassword" type="password">
             <mat-error *ngIf="currentPassword?.hasError('minlength') && !currentPassword?.hasError('required')">
               Password must be at least 6 characters
             </mat-error>
@@ -105,8 +97,7 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="New Password" [formControl]="password" type="password"
-              [errorStateMatcher]="validate">
+            <input matInput placeholder="New Password" [formControl]="password" type="password">
             <mat-error *ngIf="password?.hasError('minlength') && !password?.hasError('required')">
               Password must be at least 6 characters
             </mat-error>
@@ -133,91 +124,91 @@
       </mat-expansion-panel-header>
       <mat-hint>Continue to keep your current schedule or delete to remove your schedule.</mat-hint><br><br>
       <mat-label>Monday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularMonFrom.value" [formControl]="regularMonFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularMonTo.value" [formControl]="regularMonTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Tuesday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularTueFrom.value" [formControl]="regularTueFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularTueTo.value" [formControl]="regularTueTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Wednesday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularWedFrom.value" [formControl]="regularWedFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularWedTo.value" [formControl]="regularWedTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Thursday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularThuFrom.value" [formControl]="regularThuFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularThuTo.value" [formControl]="regularThuTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Friday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularFriFrom.value" [formControl]="regularFriFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularFriTo.value" [formControl]="regularFriTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Saturday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularSatFrom.value" [formControl]="regularSatFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularSatTo.value" [formControl]="regularSatTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Sunday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularSunFrom.value" [formControl]="regularSunFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="regularSunTo.value" [formControl]="regularSunTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
@@ -244,91 +235,91 @@
       </mat-expansion-panel-header>
       <mat-hint>Continue to keep your current schedule or delete to remove your schedule.</mat-hint><br><br>
       <mat-label>Monday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessMonFrom.value" [formControl]="fitnessMonFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessMonTo.value" [formControl]="fitnessMonTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Tuesday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessTueFrom.value" [formControl]="fitnessTueFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessTueTo.value" [formControl]="fitnessTueTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Wednesday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessWedFrom.value" [formControl]="fitnessWedFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessWedTo.value" [formControl]="fitnessWedTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Thursday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessThuFrom.value" [formControl]="fitnessThuFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessThuTo.value" [formControl]="fitnessThuTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Friday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessFriFrom.value" [formControl]="fitnessFriFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessFriTo.value" [formControl]="fitnessFriTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Saturday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessSatFrom.value" [formControl]="fitnessSatFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessSatTo.value" [formControl]="fitnessSatTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-label>Sunday</mat-label><br>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessSunFrom.value" [formControl]="fitnessSunFrom">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="trainingHoursFields">
         <mat-select matInput [placeholder]="fitnessSunTo.value" [formControl]="fitnessSunTo">
           <mat-option *ngFor="let trainingHour of trainingHours" [value]="trainingHour.value">{{trainingHour.value}}
           </mat-option>
@@ -356,22 +347,32 @@
       </mat-expansion-panel-header>
 
       <!-- Add squad player fields -->
-      <mat-form-field class="addPlayerFields">
-        <input matInput placeholder="Player name" [formControl]="squadPlayerNameCtrl" [errorStateMatcher]="validate">
-      </mat-form-field>
-      <mat-form-field class="addPlayerFields">
-        <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrl" [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="addPlayerFields">
-        <input matInput placeholder="Shirt number" [formControl]="squadPlayerShirtNumberCtrl"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-          Shirt number must be a number
-        </mat-error>
-      </mat-form-field>
-      <button class="btn btn-success addPlayerButton" (click)="onAddPlayerToCurrentYearSquad()">Add</button><br>
+      <form [formGroup]="clubCurrentYearSquadFormGroup" (ngSubmit)="clubCurrentYearSquadFormGroup.valid && addClubCurrentSeasonSquadPlayer(fcurrent)" #fcurrent="ngForm">
+        <mat-form-field class="addPlayerFields">
+          <input matInput placeholder="Player name" [formControl]="squadPlayerNameCtrl" >
+          <mat-error *ngIf="squadPlayerNameCtrl?.hasError('required')">
+              Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="addPlayerFields">
+          <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrl" >
+            <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="squadPlayerPositionCtrl?.hasError('required')">
+              Position is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="addPlayerFields">
+          <input matInput placeholder="Shirt number" [formControl]="squadPlayerShirtNumberCtrl">
+          <mat-error *ngIf="squadPlayerShirtNumberCtrl?.hasError('pattern')">
+            Shirt number must be a number
+          </mat-error>
+          <mat-error *ngIf="squadPlayerShirtNumberCtrl?.hasError('required')">
+              Shirt number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <button type="submit" class="btn btn-success addPlayerButton" >Add</button><br>
+      </form>
 
       <!-- squad player table -->
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -379,19 +380,19 @@
         <!-- Shirt Number Column -->
         <ng-container matColumnDef="shirtNumber">
           <th mat-header-cell *matHeaderCellDef> Shirt # </th>
-          <td mat-cell *matCellDef="let squadPlayer"> {{squadPlayer.shirtNumber}} </td>
+          <td mat-cell *matCellDef="let squadPlayer" style="padding: 0 8px;"><span class="mobile-label">Shirt #:</span> {{squadPlayer.shirtNumber}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let squadPlayer"> {{squadPlayer.name}} </td>
+          <td mat-cell *matCellDef="let squadPlayer"><span class="mobile-label">Name:</span> {{squadPlayer.name}} </td>
         </ng-container>
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> Position </th>
-          <td mat-cell *matCellDef="let squadPlayer"> {{squadPlayer.position}} </td>
+          <td mat-cell *matCellDef="let squadPlayer"><span class="mobile-label">Position:</span> {{squadPlayer.position}} </td>
         </ng-container>
 
         <!-- Delete Column -->
@@ -420,22 +421,33 @@
       </mat-expansion-panel-header>
 
       <!-- Add squad player fields -->
-      <mat-form-field class="addPlayerFields">
-        <input matInput placeholder="Player name" [formControl]="squadPlayerNameCtrlNext" [errorStateMatcher]="validate">
-      </mat-form-field>
-      <mat-form-field class="addPlayerFields">
-        <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrlNext" [errorStateMatcher]='validate'>
-          <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="addPlayerFields">
-        <input matInput placeholder="Shirt number" [formControl]="squadPlayerShirtNumberCtrlNext"
-          [errorStateMatcher]="validate">
-        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-          Shirt number must be a number
-        </mat-error>
-      </mat-form-field>
-      <button class="btn btn-success addPlayerButton" (click)="onAddPlayerToNextYearSquad()">Add</button><br>
+      <form [formGroup]="clubNextYearSquadFormGroup" (ngSubmit)="clubNextYearSquadFormGroup.valid && addClubNextSeasonSquadPlayer(fnext)" #fnext="ngForm">
+        <mat-form-field class="addPlayerFields">
+          <input matInput placeholder="Player name" [formControl]="squadPlayerNameCtrlNext" >
+          <mat-error *ngIf="squadPlayerNameCtrlNext?.hasError('required')">
+              Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="addPlayerFields">
+          <mat-select placeholder="Position" [formControl]="squadPlayerPositionCtrlNext" >
+            <mat-option *ngFor="let pos of positionList" [value]="pos.valueOf()">{{pos}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="squadPlayerPositionCtrlNext?.hasError('required')">
+              Position is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="addPlayerFields">
+          <input matInput placeholder="Shirt number" [formControl]="squadPlayerShirtNumberCtrlNext">
+          <mat-error *ngIf="squadPlayerShirtNumberCtrlNext?.hasError('pattern')">
+            Shirt number must be a number
+          </mat-error>
+          <mat-error *ngIf="squadPlayerShirtNumberCtrlNext?.hasError('required')">
+              Shirt number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <button type="submit" class="btn btn-success addPlayerButton">Add</button><br>
+      </form>
+
 
       <!-- squad player table -->
       <table mat-table [dataSource]="nextYearSquadSource" class="mat-elevation-z8">
@@ -443,19 +455,19 @@
         <!-- Shirt Number Column -->
         <ng-container matColumnDef="shirtNumber">
           <th mat-header-cell *matHeaderCellDef> Shirt # </th>
-          <td mat-cell *matCellDef="let nextYearSquadPlayer"> {{nextYearSquadPlayer.shirtNumber}} </td>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer" style="padding: 0 8px;"><span class="mobile-label">Shirt #:</span> {{nextYearSquadPlayer.shirtNumber}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let nextYearSquadPlayer"> {{nextYearSquadPlayer.name}} </td>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer"><span class="mobile-label">Name:</span> {{nextYearSquadPlayer.name}} </td>
         </ng-container>
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> Position </th>
-          <td mat-cell *matCellDef="let nextYearSquadPlayer"> {{nextYearSquadPlayer.position}} </td>
+          <td mat-cell *matCellDef="let nextYearSquadPlayer"><span class="mobile-label">Position:</span> {{nextYearSquadPlayer.position}} </td>
         </ng-container>
 
         <!-- Delete Column -->
@@ -482,130 +494,135 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Open Positions</mat-panel-title>
       </mat-expansion-panel-header>
+      <form [formGroup]="clubOpenJobPositionFormGroup" (ngSubmit)="clubOpenJobPositionFormGroup.valid && addClubOpenPosition(fjob)" #fjob="ngForm">
+        <mat-form-field class="fourFieldsOnSameRow">
+          <mat-select placeholder="Position" [formControl]="openPositionName">
+            <mat-option value="Goalkeeper">Goalkeeper</mat-option>
+            <mat-option value="Left wing">Left wing</mat-option>
+            <mat-option value="Left back">Left back</mat-option>
+            <mat-option value="Playmaker">Playmaker</mat-option>
+            <mat-option value="Pivot">Pivot</mat-option>
+            <mat-option value="Right back">Right back</mat-option>
+            <mat-option value="Right wing">Right wing</mat-option>
+            <mat-option value="Defence">Defence</mat-option>
+          </mat-select>
+          <mat-error *ngIf="openPositionName?.hasError('required')">
+              Position is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <mat-select placeholder="League" [formControl]="openPositionLeague" >
+            <mat-option value="First League">First League</mat-option>
+            <mat-option value="Second League">Second League</mat-option>
+            <mat-option value="Third League">Third League</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <mat-select placeholder="Season" [formControl]="openPositionSeason">
+            <mat-option value="Current year">Current year</mat-option>
+            <mat-option value="Next year">Next year</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <mat-select placeholder="Contract Status" [formControl]="openPositionContract">
+            <mat-option value="None">None</mat-option>
+            <mat-option value="Active">Active</mat-option>
+            <mat-option value="Open for Offers">Open for Offers</mat-option>
+            <mat-option value="Contract Expired">Contract Expired</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="fourFieldsOnSameRow">
-        <mat-select placeholder="Position" [formControl]="openPositionName" [errorStateMatcher]="validate">
-          <mat-option value="Goalkeeper">Goalkeeper</mat-option>
-          <mat-option value="Left wing">Left wing</mat-option>
-          <mat-option value="Left back">Left back</mat-option>
-          <mat-option value="Playmaker">Playmaker</mat-option>
-          <mat-option value="Pivot">Pivot</mat-option>
-          <mat-option value="Right back">Right back</mat-option>
-          <mat-option value="Right wing">Right wing</mat-option>
-          <mat-option value="Defence">Defence</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="fourFieldsOnSameRow">
-        <mat-select placeholder="League" [formControl]="openPositionLeague" [errorStateMatcher]='validate'>
-          <mat-option value="First League">First League</mat-option>
-          <mat-option value="Second League">Second League</mat-option>
-          <mat-option value="Third League">Third League</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="fourFieldsOnSameRow">
-        <mat-select placeholder="Season" [formControl]="openPositionSeason" [errorStateMatcher]="validate">
-          <mat-option value="Current year">Current year</mat-option>
-          <mat-option value="Next year">Next year</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="fourFieldsOnSameRow">
-        <mat-select placeholder="Contract Status" [formControl]="openPositionContract" [errorStateMatcher]='validate'>
-          <mat-option value="None">None</mat-option>
-          <mat-option value="Active">Active</mat-option>
-          <mat-option value="Open for Offers">Open for Offers</mat-option>
-          <mat-option value="Contract Expired">Contract Expired</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <input matInput placeholder="Minimum Age" [formControl]="openPositionMinAge">
+          <mat-error *ngIf="openPositionMinAge?.hasError('pattern')">
+            Age must be a number
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <input matInput placeholder="Maximum Age" [formControl]="openPositionMaxAge" >
+          <mat-error *ngIf="openPositionMaxAge?.hasError('pattern')">
+            Age must be a number
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <input matInput placeholder="Height" [formControl]="openPositionHeight" >
+          <mat-error *ngIf="openPositionHeight?.hasError('pattern')">
+            Height must be a number
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="fourFieldsOnSameRow">
+          <mat-select placeholder="Hand Preference" [formControl]="openPositionHand" >
+            <mat-option value="None">No Preference</mat-option>
+            <mat-option value="Right">Right Hand</mat-option>
+            <mat-option value="Left">Left Hand</mat-option>
+            <mat-option value="Both">Both Hands</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-checkbox #openPositionSpeedy value="Speedy">Speedy</mat-checkbox>
+        <mat-checkbox #openPositionAthletic value="Athletic">Athletic</mat-checkbox>
+        <mat-checkbox #openPositionGreatShape value="Great shape">Great shape</mat-checkbox>
+        <mat-checkbox #openPositionQuickShots value="Quick shots">Quick shots</mat-checkbox>
+        <mat-checkbox #openPositionAccurateShooter value="Accurate shooter">Accurate shooter</mat-checkbox>
+        <mat-checkbox #openPositionTactical value="Tactical">Tactical</mat-checkbox>
+        <mat-checkbox #openPositionTeamplayer value="Teamplayer">Team player</mat-checkbox>
+        <mat-checkbox #openPositionSocial value="Social">Social</mat-checkbox>
+        <mat-checkbox #openPositionWinAtAllCosts value="Win at all costs">Win at all costs</mat-checkbox>
+        <mat-checkbox #openPositionLongRangeShooter value="Long range shooter">Long range shooter</mat-checkbox>
 
-      <mat-form-field class="fourFieldsOnSameRow">
-        <input matInput placeholder="Minimum Age" [formControl]="openPositionMinAge" [errorStateMatcher]='validate'>
-        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-          Age must be a number
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="fourFieldsOnSameRow">
-        <input matInput placeholder="Maximum Age" [formControl]="openPositionMaxAge" [errorStateMatcher]='validate'>
-        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-          Age must be a number
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="fourFieldsOnSameRow">
-        <input matInput placeholder="Height" [formControl]="openPositionHeight" [errorStateMatcher]='validate'>
-        <mat-error *ngIf="numbersOnlyControl?.hasError('pattern')">
-          Height must be a number
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="fourFieldsOnSameRow">
-        <mat-select placeholder="Hand Preference" [formControl]="openPositionHand" [errorStateMatcher]='validate'>
-          <mat-option value="None">No Preference</mat-option>
-          <mat-option value="Right">Right Hand</mat-option>
-          <mat-option value="Left">Left Hand</mat-option>
-          <mat-option value="Both">Both Hands</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br>
-      <mat-checkbox #openPositionSpeedy value="Speedy">Speedy</mat-checkbox>
-      <mat-checkbox #openPositionAthletic value="Athletic">Athletic</mat-checkbox>
-      <mat-checkbox #openPositionGreatShape value="Great shape">Great shape</mat-checkbox>
-      <mat-checkbox #openPositionQuickShots value="Quick shots">Quick shots</mat-checkbox>
-      <mat-checkbox #openPositionAccurateShooter value="Accurate shooter">Accurate shooter</mat-checkbox>
-      <mat-checkbox #openPositionTactical value="Tactical">Tactical</mat-checkbox>
-      <mat-checkbox #openPositionTeamplayer value="Teamplayer">Team player</mat-checkbox>
-      <mat-checkbox #openPositionSocial value="Social">Social</mat-checkbox>
-      <mat-checkbox #openPositionWinAtAllCosts value="Win at all costs">Win at all costs</mat-checkbox>
-      <mat-checkbox #openPositionLongRangeShooter value="Long range shooter">Long range shooter</mat-checkbox>
-
-      <br><br>
-      <button class="btn btn-success" (click)="onAddJobPosition()">Add</button><br><br><br>
+        <br><br>
+        <button type="submit" class="btn btn-success">Add</button><br><br><br>
+      </form>
+      
 
       <table mat-table [dataSource]="openPositionSource" class="mat-elevation-z8">
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef> Position </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.position}} </td>
+          <td mat-cell *matCellDef="let jobPosition" style="padding: 0 8px;"><span class="mobile-label">Position:</span> {{jobPosition.position}} </td>
         </ng-container>
 
         <!-- League Column -->
         <ng-container matColumnDef="league">
           <th mat-header-cell *matHeaderCellDef> League </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.league}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">League:</span> {{jobPosition.league}} </td>
         </ng-container>
 
         <!-- Hand Column -->
         <ng-container matColumnDef="hand">
           <th mat-header-cell *matHeaderCellDef> Hand </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.preferredHand}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Hand:</span> {{jobPosition.preferredHand}} </td>
         </ng-container>
 
         <!-- Height Column -->
         <ng-container matColumnDef="height">
           <th mat-header-cell *matHeaderCellDef> Height </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.height}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Height:</span> {{jobPosition.height}} </td>
         </ng-container>
 
         <!-- Age Column -->
         <ng-container matColumnDef="age">
           <th mat-header-cell *matHeaderCellDef> Age </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Age:</span> {{jobPosition.minAge}} - {{jobPosition.maxAge}} </td>
         </ng-container>
 
         <!-- Season Column -->
         <ng-container matColumnDef="season">
           <th mat-header-cell *matHeaderCellDef> Season </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.season}}</td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Season:</span> {{jobPosition.season}}</td>
         </ng-container>
 
         <!-- Contract Column -->
         <ng-container matColumnDef="contract">
           <th mat-header-cell *matHeaderCellDef> Contract </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.contractStatus}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Contract:</span> {{jobPosition.contractStatus}} </td>
         </ng-container>
 
         <!-- Strengths Column -->
         <ng-container matColumnDef="strengths">
           <th mat-header-cell *matHeaderCellDef> Strengths </th>
-          <td mat-cell *matCellDef="let jobPosition"> {{jobPosition.strengthsList.length}} </td>
+          <td mat-cell *matCellDef="let jobPosition"><span class="mobile-label">Strengths:</span> {{jobPosition.strengthsList.length}} </td>
         </ng-container>
 
         <!-- Actions -->
@@ -634,19 +651,19 @@
 
       <mat-label>Technical Staff</mat-label><br>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Trainer" [value]="trainerCtrl.value" [formControl]="trainerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Trainer" [value]="trainerCtrl.value" [formControl]="trainerCtrl" >
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Trainer" [value]="assistantTrainerCtrl.value" [formControl]="assistantTrainerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Trainer" [value]="assistantTrainerCtrl.value" [formControl]="assistantTrainerCtrl" >
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Physiotherapist" [value]="physiotherapistCtrl.value" [formControl]="physiotherapistCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Physiotherapist" [value]="physiotherapistCtrl.value" [formControl]="physiotherapistCtrl" >
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Assistant Physiotherapist" [value]="assistantPhysiotherapistCtrl.value" [formControl]="assistantPhysiotherapistCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Assistant Physiotherapist" [value]="assistantPhysiotherapistCtrl.value" [formControl]="assistantPhysiotherapistCtrl" >
       </mat-form-field>
       <mat-form-field class="doubleSizeField">
-        <input matInput placeholder="Team Manager" [value]="managerCtrl.value" [formControl]="managerCtrl" [errorStateMatcher]="validate">
+        <input matInput placeholder="Team Manager" [value]="managerCtrl.value" [formControl]="managerCtrl" >
       </mat-form-field>
 
       <div>
@@ -686,11 +703,11 @@
         <div class="row">
           <mat-form-field>
             <textarea matInput placeholder="Describe your values..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="valueDescription.value" [formControl]="valueDescription" [errorStateMatcher]='validate'></textarea>
+              matAutosizeMaxRows="10" [value]="valueDescription.value" [formControl]="valueDescription"></textarea>
           </mat-form-field>
           <mat-form-field>
             <textarea matInput placeholder="Describe your preferences..." matTextareaAutosize matAutosizeMinRows="10"
-              matAutosizeMaxRows="10" [value]="preferenceDescription.value" [formControl]="preferenceDescription" [errorStateMatcher]='validate'></textarea>
+              matAutosizeMaxRows="10" [value]="preferenceDescription.value" [formControl]="preferenceDescription"></textarea>
           </mat-form-field>
         </div>
 
